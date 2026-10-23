@@ -1,0 +1,16 @@
+{
+  "name": "El Jardín de Carla Lorena",
+  "short_name": "Jardín Carla",
+  "description": "Un refugio digital privado de memorias, música, aventuras y afecto sincero.",
+  "start_url": "/#inicio",
+  "display": "standalone",
+  "background_color": "#fffafb",
+  "theme_color": "#923750",
+  "icons": [
+    {
+      "src": "/favicon.ico",
+      "sizes": "64x64 32x32 24x24 16x16",
+      "type": "image/x-icon"
+    }
+  ]
+}

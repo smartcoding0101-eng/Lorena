@@ -1,0 +1,71 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 560" role="img" aria-labelledby="title description">
+  <title id="title">Sultana celebra el final de su aventura en Liria</title>
+  <desc id="description">Una princesa ficticia contempla un jardín iluminado por estrellas, flores y una luna dorada.</desc>
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#77728f"/>
+      <stop offset=".58" stop-color="#cda8b4"/>
+      <stop offset="1" stop-color="#f4d8b6"/>
+    </linearGradient>
+    <linearGradient id="dress" x1="0" y1="0" x2="1" y2="1">
+      <stop stop-color="#a16f91"/>
+      <stop offset="1" stop-color="#634f78"/>
+    </linearGradient>
+    <linearGradient id="ground" x1="0" y1="0" x2="0" y2="1">
+      <stop stop-color="#687b68"/>
+      <stop offset="1" stop-color="#354e4a"/>
+    </linearGradient>
+    <filter id="glow" x="-100%" y="-100%" width="300%" height="300%">
+      <feGaussianBlur stdDeviation="5" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+  <rect width="800" height="560" fill="url(#sky)"/>
+  <circle cx="620" cy="116" r="49" fill="#fff0c2" opacity=".9" filter="url(#glow)"/>
+  <circle cx="620" cy="116" r="36" fill="#fff8df"/>
+  <g fill="#fff4d2">
+    <path d="m117 91 5 13 14 1-11 9 4 14-12-8-12 8 4-14-11-9 14-1z"/>
+    <path d="m306 63 4 10 11 1-9 7 3 11-9-6-9 6 3-11-9-7 11-1z"/>
+    <path d="m477 174 4 10 11 1-9 7 3 11-9-6-9 6 3-11-9-7 11-1z"/>
+    <circle cx="213" cy="144" r="3"/><circle cx="706" cy="218" r="3"/>
+    <circle cx="380" cy="116" r="2.5"/><circle cx="545" cy="61" r="2.5"/>
+  </g>
+  <path d="M0 316Q113 235 233 309t229-3q130-95 338 11v115H0Z" fill="#9b8795" opacity=".75"/>
+  <path d="M0 353q138-85 267-10t255-7q133-71 278 11v90H0Z" fill="#7c8c77"/>
+  <path d="M0 414q156-92 319-20t272-17q111-44 209 10v173H0Z" fill="url(#ground)"/>
+  <path d="M0 477q175-44 344 7t456-22v98H0Z" fill="#314a45" opacity=".65"/>
+  <path d="M420 560q70-77 155-105 89-30 225-9v114Z" fill="#d4b378" opacity=".28"/>
+  <g fill="none" stroke="#d8bb78" stroke-width="3" opacity=".85">
+    <path d="M95 414q29-57 55-76m-41 92q-7-41-29-55m38 44q22-37 49-39"/>
+    <path d="M685 422q-21-65-13-100m18 103q21-45 54-56m-53 42q-4-33 17-59"/>
+  </g>
+  <g fill="#f8d990">
+    <circle cx="149" cy="336" r="10"/><circle cx="124" cy="367" r="8"/>
+    <circle cx="730" cy="364" r="9"/><circle cx="690" cy="322" r="7"/>
+    <circle cx="170" cy="393" r="6"/><circle cx="747" cy="390" r="6"/>
+  </g>
+  <g fill="#f6d8d4">
+    <circle cx="148" cy="329" r="5"/><circle cx="117" cy="362" r="4"/>
+    <circle cx="727" cy="358" r="5"/><circle cx="687" cy="318" r="4"/>
+  </g>
+  <g transform="translate(392 255)">
+    <ellipse cx="0" cy="188" rx="77" ry="13" fill="#2c443f" opacity=".4"/>
+    <path d="M-23 47q-24 19-32 58l-27 83q78 34 164 0l-28-83q-8-39-32-58Z" fill="url(#dress)"/>
+    <path d="M-29 57q29 19 58 0l14 20q-43 34-86 0Z" fill="#e0b977"/>
+    <path d="M-38 73q-25 61-41 111m117-111q25 61 41 111" fill="none" stroke="#e4c18a" stroke-width="8" stroke-linecap="round"/>
+    <path d="M-28 174q28 14 56 0" fill="none" stroke="#e9cc91" stroke-width="3" opacity=".8"/>
+    <path d="M-22 44q-21-19-17-53 3-33 39-40 36 7 39 40 4 34-17 53Z" fill="#493b4a"/>
+    <ellipse cx="0" cy="5" rx="27" ry="34" fill="#e9bd9d"/>
+    <path d="M-27-9q6-38 36-35 19 2 23 27-13-11-25-13-11 15-34 21Z" fill="#513d48"/>
+    <path d="M-10 1h3m14 0h3" stroke="#59434a" stroke-width="3" stroke-linecap="round"/>
+    <path d="M-5 16q5 4 10 0" fill="none" stroke="#a76e72" stroke-width="2" stroke-linecap="round"/>
+    <path d="m0-61 8-16 8 16Z" fill="#e3c17c"/>
+    <circle cx="0" cy="-65" r="4" fill="#fff1bd"/>
+  </g>
+  <g fill="#f8df9c" filter="url(#glow)">
+    <circle cx="286" cy="302" r="4"/><circle cx="511" cy="340" r="3"/>
+    <circle cx="334" cy="219" r="3"/><circle cx="553" cy="284" r="4"/>
+    <circle cx="251" cy="397" r="3"/><circle cx="580" cy="414" r="3"/>
+  </g>
+  <path d="M314 468q78-25 157 0" fill="none" stroke="#ecd49c" stroke-width="2" opacity=".75"/>
+</svg>

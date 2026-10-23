@@ -1,0 +1,10 @@
+        <section class="screen" data-screen="ajustes" aria-labelledby="settings-title" hidden>
+            <div class="page-shell"><a class="back-link" href="#carla" data-go="carla">← Volver a mi espacio</a><div class="page-heading"><div><p class="eyebrow">A tu gusto</p><h1 id="settings-title">Preferencias y <em>privacidad</em></h1><p>Tus fotografías y álbumes solo se sirven tras comprobar tu sesión y propiedad.</p></div></div>
+                @auth
+                    <form class="preference-form" method="POST" action="{{ route('preferences.update') }}">@csrf @method('PUT')<label for="theme">Tono del jardín</label><select id="theme" name="theme"><option value="rose" @selected((auth()->user()->preferences['theme'] ?? 'rose') === 'rose')>Rosa empolvado</option><option value="sage" @selected((auth()->user()->preferences['theme'] ?? 'rose') === 'sage')>Verde salvia</option><option value="lavender" @selected((auth()->user()->preferences['theme'] ?? 'rose') === 'lavender')>Malva suave</option></select><button class="button button-primary" type="submit">Guardar preferencias <span>↗</span></button></form>
+                    <div class="settings-list"><div><span><strong>Álbumes privados</strong><small>Se guardan en MySQL asociados a tu cuenta.</small></span><b>ACTIVO</b></div><div><span><strong>Fotografías privadas</strong><small>Archivos locales fuera de la carpeta pública y entregados por una ruta autenticada.</small></span><b>ACTIVO</b></div><div><span><strong>Cuenta</strong><small>Sin registro público. El propietario se crea desde la consola del servidor.</small></span><b>PROTEGIDA</b></div></div>
+                @else
+                    <div class="personal-panel"><div><span class="eyebrow">ACCESO PRIVADO</span><h2>Inicia sesión para cambiar preferencias</h2><a class="button button-primary" href="{{ route('login') }}">Entrar a mi espacio <span>↗</span></a></div></div>
+                @endauth
+            </div>
+        </section>
