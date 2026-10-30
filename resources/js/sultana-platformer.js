@@ -1132,7 +1132,7 @@ export function initializeSultanaPlatformer() {
             if (eff === 'fireflies') {
                 spawnParticle(spawnX, spawnY, (Math.random() - 0.5) * 20, (Math.random() - 0.5) * 20, '#fff494', 2.2, 2.5, 'star');
             } else if (eff === 'clouds') {
-                spawnParticle(spawnX, 10, (Math.random() - 0.3) * 35, 20 + Math.random() * 25, '#ffd2e1', 2.8, 4.0, 'petal');
+                spawnParticle(spawnX, 10, (Math.random() - 0.3) * 35, 20 + Math.random() * 25, '#d8f3dc', 2.8, 4.0, 'petal');
             } else if (eff === 'crystals') {
                 spawnParticle(spawnX, spawnY, (Math.random() - 0.5) * 15, -15 - Math.random() * 20, '#b2f0e8', 2.5, 2.0, 'star');
             } else if (eff === 'dawn') {

@@ -238,11 +238,11 @@ function handleGlobalCanvasClick(clickX, clickY) {
 
 function triggerWishGrantedEffect(x, y) {
     playHarpChime(784); // G5 suave
-    createSparkleBurst(x, y, 16, ['#fde047', '#ffffff', '#f472b6']);
+    createSparkleBurst(x, y, 16, ['#52b788', '#ffffff', '#ef4444']);
     showToast('✨ ¡Pediste un deseo a la estrella fugaz! Que el universo cumpla todo lo que sueñas, Carla ♡');
 }
 
-function createSparkleBurst(x, y, count = 10, colors = ['#ffffff', '#fbcfe8']) {
+function createSparkleBurst(x, y, count = 10, colors = ['#ffffff', '#b7e4c7']) {
     for (let i = 0; i < count; i++) {
         const angle = Math.random() * Math.PI * 2;
         const spd = 1.5 + Math.random() * 3.5;
@@ -261,12 +261,12 @@ function createSparkleBurst(x, y, count = 10, colors = ['#ffffff', '#fbcfe8']) {
 
 // ── GENERADORES Y MOTORES DE PARTÍCULAS (PILAR 1) ───────────────────────────
 
-// 1. PRIMAVERA (Pétalos 3D con doble faz)
+// 1. PRIMAVERA (Pétalos de rosa y blush LunaBella)
 const PETAL_COLORS = [
-    { face: '#fbcfe8', edge: '#f472b6', shadow: '#e879f9' },
-    { face: '#fda4af', edge: '#fb7185', shadow: '#f43f5e' },
-    { face: '#fdf2f8', edge: '#f9a8d4', shadow: '#f472b6' },
-    { face: '#ffe4e6', edge: '#fecdd3', shadow: '#fda4af' }
+    { face: '#fadadd', edge: '#f2aab8', shadow: '#d4607a' },
+    { face: '#fdedf0', edge: '#f7c4ce', shadow: '#b5304f' },
+    { face: '#ffffff', edge: '#fadadd', shadow: '#e8a598' },
+    { face: '#fdf0ec', edge: '#e8a598', shadow: '#e0845a' }
 ];
 
 function initSpringParticles() {
@@ -813,7 +813,7 @@ function checkBubbleInteractions(px, py, forcePop = false) {
 
 function popBubble(b) {
     b.isPopped = true;
-    createSparkleBurst(b.x, b.y, 8, ['#fbcfe8', '#e9d5ff', '#ffffff']);
+    createSparkleBurst(b.x, b.y, 8, ['#b7e4c7', '#d8f3dc', '#ffffff']);
     playBubblePopSound();
 
     // Reaparecer abajo
@@ -2133,7 +2133,7 @@ function initMistyWindow() {
                 clearInterval(revealInterval);
                 // Borrar cualquier resto del canvas
                 mistyCtx.clearRect(0, 0, mistyCanvas.width, mistyCanvas.height);
-                createSparkleBurst(cx, cy, 20, ['#f472b6', '#ffffff', '#fbcfe8', '#fde68a']);
+                createSparkleBurst(cx, cy, 20, ['#52b788', '#ffffff', '#b7e4c7', '#fde68a']);
                 showToast('💌 ¡Mensaje revelado! El amor siempre está detrás del vaho.');
             }
         }, 18);

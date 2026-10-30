@@ -47,7 +47,7 @@
                 <div class="welcome-art enchanted-frame" aria-label="Retrato botánico artístico rodeado de flores">
                     <div class="frame-ambient-glow"></div>
                     <div class="frame-oval-border">
-                        <img src="https://images.unsplash.com/photo-1518895949257-7621c3c786d7?auto=format&fit=crop&w=1200&q=85" alt="Flores suaves y pétalos de rosas iluminados">
+                        <img src="{{ asset('images/carla-hero.jpg') }}" alt="Retrato artístico de Carla Lorena en su jardín botánico">
                         <div class="rose-bloom-overlay"></div>
                     </div>
 

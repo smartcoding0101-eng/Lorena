@@ -149,7 +149,7 @@
                     <!-- ═══════════════════════════ PANEL: PERFIL PÚBLICO ═══════════════════════════ -->
                     <div class="admin-panel" id="admin-profile" role="tabpanel" aria-labelledby="admin-profile-title" hidden>
                         <div class="ap-header">
-                            <div class="ap-header-icon-wrap" style="background: linear-gradient(135deg, #fce7f3 0%, #fbcfe8 100%);">
+                            <div class="ap-header-icon-wrap" style="background: linear-gradient(135deg, #d8f3dc 0%, #b7e4c7 100%);">
                                 <span>👑</span>
                             </div>
                             <div class="ap-header-text">

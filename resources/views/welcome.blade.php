@@ -18,6 +18,9 @@
     {{-- Navegación y Cabecera Principal --}}
     @include('partials.header')
 
+    {{-- Canvas Global Botánico Interactivo: Flores estáticas pegadas con balanceo y física de pétalos --}}
+    <canvas id="global-garden-interactive-canvas" class="global-garden-interactive-canvas" aria-hidden="true"></canvas>
+
     {{-- Canvas de Transición Cinemática de Pétalos --}}
     <canvas id="page-petal-transition-canvas" class="page-petal-transition-canvas" aria-hidden="true"></canvas>
 

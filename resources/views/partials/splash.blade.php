@@ -1,4 +1,4 @@
-    <div id="romantic-splash" class="romantic-splash" aria-modal="true" role="dialog" aria-label="Bienvenida al Jardín de Carla Lorena">
+    <div id="romantic-splash" class="romantic-splash" aria-modal="true" role="dialog" aria-label="Bienvenida al Jardín de Carla Lorena" style="display: none !important;">
         <div class="splash-backdrop"></div>
         <div class="splash-card">
             <canvas id="splash-particle-canvas" class="splash-particle-canvas"></canvas>

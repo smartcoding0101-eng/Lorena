@@ -537,7 +537,7 @@ function triggerPetalTransition() {
     canvas.classList.add('is-active');
 
     const petals = [];
-    const colors = ['#f43f5e', '#fb7185', '#fda4af', '#fecdd3', '#fff1f2', '#f472b6'];
+    const colors = ['#fadadd', '#f7c4ce', '#f2aab8', '#e8899a', '#d4607a', '#ffffff', '#e8a598'];
     const count = 42;
 
     for (let i = 0; i < count; i++) {
@@ -1796,16 +1796,29 @@ function initBotanicalGarden() {
         window.addEventListener('resize', resize);
         resize();
 
-        const petals = Array.from({ length: 28 }, () => ({
-            x: Math.random() * canvas.width,
-            y: Math.random() * canvas.height,
-            size: 6 + Math.random() * 8,
-            speedY: 0.6 + Math.random() * 0.9,
-            speedX: -0.3 + Math.random() * 0.6,
-            angle: Math.random() * 360,
-            spin: (Math.random() - 0.5) * 1.5,
-            opacity: 0.35 + Math.random() * 0.45
-        }));
+        const flowerTypes = [
+            { type: 'rose', color: 'rgba(244, 114, 182, ', ratio: 0.65 },
+            { type: 'sunflower', color: 'rgba(251, 191, 36, ', ratio: 0.45 },
+            { type: 'tulip', color: 'rgba(236, 72, 153, ', ratio: 0.55 },
+            { type: 'lavender', color: 'rgba(192, 132, 252, ', ratio: 0.4 },
+            { type: 'peony', color: 'rgba(254, 205, 211, ', ratio: 0.7 }
+        ];
+
+        const petals = Array.from({ length: 36 }, () => {
+            const flower = flowerTypes[Math.floor(Math.random() * flowerTypes.length)];
+            return {
+                x: Math.random() * canvas.width,
+                y: Math.random() * canvas.height,
+                size: 7 + Math.random() * 9,
+                speedY: 0.5 + Math.random() * 0.9,
+                speedX: -0.4 + Math.random() * 0.8,
+                angle: Math.random() * 360,
+                spin: (Math.random() - 0.5) * 1.8,
+                opacity: 0.35 + Math.random() * 0.45,
+                color: flower.color,
+                ratio: flower.ratio
+            };
+        });
 
         function loop() {
             if (!petalsActive) {
@@ -1820,20 +1833,21 @@ function initBotanicalGarden() {
             if (isGardenVisible) {
                 petals.forEach((p) => {
                     p.y += p.speedY;
-                    p.x += Math.sin(p.angle * Math.PI / 180) * 0.5 + p.speedX;
+                    p.x += Math.sin(p.angle * Math.PI / 180) * 0.6 + p.speedX;
                     p.angle += p.spin;
 
-                    if (p.y > canvas.height + 20) {
-                        p.y = -20;
+                    if (p.y > canvas.height + 25) {
+                        p.y = -25;
                         p.x = Math.random() * canvas.width;
                     }
 
                     ctx.save();
                     ctx.translate(p.x, p.y);
                     ctx.rotate(p.angle * Math.PI / 180);
-                    ctx.fillStyle = `rgba(242, 185, 196, ${p.opacity})`;
+                    ctx.fillStyle = `${p.color}${p.opacity})`;
                     ctx.beginPath();
-                    ctx.ellipse(0, 0, p.size, p.size * 0.6, 0, 0, Math.PI * 2);
+                    // Forma orgánica de pétalo asimétrico suave
+                    ctx.ellipse(0, 0, p.size, p.size * p.ratio, Math.PI / 12, 0, Math.PI * 2);
                     ctx.fill();
                     ctx.restore();
                 });
@@ -2748,19 +2762,588 @@ function initDailyBloom() {
     });
 }
 
-// ── Inicialización UX: Modo Museo y Pasaporte del Jardín ─────────────
-if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', () => {
-        initMuseumLightbox();
-        initGardenPassport();
-        initFloatingSurprises();
-        initFriendDedications();
-        initHomeCardsAdmin();
-        initSeasonalWeather();
-        initSystemGuide();
-        initDailyBloom();
+// ── Fondo Botánico Global Interactivo: Rosas, Girasoles, Tulipanes y Pétalos ──
+function initGlobalInteractiveGardenBackground() {
+    const canvas = document.getElementById('global-garden-interactive-canvas');
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+    if (!ctx) return;
+
+    let width = 0;
+    let height = 0;
+
+    function resize() {
+        width = canvas.width = window.innerWidth;
+        height = canvas.height = window.innerHeight;
+        if (typeof updateFlowerPositions === 'function') {
+            updateFlowerPositions();
+        }
+    }
+    window.addEventListener('resize', resize);
+    resize();
+
+    // Estado del cursor para interactividad
+    const mouse = {
+        x: -1000,
+        y: -1000,
+        radius: 120,
+        isDown: false
+    };
+
+    window.addEventListener('mousemove', (e) => {
+        mouse.x = e.clientX;
+        mouse.y = e.clientY;
     });
-} else {
+
+    window.addEventListener('touchmove', (e) => {
+        if (e.touches && e.touches[0]) {
+            mouse.x = e.touches[0].clientX;
+            mouse.y = e.touches[0].clientY;
+        }
+    }, { passive: true });
+
+    window.addEventListener('click', (e) => {
+        // Al hacer clic, florece un destello de mini pétalos donde se clickeó
+        burstPetalsAt(e.clientX, e.clientY);
+    });
+
+    // 1. Flores Estáticas Pegadas en el Fondo (Rosas, Girasoles, Tulipanes, Margaritas, Campanillas y Amapolas)
+    // Se colocan en posiciones fijas armónicas (esquinas, márgenes laterales e inferiores) con tallo y hojas
+    function createStaticFlowers() {
+        const layout = [
+            // Esquina superior izquierda
+            { type: 'rose', relX: 0.05, relY: 0.14, size: 62, baseAngle: -0.15 },
+            { type: 'tulip', relX: 0.13, relY: 0.22, size: 54, baseAngle: 0.2 },
+            // Esquina superior derecha
+            { type: 'bellflower', relX: 0.93, relY: 0.16, size: 56, baseAngle: 0.25 },
+            { type: 'rose', relX: 0.86, relY: 0.24, size: 60, baseAngle: -0.2 },
+            // Margen lateral izquierdo (medio)
+            { type: 'poppy', relX: 0.05, relY: 0.48, size: 52, baseAngle: 0.1 },
+            { type: 'daisy', relX: 0.09, relY: 0.62, size: 56, baseAngle: -0.15 },
+            // Margen lateral derecho (medio)
+            { type: 'sunflower', relX: 0.94, relY: 0.50, size: 68, baseAngle: -0.25 },
+            { type: 'tulip', relX: 0.90, relY: 0.65, size: 52, baseAngle: 0.18 },
+            // Borde inferior izquierdo
+            { type: 'sunflower', relX: 0.07, relY: 0.85, size: 72, baseAngle: 0.12 },
+            { type: 'rose', relX: 0.17, relY: 0.88, size: 60, baseAngle: -0.1 },
+            { type: 'poppy', relX: 0.26, relY: 0.92, size: 48, baseAngle: 0.15 },
+            // Borde inferior derecho
+            { type: 'bellflower', relX: 0.80, relY: 0.89, size: 54, baseAngle: -0.2 },
+            { type: 'tulip', relX: 0.89, relY: 0.86, size: 58, baseAngle: -0.15 },
+            { type: 'daisy', relX: 0.95, relY: 0.82, size: 60, baseAngle: 0.25 }
+        ];
+
+        return layout.map((item, idx) => ({
+            type: item.type,
+            relX: item.relX,
+            relY: item.relY,
+            x: item.relX * width,
+            y: item.relY * height,
+            size: item.size,
+            baseAngle: item.baseAngle,
+            currentAngle: item.baseAngle,
+            swaySpeed: 0.015 + (idx % 4) * 0.005,
+            swayAmp: 0.06 + (idx % 3) * 0.02,
+            phase: idx * 1.3,
+            scale: 1,
+            targetScale: 1,
+            opacity: 0.95
+        }));
+    }
+
+    let flowers = createStaticFlowers();
+
+    function updateFlowerPositions() {
+        flowers.forEach((fl) => {
+            fl.x = fl.relX * width;
+            fl.y = fl.relY * height;
+        });
+    }
+
+    // 2. Pétalos Flotantes Dinámicos
+    const petalColors = [
+        'rgba(244, 114, 182, ',  // Rosa pastel
+        'rgba(251, 191, 36, ',   // Amarillo Girasol
+        'rgba(236, 72, 153, ',   // Tulipán Magenta
+        'rgba(192, 132, 252, ',  // Lavanda
+        'rgba(254, 205, 211, '   // Peonía Suave
+    ];
+
+    const totalPetals = Math.max(35, Math.floor(window.innerWidth / 35));
+    const petals = Array.from({ length: totalPetals }, () => ({
+        x: Math.random() * width,
+        y: Math.random() * height,
+        size: 7 + Math.random() * 10,
+        speedY: 0.6 + Math.random() * 1.1,
+        speedX: -0.4 + Math.random() * 0.8,
+        angle: Math.random() * Math.PI * 2,
+        spin: (Math.random() - 0.5) * 0.04,
+        opacity: 0.35 + Math.random() * 0.45,
+        color: petalColors[Math.floor(Math.random() * petalColors.length)],
+        ratio: 0.45 + Math.random() * 0.25
+    }));
+
+    // Partículas interactivas por clic
+    const burstParticles = [];
+    function burstPetalsAt(bx, by) {
+        for (let i = 0; i < 16; i++) {
+            const angle = Math.random() * Math.PI * 2;
+            const velocity = 2 + Math.random() * 4.5;
+            burstParticles.push({
+                x: bx,
+                y: by,
+                vx: Math.cos(angle) * velocity,
+                vy: Math.sin(angle) * velocity,
+                size: 6 + Math.random() * 8,
+                color: petalColors[Math.floor(Math.random() * petalColors.length)],
+                opacity: 0.95,
+                decay: 0.02 + Math.random() * 0.02,
+                angle: Math.random() * Math.PI * 2,
+                spin: (Math.random() - 0.5) * 0.1
+            });
+        }
+    }
+
+    // Dibujadores de Flores vectoriales fieles a la ilustración de referencia
+    function drawStemAndLeaves(cx, cy, radius, heightOffset = 60, leafSide = 1) {
+        ctx.save();
+        ctx.strokeStyle = '#4b7c53';
+        ctx.lineWidth = Math.max(2.5, radius * 0.08);
+        ctx.lineCap = 'round';
+        ctx.beginPath();
+        ctx.moveTo(cx, cy);
+        ctx.quadraticCurveTo(cx - 5 * leafSide, cy + heightOffset * 0.5, cx, cy + heightOffset);
+        ctx.stroke();
+
+        // Hoja verde orgánica
+        ctx.fillStyle = '#5c9466';
+        ctx.beginPath();
+        const lx = cx + 8 * leafSide;
+        const ly = cy + heightOffset * 0.45;
+        ctx.ellipse(lx, ly, radius * 0.35, radius * 0.18, (Math.PI / 4) * leafSide, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.restore();
+    }
+
+    // 1. Rosa (Roja con pétalos elegantes)
+    function drawRose(cx, cy, radius, opacity) {
+        ctx.save();
+        ctx.globalAlpha = opacity;
+        drawStemAndLeaves(cx, cy, radius, radius * 1.5, 1);
+
+        const grad = ctx.createRadialGradient(cx, cy, radius * 0.15, cx, cy, radius);
+        grad.addColorStop(0, '#f87171');
+        grad.addColorStop(0.5, '#dc2626');
+        grad.addColorStop(1, '#991b1b');
+
+        // Pétalos externos curvados
+        for (let i = 0; i < 5; i++) {
+            const a = (i * Math.PI * 2) / 5;
+            const px = cx + Math.cos(a) * (radius * 0.5);
+            const py = cy + Math.sin(a) * (radius * 0.5);
+            ctx.fillStyle = grad;
+            ctx.beginPath();
+            ctx.arc(px, py, radius * 0.48, 0, Math.PI * 2);
+            ctx.fill();
+        }
+
+        // Corona central
+        ctx.fillStyle = '#b91c1c';
+        for (let i = 0; i < 4; i++) {
+            const a = (i * Math.PI * 2) / 4 + Math.PI / 4;
+            const px = cx + Math.cos(a) * (radius * 0.3);
+            const py = cy + Math.sin(a) * (radius * 0.3);
+            ctx.beginPath();
+            ctx.arc(px, py, radius * 0.35, 0, Math.PI * 2);
+            ctx.fill();
+        }
+
+        // Centro aterciopelado
+        ctx.fillStyle = '#ffffff';
+        ctx.beginPath();
+        ctx.arc(cx, cy, radius * 0.18, 0, Math.PI * 2);
+        ctx.fill();
+
+        ctx.restore();
+    }
+
+    // 2. Tulipán (Copa naranja/ámbar estilizada con dos hojas largas)
+    function drawTulip(cx, cy, radius, opacity) {
+        ctx.save();
+        ctx.globalAlpha = opacity;
+
+        // Tallo y hojas dobles alargadas de tulipán
+        ctx.fillStyle = '#48815b';
+        ctx.beginPath();
+        ctx.ellipse(cx - radius * 0.35, cy + radius * 0.6, radius * 0.22, radius * 0.7, -Math.PI / 12, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.beginPath();
+        ctx.ellipse(cx + radius * 0.35, cy + radius * 0.6, radius * 0.22, radius * 0.7, Math.PI / 12, 0, Math.PI * 2);
+        ctx.fill();
+
+        ctx.strokeStyle = '#3e6f4e';
+        ctx.lineWidth = radius * 0.09;
+        ctx.beginPath();
+        ctx.moveTo(cx, cy);
+        ctx.lineTo(cx, cy + radius * 1.5);
+        ctx.stroke();
+
+        // Copa de pétalos tulipán
+        const tulipGrad = ctx.createLinearGradient(cx, cy - radius * 0.8, cx, cy + radius * 0.6);
+        tulipGrad.addColorStop(0, '#f87171');
+        tulipGrad.addColorStop(0.5, '#ef4444');
+        tulipGrad.addColorStop(1, '#991b1b');
+
+        // Pétalos laterales
+        ctx.fillStyle = '#dc2626';
+        ctx.beginPath();
+        ctx.ellipse(cx - radius * 0.28, cy - radius * 0.1, radius * 0.35, radius * 0.65, -Math.PI / 10, 0, Math.PI * 2);
+        ctx.fill();
+
+        ctx.beginPath();
+        ctx.ellipse(cx + radius * 0.28, cy - radius * 0.1, radius * 0.35, radius * 0.65, Math.PI / 10, 0, Math.PI * 2);
+        ctx.fill();
+
+        // Pétalo frontal
+        ctx.fillStyle = tulipGrad;
+        ctx.beginPath();
+        ctx.ellipse(cx, cy - radius * 0.05, radius * 0.42, radius * 0.68, 0, 0, Math.PI * 2);
+        ctx.fill();
+
+        ctx.restore();
+    }
+
+    // 3. Girasol (Corona dorada con centro de semillas oscuro)
+    function drawSunflower(cx, cy, radius, opacity) {
+        ctx.save();
+        ctx.globalAlpha = opacity;
+        drawStemAndLeaves(cx, cy, radius, radius * 1.6, -1);
+
+        const petalCount = 14;
+        const petalLen = radius * 0.85;
+        const petalWid = radius * 0.28;
+
+        ctx.fillStyle = '#fbbf24';
+        for (let i = 0; i < petalCount; i++) {
+            const a = (i * Math.PI * 2) / petalCount;
+            ctx.save();
+            ctx.translate(cx, cy);
+            ctx.rotate(a);
+            ctx.beginPath();
+            ctx.ellipse(petalLen * 0.55, 0, petalLen * 0.5, petalWid * 0.5, 0, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.restore();
+        }
+
+        // Corona interior ámbar
+        ctx.fillStyle = '#f59e0b';
+        for (let i = 0; i < petalCount; i++) {
+            const a = (i * Math.PI * 2) / petalCount + (Math.PI / petalCount);
+            ctx.save();
+            ctx.translate(cx, cy);
+            ctx.rotate(a);
+            ctx.beginPath();
+            ctx.ellipse(petalLen * 0.45, 0, petalLen * 0.38, petalWid * 0.38, 0, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.restore();
+        }
+
+        // Disco central
+        const seedGrad = ctx.createRadialGradient(cx, cy, 2, cx, cy, radius * 0.38);
+        seedGrad.addColorStop(0, '#542c13');
+        seedGrad.addColorStop(0.8, '#3d1d09');
+        seedGrad.addColorStop(1, '#220e03');
+        ctx.fillStyle = seedGrad;
+        ctx.beginPath();
+        ctx.arc(cx, cy, radius * 0.38, 0, Math.PI * 2);
+        ctx.fill();
+
+        ctx.restore();
+    }
+
+    // 4. Margarita (Pétalos blancos/crema con botón dorado central)
+    function drawDaisy(cx, cy, radius, opacity) {
+        ctx.save();
+        ctx.globalAlpha = opacity;
+        drawStemAndLeaves(cx, cy, radius, radius * 1.4, 1);
+
+        const petalCount = 16;
+        const petalLen = radius * 0.82;
+        const petalWid = radius * 0.24;
+
+        ctx.fillStyle = '#fffdfa';
+        ctx.shadowColor = 'rgba(215, 185, 175, 0.3)';
+        ctx.shadowBlur = 4;
+        for (let i = 0; i < petalCount; i++) {
+            const a = (i * Math.PI * 2) / petalCount;
+            ctx.save();
+            ctx.translate(cx, cy);
+            ctx.rotate(a);
+            ctx.beginPath();
+            ctx.ellipse(petalLen * 0.55, 0, petalLen * 0.5, petalWid * 0.5, 0, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.restore();
+        }
+        ctx.shadowColor = 'transparent';
+
+        // Centro botón amarillo dorado
+        const centerGrad = ctx.createRadialGradient(cx, cy, 2, cx, cy, radius * 0.32);
+        centerGrad.addColorStop(0, '#fef08a');
+        centerGrad.addColorStop(0.8, '#eab308');
+        centerGrad.addColorStop(1, '#ca8a04');
+        ctx.fillStyle = centerGrad;
+        ctx.beginPath();
+        ctx.arc(cx, cy, radius * 0.32, 0, Math.PI * 2);
+        ctx.fill();
+
+        ctx.restore();
+    }
+
+    // 5. Campanilla (Flores violeta lavanda)
+    function drawBellflower(cx, cy, radius, opacity) {
+        ctx.save();
+        ctx.globalAlpha = opacity;
+        drawStemAndLeaves(cx, cy, radius, radius * 1.5, -1);
+
+        const bellGrad = ctx.createLinearGradient(cx, cy - radius * 0.6, cx, cy + radius * 0.5);
+        bellGrad.addColorStop(0, '#c084fc');
+        bellGrad.addColorStop(0.6, '#9333ea');
+        bellGrad.addColorStop(1, '#6b21a8');
+
+        // Flor campanilla superior
+        for (let i = 0; i < 5; i++) {
+            const a = (i * Math.PI * 2) / 5 - Math.PI / 2;
+            ctx.fillStyle = bellGrad;
+            ctx.beginPath();
+            ctx.ellipse(cx + Math.cos(a) * radius * 0.38, cy + Math.sin(a) * radius * 0.38, radius * 0.25, radius * 0.4, a, 0, Math.PI * 2);
+            ctx.fill();
+        }
+        // Centro estambre
+        ctx.fillStyle = '#fef08a';
+        ctx.beginPath();
+        ctx.arc(cx, cy, radius * 0.14, 0, Math.PI * 2);
+        ctx.fill();
+
+        ctx.restore();
+    }
+
+    // 6. Amapola (Rojo intenso con centro oscuro)
+    function drawPoppy(cx, cy, radius, opacity) {
+        ctx.save();
+        ctx.globalAlpha = opacity;
+        drawStemAndLeaves(cx, cy, radius, radius * 1.4, 1);
+
+        // 4 grandes pétalos escarlata
+        ctx.fillStyle = '#ef4444';
+        for (let i = 0; i < 4; i++) {
+            const a = (i * Math.PI * 2) / 4 + Math.PI / 8;
+            ctx.beginPath();
+            ctx.ellipse(cx + Math.cos(a) * radius * 0.32, cy + Math.sin(a) * radius * 0.32, radius * 0.45, radius * 0.4, a, 0, Math.PI * 2);
+            ctx.fill();
+        }
+
+        // Centro negro característico
+        ctx.fillStyle = '#18181b';
+        ctx.beginPath();
+        ctx.arc(cx, cy, radius * 0.22, 0, Math.PI * 2);
+        ctx.fill();
+
+        // Anillo de polen
+        ctx.strokeStyle = '#fef08a';
+        ctx.lineWidth = 1.2;
+        ctx.setLineDash([2, 3]);
+        ctx.beginPath();
+        ctx.arc(cx, cy, radius * 0.25, 0, Math.PI * 2);
+        ctx.stroke();
+        ctx.setLineDash([]);
+
+        ctx.restore();
+    }
+
+    // Bucle principal de animación a 60 FPS
+    let time = 0;
+    function animate() {
+        ctx.clearRect(0, 0, width, height);
+        time += 0.02;
+
+        // 1. Renderizado de Flores Estáticas Pegadas al Fondo (con balanceo natural por brisa y mouse)
+        flowers.forEach((fl) => {
+            // Balanceo armónico orgánico simulando el viento en el tallo
+            const naturalSway = Math.sin(time * 1.5 + fl.phase) * fl.swayAmp;
+            
+            // Interacción con el cursor (al acercar el ratón, se balancea y respira suavemente en su sitio)
+            const dx = mouse.x - fl.x;
+            const dy = mouse.y - fl.y;
+            const dist = Math.sqrt(dx * dx + dy * dy);
+
+            let mouseSway = 0;
+            if (dist < mouse.radius) {
+                const influence = (mouse.radius - dist) / mouse.radius;
+                mouseSway = (dx > 0 ? -1 : 1) * influence * 0.18;
+                fl.targetScale = 1.15;
+            } else {
+                fl.targetScale = 1.0;
+            }
+
+            fl.scale += (fl.targetScale - fl.scale) * 0.08;
+            fl.currentAngle = fl.baseAngle + naturalSway + mouseSway;
+
+            ctx.save();
+            ctx.translate(fl.x, fl.y);
+            ctx.rotate(fl.currentAngle);
+            ctx.scale(fl.scale, fl.scale);
+
+            if (fl.type === 'rose') {
+                drawRose(0, 0, fl.size, fl.opacity);
+            } else if (fl.type === 'sunflower') {
+                drawSunflower(0, 0, fl.size, fl.opacity);
+            } else if (fl.type === 'tulip') {
+                drawTulip(0, 0, fl.size, fl.opacity);
+            } else if (fl.type === 'daisy') {
+                drawDaisy(0, 0, fl.size, fl.opacity);
+            } else if (fl.type === 'bellflower') {
+                drawBellflower(0, 0, fl.size, fl.opacity);
+            } else if (fl.type === 'poppy') {
+                drawPoppy(0, 0, fl.size, fl.opacity);
+            }
+
+            ctx.restore();
+        });
+
+        // 2. Renderizado de Pétalos Flotantes
+        petals.forEach((p) => {
+            p.y += p.speedY;
+            p.x += Math.sin(p.angle) * 0.6 + p.speedX;
+            p.angle += p.spin;
+
+            // Brisa con el cursor
+            const pdx = mouse.x - p.x;
+            const pdy = mouse.y - p.y;
+            const pdist = Math.sqrt(pdx * pdx + pdy * pdy);
+            if (pdist < 80) {
+                p.x -= (pdx / pdist) * 2.8;
+                p.y -= (pdy / pdist) * 2.8;
+            }
+
+            if (p.y > height + 20) {
+                p.y = -20;
+                p.x = Math.random() * width;
+            }
+
+            ctx.save();
+            ctx.translate(p.x, p.y);
+            ctx.rotate(p.angle);
+            ctx.fillStyle = `${p.color}${p.opacity})`;
+            ctx.beginPath();
+            ctx.ellipse(0, 0, p.size, p.size * p.ratio, Math.PI / 10, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.restore();
+        });
+
+        // 3. Explosión de Pétalos por clic interactivo
+        for (let i = burstParticles.length - 1; i >= 0; i--) {
+            const bp = burstParticles[i];
+            bp.x += bp.vx;
+            bp.y += bp.vy;
+            bp.vx *= 0.94;
+            bp.vy *= 0.94;
+            bp.angle += bp.spin;
+            bp.opacity -= bp.decay;
+
+            if (bp.opacity <= 0) {
+                burstParticles.splice(i, 1);
+                continue;
+            }
+
+            ctx.save();
+            ctx.translate(bp.x, bp.y);
+            ctx.rotate(bp.angle);
+            ctx.fillStyle = `${bp.color}${bp.opacity})`;
+            ctx.beginPath();
+            ctx.ellipse(0, 0, bp.size, bp.size * 0.55, 0, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.restore();
+        }
+
+        requestAnimationFrame(animate);
+    }
+
+    animate();
+}
+
+// ── MOTOR DE ANIMACIONES PROFESIONALES: TILT 3D, RESORTE Y RIPPLE ──
+function initButtonRipples() {
+    document.addEventListener('pointerdown', (e) => {
+        const btn = e.target.closest('.button, .nav-passport-btn, .db-refresh-btn');
+        if (!btn) return;
+        const rect = btn.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        btn.style.setProperty('--ripple-x', `${x}px`);
+        btn.style.setProperty('--ripple-y', `${y}px`);
+        btn.classList.remove('ripple-active');
+        void btn.offsetWidth; // Reflow for restart
+        btn.classList.add('ripple-active');
+        setTimeout(() => {
+            btn.classList.remove('ripple-active');
+        }, 600);
+    });
+}
+
+function initTiltAndSpringPhysics() {
+    const cards = document.querySelectorAll('.space-card, .botanical-hero-card, .daily-bloom-card, .enchanted-frame');
+    cards.forEach((card) => {
+        let isHovered = false;
+        let rAF = null;
+        let mouseX = 0, mouseY = 0;
+        let currRotX = 0, currRotY = 0;
+
+        card.addEventListener('pointerenter', () => {
+            isHovered = true;
+        });
+
+        card.addEventListener('pointermove', (e) => {
+            const rect = card.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+            const centerX = rect.width / 2;
+            const centerY = rect.height / 2;
+
+            mouseX = ((y - centerY) / centerY) * -7; // max -7deg to 7deg
+            mouseY = ((x - centerX) / centerX) * 7;
+
+            if (!rAF) {
+                rAF = requestAnimationFrame(updateTilt);
+            }
+        });
+
+        card.addEventListener('pointerleave', () => {
+            isHovered = false;
+            mouseX = 0;
+            mouseY = 0;
+            if (!rAF) {
+                rAF = requestAnimationFrame(updateTilt);
+            }
+        });
+
+        function updateTilt() {
+            currRotX += (mouseX - currRotX) * 0.12;
+            currRotY += (mouseY - currRotY) * 0.12;
+
+            card.style.transform = `perspective(1000px) rotateX(${currRotX.toFixed(2)}deg) rotateY(${currRotY.toFixed(2)}deg) translateZ(0)`;
+
+            if (isHovered || Math.abs(currRotX) > 0.05 || Math.abs(currRotY) > 0.05) {
+                rAF = requestAnimationFrame(updateTilt);
+            } else {
+                card.style.transform = '';
+                rAF = null;
+            }
+        }
+    });
+}
+
+// ── Inicialización UX: Modo Museo y Pasaporte del Jardín ─────────────
+function initAllModules() {
     initMuseumLightbox();
     initGardenPassport();
     initFloatingSurprises();
@@ -2769,5 +3352,14 @@ if (document.readyState === 'loading') {
     initSeasonalWeather();
     initSystemGuide();
     initDailyBloom();
+    initGlobalInteractiveGardenBackground();
+    initButtonRipples();
+    initTiltAndSpringPhysics();
+}
+
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initAllModules);
+} else {
+    initAllModules();
 }
 

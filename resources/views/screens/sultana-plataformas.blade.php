@@ -68,7 +68,7 @@
                             <h2 id="platformer-finale-title" tabindex="-1">Un jardín para guardar la luz</h2>
                             <p>Cuando la última estrella volvió a encenderse, las flores despertaron y los senderos de Sultana se llenaron de luz. Sultana comprendió que la magia más valiosa no estaba en la corona, sino en todo lo vivido para llegar hasta ella.</p>
                             <p>En el corazón del jardín encontró una carta:</p>
-                            <blockquote>Carla Lorena, este pequeño universo fue creado para celebrar la luz que llevas contigo. Que siempre encuentres aquí un rincón para soñar, descansar y sonreír. Con todo mi corazón y mi amor verdadero.<br><span style="display:block; text-align:right; font-weight:600; margin-top:8px; font-size:16px; color:#9a6b5d;">— Con infinito cariño, Adrián 💌</span></blockquote>
+                            <blockquote>Carla Lorena, este pequeño universo fue creado para celebrar la luz que llevas contigo. Que siempre encuentres aquí un rincón para soñar, descansar y sonreír. Con todo mi corazón y mi amor verdadero.<br><span style="display:block; text-align:right; font-weight:600; margin-top:8px; font-size:16px; color:var(--orange-600);">— Con infinito cariño, Adrián 💌</span></blockquote>
                             <p class="platformer-finale-note">La ilustración puede sustituirse por una fotografía tuya autorizada cuando quieras añadirla.</p>
                             <button class="button button-primary" type="button" data-platformer-replay>Volver a jugar desde el inicio</button>
                         </div>

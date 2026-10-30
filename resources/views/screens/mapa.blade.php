@@ -14,14 +14,14 @@
                     <svg class="garden-botanical-frame" viewBox="0 0 1000 500" preserveAspectRatio="none" aria-hidden="true">
                         <defs>
                             <linearGradient id="roseGoldVine" x1="0%" y1="0%" x2="100%" y2="100%">
-                                <stop offset="0%" stop-color="#93a992" stop-opacity="0.85"/>
-                                <stop offset="50%" stop-color="#c98a96" stop-opacity="0.95"/>
-                                <stop offset="100%" stop-color="#dfa5ab" stop-opacity="0.9"/>
+                                <stop offset="0%" stop-color="#40916c" stop-opacity="0.85"/>
+                                <stop offset="50%" stop-color="#2d6a4f" stop-opacity="0.95"/>
+                                <stop offset="100%" stop-color="#52b788" stop-opacity="0.9"/>
                             </linearGradient>
                             <radialGradient id="roseCoreGlow" cx="50%" cy="50%" r="50%">
-                                <stop offset="0%" stop-color="#fff0f3" stop-opacity="1"/>
-                                <stop offset="60%" stop-color="#f8d6dc" stop-opacity="0.9"/>
-                                <stop offset="100%" stop-color="#e3a7b1" stop-opacity="0"/>
+                                <stop offset="0%" stop-color="#ffffff" stop-opacity="1"/>
+                                <stop offset="60%" stop-color="#d8f3dc" stop-opacity="0.9"/>
+                                <stop offset="100%" stop-color="#74c69d" stop-opacity="0"/>
                             </radialGradient>
                             <filter id="fairydust" x="-20%" y="-20%" width="140%" height="140%">
                                 <feGaussianBlur stdDeviation="3" result="blur"/>
@@ -36,15 +36,15 @@
                     <svg class="map-paths" viewBox="0 0 1000 640" preserveAspectRatio="none" aria-hidden="true">
                         <defs>
                             <linearGradient id="goldGlow" x1="0%" y1="0%" x2="100%" y2="100%">
-                                <stop offset="0%" stop-color="#dfa5ab" stop-opacity="0.85"/>
-                                <stop offset="50%" stop-color="#f0cbaf" stop-opacity="0.95"/>
-                                <stop offset="100%" stop-color="#c98a96" stop-opacity="0.85"/>
+                                <stop offset="0%" stop-color="#f77f00" stop-opacity="0.95"/>
+                                <stop offset="50%" stop-color="#fcbf49" stop-opacity="0.95"/>
+                                <stop offset="100%" stop-color="#d62828" stop-opacity="0.85"/>
                             </linearGradient>
 
                             <!-- Símbolo de Corazón Botánico Radiante para el sendero -->
                             <g id="trail-heart-symbol">
-                                <path d="M0 -3 C -2.5 -7, -7 -5, -7 0 C -7 4.5, 0 9, 0 10 C 0 9, 7 4.5, 7 0 C 7 -5, 2.5 -7, 0 -3 Z" fill="url(#goldGlow)" filter="drop-shadow(0 0 4px rgba(224, 138, 155, 0.85))"/>
-                                <circle cx="0" cy="0" r="1.5" fill="#ffffff" opacity="0.9"/>
+                                <path d="M0 -3 C -2.5 -7, -7 -5, -7 0 C -7 4.5, 0 9, 0 10 C 0 9, 7 4.5, 7 0 C 7 -5, 2.5 -7, 0 -3 Z" fill="url(#goldGlow)" filter="drop-shadow(0 0 5px rgba(247, 127, 0, 0.75))"/>
+                                <circle cx="0" cy="0" r="1.5" fill="#ffffff" opacity="0.95"/>
                             </g>
 
                             <!-- Trayectorias definidas para animación de movimiento -->
@@ -59,12 +59,12 @@
                         <path class="constellation-trail branch-trail-2" d="M820 110 C 680 200, 580 280, 500 320 S 280 440, 130 510"/>
 
                         <!-- Puntos florecientes fijos -->
-                        <circle cx="280" cy="190" r="4" fill="#e8a8b2" class="trail-waypoint"/>
-                        <circle cx="720" cy="190" r="4" fill="#df97a3" class="trail-waypoint"/>
-                        <circle cx="500" cy="80"  r="4.5" fill="#e8a8b2" class="trail-waypoint"/>
-                        <circle cx="500" cy="560" r="4.5" fill="#df97a3" class="trail-waypoint"/>
-                        <circle cx="110" cy="320" r="4" fill="#e8a8b2" class="trail-waypoint"/>
-                        <circle cx="890" cy="320" r="4" fill="#df97a3" class="trail-waypoint"/>
+                        <circle cx="280" cy="190" r="4" fill="#52b788" class="trail-waypoint"/>
+                        <circle cx="720" cy="190" r="4" fill="#f77f00" class="trail-waypoint"/>
+                        <circle cx="500" cy="80"  r="4.5" fill="#52b788" class="trail-waypoint"/>
+                        <circle cx="500" cy="560" r="4.5" fill="#f77f00" class="trail-waypoint"/>
+                        <circle cx="110" cy="320" r="4" fill="#52b788" class="trail-waypoint"/>
+                        <circle cx="890" cy="320" r="4" fill="#f77f00" class="trail-waypoint"/>
 
                         <!-- Corazones en movimiento a lo largo de las líneas -->
                         <!-- Corazón 1: Órbita Elíptica -->

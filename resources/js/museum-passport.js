@@ -231,7 +231,7 @@ export const GARDEN_STAMPS_CATALOG = [
         memoryQuote: '«El amor no se busca, se reconoce en el brillo de tus ojos cuando sonríes.»',
         secretPerk: 'Portal Maestro · Desbloquea el acceso a todas las rutas secretas',
         frequency: 523.25,
-        badgeGradient: 'linear-gradient(135deg, #f43f5e 0%, #be123c 100%)'
+        badgeGradient: 'linear-gradient(135deg, #10b981 0%, #047857 100%)'
     },
     {
         id: 'mapa',
@@ -311,7 +311,7 @@ export const GARDEN_STAMPS_CATALOG = [
         memoryQuote: '«Amarte es la decisión más fácil, hermosa y luminosa que he tomado jamás.»',
         secretPerk: 'Lacre Sellado · Envuelve tus sentimientos en una promesa inquebrantable',
         frequency: 880.00,
-        badgeGradient: 'linear-gradient(135deg, #f43f5e 0%, #e11d48 100%)'
+        badgeGradient: 'linear-gradient(135deg, #b5304f 0%, #d4607a 100%)'
     },
     {
         id: 'amigos',
@@ -359,7 +359,7 @@ export const GARDEN_STAMPS_CATALOG = [
         memoryQuote: '«La felicidad más sincera cabe en el movimiento de una colita llena de amor.»',
         secretPerk: 'Patitas Mágicas · Desbloquea recompensas especiales al acariciarla',
         frequency: 1174.66,
-        badgeGradient: 'linear-gradient(135deg, #f97316 0%, #ea580c 100%)'
+        badgeGradient: 'linear-gradient(135deg, #ef4444 0%, #dc2626 100%)'
     },
     {
         id: 'rompecabezas',
@@ -401,13 +401,13 @@ export const GARDEN_STAMPS_CATALOG = [
         screenId: 'carla',
         dedication: '«Un santuario sagrado solo para ti. Respira profundo, descalza tus pensamientos y siente el cobijo de este jardín que late al unísono de tu corazón, Carla Lorena.»',
         flower: 'Magnolia de Paz Absoluta 🤍',
-        gem: 'Diamante Rosa del Espíritu 🌸',
+        gem: 'Diamante Esmeralda del Espíritu 💎',
         melody: 'Lamento Dulce de Violín y Campanillas (G6 - 1567Hz)',
         virtue: 'Paz Interior, Soberanía y Dignidad 🕊️',
         memoryQuote: '«Eres tu propio hogar, y este jardín secreto es tu palacio de sosiego.»',
         secretPerk: 'Escudo de Serenidad · Disipa toda fatiga y estrés del día a día',
         frequency: 1567.98,
-        badgeGradient: 'linear-gradient(135deg, #f43f5e 0%, #881337 100%)'
+        badgeGradient: 'linear-gradient(135deg, #d4607a 0%, #e8899a 100%)'
     },
     {
         id: 'albumes',
@@ -423,7 +423,7 @@ export const GARDEN_STAMPS_CATALOG = [
         memoryQuote: '«El tiempo pasa en el reloj, pero en tu corazón los momentos amados nunca envejecen.»',
         secretPerk: 'Enfoque Mágico · Resalta la iluminación de cada captura de vida',
         frequency: 1760.00,
-        badgeGradient: 'linear-gradient(135deg, #d946ef 0%, #a21caf 100%)'
+        badgeGradient: 'linear-gradient(135deg, #ef4444 0%, #991b1b 100%)'
     }
 ];
 
