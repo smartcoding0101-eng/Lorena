@@ -709,9 +709,12 @@ function openBottleWishes() {
 
     fetchRandomBottleMessage(false);
     renderSavedWishes();
+    try {
+        const favs = JSON.parse(localStorage.getItem('carla_fav_bottles') || '[]');
+        const countEl = document.getElementById('fav-bottles-count');
+        if (countEl) countEl.textContent = favs.length;
+    } catch (_) {}
     dialog.showModal();
-    playChimeNote(440.00, 0.7);
-    setTimeout(() => playChimeNote(587.33, 1.0), 160);
 }
 
 function fetchRandomBottleMessage(playChime = true) {
@@ -751,9 +754,6 @@ function fetchRandomBottleMessage(playChime = true) {
         }, 150);
     }
 
-    if (playChime) {
-        playChimeNote(659.25, 0.8);
-    }
 }
 
 function getSavedWishes() {
@@ -1014,13 +1014,12 @@ export function initFloatingSurprises() {
             chip.classList.add('is-active');
             currentBottleCategory = chip.dataset.cat || 'all';
             lastBottleIndex = -1;
-            fetchRandomBottleMessage(true);
-            playChimeNote(783.99, 0.4);
+            fetchRandomBottleMessage(false);
         });
     });
 
     const bottleFetchBtn = document.getElementById('bottle-fetch-another');
-    bottleFetchBtn?.addEventListener('click', () => fetchRandomBottleMessage(true));
+    bottleFetchBtn?.addEventListener('click', () => fetchRandomBottleMessage(false));
 
     // Pestañas de Botella
     const tabRead = document.getElementById('tab-read-bottle');
@@ -1033,7 +1032,6 @@ export function initFloatingSurprises() {
         tabWrite?.classList.remove('is-active');
         if (paneRead) { paneRead.hidden = false; paneRead.classList.add('is-active'); }
         if (paneWrite) { paneWrite.hidden = true; paneWrite.classList.remove('is-active'); }
-        playChimeNote(523.25, 0.4);
     });
 
     tabWrite?.addEventListener('click', () => {
@@ -1041,7 +1039,6 @@ export function initFloatingSurprises() {
         tabRead?.classList.remove('is-active');
         if (paneWrite) { paneWrite.hidden = false; paneWrite.classList.add('is-active'); }
         if (paneRead) { paneRead.hidden = true; paneRead.classList.remove('is-active'); }
-        playChimeNote(587.33, 0.4);
     });
 
     // Contador y envío de deseo
@@ -1229,7 +1226,6 @@ function initEnhancedSurprisesInteractions() {
         if (paneSend) { paneSend.classList.remove('is-active'); paneSend.hidden = true; }
         if (paneFavs) { paneFavs.classList.add('is-active'); paneFavs.hidden = false; }
         renderFavsList();
-        playChimeNote(783.99, 0.4);
     });
 
     // Actualizar tabs al volver a Leer o Lanzar
@@ -1261,7 +1257,6 @@ function initEnhancedSurprisesInteractions() {
             } else {
                 favs.push(currentItem);
                 starBtn.classList.add('is-favorite');
-                playChimeNote(1046.50, 0.4);
             }
             localStorage.setItem('carla_fav_bottles', JSON.stringify(favs));
             updateFavsCount();

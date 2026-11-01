@@ -217,7 +217,7 @@
                         <!-- Selector Dual: Imagen o Video -->
                         <label class="status-dropzone" id="status-upload-dropzone" for="status-upload-input">
                             <input type="file" id="status-upload-input" name="images[]" accept="image/jpeg,image/png,image/webp,image/gif,video/mp4,video/webm,video/quicktime" multiple required hidden>
-                            
+
                             <!-- Estado Vacío del Dropzone -->
                             <div class="status-dropzone-empty" id="status-dropzone-empty">
                                 <div class="status-dropzone-icons-duo">
