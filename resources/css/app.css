@@ -11003,30 +11003,120 @@ h1 em, .page-heading h1 em { color: var(--green-600); font-weight: 400; }
     color: var(--muted);
 }
 
-/* ── 3. Estilos de Cámara Polaroid ─────────────────────────────────── */
+/* ─────────────────────────────────────────────────────────────────────────────
+   3. Estilos de Cámara Polaroid Instantánea (Ajuste Compacto y Firme sin Scroll)
+   ───────────────────────────────────────────────────────────────────────────── */
+#polaroid-camera-dialog {
+    animation: none !important;
+    transform: none !important;
+    transition: none !important;
+    max-height: 94vh !important;
+    overflow: hidden !important;
+}
+
+#polaroid-camera-dialog .polaroid-card {
+    padding: 16px 20px 18px !important;
+    overflow-y: hidden !important;
+    overflow-x: hidden !important;
+    max-height: 94vh !important;
+    gap: 0 !important;
+}
+
+#polaroid-camera-dialog .surprise-modal-header {
+    margin-bottom: 8px !important;
+    display: flex !important;
+    align-items: flex-start !important;
+    justify-content: space-between !important;
+}
+
+#polaroid-camera-dialog .surprise-emblem {
+    font-size: 10.5px !important;
+    letter-spacing: 0.14em !important;
+    color: #9f1239 !important;
+    font-weight: 700 !important;
+    display: block !important;
+    margin-bottom: 2px !important;
+}
+
+#polaroid-camera-dialog .surprise-title {
+    margin: 0 !important;
+    font-family: var(--serif) !important;
+    font-size: 20px !important;
+    font-weight: 700 !important;
+    color: #881337 !important;
+    line-height: 1.2 !important;
+}
+
+#polaroid-camera-dialog .surprise-header-subtitle {
+    font-size: 11.5px !important;
+    color: #64748b !important;
+    margin: 2px 0 0 !important;
+    line-height: 1.35 !important;
+}
+
+#polaroid-camera-dialog .surprise-close-btn {
+    width: 32px !important;
+    height: 32px !important;
+    font-size: 14px !important;
+    flex-shrink: 0 !important;
+}
+
+/* Filtros Pills de la Polaroid Compactos */
+.polaroid-filters-bar {
+    display: flex;
+    justify-content: center;
+    gap: 6px;
+    margin-bottom: 8px;
+    flex-wrap: wrap;
+}
+
+.polaroid-filter-pill {
+    padding: 4px 10px;
+    border-radius: 999px;
+    border: 1px solid rgba(244, 63, 94, 0.2);
+    background: rgba(255, 255, 255, 0.9);
+    color: #881337;
+    font-size: 11px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.polaroid-filter-pill:hover {
+    background: #ffe4e6;
+    border-color: #fda4af;
+}
+
+.polaroid-filter-pill.is-active {
+    background: linear-gradient(135deg, #e11d48 0%, #be123c 100%);
+    color: #ffffff;
+    border-color: #be123c;
+    box-shadow: 0 2px 8px rgba(225, 29, 72, 0.25);
+}
+
 .polaroid-photo-stage {
     display: flex;
     justify-content: center;
-    padding: 10px 0;
+    padding: 2px 0 8px;
 }
 
-/* Marco Polaroid Firme (Sin inclinación ni movimiento) - Estilo Luna & Oro Rosa */
+/* Marco Polaroid Firme (Sin inclinación ni movimiento) - Compacto */
 .polaroid-frame {
     width: 100%;
-    max-width: 370px;
+    max-width: 340px;
     background: #ffffff;
-    border-radius: 12px;
-    box-shadow: 0 20px 50px rgba(76, 5, 25, 0.16), 0 0 0 1px rgba(244, 63, 94, 0.18), 0 8px 24px rgba(225, 29, 72, 0.08);
-    padding: 14px 14px 22px;
-    border: 2px solid rgba(253, 164, 175, 0.85);
+    border-radius: 10px;
+    box-shadow: 0 14px 36px rgba(76, 5, 25, 0.12), 0 0 0 1px rgba(244, 63, 94, 0.15);
+    padding: 10px 10px 14px;
+    border: 1.5px solid rgba(253, 164, 175, 0.85);
     transform: none !important;
-    transition: box-shadow 0.3s ease, border-color 0.3s ease;
+    transition: none !important;
     position: relative;
 }
 
 .polaroid-frame:hover {
     transform: none !important;
-    box-shadow: 0 24px 60px rgba(76, 5, 25, 0.22), 0 0 0 2px rgba(225, 29, 72, 0.35);
+    box-shadow: 0 16px 42px rgba(76, 5, 25, 0.16), 0 0 0 1.5px rgba(225, 29, 72, 0.3);
     border-color: #fda4af;
 }
 
@@ -11037,66 +11127,18 @@ h1 em, .page-heading h1 em { color: var(--green-600); font-weight: 400; }
 
 .polaroid-shimmer-border {
     position: absolute;
-    inset: 3px;
-    border-radius: 9px;
-    border: 1px dashed rgba(244, 63, 94, 0.25);
+    inset: 2px;
+    border-radius: 8px;
+    border: 1px dashed rgba(244, 63, 94, 0.22);
     pointer-events: none;
-}
-
-/* Filtros Pills de la Polaroid */
-.polaroid-filters-bar {
-    display: flex;
-    justify-content: center;
-    gap: 8px;
-    margin-bottom: 12px;
-    flex-wrap: wrap;
-}
-
-.polaroid-filter-pill {
-    padding: 5px 12px;
-    border-radius: 999px;
-    border: 1px solid rgba(244, 63, 94, 0.2);
-    background: rgba(255, 255, 255, 0.85);
-    color: #881337;
-    font-size: 11px;
-    font-weight: 700;
-    cursor: pointer;
-    transition: all 0.22s ease;
-}
-
-.polaroid-filter-pill:hover {
-    background: #ffe4e6;
-    border-color: #fda4af;
-    transform: translateY(-1px);
-}
-
-.polaroid-filter-pill.is-active {
-    background: linear-gradient(135deg, #e11d48 0%, #be123c 100%);
-    color: #ffffff;
-    border-color: #be123c;
-    box-shadow: 0 3px 10px rgba(225, 29, 72, 0.3);
-}
-
-.polaroid-luna-badge {
-    position: absolute;
-    bottom: 10px;
-    left: 10px;
-    background: rgba(30, 10, 16, 0.72);
-    backdrop-filter: blur(8px);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    color: #ffffff;
-    font-size: 9.5px;
-    font-weight: 700;
-    padding: 3px 9px;
-    border-radius: 999px;
-    letter-spacing: 0.04em;
 }
 
 .polaroid-img-wrapper {
     position: relative;
     width: 100%;
-    height: 260px;
+    height: 180px;
     background: var(--ivory);
+    border-radius: 6px;
     overflow: hidden;
 }
 
@@ -11104,64 +11146,88 @@ h1 em, .page-heading h1 em { color: var(--green-600); font-weight: 400; }
     width: 100%;
     height: 100%;
     object-fit: cover;
+    display: block;
 }
 
 .polaroid-gold-seal {
     position: absolute;
-    top: 10px;
-    right: 10px;
-    background: rgba(255, 255, 255, 0.9);
-    border: 1px solid rgba(64,145,108,0.15);
-    color: var(--muted);
-    font-size: 10px;
+    top: 8px;
+    right: 8px;
+    background: rgba(255, 255, 255, 0.92);
+    border: 1px solid rgba(244, 114, 182, 0.3);
+    color: #9f1239;
+    font-size: 9.5px;
     font-weight: 700;
-    padding: 3px 8px;
+    padding: 2px 7px;
     border-radius: 999px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+.polaroid-luna-badge {
+    position: absolute;
+    bottom: 8px;
+    left: 8px;
+    background: rgba(30, 10, 16, 0.72);
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: #ffffff;
+    font-size: 9px;
+    font-weight: 700;
+    padding: 2px 8px;
+    border-radius: 999px;
+    letter-spacing: 0.03em;
 }
 
 .polaroid-caption-band {
-    padding-top: 14px;
+    padding-top: 8px;
     text-align: center;
 }
 
 .polaroid-title {
-    margin: 0 0 4px;
+    margin: 0 0 2px;
     font-family: var(--serif);
-    font-size: 18px;
-    color: var(--ink);
+    font-size: 15.5px;
+    font-weight: 700;
+    color: #4c0519;
 }
 
 .polaroid-quote {
-    margin: 0 0 10px;
+    margin: 0 0 6px;
     font-family: var(--serif);
     font-style: italic;
-    font-size: 13px;
-    color: var(--ink-soft);
-    line-height: 1.5;
+    font-size: 11.5px;
+    color: #475569;
+    line-height: 1.4;
 }
 
 .polaroid-meta-row {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding-top: 8px;
+    padding-top: 5px;
     border-top: 1px solid rgba(228, 202, 208, 0.5);
-    font-size: 10px;
-    color: var(--muted);
+    font-size: 9.5px;
+    color: #94a3b8;
 }
 
 .polaroid-stamp {
     font-weight: 700;
-    color: var(--rose-dark);
+    color: #be123c;
 }
 
 .polaroid-footer {
     display: flex;
     flex-direction: row;
     justify-content: center;
-    gap: 10px;
+    gap: 8px;
     flex-wrap: wrap;
+    margin-top: 4px;
+}
+
+.polaroid-footer .button {
+    padding: 7px 14px !important;
+    font-size: 11.5px !important;
+    border-radius: 999px !important;
 }
 
 /* Flash fotográfico en pantalla */
