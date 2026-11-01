@@ -972,12 +972,14 @@
     <div class="weather-season-popover" id="weather-season-popover" role="dialog" aria-label="Selector de Estaciones y Clima" hidden>
         <div class="weather-popover-card">
             <header class="weather-popover-header">
-                <div class="weather-header-top-row">
-                    <button type="button" class="weather-popover-close" id="btn-close-weather-popover" aria-label="Cerrar selector de clima" title="Cerrar">✕</button>
+                <div class="weather-header-main">
                     <div class="weather-header-text">
-                        <span class="weather-header-eyebrow">ATMÓSFERA EMOCIONAL</span>
+                        <span class="weather-header-eyebrow">✦ ATMÓSFERA EMOCIONAL ✦</span>
                         <h4 class="weather-header-title">El Clima del Jardín</h4>
                     </div>
+                    <button type="button" class="weather-popover-close" id="btn-close-weather-popover" aria-label="Cerrar selector de clima" title="Cerrar">
+                        <svg class="close-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                    </button>
                 </div>
                 <div class="weather-header-actions">
                     <button type="button" class="weather-toggle-visuals-btn" id="btn-toggle-visual-effects" aria-pressed="true" title="Apagar o encender todos los efectos visuales de la sala (lluvia, hojas, pétalos, nieve, destellos) manteniendo el sonido">
@@ -996,7 +998,7 @@
             <div class="weather-popover-body">
                 <!-- PILAR 1: Catálogo de Estaciones & Climas -->
                 <div class="weather-section-label weather-section-label-with-action">
-                    <span>SELECCIONA UNA ESTACIÓN</span>
+                    <span><span class="sec-label-bullet">✦</span> SELECCIONA UNA ESTACIÓN</span>
                     <button type="button" class="weather-season-off-btn" id="btn-turn-off-season-effects" aria-pressed="false" title="Apagar inmediatamente cualquier efecto de las estaciones (pétalos, lluvia, hojas, nieve, estrellas, burbujas)">
                         <span class="season-off-icon" aria-hidden="true">🚫</span>
                         <span class="season-off-text">Apagar Efectos de Estación</span>
@@ -1090,7 +1092,7 @@
                     <!-- Densidad de partículas -->
                     <div class="weather-control-item">
                         <div class="weather-control-title">
-                            <span>Densidad de partículas</span>
+                            <span><span class="sec-label-bullet">✦</span> Densidad de partículas</span>
                         </div>
                         <div class="weather-intensity-selector" role="group" aria-label="Intensidad de partículas">
                             <button type="button" class="weather-intensity-btn" data-intensity="low">Suave</button>
@@ -1105,7 +1107,7 @@
                             <div class="weather-sound-label">
                                 <span class="sound-icon-indicator" id="weather-sound-icon">🔇</span>
                                 <div>
-                                    <strong>Sonido ambiental</strong>
+                                    <strong><span class="sec-label-bullet">✦</span> Sonido ambiental</strong>
                                     <small id="weather-sound-desc">Sin audio cargado (subir desde Admin)</small>
                                 </div>
                             </div>
@@ -1125,7 +1127,7 @@
                     <!-- Modo Biorritmo Automático según la hora -->
                     <div class="weather-control-item weather-toggle-item">
                         <div>
-                            <strong>Biorritmo del Jardín</strong>
+                            <strong><span class="sec-label-bullet">✦</span> Biorritmo del Jardín</strong>
                             <small>Cambia el clima según la hora del día</small>
                         </div>
                         <label class="weather-sound-toggle-switch" title="Activar modo automático según la hora">
@@ -1138,7 +1140,7 @@
                     <div class="weather-control-item weather-realsync-item">
                         <div class="realsync-header">
                             <div>
-                                <strong>Clima Exterior en Vivo</strong>
+                                <strong><span class="sec-label-bullet">✦</span> Clima Exterior en Vivo</strong>
                                 <small>Sincroniza el jardín con tu cielo real</small>
                             </div>
                             <button type="button" class="btn-weather-realsync" id="btn-weather-realsync" title="Sincronizar con Open-Meteo">
@@ -1151,7 +1153,7 @@
                     <!-- PILAR 6: Filtros Cromáticos Cinematográficos (Color Grading) -->
                     <div class="weather-control-item">
                         <div class="weather-control-title">
-                            <span>Filtro de Iluminación Emocional</span>
+                            <span><span class="sec-label-bullet">✦</span> Filtro de Iluminación Emocional</span>
                         </div>
                         <div class="weather-grading-selector" role="group" aria-label="Filtro de iluminación">
                             <button type="button" class="weather-grading-btn is-active" data-grading="none" title="Iluminación Natural">🌿 Natural</button>
@@ -1165,7 +1167,7 @@
                     <!-- PILAR 5 & 7 & 8: Experiencias Especiales y Micro-Eventos -->
                     <div class="weather-control-item weather-special-actions-item">
                         <div class="weather-control-title">
-                            <span>Experiencias Mágicas Especiales</span>
+                            <span><span class="sec-label-bullet">✦</span> Experiencias Mágicas Especiales</span>
                         </div>
                         <div class="weather-special-btns-grid">
                             <!-- Pilar 5: Dibujar en Cristal Empañado -->

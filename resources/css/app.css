@@ -11521,35 +11521,134 @@ h1 em, .page-heading h1 em { color: var(--green-600); font-weight: 400; }
 
 .weather-popover-header {
     display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 16px 20px 13px;
-    background: linear-gradient(135deg, rgba(255, 245, 247, 0.95) 0%, rgba(255, 237, 241, 0.88) 100%);
-    border-bottom: 1px solid rgba(64, 145, 108, 0.55);
+    flex-direction: column;
+    gap: 12px;
+    padding: 16px 18px 14px;
+    background: linear-gradient(165deg, rgba(255, 255, 255, 0.98) 0%, rgba(255, 245, 247, 0.94) 100%);
+    border-bottom: 1px solid rgba(225, 29, 72, 0.12);
+    box-shadow: 0 4px 16px rgba(136, 78, 88, 0.04);
     flex-shrink: 0;
+    position: relative;
+}
+
+.weather-header-main {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 12px;
+    width: 100%;
+}
+
+.weather-header-text {
+    flex: 1;
+    min-width: 0;
 }
 
 .weather-header-eyebrow {
-    display: block;
-    font-size: 8px;
-    letter-spacing: 0.18em;
-    font-weight: 700;
-    color: #b5697a;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 8.5px;
+    letter-spacing: 0.16em;
+    font-weight: 800;
+    color: #be185d;
     text-transform: uppercase;
+    background: rgba(255, 228, 230, 0.6);
+    padding: 2px 8px;
+    border-radius: 999px;
+    border: 1px solid rgba(244, 63, 94, 0.18);
+    margin-bottom: 4px;
+    box-shadow: 0 1px 3px rgba(225, 29, 72, 0.06);
+    transition: all 0.3s ease;
+}
+
+.weather-header-eyebrow:hover {
+    background: rgba(255, 228, 230, 0.95);
+    border-color: rgba(225, 29, 72, 0.35);
+    transform: translateY(-1px);
 }
 
 .weather-header-title {
-    margin: 2px 0 0;
+    margin: 0;
     font-family: var(--serif);
-    font-size: 19px;
-    color: #4a373a;
-    font-weight: 500;
+    font-size: 20px;
+    line-height: 1.25;
+    background: linear-gradient(135deg, #431407 0%, #881337 50%, #4c0519 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    filter: drop-shadow(0 1px 1px rgba(255, 255, 255, 0.8));
+    transition: all 0.3s ease;
+}
+
+.weather-header-title:hover {
+    filter: drop-shadow(0 2px 8px rgba(225, 29, 72, 0.25));
 }
 
 .weather-header-actions {
     display: flex;
     align-items: center;
     gap: 8px;
+    width: 100%;
+}
+
+.weather-toggle-visuals-btn,
+.weather-power-off-btn {
+    flex: 1;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    padding: 7px 12px;
+    border-radius: 9999px;
+    font-size: 11px;
+    font-weight: 700;
+    cursor: pointer;
+    border: 1px solid rgba(225, 29, 72, 0.2);
+    background: linear-gradient(135deg, #ffffff 0%, #fff1f2 100%);
+    color: #9f1239;
+    box-shadow: 0 2px 8px rgba(136, 78, 88, 0.08);
+    transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    white-space: nowrap;
+}
+
+.weather-toggle-visuals-btn:hover,
+.weather-power-off-btn:hover {
+    transform: translateY(-1.5px);
+    border-color: rgba(225, 29, 72, 0.4);
+    box-shadow: 0 4px 14px rgba(225, 29, 72, 0.2);
+    background: linear-gradient(135deg, #ffffff 0%, #ffe4e6 100%);
+}
+
+.weather-toggle-visuals-btn.is-off,
+.weather-power-off-btn.is-off {
+    background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+    border-color: rgba(148, 163, 184, 0.4);
+    color: #64748b;
+}
+
+.weather-toggle-visuals-btn.is-off:hover,
+.weather-power-off-btn.is-off:hover {
+    background: linear-gradient(135deg, #f1f5f9 0%, #e2e8f0 100%);
+    color: #334155;
+    border-color: #94a3b8;
+}
+
+.visuals-status-dot,
+.power-status-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #10b981;
+    box-shadow: 0 0 6px rgba(16, 185, 129, 0.6);
+    flex-shrink: 0;
+}
+
+.weather-toggle-visuals-btn.is-off .visuals-status-dot,
+.weather-power-off-btn.is-off .power-status-dot {
+    background: #94a3b8;
+    box-shadow: none;
 }
 
 .weather-power-off-btn {
@@ -11593,26 +11692,95 @@ h1 em, .page-heading h1 em { color: var(--green-600); font-weight: 400; }
 }
 
 .weather-popover-close {
-    width: 28px;
-    height: 28px;
+    width: 32px;
+    height: 32px;
     display: flex;
     align-items: center;
     justify-content: center;
     border-radius: 50%;
-    border: 1px solid rgba(214, 182, 190, 0.6);
-    background: rgba(255, 255, 255, 0.8);
-    color: var(--ink-soft);
-    font-size: 12px;
+    border: 1px solid rgba(225, 29, 72, 0.22);
+    background: rgba(255, 255, 255, 0.95);
+    color: #881337;
     cursor: pointer;
-    transition: all 0.2s ease;
+    box-shadow: 0 2px 8px rgba(136, 78, 88, 0.12), inset 0 1px 2px rgba(255, 255, 255, 0.9);
+    transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    flex-shrink: 0;
+}
+
+.weather-popover-close .close-icon-svg {
+    width: 14px;
+    height: 14px;
+    stroke: currentColor;
+    transition: transform 0.25s ease;
 }
 
 .weather-popover-close:hover {
-    background: #fde8ec;
-    color: var(--muted);
-    border-color: #e599ad;
-    transform: scale(1.08);
+    background: linear-gradient(135deg, #e11d48 0%, #be123c 100%);
+    color: #ffffff;
+    border-color: #be123c;
+    transform: rotate(90deg) scale(1.08);
+    box-shadow: 0 4px 14px rgba(225, 29, 72, 0.4);
 }
+
+.weather-popover-close:active {
+    transform: rotate(90deg) scale(0.96);
+}
+
+
+/* Efectos de Títulos y Organización de Secciones del Clima */
+.sec-label-bullet {
+    display: inline-block;
+    color: #e11d48;
+    margin-right: 4px;
+    font-size: 9px;
+    transform: translateY(-0.5px);
+    transition: transform 0.25s ease;
+}
+
+.weather-section-label:hover .sec-label-bullet,
+.weather-control-title:hover .sec-label-bullet,
+.weather-sound-label:hover .sec-label-bullet {
+    transform: rotate(45deg) scale(1.2);
+}
+
+.weather-section-label {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 9px;
+    font-size: 8.5px;
+    font-weight: 800;
+    letter-spacing: 0.15em;
+    color: #9f1239;
+    text-transform: uppercase;
+    padding-bottom: 4px;
+    border-bottom: 1px dashed rgba(225, 29, 72, 0.15);
+    transition: color 0.2s ease, border-color 0.2s ease;
+}
+
+.weather-section-label:hover {
+    color: #be123c;
+    border-color: rgba(225, 29, 72, 0.35);
+}
+
+.weather-control-title span,
+.weather-sound-label strong,
+.weather-toggle-item strong,
+.realsync-header strong {
+    font-size: 11.5px;
+    font-weight: 700;
+    color: #4a2830;
+    letter-spacing: 0.01em;
+    transition: color 0.2s ease, transform 0.2s ease;
+}
+
+.weather-control-item:hover .weather-control-title span,
+.weather-control-item:hover .weather-sound-label strong,
+.weather-toggle-item:hover strong,
+.weather-realsync-item:hover .realsync-header strong {
+    color: #9f1239;
+}
+
 
 .weather-popover-body {
     padding: 14px 18px 16px;
