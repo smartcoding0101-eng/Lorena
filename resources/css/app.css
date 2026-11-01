@@ -3916,33 +3916,31 @@ h1 em, .page-heading h1 em { color: var(--green-600); font-weight: 400; }
 /* Capa de Halo de Luz y Brillo Alrededor del Contorno */
 .frame-ambient-glow {
     position: absolute;
-    inset: -6px;
-    border-radius: 46px;
-    background: linear-gradient(135deg, rgba(82, 183, 136, 0.45), rgba(255, 255, 255, 0.9), rgba(45, 106, 79, 0.5), rgba(239, 68, 68, 0.25));
-    background-size: 300% 300%;
-    filter: blur(10px);
-    opacity: 0.85;
+    inset: -4px;
+    border-radius: 40px;
+    background: radial-gradient(circle at 50% 50%, rgba(245, 184, 196, 0.4), rgba(225, 29, 72, 0.15));
+    filter: blur(12px);
+    opacity: 0.75;
     z-index: 0;
     pointer-events: none;
-    animation: frameGlowPulse 4s ease-in-out infinite alternate, frameBorderRotate 8s linear infinite;
+    animation: none !important;
 }
 
-/* Efecto de haz de luz vivo que viaja alrededor del borde */
+/* Efecto de haz de luz vivo alrededor del borde */
 .enchanted-frame::before {
     content: '';
     position: absolute;
     inset: -2px;
-    border-radius: 42px;
+    border-radius: 38px;
     padding: 2px;
-    background: linear-gradient(60deg, #52b788, #ffffff, #2d6a4f, #ffffff, #ef4444);
-    background-size: 300% 300%;
+    background: linear-gradient(135deg, rgba(225, 29, 72, 0.4), rgba(255, 255, 255, 0.9), rgba(244, 114, 182, 0.4));
     -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
     -webkit-mask-composite: xor;
     mask-composite: exclude;
     pointer-events: none;
     z-index: 2;
-    animation: frameBorderRotate 6s linear infinite;
-    box-shadow: 0 0 18px rgba(45, 106, 79, 0.35);
+    animation: none !important;
+    box-shadow: 0 0 16px rgba(225, 29, 72, 0.15);
 }
 
 @keyframes frameGlowPulse {
@@ -13850,24 +13848,24 @@ body.theme-filter-vintage .atmospheric-color-overlay {
    HERO PRINCIPAL DE ÉLITE — ARMONÍA, DIMENSIONES Y ELEGANCIA EDITORIAL
    ═══════════════════════════════════════════════════════════════════════ */
 .cinematic-hero.welcome-wrap {
-    max-width: 1400px;
+    max-width: 1360px;
     margin: 0 auto;
-    padding: 32px 6% 36px;
+    padding: 10px 5% 18px !important;
     display: grid;
-    grid-template-columns: minmax(0, 1.15fr) minmax(360px, 0.95fr);
+    grid-template-columns: minmax(0, 1.15fr) minmax(340px, 0.9fr);
     grid-template-rows: auto auto;
     align-items: center;
-    column-gap: clamp(32px, 5vw, 68px);
-    row-gap: 28px;
-    min-height: calc(100vh - 120px);
+    column-gap: clamp(28px, 4vw, 56px);
+    row-gap: 16px;
+    min-height: auto !important;
 }
 
 .welcome-copy {
-    padding: 10px 0;
+    padding: 0;
     display: flex;
     flex-direction: column;
     justify-content: center;
-    max-width: 580px;
+    max-width: 560px;
 }
 
 .romantic-crown-tag {
@@ -13875,39 +13873,39 @@ body.theme-filter-vintage .atmospheric-color-overlay {
     display: inline-flex;
     align-items: center;
     gap: 8px;
-    padding: 6px 16px;
+    padding: 5px 14px;
     border-radius: 999px;
-    font-size: 11px;
+    font-size: 10px;
     font-weight: 600;
     letter-spacing: 0.14em;
     text-transform: uppercase;
-    margin-bottom: 22px;
+    margin-bottom: 12px;
 }
 
 .hero-grand-title {
     font-family: var(--serif);
-    font-size: clamp(38px, 4.4vw, 58px);
-    line-height: 1.14;
+    font-size: clamp(34px, 3.8vw, 50px);
+    line-height: 1.12;
     letter-spacing: -0.025em;
     color: #2b171c;
-    margin: 0 0 18px;
+    margin: 0 0 12px;
 }
 
 .hero-grand-title .grand-script {
     font-family: var(--script);
-    font-size: clamp(48px, 5.6vw, 76px);
+    font-size: clamp(44px, 4.8vw, 66px);
     line-height: 1.05;
     color: #b5304f !important;
     display: block;
-    margin-top: 6px;
+    margin-top: 4px;
 }
 
 .welcome-text {
-    max-width: 520px;
-    margin: 0 0 26px;
+    max-width: 500px;
+    margin: 0 0 18px;
     color: #5c4248;
-    font-size: 14.5px;
-    line-height: 1.75;
+    font-size: 13.5px;
+    line-height: 1.65;
     font-weight: 400;
 }
 
@@ -13915,48 +13913,55 @@ body.theme-filter-vintage .atmospheric-color-overlay {
     display: flex;
     align-items: center;
     flex-wrap: wrap;
-    gap: 12px;
-    margin-bottom: 28px;
+    gap: 10px;
+    margin-bottom: 18px;
 }
 
 .welcome-actions .button {
-    min-height: 44px;
-    padding: 0 20px;
-    font-size: 12px;
+    min-height: 40px;
+    padding: 0 18px;
+    font-size: 11.5px;
     letter-spacing: 0.02em;
     white-space: nowrap;
 }
 
 .daily-bloom-card {
     margin-top: 0;
-    max-width: 520px;
-    padding: 16px 22px !important;
-    border-radius: 20px !important;
+    max-width: 500px;
+    padding: 12px 18px !important;
+    border-radius: 16px !important;
 }
 
-/* Retrato Editorial Marco Encantado Proporciones Doradas */
+/* Retrato Editorial Marco Encantado Proporciones Doradas — Fijo y Estable */
 .welcome-art.enchanted-frame {
     width: 100%;
-    max-width: 480px;
+    max-width: 420px;
     height: auto;
-    aspect-ratio: 4 / 4.8;
-    max-height: 560px;
+    aspect-ratio: 4 / 4.6;
+    max-height: 490px;
     margin: 0 auto;
     position: relative;
-    border-radius: 36px !important;
+    border-radius: 32px !important;
     display: flex;
     align-items: center;
     justify-content: center;
     align-self: center;
-    box-shadow: 0 20px 50px rgba(181, 48, 79, 0.16) !important;
+    box-shadow: 0 16px 40px rgba(181, 48, 79, 0.12) !important;
+    transform: none !important;
+    animation: none !important;
+}
+
+.welcome-art.enchanted-frame:hover {
+    transform: none !important;
 }
 
 .frame-oval-border {
     width: 100%;
     height: 100%;
-    border-radius: 32px !important;
+    border-radius: 28px !important;
     overflow: hidden;
     position: relative;
+    transform: none !important;
 }
 
 .frame-oval-border img {
@@ -13964,40 +13969,91 @@ body.theme-filter-vintage .atmospheric-color-overlay {
     height: 100%;
     object-fit: cover;
     object-position: center 25%;
-    transition: transform 0.65s cubic-bezier(0.16, 1, 0.3, 1);
+    transform: none !important;
+    transition: filter 0.3s ease;
 }
 
+.enchanted-frame:hover .frame-oval-border img {
+    transform: none !important;
+}
+
+/* Rosa Encantada: Centrada en la parte inferior con pedestal de joya */
 .interactive-enchanted-rose {
-    bottom: 20px;
-    left: -20px;
-    width: 60px;
-    height: 60px;
+    position: absolute !important;
+    bottom: -22px !important;
+    left: 50% !important;
+    transform: translateX(-50%) !important;
+    width: 58px !important;
+    height: 58px !important;
+    border-radius: 50% !important;
+    background: linear-gradient(135deg, #ffffff 0%, #fff0f3 100%) !important;
+    border: 2px solid #fda4af !important;
+    box-shadow: 0 8px 24px rgba(225, 29, 72, 0.28), 0 0 16px rgba(254, 205, 211, 0.6) !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: center !important;
+    cursor: pointer !important;
+    z-index: 10 !important;
+    animation: none !important;
+    transition: transform 0.25s var(--ease-smooth), box-shadow 0.25s ease, background 0.25s ease !important;
+}
+
+.interactive-enchanted-rose:hover {
+    transform: translateX(-50%) scale(1.1) !important;
+    background: linear-gradient(135deg, #ffe4e6 0%, #fecdd3 100%) !important;
+    border-color: #f43f5e !important;
+    box-shadow: 0 10px 28px rgba(225, 29, 72, 0.42), 0 0 24px rgba(254, 205, 211, 0.9) !important;
+}
+
+.interactive-enchanted-rose .rose-emblem {
+    font-size: 24px !important;
+    line-height: 1 !important;
+    filter: drop-shadow(0 2px 4px rgba(190, 18, 60, 0.25)) !important;
+}
+
+.interactive-enchanted-rose .rose-pulse-label {
+    font-size: 7.5px !important;
+    letter-spacing: 0.12em !important;
+    font-weight: 800 !important;
+    color: #e11d48 !important;
+    text-transform: uppercase !important;
+    margin-top: 1px !important;
+}
+
+.interactive-enchanted-rose .rose-halo {
+    position: absolute !important;
+    inset: -5px !important;
+    border-radius: 50% !important;
+    border: 1.5px solid rgba(244, 63, 94, 0.35) !important;
+    animation: roseRipple 2.6s cubic-bezier(0.2, 0.8, 0.2, 1) infinite !important;
 }
 
 .art-stamp.luxury-monogram {
-    top: 20px;
-    right: 20px;
-    width: 64px;
-    height: 64px;
+    top: 16px;
+    right: 16px;
+    width: 56px;
+    height: 56px;
 }
 
 .welcome-bottom {
     grid-column: 1 / -1;
-    border-top: 1px solid rgba(212, 96, 122, 0.16);
-    padding-top: 16px;
+    border-top: 1px solid rgba(212, 96, 122, 0.14);
+    padding-top: 12px;
+    margin-top: 8px;
     display: flex;
     align-items: center;
     justify-content: space-between;
     color: #9e6b78;
-    font-size: 10px;
+    font-size: 9.5px;
     letter-spacing: 0.14em;
 }
 
 @media (max-width: 980px) {
     .cinematic-hero.welcome-wrap {
         grid-template-columns: 1fr;
-        padding: 24px 20px 32px;
-        row-gap: 36px;
+        padding: 16px 16px 28px !important;
+        row-gap: 28px;
     }
     .welcome-copy {
         max-width: 100%;
@@ -14015,7 +14071,7 @@ body.theme-filter-vintage .atmospheric-color-overlay {
         text-align: left;
     }
     .welcome-art.enchanted-frame {
-        max-width: 400px;
+        max-width: 360px;
         aspect-ratio: 1 / 1.15;
     }
 }
