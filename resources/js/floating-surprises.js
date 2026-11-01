@@ -126,18 +126,133 @@ const SURPRISE_ITEMS = [
 
 // ── Colección de Mensajes de la Botella ────────────────────────────────────
 const BOTTLE_MESSAGES = [
-    { text: '«Que la paz que buscas te encuentre hoy en las pequeñas cosas: en el aroma de una flor, en el calor del té y en una palabra sincera.»', author: '— Mensaje arrastrado por la brisa' },
-    { text: '«Florecer despacio no es llegar tarde, es florecer con raíces firmes y belleza duradera.»', author: '— Susurros del jardín' },
-    { text: '«Hay personas que son refugio y hogar. Para este jardín y para mi corazón, esa persona eres tú, Carla Lorena.»', author: '— Carta en papel de lino' },
-    { text: '«Ponme como sello sobre tu corazón. El amor es fuerte como la vida y tan tierno como el primer brote de la mañana.»', author: '— Cantares 8:6' },
-    { text: '«No temas al viento; los tallos más fuertes aprendieron a bailar con la tormenta antes de dar sus mejores rosas.»', author: '— Sabiduría botánica' },
-    { text: '«Si alguna vez dudas de tu brillo, entra a este jardín y recuerda que todo aquí existe para reflejar tu propia luz.»', author: '— Adrián' },
-    { text: '«Tus sonrisas son como pétalos de sol abriéndose al alba: iluminan incluso los días de lluvia.»', author: '— Diario secreto de Carla' },
-    { text: '«El tiempo es un río suave que nos lleva hacia donde nuestros anhelos más puros ya nos están esperando.»', author: '— Mareas del Atardecer' },
-    { text: '«Eres la poesía que este jardín siempre quiso escribir en cada una de sus rosas.»', author: '— Dedicatoria eterna' },
-    { text: '«Dondequiera que mires hoy, encuentra un motivo para dar gracias y sonreír con el alma libre.»', author: '— Orquídea de la Mañana' },
-    { text: '«Cada estrella en el cielo nocturno guarda un pensamiento bueno por tu paz y tu felicidad.»', author: '— Constelación del Lirio' },
-    { text: '«La gentileza es tu superpoder más hermoso; jamás permitas que el mundo te haga olvidar lo valiosa que eres.»', author: '— Carta sellada con cera roja' }
+    // --- Categoría: Amor & Ternura (amor) ---
+    {
+        category: 'amor',
+        text: '«Hay personas que son refugio y hogar. Para este jardín y para mi corazón, esa persona eres tú, Carla Lorena.»',
+        author: '- Carta en papel de lino',
+        origin: '🌸 Orillas del Lago de Cristal'
+    },
+    {
+        category: 'amor',
+        text: '«Ponme como un sello sobre tu corazón. El amor verdadero es tan suave como el aroma de la lavanda y tan eterno como el amanecer.»',
+        author: '- Cantares 8:6',
+        origin: '🌹 Rosaleda Real'
+    },
+    {
+        category: 'amor',
+        text: '«Eres la melodía que calma mis tormentas y el verso más dulce que la vida se atrevió a componer en mi camino.»',
+        author: '- Dedicatoria de amor eterno',
+        origin: '🌊 Mareas del Atardecer'
+    },
+    {
+        category: 'amor',
+        text: '«Si el universo entero fuera una biblioteca de estrellas, cada una de mis páginas favoritas llevaría tu nombre, Carla.»',
+        author: '- El Guardián del Faro',
+        origin: '✨ Bahía de las Estrellas'
+    },
+    {
+        category: 'amor',
+        text: '«Tus sonrisas son como pétalos de sol abriéndose al alba: iluminan con calidez incluso mis días más grises.»',
+        author: '- Diario secreto del Jardín',
+        origin: '🌸 Pabellón de Seda'
+    },
+    {
+        category: 'amor',
+        text: '«Amarte no es una casualidad del tiempo, es la certeza más bonita y luminosa que florece en mi alma.»',
+        author: '- Carta sellada con cera carmín',
+        origin: '💖 Santuario del Lirio'
+    },
+
+    // --- Categoría: Calma & Paz (calma) ---
+    {
+        category: 'calma',
+        text: '«Que la paz que buscas te encuentre hoy en las pequeñas cosas: en el aroma de una flor, en el calor del té y en una respiración profunda.»',
+        author: '- Mensaje arrastrado por la brisa',
+        origin: '🍃 Isla de la Serenidad'
+    },
+    {
+        category: 'calma',
+        text: '«No temas al viento; los tallos más firmes y sabios aprendieron a danzar con la lluvia antes de regalar sus mejores rosas.»',
+        author: '- Sabiduría botánica antigua',
+        origin: '🌿 Sendero de los Sauces'
+    },
+    {
+        category: 'calma',
+        text: '«El mar susurra que todo pasa a su debido tiempo. Descansa tu mente, querida Carla; hoy estás a salvo en tu propio jardín.»',
+        author: '- Murmullos del Océano',
+        origin: '🌊 Caleta del Silencio'
+    },
+    {
+        category: 'calma',
+        text: '«La serenidad no es ausencia de movimiento, sino la certeza íntima de que nada puede apagar la luz pura que vive en tu centro.»',
+        author: '- Pensamiento de luz',
+        origin: '🌙 Reflejos de Luna'
+    },
+    {
+        category: 'calma',
+        text: '«Inhala despacio, exhala las prisas del mundo exterior. Este rincón fue programado para que tu respiración siempre encuentre compás y calma.»',
+        author: '- Manifiesto de Paz',
+        origin: '🕊️ Manantial Blanco'
+    },
+
+    // --- Categoría: Inspiración & Sueños (inspiracion) ---
+    {
+        category: 'inspiracion',
+        text: '«Florecer despacio no es llegar tarde, es florecer con raíces profundas, tronco fuerte y belleza perdurable.»',
+        author: '- Susurros del jardín botánico',
+        origin: '🌺 Valle de la Esperanza'
+    },
+    {
+        category: 'inspiracion',
+        text: '«Si alguna vez dudas de tu grandeza, mira las flores del jardín: ninguna compite con su vecina, cada una brilla con su propia esencia única.»',
+        author: '- Cuaderno de Reflexiones',
+        origin: '🌷 Pradera Dorada'
+    },
+    {
+        category: 'inspiracion',
+        text: '«Dondequiera que mires hoy, encuentra un motivo para dar gracias y avanzar con paso firme hacia tus mayores ilusiones.»',
+        author: '- Orquídea de la Mañana',
+        origin: '🌅 Colina del Alba'
+    },
+    {
+        category: 'inspiracion',
+        text: '«Tus sueños tienen la fuerza de los brotes en primavera: son capaces de atravesar la tierra más dura para tocar el cielo azul.»',
+        author: '- Crónica de los Sueños',
+        origin: '💫 Horizonte Abierto'
+    },
+    {
+        category: 'inspiracion',
+        text: '«La gentileza es tu virtud más poderosa; jamás permitas que la prisa del mundo te haga dudar de lo valiosa y luminosa que eres.»',
+        author: '- Carta sellada con flores secas',
+        origin: '✨ Cumbre de Cristal'
+    },
+
+    // --- Categoría: Julio Adrián (adrian) ---
+    {
+        category: 'adrian',
+        text: '«Cada línea de código, cada botón y cada destello de este jardín fueron forjados con el único anhelo de verte sonreír, mi princesa Carla.»',
+        author: '- Tu Ingeniero, Julio Adrián',
+        origin: '💌 Mensaje Dedicado con Devoción'
+    },
+    {
+        category: 'adrian',
+        text: '«No existe distancia, rutina ni cansancio que puedan aminorar lo que siento por ti. Eres mi inspiración de todos los días.»',
+        author: '- Julio Adrián',
+        origin: '🌹 El Rincón Secreto de Adrián'
+    },
+    {
+        category: 'adrian',
+        text: '«Te miro y confirmo que la vida fue infinitamente generosa al ponerte en mi camino. Te amo con cada latido y cada pensamiento.»',
+        author: '- Julio Adrián',
+        origin: '💖 Con todo mi amor para Carla'
+    },
+    {
+        category: 'adrian',
+        text: '«Quiero ser siempre tu lugar seguro, el abrazo al que quieras volver y el ingeniero que construya todos los jardines de tus sueños.»',
+        author: '- Julio Adrián',
+        origin: '🕊️ Para mi Carla Lorena'
+    }
 ];
 
 // ── Fotografías para la Cámara Polaroid ────────────────────────────────────
@@ -160,6 +275,7 @@ let lastBottleIndex = -1;
 let currentPolaroid = null;
 let currentRelicsOffer = [];
 let currentCollectionFilter = 'all';
+let currentBottleCategory = 'all';
 
 /* ═══════════════════════════════════════════════════════════════════════════
    1. COFRE DE SORPRESAS (3 RELIQUIAS MISTERIOSAS + ÁLBUM COLECCIONADOR)
@@ -599,13 +715,18 @@ function openBottleWishes() {
 }
 
 function fetchRandomBottleMessage(playChime = true) {
+    const pool = currentBottleCategory === 'all'
+        ? BOTTLE_MESSAGES
+        : BOTTLE_MESSAGES.filter(m => m.category === currentBottleCategory);
+
+    const activePool = pool.length > 0 ? pool : BOTTLE_MESSAGES;
     let nextIdx;
     do {
-        nextIdx = Math.floor(Math.random() * BOTTLE_MESSAGES.length);
-    } while (BOTTLE_MESSAGES.length > 1 && nextIdx === lastBottleIndex);
+        nextIdx = Math.floor(Math.random() * activePool.length);
+    } while (activePool.length > 1 && nextIdx === lastBottleIndex);
     lastBottleIndex = nextIdx;
 
-    const msg = BOTTLE_MESSAGES[nextIdx];
+    const msg = activePool[nextIdx];
     const textEl = document.getElementById('parchment-message-text');
     const authorEl = document.getElementById('parchment-author');
     const badgeEl = document.getElementById('parchment-origin-badge');
@@ -884,6 +1005,19 @@ export function initFloatingSurprises() {
     // 2. Botón Botella al Viento
     const bottleBtn = document.getElementById('btn-floating-bottle');
     bottleBtn?.addEventListener('click', openBottleWishes);
+
+        // Chips de Categoría de Botella (Ternura, Calma, Inspiración, Adrián)
+    const categoryChips = document.querySelectorAll('.bottle-category-chip');
+    categoryChips.forEach(chip => {
+        chip.addEventListener('click', () => {
+            categoryChips.forEach(c => c.classList.remove('is-active'));
+            chip.classList.add('is-active');
+            currentBottleCategory = chip.dataset.cat || 'all';
+            lastBottleIndex = -1;
+            fetchRandomBottleMessage(true);
+            playChimeNote(783.99, 0.4);
+        });
+    });
 
     const bottleFetchBtn = document.getElementById('bottle-fetch-another');
     bottleFetchBtn?.addEventListener('click', () => fetchRandomBottleMessage(true));

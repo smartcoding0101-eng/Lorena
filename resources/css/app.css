@@ -19587,3 +19587,59 @@ footer a:hover, .site-footer a:hover {
 .guide-search-input::placeholder {
     color: #9c7881 !important;
 }
+
+
+/* Selector de Sentimiento / Categoría de la Botella al Viento */
+.bottle-category-filter-wrap {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: 14px;
+}
+
+.bottle-filter-label {
+    font-size: 9.5px;
+    font-weight: 800;
+    letter-spacing: 0.14em;
+    color: #9f1239;
+    text-transform: uppercase;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.bottle-category-chips {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+}
+
+.bottle-category-chip {
+    padding: 6px 12px;
+    border-radius: 9999px;
+    font-size: 11px;
+    font-weight: 600;
+    background: rgba(255, 255, 255, 0.85);
+    border: 1px solid rgba(225, 29, 72, 0.18);
+    color: #6d5458;
+    cursor: pointer;
+    box-shadow: 0 1px 4px rgba(136, 78, 88, 0.05);
+    transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+    white-space: nowrap;
+}
+
+.bottle-category-chip:hover {
+    background: #fff1f2;
+    color: #9f1239;
+    border-color: rgba(225, 29, 72, 0.35);
+    transform: translateY(-1px);
+    box-shadow: 0 3px 10px rgba(225, 29, 72, 0.12);
+}
+
+.bottle-category-chip.is-active {
+    background: linear-gradient(135deg, #e11d48 0%, #be123c 100%);
+    color: #ffffff;
+    border-color: #be123c;
+    box-shadow: 0 4px 12px rgba(225, 29, 72, 0.32);
+    transform: translateY(-1px);
+}

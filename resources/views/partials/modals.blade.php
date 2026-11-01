@@ -1303,7 +1303,19 @@
 
             <!-- Tab 1: Leer mensaje rescatado -->
             <div class="bottle-pane is-active" id="pane-bottle-read">
-                <div class="parchment-scroll-box" id="parchment-scroll-box">
+                <!-- Selector de Sentimiento / Categoría de la Botella -->
+                <div class="bottle-category-filter-wrap">
+                    <span class="bottle-filter-label">Sentimiento del mar:</span>
+                    <div class="bottle-category-chips" id="bottle-category-chips" role="radiogroup" aria-label="Elegir sentimiento de la botella">
+                        <button type="button" class="bottle-category-chip is-active" data-cat="all">✨ Todos</button>
+                        <button type="button" class="bottle-category-chip" data-cat="amor">💖 Ternura & Amor</button>
+                        <button type="button" class="bottle-category-chip" data-cat="calma">🌊 Calma & Paz</button>
+                        <button type="button" class="bottle-category-chip" data-cat="inspiracion">🌿 Inspiración</button>
+                        <button type="button" class="bottle-category-chip" data-cat="adrian">💌 Julio Adrián</button>
+                    </div>
+                </div>
+
+                <div class="parchment-scroll-box"  id="parchment-scroll-box">
                     <div class="parchment-header-origin">
                         <span class="parchment-origin-badge" id="parchment-origin-badge">🌊 Orillas del Lago de Cristal</span>
                         <button type="button" class="parchment-star-btn" id="parchment-star-btn" title="Guardar mensaje en favoritos">⭐️</button>
