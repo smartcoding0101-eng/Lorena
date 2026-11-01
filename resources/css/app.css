@@ -13725,6 +13725,51 @@ body.theme-filter-vintage .atmospheric-color-overlay {
     background: linear-gradient(90deg, #d4607a, #e8a598) !important;
 }
 
+/* Indicador de sección activa y botón de Mi Familia */
+.main-nav a.is-active,
+.main-nav a[aria-current="page"] {
+    color: #b5304f !important;
+    font-weight: 700 !important;
+}
+
+.main-nav a.is-active::after,
+.main-nav a[aria-current="page"]::after {
+    width: 100% !important;
+    left: 0 !important;
+}
+
+.main-nav .nav-family-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 12px !important;
+    border-radius: 999px !important;
+    background: rgba(254, 242, 244, 0.85) !important;
+    border: 1px solid rgba(225, 29, 72, 0.28) !important;
+    color: #be123c !important;
+    font-weight: 600 !important;
+    box-shadow: 0 2px 8px rgba(190, 18, 60, 0.08) !important;
+    transition: all 0.25s var(--ease-smooth) !important;
+}
+
+.main-nav .nav-family-link::after {
+    display: none !important;
+}
+
+.main-nav .nav-family-link:hover,
+.main-nav .nav-family-link.is-active {
+    background: linear-gradient(135deg, rgba(254, 226, 232, 0.95), rgba(253, 242, 248, 0.95)) !important;
+    border-color: rgba(225, 29, 72, 0.5) !important;
+    color: #9f1239 !important;
+    transform: translateY(-1px) scale(1.02);
+    box-shadow: 0 4px 14px rgba(190, 18, 60, 0.18) !important;
+}
+
+.main-nav .nav-family-link .nav-icon {
+    font-size: 14px;
+    line-height: 1;
+}
+
 .main-nav .nav-profile {
     border: 1px solid rgba(212, 96, 122, 0.25) !important;
     background: rgba(255, 255, 255, 0.88) !important;

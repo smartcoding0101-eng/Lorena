@@ -22,6 +22,10 @@
 
             <nav class="main-nav" id="main-nav" aria-label="Navegación principal">
                 <a href="{{ route('home') }}#inicio" data-go="inicio" class="nav-item">Inicio</a>
+                <a href="#familia" data-go="familia" class="nav-item nav-family-link" title="Santuario y Álbum Familiar">
+                    <span class="nav-icon" aria-hidden="true">👨‍👩‍👧‍👦</span>
+                    <span>Mi Familia</span>
+                </a>
                 <a href="#galeria" data-go="galeria" class="nav-item">Mi Universo</a>
                 <a href="#biblioteca" data-go="biblioteca" class="nav-item">Inspiración</a>
                 <a href="#juegos" data-go="juegos" class="nav-item">Experiencias</a>
@@ -49,7 +53,7 @@
                 <button type="button" class="nav-passport-btn" id="passport-header-trigger" aria-label="Abrir Pasaporte del Jardín Secreto" title="Pasaporte del Jardín Secreto">
                     <span class="passport-icon" aria-hidden="true">⚜️</span>
                     <span class="passport-label">Pasaporte</span>
-                    <span class="passport-stamp-badge" id="passport-stamp-count">1/12</span>
+                    <span class="passport-stamp-badge" id="passport-stamp-count">1/13</span>
                 </button>
             </nav>
         </div>

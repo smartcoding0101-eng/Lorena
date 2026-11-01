@@ -626,6 +626,18 @@ function showScreen(screenName, updateHistory = true) {
     closeMenu();
     if (target === 'jardines-liria') loadSultanaGarden();
     if (target === 'sultana-plataformas') loadSultanaPlatformer();
+    // ── Resaltar enlace activo en el Navbar ──
+    document.querySelectorAll('.main-nav .nav-item').forEach((link) => {
+        const linkTarget = link.getAttribute('data-go') || link.getAttribute('href')?.replace(/^.*?#/, '');
+        const isCurrent = linkTarget === target;
+        link.classList.toggle('is-active', isCurrent);
+        if (isCurrent) {
+            link.setAttribute('aria-current', 'page');
+        } else {
+            link.removeAttribute('aria-current');
+        }
+    });
+
     // ── Registro de pasaporte botánico ──
     if (typeof registerPassportStamp === 'function') {
         registerPassportStamp(target);
