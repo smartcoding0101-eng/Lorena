@@ -14532,16 +14532,16 @@ body.theme-filter-vintage .atmospheric-color-overlay {
 
 /* 1. Header y Navegación Principal Modernizada (Floating Island / Fixed Glassmorphism) */
 .site-header {
-    height: 68px !important;
-    max-width: min(1380px, 96vw) !important;
-    width: min(1380px, 96vw) !important;
-    padding: 0 24px !important;
-    margin: 12px auto 0 !important;
+    height: 60px !important;
+    max-width: min(1440px, 98vw) !important;
+    width: min(1440px, 98vw) !important;
+    padding: 0 16px !important;
+    margin: 8px auto 0 !important;
     display: flex !important;
     align-items: center !important;
     justify-content: space-between !important;
-    gap: 16px !important;
-    background: rgba(255, 248, 250, 0.88) !important;
+    gap: 8px !important;
+    background: rgba(255, 248, 250, 0.92) !important;
     backdrop-filter: blur(24px) !important;
     -webkit-backdrop-filter: blur(24px) !important;
     border: 1.5px solid rgba(225, 29, 72, 0.16) !important;
@@ -14552,11 +14552,12 @@ body.theme-filter-vintage .atmospheric-color-overlay {
     left: 0 !important;
     right: 0 !important;
     z-index: 1000 !important;
+    box-sizing: border-box !important;
     transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1) !important;
 }
 
 .site-header.is-scrolled {
-    background: rgba(255, 255, 255, 0.95) !important;
+    background: rgba(255, 255, 255, 0.96) !important;
     border-color: rgba(225, 29, 72, 0.28) !important;
     box-shadow: 0 14px 40px rgba(181, 48, 79, 0.14), 0 4px 12px rgba(0, 0, 0, 0.05) !important;
     transform: translateY(-2px);
@@ -14564,24 +14565,25 @@ body.theme-filter-vintage .atmospheric-color-overlay {
 
 /* Espacio superior para que el contenido no quede oculto detrás del navbar flotante */
 #main {
-    padding-top: 88px !important;
+    padding-top: 80px !important;
 }
 
 .brand {
     color: var(--ink) !important;
     flex-shrink: 0 !important;
     white-space: nowrap !important;
+    padding-right: 4px !important;
 }
 
 .brand strong {
     color: #4a121f !important;
     font-weight: 600 !important;
-    font-size: 16px !important;
+    font-size: 15px !important;
 }
 
 .brand small {
     color: #9e6b78 !important;
-    font-size: 9.5px !important;
+    font-size: 9px !important;
 }
 
 .brand-mark {
@@ -14600,27 +14602,30 @@ body.theme-filter-vintage .atmospheric-color-overlay {
     flex-wrap: nowrap !important;
     align-items: center !important;
     justify-content: flex-end !important;
-    gap: clamp(8px, 1.4vw, 24px) !important;
+    gap: clamp(4px, 0.8vw, 12px) !important;
     color: #7a4654 !important;
-    font-size: 12.5px !important;
+    font-size: 12px !important;
     font-weight: 500 !important;
     white-space: nowrap !important;
     margin: 0 !important;
+    flex-shrink: 1 !important;
 }
 
 .main-nav a.nav-item {
     color: #6b3a48 !important;
-    padding: 6px 12px !important;
+    padding: 5px 9px !important;
     border-radius: 999px !important;
-    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1) !important;
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1) !important;
     position: relative !important;
     text-decoration: none !important;
     display: inline-flex !important;
     align-items: center !important;
-    gap: 5px !important;
+    gap: 4px !important;
+    font-size: 11.5px !important;
+    white-space: nowrap !important;
 }
 
-/* Línea de transición animada debajo de cada botón */
+/* Línea de transición inferior para el elemento marcado por hover / ciclo automático */
 .main-nav a.nav-item::after {
     content: '' !important;
     display: block !important;
@@ -14632,15 +14637,14 @@ body.theme-filter-vintage .atmospheric-color-overlay {
     border-radius: 999px !important;
     background: linear-gradient(90deg, #d4607a 0%, #f43f5e 50%, #fb7185 100%) !important;
     box-shadow: 0 0 10px rgba(225, 29, 72, 0.55) !important;
-    transition: width 0.4s cubic-bezier(0.16, 1, 0.3, 1), left 0.4s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.3s ease !important;
+    transition: width 0.35s cubic-bezier(0.16, 1, 0.3, 1), left 0.35s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.3s ease !important;
     opacity: 0 !important;
     pointer-events: none !important;
 }
 
 .main-nav a.nav-item:hover {
     color: #be123c !important;
-    background: rgba(254, 242, 244, 0.8) !important;
-    transform: translateY(-2px) !important;
+    background: rgba(254, 242, 244, 0.85) !important;
 }
 
 .main-nav a.nav-item:hover::after {
@@ -14649,37 +14653,44 @@ body.theme-filter-vintage .atmospheric-color-overlay {
     opacity: 1 !important;
 }
 
-/* Indicador de sección activa: Cápsula suave de cristal y línea dorada activa */
+/* Indicador de sección activa: Cápsula suave de cristal SIN línea fija duplicada */
 .main-nav a.nav-item.is-active,
 .main-nav a.nav-item[aria-current="page"] {
     color: #9f1239 !important;
     background: linear-gradient(135deg, rgba(254, 226, 232, 0.95), rgba(255, 241, 244, 0.98)) !important;
     border: 1px solid rgba(225, 29, 72, 0.28) !important;
-    box-shadow: 0 4px 12px rgba(225, 29, 72, 0.12) !important;
+    box-shadow: 0 2px 8px rgba(225, 29, 72, 0.1) !important;
     font-weight: 700 !important;
 }
 
+/* Ocultar la línea duplicada estática en el botón activo; solo la línea que recorre/hover debe verse */
 .main-nav a.nav-item.is-active::after,
 .main-nav a.nav-item[aria-current="page"]::after {
-    width: 80% !important;
-    left: 10% !important;
-    opacity: 1 !important;
-    background: linear-gradient(90deg, #be123c 0%, #e11d48 100%) !important;
+    width: 0 !important;
+    opacity: 0 !important;
 }
 
-/* Botón Mi Familia Especial con su propia línea inferior */
+/* Si el botón activo recibe hover manual o automático, se muestra la línea animada */
+.main-nav a.nav-item.is-active:hover::after,
+.main-nav a.nav-item.is-active.is-auto-hover::after {
+    width: 75% !important;
+    left: 12.5% !important;
+    opacity: 1 !important;
+}
+
+/* Botón Mi Familia Especial */
 .main-nav .nav-family-link {
     display: inline-flex !important;
     align-items: center !important;
-    gap: 5px !important;
-    padding: 5px 14px !important;
+    gap: 4px !important;
+    padding: 4px 10px !important;
     border-radius: 999px !important;
     background: linear-gradient(135deg, rgba(255, 241, 244, 0.95), rgba(254, 226, 232, 0.85)) !important;
     border: 1px solid rgba(225, 29, 72, 0.28) !important;
     color: #be123c !important;
     font-weight: 600 !important;
-    box-shadow: 0 2px 8px rgba(190, 18, 60, 0.08) !important;
-    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1) !important;
+    box-shadow: 0 2px 6px rgba(190, 18, 60, 0.06) !important;
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1) !important;
     position: relative !important;
 }
 
@@ -14694,35 +14705,45 @@ body.theme-filter-vintage .atmospheric-color-overlay {
     border-radius: 999px !important;
     background: linear-gradient(90deg, #e11d48 0%, #f43f5e 100%) !important;
     box-shadow: 0 0 10px rgba(225, 29, 72, 0.6) !important;
-    transition: width 0.4s cubic-bezier(0.16, 1, 0.3, 1), left 0.4s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.3s ease !important;
+    transition: width 0.35s cubic-bezier(0.16, 1, 0.3, 1), left 0.35s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.3s ease !important;
     opacity: 0 !important;
 }
 
 .main-nav .nav-family-link:hover,
 .main-nav .nav-family-link.is-active {
     background: linear-gradient(135deg, #ffe4e8, #fcd0d7) !important;
-    border-color: rgba(225, 29, 72, 0.5) !important;
+    border-color: rgba(225, 29, 72, 0.45) !important;
     color: #881337 !important;
-    transform: translateY(-2px) scale(1.02) !important;
-    box-shadow: 0 6px 16px rgba(190, 18, 60, 0.2) !important;
+    box-shadow: 0 4px 12px rgba(190, 18, 60, 0.15) !important;
 }
 
-.main-nav .nav-family-link:hover::after,
+.main-nav .nav-family-link:hover::after {
+    width: 75% !important;
+    left: 12.5% !important;
+    opacity: 1 !important;
+}
+
 .main-nav .nav-family-link.is-active::after {
-    width: 80% !important;
-    left: 10% !important;
+    width: 0 !important;
+    opacity: 0 !important;
+}
+
+.main-nav .nav-family-link.is-active:hover::after,
+.main-nav .nav-family-link.is-active.is-auto-hover::after {
+    width: 75% !important;
+    left: 12.5% !important;
     opacity: 1 !important;
 }
 
 .main-nav .nav-family-link .nav-icon {
-    font-size: 14px;
+    font-size: 13px;
     line-height: 1;
 }
 
 /* Botón Mapa y Control con Iconos */
 .main-nav .nav-map-link,
 .main-nav .nav-admin-link {
-    gap: 6px !important;
+    gap: 4px !important;
 }
 
 .main-nav .nav-map-link .nav-svg-icon,
@@ -14733,7 +14754,7 @@ body.theme-filter-vintage .atmospheric-color-overlay {
 
 .main-nav .nav-map-link:hover .nav-svg-icon,
 .main-nav .nav-admin-link:hover .nav-svg-icon {
-    transform: scale(1.15) rotate(6deg) !important;
+    transform: scale(1.12) rotate(4deg) !important;
 }
 
 .main-nav .nav-profile {
@@ -14756,19 +14777,25 @@ body.theme-filter-vintage .atmospheric-color-overlay {
     background: linear-gradient(135deg, #b5304f 0%, #d4607a 100%) !important;
     color: #ffffff !important;
     border: 1px solid rgba(255, 255, 255, 0.35) !important;
-    box-shadow: 0 4px 14px rgba(181, 48, 79, 0.25) !important;
+    box-shadow: 0 3px 10px rgba(181, 48, 79, 0.22) !important;
+    height: 32px !important;
+    padding: 0 10px !important;
+    font-size: 11.5px !important;
+    flex-shrink: 0 !important;
     transition: all 0.25s var(--ease-smooth) !important;
 }
 
 .nav-passport-btn:hover {
     background: linear-gradient(135deg, #d4607a 0%, #e8a598 100%) !important;
-    transform: translateY(-2px) scale(1.03) !important;
-    box-shadow: 0 8px 22px rgba(212, 96, 122, 0.35) !important;
+    box-shadow: 0 6px 16px rgba(212, 96, 122, 0.35) !important;
 }
 
-/* ═══════════════════════════════════════════════════════════════════════
-   HERO PRINCIPAL DE ÉLITE — ARMONÍA, DIMENSIONES Y ELEGANCIA EDITORIAL
-   ═══════════════════════════════════════════════════════════════════════ */
+.passport-stamp-badge {
+    padding: 1px 6px !important;
+    font-size: 10px !important;
+}
+
+
 .cinematic-hero.welcome-wrap {
     max-width: 1360px;
     width: 100%;
