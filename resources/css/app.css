@@ -13677,26 +13677,41 @@ body.theme-filter-vintage .atmospheric-color-overlay {
 /*  Paleta Clara, Luminosa y Delicada para Todos los Elementos del Sistema*/
 /* ═══════════════════════════════════════════════════════════════════════ */
 
-/* 1. Header y Navegación Principal */
+/* 1. Header y Navegación Principal Modernizada (Glassmorphism & Single-Row Flex) */
 .site-header {
-    background: rgba(255, 248, 249, 0.92) !important;
-    backdrop-filter: blur(18px) !important;
-    -webkit-backdrop-filter: blur(18px) !important;
-    border-bottom: 1.5px solid rgba(212, 96, 122, 0.16) !important;
-    box-shadow: 0 4px 20px rgba(181, 48, 79, 0.05) !important;
+    height: 76px !important;
+    max-width: 100% !important;
+    width: 100% !important;
+    padding: 0 max(20px, 4vw) !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    gap: 16px !important;
+    background: rgba(255, 248, 250, 0.88) !important;
+    backdrop-filter: blur(22px) !important;
+    -webkit-backdrop-filter: blur(22px) !important;
+    border-bottom: 1px solid rgba(225, 29, 72, 0.12) !important;
+    box-shadow: 0 4px 24px rgba(181, 48, 79, 0.04) !important;
+    position: sticky !important;
+    top: 0 !important;
+    z-index: 1000 !important;
 }
 
 .brand {
     color: var(--ink) !important;
+    flex-shrink: 0 !important;
+    white-space: nowrap !important;
 }
 
 .brand strong {
-    color: #5c1526 !important;
+    color: #4a121f !important;
     font-weight: 600 !important;
+    font-size: 16px !important;
 }
 
 .brand small {
     color: #9e6b78 !important;
+    font-size: 9.5px !important;
 }
 
 .brand-mark {
@@ -13708,43 +13723,61 @@ body.theme-filter-vintage .atmospheric-color-overlay {
     color: #e8a598 !important;
 }
 
+/* Fila Única Moderna y Fluida */
 .main-nav {
-    color: #9e6b78 !important;
+    display: flex !important;
+    flex-direction: row !important;
+    flex-wrap: nowrap !important;
+    align-items: center !important;
+    justify-content: flex-end !important;
+    gap: clamp(8px, 1.4vw, 24px) !important;
+    color: #7a4654 !important;
+    font-size: 12.5px !important;
+    font-weight: 500 !important;
+    white-space: nowrap !important;
+    margin: 0 !important;
 }
 
-.main-nav a {
+.main-nav a.nav-item {
     color: #6b3a48 !important;
+    padding: 6px 10px !important;
+    border-radius: 999px !important;
+    transition: all 0.25s var(--ease-smooth) !important;
+    position: relative !important;
+    text-decoration: none !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 5px !important;
 }
 
-.main-nav a:hover,
-.footer-settings:hover {
-    color: #b5304f !important;
+.main-nav a.nav-item::after {
+    display: none !important;
 }
 
-.main-nav a::after {
-    background: linear-gradient(90deg, #d4607a, #e8a598) !important;
+.main-nav a.nav-item:hover {
+    color: #be123c !important;
+    background: rgba(254, 242, 244, 0.75) !important;
+    transform: translateY(-1px) !important;
 }
 
-/* Indicador de sección activa y botón de Mi Familia */
-.main-nav a.is-active,
-.main-nav a[aria-current="page"] {
-    color: #b5304f !important;
+/* Indicador de sección activa: Cápsula suave de cristal */
+.main-nav a.nav-item.is-active,
+.main-nav a.nav-item[aria-current="page"] {
+    color: #9f1239 !important;
+    background: linear-gradient(135deg, rgba(254, 226, 232, 0.9), rgba(255, 241, 244, 0.95)) !important;
+    border: 1px solid rgba(225, 29, 72, 0.25) !important;
+    box-shadow: 0 2px 10px rgba(225, 29, 72, 0.12) !important;
     font-weight: 700 !important;
 }
 
-.main-nav a.is-active::after,
-.main-nav a[aria-current="page"]::after {
-    width: 100% !important;
-    left: 0 !important;
-}
-
+/* Botón Mi Familia Especial */
 .main-nav .nav-family-link {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    padding: 4px 12px !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 5px !important;
+    padding: 5px 13px !important;
     border-radius: 999px !important;
-    background: rgba(254, 242, 244, 0.85) !important;
+    background: linear-gradient(135deg, rgba(255, 241, 244, 0.95), rgba(254, 226, 232, 0.85)) !important;
     border: 1px solid rgba(225, 29, 72, 0.28) !important;
     color: #be123c !important;
     font-weight: 600 !important;
@@ -13752,22 +13785,35 @@ body.theme-filter-vintage .atmospheric-color-overlay {
     transition: all 0.25s var(--ease-smooth) !important;
 }
 
-.main-nav .nav-family-link::after {
-    display: none !important;
-}
-
 .main-nav .nav-family-link:hover,
 .main-nav .nav-family-link.is-active {
-    background: linear-gradient(135deg, rgba(254, 226, 232, 0.95), rgba(253, 242, 248, 0.95)) !important;
+    background: linear-gradient(135deg, #ffe4e8, #fcd0d7) !important;
     border-color: rgba(225, 29, 72, 0.5) !important;
-    color: #9f1239 !important;
-    transform: translateY(-1px) scale(1.02);
+    color: #881337 !important;
+    transform: translateY(-1px) scale(1.02) !important;
     box-shadow: 0 4px 14px rgba(190, 18, 60, 0.18) !important;
 }
 
 .main-nav .nav-family-link .nav-icon {
     font-size: 14px;
     line-height: 1;
+}
+
+/* Botón Mapa y Control con Iconos */
+.main-nav .nav-map-link,
+.main-nav .nav-admin-link {
+    gap: 6px !important;
+}
+
+.main-nav .nav-map-link .nav-svg-icon,
+.main-nav .nav-admin-link .nav-svg-icon {
+    color: #d4607a !important;
+    transition: transform 0.25s ease !important;
+}
+
+.main-nav .nav-map-link:hover .nav-svg-icon,
+.main-nav .nav-admin-link:hover .nav-svg-icon {
+    transform: scale(1.15) rotate(6deg) !important;
 }
 
 .main-nav .nav-profile {
