@@ -131,7 +131,13 @@ const BOTTLE_MESSAGES = [
     { text: '«Hay personas que son refugio y hogar. Para este jardín y para mi corazón, esa persona eres tú, Carla Lorena.»', author: '— Carta en papel de lino' },
     { text: '«Ponme como sello sobre tu corazón. El amor es fuerte como la vida y tan tierno como el primer brote de la mañana.»', author: '— Cantares 8:6' },
     { text: '«No temas al viento; los tallos más fuertes aprendieron a bailar con la tormenta antes de dar sus mejores rosas.»', author: '— Sabiduría botánica' },
-    { text: '«Si alguna vez dudas de tu brillo, entra a este jardín y recuerda que todo aquí existe para reflejar tu propia luz.»', author: '— Adrián' }
+    { text: '«Si alguna vez dudas de tu brillo, entra a este jardín y recuerda que todo aquí existe para reflejar tu propia luz.»', author: '— Adrián' },
+    { text: '«Tus sonrisas son como pétalos de sol abriéndose al alba: iluminan incluso los días de lluvia.»', author: '— Diario secreto de Carla' },
+    { text: '«El tiempo es un río suave que nos lleva hacia donde nuestros anhelos más puros ya nos están esperando.»', author: '— Mareas del Atardecer' },
+    { text: '«Eres la poesía que este jardín siempre quiso escribir en cada una de sus rosas.»', author: '— Dedicatoria eterna' },
+    { text: '«Dondequiera que mires hoy, encuentra un motivo para dar gracias y sonreír con el alma libre.»', author: '— Orquídea de la Mañana' },
+    { text: '«Cada estrella en el cielo nocturno guarda un pensamiento bueno por tu paz y tu felicidad.»', author: '— Constelación del Lirio' },
+    { text: '«La gentileza es tu superpoder más hermoso; jamás permitas que el mundo te haga olvidar lo valiosa que eres.»', author: '— Carta sellada con cera roja' }
 ];
 
 // ── Fotografías para la Cámara Polaroid ────────────────────────────────────

@@ -19188,3 +19188,252 @@ footer a:hover, .site-footer a:hover {
     color: #ffffff;
     border-color: #1d4ed8;
 }
+
+
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   MODAL COFRE DE SORPRESAS (CUADRÍCULA 3 COLUMNAS CON ESTILO GEMA & LACRE)
+   ═══════════════════════════════════════════════════════════════════════════ */
+.chest-relics-trio {
+    display: grid !important;
+    grid-template-columns: repeat(3, 1fr) !important;
+    gap: 16px !important;
+    padding: 18px 6px !important;
+    align-items: stretch !important;
+}
+
+@media (max-width: 640px) {
+    .chest-relics-trio {
+        grid-template-columns: 1fr !important;
+        gap: 12px !important;
+    }
+}
+
+.chest-relic-card {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    text-align: center !important;
+    padding: 22px 14px 18px !important;
+    border-radius: 20px !important;
+    background: linear-gradient(165deg, #ffffff 0%, #fff7f9 100%) !important;
+    border: 1.5px solid rgba(244, 114, 182, 0.3) !important;
+    box-shadow: 0 10px 25px rgba(181, 48, 79, 0.08), 0 1px 3px rgba(0,0,0,0.04) !important;
+    cursor: pointer !important;
+    position: relative !important;
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1) !important;
+    text-decoration: none !important;
+}
+
+.chest-relic-card:hover {
+    transform: translateY(-5px) !important;
+    border-color: #f43f5e !important;
+    box-shadow: 0 16px 36px rgba(225, 29, 72, 0.22), 0 0 0 1px rgba(244, 63, 94, 0.2) !important;
+    background: linear-gradient(165deg, #ffffff 0%, #fff1f4 100%) !important;
+}
+
+.relic-status-tag {
+    position: absolute !important;
+    top: 10px !important;
+    font-size: 9.5px !important;
+    font-weight: 700 !important;
+    padding: 3px 8px !important;
+    border-radius: 999px !important;
+    letter-spacing: 0.04em !important;
+}
+
+.relic-status-tag.is-new {
+    background: rgba(254, 240, 138, 0.7) !important;
+    color: #854d0e !important;
+    border: 1px solid rgba(234, 179, 8, 0.3) !important;
+}
+
+.relic-status-tag.is-collected {
+    background: rgba(220, 252, 231, 0.8) !important;
+    color: #166534 !important;
+    border: 1px solid rgba(34, 197, 94, 0.3) !important;
+}
+
+.relic-icon-orb {
+    width: 60px !important;
+    height: 60px !important;
+    border-radius: 50% !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    margin: 18px 0 12px !important;
+    position: relative !important;
+    background: linear-gradient(135deg, #ffffff 0%, #ffe4e6 100%) !important;
+    border: 2px solid rgba(244, 114, 182, 0.4) !important;
+    box-shadow: 0 6px 16px rgba(225, 29, 72, 0.15) !important;
+    transition: transform 0.3s ease !important;
+}
+
+.chest-relic-card:hover .relic-icon-orb {
+    transform: scale(1.1) rotate(6deg) !important;
+}
+
+.relic-main-emoji {
+    font-size: 26px !important;
+    line-height: 1 !important;
+}
+
+.relic-wax-badge {
+    position: absolute !important;
+    bottom: -4px !important;
+    right: -4px !important;
+    width: 22px !important;
+    height: 22px !important;
+    border-radius: 50% !important;
+    background: #e11d48 !important;
+    color: #ffffff !important;
+    font-size: 11px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.2) !important;
+}
+
+.relic-card-title {
+    font-family: var(--serif) !important;
+    font-size: 15px !important;
+    font-weight: 700 !important;
+    color: #3b1d24 !important;
+    margin: 0 0 4px !important;
+}
+
+.relic-card-sub {
+    font-size: 11.5px !important;
+    color: #785a62 !important;
+    margin: 0 0 10px !important;
+    line-height: 1.35 !important;
+}
+
+.relic-type-pill {
+    display: inline-block !important;
+    font-size: 10px !important;
+    font-weight: 600 !important;
+    color: #9f1239 !important;
+    background: rgba(255, 228, 230, 0.6) !important;
+    padding: 3px 9px !important;
+    border-radius: 999px !important;
+    margin-bottom: 12px !important;
+}
+
+.relic-cta-text {
+    margin-top: auto !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 4px !important;
+    font-size: 11.5px !important;
+    font-weight: 700 !important;
+    color: #ffffff !important;
+    background: linear-gradient(135deg, #e11d48 0%, #be123c 100%) !important;
+    padding: 6px 14px !important;
+    border-radius: 999px !important;
+    box-shadow: 0 3px 10px rgba(225, 29, 72, 0.3) !important;
+    transition: all 0.25s ease !important;
+}
+
+.chest-relic-card:hover .relic-cta-text {
+    transform: scale(1.04) !important;
+    box-shadow: 0 5px 14px rgba(225, 29, 72, 0.45) !important;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   BORDES REDONDEADOS DEL FOOTER (OPCIÓN A: CURVATURA ELEGANTE 36px)
+   ═══════════════════════════════════════════════════════════════════════════ */
+.site-footer.site-footer--rich {
+    border-top-left-radius: 36px !important;
+    border-top-right-radius: 36px !important;
+    box-shadow: 0 -12px 40px rgba(225, 29, 72, 0.05) !important;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   CÁMARA POLAROID: MARCO INMÓVIL Y ESTILO ORO ROSA SUTIL
+   ═══════════════════════════════════════════════════════════════════════════ */
+.polaroid-frame {
+    transform: none !important;
+    transition: box-shadow 0.3s ease !important;
+    border: 2px solid rgba(244, 114, 182, 0.4) !important;
+    box-shadow: 0 16px 45px rgba(181, 48, 79, 0.16), 0 0 25px rgba(251, 207, 232, 0.5) !important;
+    border-radius: 8px !important;
+}
+
+.polaroid-frame:hover {
+    transform: none !important;
+    box-shadow: 0 20px 55px rgba(181, 48, 79, 0.22), 0 0 32px rgba(251, 207, 232, 0.7) !important;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   ESTADOS DE 24 HORAS: FIX VISIBILIDAD DE FOTO Y VIDEO
+   ═══════════════════════════════════════════════════════════════════════════ */
+.status-story-card.status-active-item {
+    background-color: #2b1b22 !important;
+}
+
+.status-story-card.status-active-item .status-card-img {
+    z-index: 1 !important;
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover !important;
+    display: block !important;
+}
+
+.status-story-card.status-active-item .status-card-bg-blur {
+    z-index: 0 !important;
+    opacity: 0.8 !important;
+}
+
+
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   GUÍA DEL SISTEMA: MEJORA DE TIPOGRAFÍA, LEGIBILIDAD E INTERACTIVIDAD
+   ═══════════════════════════════════════════════════════════════════════════ */
+.guide-item-card {
+    background: #ffffff !important;
+    border: 1.5px solid rgba(228, 202, 208, 0.8) !important;
+    border-radius: 18px !important;
+    padding: 18px 20px !important;
+    box-shadow: 0 4px 14px rgba(76, 5, 25, 0.04) !important;
+    transition: all 0.28s cubic-bezier(0.16, 1, 0.3, 1) !important;
+    position: relative !important;
+}
+
+.guide-item-card:hover {
+    transform: translateY(-3px) !important;
+    border-color: rgba(225, 29, 72, 0.4) !important;
+    box-shadow: 0 10px 24px rgba(225, 29, 72, 0.12) !important;
+    background: linear-gradient(165deg, #ffffff 0%, #fffbfc 100%) !important;
+}
+
+.guide-item-card h4 {
+    font-family: var(--serif) !important;
+    font-size: 16.5px !important;
+    font-weight: 700 !important;
+    color: #3b141e !important;
+    margin: 4px 0 6px !important;
+    letter-spacing: -0.01em !important;
+}
+
+.guide-item-card p {
+    font-size: 13px !important;
+    line-height: 1.55 !important;
+    color: #4a3439 !important;
+    margin: 0 !important;
+}
+
+.guide-item-card strong {
+    color: #9f1239 !important;
+    font-weight: 700 !important;
+}
+
+.guide-search-input {
+    font-size: 13.5px !important;
+    font-weight: 500 !important;
+    color: #3b141e !important;
+}
+
+.guide-search-input::placeholder {
+    color: #9c7881 !important;
+}
