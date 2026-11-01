@@ -332,12 +332,18 @@
                 </div>
             </section>
 
-            <!-- Banner Editorial de Cierre -->
-            <div class="content-width" style="margin-top: 50px; margin-bottom: 70px;">
+            <!-- Banner Editorial de Cierre (Segmento Poético de Despedida) -->
+            <div class="content-width home-closing-segment-wrapper">
                 <div class="editorial-closing-card">
+                    <div class="closing-card-ambient"></div>
                     <span class="closing-eyebrow">✦ EL JARDÍN DE CARLA LORENA ✦</span>
                     <h2 class="closing-quote">«Cada día es una oportunidad para crear algo extraordinario.»</h2>
-                    <span class="closing-author">— Carla Lorena</span>
+                    <div class="closing-author-wrap">
+                        <span class="closing-rose-icon">🌹</span>
+                        <span class="closing-author">Carla Lorena</span>
+                        <span class="closing-dot">·</span>
+                        <span class="closing-sub">Belleza, Naturaleza y Sueños</span>
+                    </div>
                 </div>
             </div>
         </section>

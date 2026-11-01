@@ -1,42 +1,70 @@
-﻿
     <footer class="site-footer site-footer--rich">
-        {{-- Franja decorativa superior --}}
+        {{-- Franja decorativa superior botanica --}}
         <div class="sf-top-bar" aria-hidden="true">
-            <span class="sf-bar-petal">✿</span>
+            <span class="sf-bar-petal">🌸</span>
             <span class="sf-bar-line"></span>
-            <span class="sf-bar-petal">✿</span>
+            <span class="sf-bar-sparkle">✦</span>
+            <span class="sf-bar-line"></span>
+            <span class="sf-bar-petal">🌸</span>
         </div>
 
-        {{-- Cuerpo principal del footer --}}
+        {{-- Cuerpo principal del footer (4 columnas de alta costura) --}}
         <div class="sf-body">
-            {{-- Columna 1: Marca --}}
+            {{-- Columna 1: Marca & Esencia --}}
             <div class="sf-col sf-col--brand">
-                <a class="sf-brand" href="#inicio" data-go="inicio">
-                    <span class="sf-brand-mark" aria-hidden="true">✳</span>
+                <a class="sf-brand" href="#inicio" data-go="inicio" aria-label="El jardín de Carla Lorena, ir al inicio">
+                    <span class="sf-brand-mark" aria-hidden="true">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M12 3c-1.5 3-3.8 5.5-3.8 8.5a3.8 3.8 0 0 0 7.6 0C15.8 8.5 13.5 6 12 3z"/>
+                            <path d="M12 11.5c-2.4-1.2-6.2-.5-7.2 2.2-1 2.8 1.4 5.3 4.4 5.3 1.8 0 2.8-.8 2.8-.8"/>
+                            <path d="M12 11.5c2.4-1.2 6.2-.5 7.2 2.2 1 2.8-1.4 5.3-4.4 5.3-1.8 0-2.8-.8-2.8-.8"/>
+                            <circle cx="12" cy="11.5" r="0.9" fill="currentColor"/>
+                        </svg>
+                    </span>
                     <span class="sf-brand-text">
-                        <strong>El jardín</strong>
-                        <small>de Carla Lorena</small>
+                        <strong>Carla Lorena</strong>
+                        <small>El Jardín · Belleza · Sueños</small>
                     </span>
                 </a>
-                <p class="sf-tagline">Un universo donde la belleza,<br>la naturaleza y los sueños florecen.</p>
-                <p class="sf-made-with">Creado con <span class="sf-heart" aria-hidden="true">♡</span> por <strong>Tu Ingeniero Julio Adrián</strong></p>
+                <p class="sf-tagline">Un universo digital donde la belleza, la naturaleza, los recuerdos y los sueños encuentran su lugar.</p>
+                <div class="sf-creator-pill">
+                    <span class="sf-heart-icon" aria-hidden="true">💖</span>
+                    <span>Creado con devoción por <strong>Tu Ingeniero Julio Adrián</strong></span>
+                </div>
             </div>
 
-            {{-- Columna 2: Navegación --}}
+            {{-- Columna 2: Navegacion de Rincones --}}
             <div class="sf-col sf-col--nav">
-                <h4 class="sf-col-title">Rincones</h4>
+                <h4 class="sf-col-title">
+                    <span class="sf-title-bullet">✦</span> Rincones del Jardín
+                </h4>
                 <nav class="sf-nav" aria-label="Navegación del footer">
-                    <a class="sf-nav-link" href="#inicio" data-go="inicio">🌿 Inicio</a>
-                    <a class="sf-nav-link" href="#galeria" data-go="galeria">📸 Mi Universo</a>
-                    <a class="sf-nav-link" href="#inspiracion" data-go="inspiracion">✨ Inspiración</a>
-                    <a class="sf-nav-link" href="#experiencias" data-go="experiencias">🎮 Experiencias</a>
-                    <a class="sf-nav-link" href="#mapa" data-go="mapa">🗺️ Mapa del jardín</a>
+                    <a class="sf-nav-link" href="#inicio" data-go="inicio">
+                        <span class="sf-link-icon">🌿</span> <span>Inicio</span>
+                    </a>
+                    <a class="sf-nav-link" href="#familia" data-go="familia">
+                        <span class="sf-link-icon">👨‍👩‍👧‍👦</span> <span>Mi Familia</span>
+                    </a>
+                    <a class="sf-nav-link" href="#galeria" data-go="galeria">
+                        <span class="sf-link-icon">📸</span> <span>Mi Universo</span>
+                    </a>
+                    <a class="sf-nav-link" href="#biblioteca" data-go="biblioteca">
+                        <span class="sf-link-icon">✨</span> <span>Inspiración</span>
+                    </a>
+                    <a class="sf-nav-link" href="#juegos" data-go="juegos">
+                        <span class="sf-link-icon">🎮</span> <span>Experiencias</span>
+                    </a>
+                    <a class="sf-nav-link" href="#mapa" data-go="mapa">
+                        <span class="sf-link-icon">🗺️</span> <span>Mapa del Jardín</span>
+                    </a>
                 </nav>
             </div>
 
-            {{-- Columna 3: Cita y datos --}}
+            {{-- Columna 3: Cita & Valores del Jardin --}}
             <div class="sf-col sf-col--quote">
-                <h4 class="sf-col-title">El jardín te dice…</h4>
+                <h4 class="sf-col-title">
+                    <span class="sf-title-bullet">✦</span> Pensamiento Diario
+                </h4>
                 <blockquote class="sf-quote">
                     <p>«Cada día es una oportunidad de crear algo extraordinario y florecer a tu propio ritmo.»</p>
                     <cite>— Carla Lorena</cite>
@@ -48,28 +76,43 @@
                 </div>
             </div>
 
-            {{-- Columna 4: Accesos rápidos --}}
+            {{-- Columna 4: Accesos Directos --}}
             <div class="sf-col sf-col--links">
-                <h4 class="sf-col-title">Accesos</h4>
+                <h4 class="sf-col-title">
+                    <span class="sf-title-bullet">✦</span> Atajos & Espacios
+                </h4>
                 <div class="sf-quick-links">
-                    <a class="sf-quick-link" href="#ajustes" data-go="ajustes">⚙️ Preferencias</a>
-                    <a class="sf-quick-link" href="#biblioteca" data-go="biblioteca">🎵 Música</a>
-                    <a class="sf-quick-link" href="#dedicatorias" data-go="dedicatorias">💌 Dedicatorias</a>
-                    <a class="sf-quick-link" href="#miesspacio" data-go="miesspacio">📔 Mi Espacio</a>
+                    <a class="sf-quick-link" href="#carla" data-go="carla">
+                        <span class="sf-quick-icon">📔</span>
+                        <span>Mi Espacio Personal</span>
+                    </a>
+                    <a class="sf-quick-link" href="#dedicatoria" data-go="dedicatoria">
+                        <span class="sf-quick-icon">💌</span>
+                        <span>Dedicatorias de Amigos</span>
+                    </a>
+                    <a class="sf-quick-link" href="#preferencias" data-go="preferencias">
+                        <span class="sf-quick-icon">⚙️</span>
+                        <span>Preferencias & Tema</span>
+                    </a>
+                    <a class="sf-quick-link" href="#albumes" data-go="albumes">
+                        <span class="sf-quick-icon">🖼️</span>
+                        <span>Álbum de Recuerdos</span>
+                    </a>
                 </div>
             </div>
         </div>
 
-        {{-- Línea divisora --}}
+        {{-- Linea divisora eterea --}}
         <div class="sf-divider" aria-hidden="true"></div>
 
-        {{-- Franja inferior --}}
+        {{-- Franja inferior de copyright y version --}}
         <div class="sf-bottom">
             <span class="sf-copy">© {{ date('Y') }} El Jardín de Carla Lorena · Todos los derechos reservados</span>
-            <span class="sf-sep" aria-hidden="true">·</span>
-            <a class="sf-legal" href="#ajustes" data-go="ajustes">Privacidad y preferencias</a>
-            <span class="sf-sep" aria-hidden="true">·</span>
-            <span class="sf-version">v2.0 · Jardín Digital</span>
+            <div class="sf-bottom-links">
+                <a class="sf-legal" href="#preferencias" data-go="preferencias">Privacidad y Preferencias</a>
+                <span class="sf-sep" aria-hidden="true">✦</span>
+                <span class="sf-version">Edición Especial v2.0 · Jardín Digital</span>
+            </div>
         </div>
     </footer>
 
