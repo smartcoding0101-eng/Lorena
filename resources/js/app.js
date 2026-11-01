@@ -1624,6 +1624,13 @@ function chooseTreasureAnswer(answer) {
 window.addEventListener('popstate', () => showScreen(window.location.hash.slice(1), false));
 window.addEventListener('hashchange', () => showScreen(window.location.hash.slice(1), false));
 
+// Efecto dinámico de elevación para navbar flotante al hacer scroll
+window.addEventListener('scroll', () => {
+    const siteHeader = document.querySelector('.site-header');
+    if (!siteHeader) return;
+    siteHeader.classList.toggle('is-scrolled', window.scrollY > 20);
+}, { passive: true });
+
 const initialScreen = window.location.hash.slice(1)
     || (document.querySelector('[data-screen="albumes"] [role="alert"]') ? 'albumes' : 'inicio');
 
