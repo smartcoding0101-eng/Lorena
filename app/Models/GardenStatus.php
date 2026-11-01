@@ -14,6 +14,7 @@ class GardenStatus extends Model
     protected $fillable = [
         'user_id',
         'caption',
+        'media_type',
         'image_path',
         'expires_at',
     ];

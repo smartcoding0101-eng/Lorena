@@ -17495,78 +17495,410 @@ footer a:hover, .site-footer a:hover {
 }
 
 /* Modal Subida de Estado */
-.status-uploader-dialog {
+/* =========================================================
+   MODAL DE SUBIDA ESTILO WHATSAPP PREMIUM (FOTOS Y VIDEOS)
+   ========================================================= */
+
+.status-upload-dialog {
     position: fixed;
     inset: 0;
     margin: auto;
-    width: 90%;
-    max-width: 480px;
+    width: 92%;
+    max-width: 520px;
+    height: fit-content;
+    max-height: 90vh;
     border: none;
-    border-radius: 24px;
-    background: #ffffff;
+    border-radius: 28px;
+    background: linear-gradient(165deg, rgba(255, 255, 255, 0.98) 0%, rgba(255, 246, 248, 0.96) 100%);
     padding: 0;
     z-index: 99999;
-    box-shadow: 0 25px 60px rgba(190, 24, 93, 0.3);
+    box-shadow: 0 32px 80px rgba(181, 48, 79, 0.28), 0 4px 20px rgba(0, 0, 0, 0.08);
+    overflow: hidden;
+    backdrop-filter: blur(24px) saturate(180%);
+    -webkit-backdrop-filter: blur(24px) saturate(180%);
+    border: 1.5px solid rgba(244, 63, 94, 0.22);
 }
 
-.status-uploader-dialog::backdrop {
-    background: rgba(15, 23, 42, 0.6);
-    backdrop-filter: blur(8px);
+.status-upload-dialog::backdrop {
+    background: rgba(30, 8, 16, 0.65);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
 }
 
-.status-uploader-card {
-    padding: 24px;
-}
-
-.status-uploader-header {
+.status-upload-card {
+    padding: 24px 26px 22px;
     display: flex;
-    align-items: center;
+    flex-direction: column;
+    gap: 16px;
+    box-sizing: border-box;
+}
+
+.status-upload-header {
+    display: flex;
+    align-items: flex-start;
     justify-content: space-between;
-    margin-bottom: 18px;
-    border-bottom: 1px solid #fecdd3;
+    gap: 14px;
+    border-bottom: 1px solid rgba(244, 63, 94, 0.14);
     padding-bottom: 12px;
 }
 
-.status-uploader-header h3 {
-    font-size: 1.15rem;
-    color: #881337;
-    margin: 0;
+.status-header-title-box {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
 }
 
-.status-upload-dropzone {
-    border: 2px dashed #fda4af;
-    border-radius: 16px;
-    padding: 20px;
+.status-header-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.68rem;
+    font-weight: 800;
+    letter-spacing: 0.12em;
+    color: #b5304f;
+    text-transform: uppercase;
+    background: #fff0f3;
+    padding: 3px 9px;
+    border-radius: 999px;
+    border: 1px solid #fecdd3;
+    width: fit-content;
+}
+
+.status-badge-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #10b981;
+    box-shadow: 0 0 0 2px rgba(16, 185, 129, 0.3);
+}
+
+.status-upload-header h3 {
+    font-family: var(--serif);
+    font-size: 1.35rem;
+    color: #2b171c;
+    margin: 0;
+    font-weight: 700;
+    letter-spacing: -0.015em;
+}
+
+.status-modal-close-btn {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: #fff0f3;
+    border: 1px solid #fda4af;
+    color: #881337;
+    font-size: 13px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.25s ease;
+    flex-shrink: 0;
+}
+
+.status-modal-close-btn:hover {
+    background: #b5304f;
+    color: #ffffff;
+    border-color: #b5304f;
+    transform: rotate(90deg) scale(1.08);
+}
+
+/* Dropzone Creativo de Fotos & Videos */
+.status-dropzone {
+    border: 2px dashed rgba(225, 29, 72, 0.35);
+    border-radius: 20px;
+    padding: 20px 16px;
     text-align: center;
-    background: #fff5f7;
+    background: linear-gradient(145deg, #ffffff 0%, #fff5f7 100%);
     cursor: pointer;
     display: flex;
     flex-direction: column;
     align-items: center;
+    justify-content: center;
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    position: relative;
+    overflow: hidden;
+    min-height: 190px;
+}
+
+.status-dropzone:hover {
+    border-color: #e11d48;
+    background: linear-gradient(145deg, #ffffff 0%, #ffe4e8 100%);
+    box-shadow: 0 12px 28px rgba(225, 29, 72, 0.12);
+}
+
+.status-dropzone-empty {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     gap: 8px;
-    margin-bottom: 16px;
 }
 
-.dropzone-icon {
-    font-size: 2.2rem;
+.status-dropzone-icons-duo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 2px;
 }
 
-.dropzone-text strong {
-    color: #be123c;
-    font-size: 0.92rem;
+.dropzone-media-icon {
+    width: 44px;
+    height: 44px;
+    border-radius: 14px;
+    background: #fff0f3;
+    border: 1px solid #fecdd3;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    box-shadow: 0 4px 10px rgba(181, 48, 79, 0.08);
+    transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
-.dropzone-text small {
-    display: block;
-    color: #64748b;
-    font-size: 0.75rem;
+.status-dropzone:hover .dropzone-media-icon.camera-icon {
+    transform: translateY(-3px) rotate(-6deg);
 }
 
+.status-dropzone:hover .dropzone-media-icon.video-icon {
+    transform: translateY(-3px) rotate(6deg);
+}
+
+.status-dropzone-headline {
+    color: #2b171c;
+    font-size: 0.95rem;
+    font-weight: 700;
+}
+
+.status-dropzone-sub {
+    color: #7d535e;
+    font-size: 0.76rem;
+    font-weight: 500;
+}
+
+.status-dropzone-features {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 4px;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.dropzone-feat-pill {
+    font-size: 0.68rem;
+    color: #9f1239;
+    background: rgba(255, 255, 255, 0.85);
+    border: 1px solid rgba(244, 63, 94, 0.2);
+    padding: 2px 8px;
+    border-radius: 999px;
+    font-weight: 600;
+}
+
+/* Escenario de Previsualización en Vivo */
+.status-live-preview-stage {
+    position: relative;
+    width: 100%;
+    height: 220px;
+    border-radius: 16px;
+    overflow: hidden;
+    background: #0f0508;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.status-preview-blur-bg {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    background-position: center;
+    filter: blur(14px) brightness(0.6);
+    transform: scale(1.2);
+}
+
+.status-preview-main-img,
+.status-preview-main-video {
+    position: relative;
+    z-index: 2;
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+    border-radius: 8px;
+}
+
+.status-preview-overlay-info {
+    position: absolute;
+    bottom: 8px;
+    left: 8px;
+    right: 8px;
+    z-index: 3;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+}
+
+.status-preview-badge {
+    font-size: 0.68rem;
+    font-weight: 700;
+    color: #ffffff;
+    background: rgba(0, 0, 0, 0.55);
+    padding: 3px 8px;
+    border-radius: 999px;
+    backdrop-filter: blur(6px);
+}
+
+.status-preview-change-btn {
+    font-size: 0.68rem;
+    font-weight: 700;
+    color: #ffffff;
+    background: rgba(181, 48, 79, 0.85);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    padding: 3px 10px;
+    border-radius: 999px;
+    cursor: pointer;
+    transition: background 0.2s ease;
+}
+
+.status-preview-change-btn:hover {
+    background: #be123c;
+}
+
+/* Campo de Leyenda Estilo WhatsApp */
+.status-upload-field {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.status-caption-label {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 0.78rem;
+    font-weight: 700;
+    color: #4c1d28;
+}
+
+.status-caption-counter {
+    font-size: 0.7rem;
+    color: #9e6b78;
+    font-weight: 600;
+}
+
+.status-caption-input-wrap {
+    position: relative;
+    display: flex;
+    align-items: center;
+    background: #ffffff;
+    border: 1.5px solid rgba(244, 63, 94, 0.25);
+    border-radius: 16px;
+    padding: 4px 6px 4px 14px;
+    box-shadow: 0 2px 8px rgba(181, 48, 79, 0.05);
+    transition: border-color 0.25s ease, box-shadow 0.25s ease;
+}
+
+.status-caption-input-wrap:focus-within {
+    border-color: #b5304f;
+    box-shadow: 0 4px 14px rgba(181, 48, 79, 0.15);
+}
+
+.status-caption-input-wrap input {
+    flex: 1;
+    border: none;
+    outline: none;
+    font-family: inherit;
+    font-size: 0.85rem;
+    color: #2b171c;
+    background: transparent;
+    padding: 6px 0;
+}
+
+.status-quick-emojis {
+    display: flex;
+    align-items: center;
+    gap: 2px;
+}
+
+.btn-quick-emoji {
+    background: transparent;
+    border: none;
+    font-size: 15px;
+    padding: 4px 6px;
+    cursor: pointer;
+    border-radius: 8px;
+    transition: transform 0.2s ease, background 0.2s ease;
+}
+
+.btn-quick-emoji:hover {
+    transform: scale(1.25);
+    background: #fff0f3;
+}
+
+/* Botones de Acción */
 .status-upload-actions {
     display: flex;
+    align-items: center;
     justify-content: flex-end;
-    gap: 10px;
-    margin-top: 18px;
+    gap: 12px;
+    margin-top: 4px;
+}
+
+.status-btn-cancel {
+    min-height: 40px;
+    padding: 0 18px;
+    font-size: 0.82rem;
+    border-radius: 999px;
+}
+
+.status-btn-submit {
+    min-height: 40px;
+    padding: 0 22px;
+    font-size: 0.84rem;
+    font-weight: 700;
+    border-radius: 999px;
+    background: linear-gradient(135deg, #b5304f 0%, #e11d48 100%) !important;
+    box-shadow: 0 6px 18px rgba(225, 29, 72, 0.32) !important;
+}
+
+.status-btn-submit:hover {
+    transform: translateY(-2px) scale(1.02);
+    box-shadow: 0 10px 24px rgba(225, 29, 72, 0.45) !important;
+}
+
+/* Distintivo de Video en la tarjeta del estado */
+.status-video-indicator-badge {
+    position: absolute;
+    top: 8px;
+    left: 42px;
+    z-index: 3;
+    font-size: 0.62rem;
+    font-weight: 800;
+    color: #ffffff;
+    background: rgba(0, 0, 0, 0.55);
+    backdrop-filter: blur(4px);
+    padding: 2px 7px;
+    border-radius: 999px;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.status-video-bg-blur video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: blur(10px) brightness(0.6);
+    transform: scale(1.2);
+}
+
+.status-viewer-main-video {
+    position: relative;
+    z-index: 2;
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
 }
 
 /* =========================================================

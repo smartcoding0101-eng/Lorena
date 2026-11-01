@@ -127,19 +127,31 @@
                     @endif
 
                     @foreach($statusesList as $status)
+                    @php
+                        $isStatusVideo = ($status->media_type ?? 'image') === 'video';
+                    @endphp
                     <article class="status-story-card status-active-item"
                              role="button"
                              tabindex="0"
                              data-status-id="{{ $status->id }}"
                              data-image-url="{{ $status->image_url }}"
+                             data-media-type="{{ $status->media_type ?? 'image' }}"
                              data-caption="{{ $status->caption }}"
                              data-time-ago="{{ $status->time_ago }}"
                              data-remaining="{{ $status->remaining_label }}"
                              data-expires-at="{{ $status->expires_at_iso }}"
                              aria-label="Ver estado de Carla: {{ $status->caption ?: 'Instante del jardín' }}">
-                        <!-- Fondo difuminado + miniatura autoajustada -->
-                        <div class="status-card-bg-blur" style="background-image: url('{{ $status->image_url }}');"></div>
-                        <img class="status-card-img" src="{{ $status->image_url }}" alt="{{ $status->caption ?: 'Estado del jardín' }}" loading="lazy">
+                        <!-- Fondo difuminado + miniatura autoajustada (foto o video) -->
+                        @if($isStatusVideo)
+                            <div class="status-card-bg-blur status-video-bg-blur">
+                                <video src="{{ $status->image_url }}" muted loop playsinline></video>
+                            </div>
+                            <video class="status-card-img status-card-video" src="{{ $status->image_url }}" muted loop playsinline></video>
+                            <span class="status-video-indicator-badge">🎬 Video</span>
+                        @else
+                            <div class="status-card-bg-blur" style="background-image: url('{{ $status->image_url }}');"></div>
+                            <img class="status-card-img" src="{{ $status->image_url }}" alt="{{ $status->caption ?: 'Estado del jardín' }}" loading="lazy">
+                        @endif
                         <div class="status-card-shade"></div>
 
                         <!-- Cabecera con aro luminoso oro-rosa estilo WhatsApp y contador 24h -->
@@ -188,40 +200,73 @@
             </div>
 
             @if($isStatusAdmin)
-            <!-- Modal de Subida Directa con Autoajuste Inteligente Dual en Vivo -->
+            <!-- Modal de Subida de Estados WhatsApp Premium (Fotos & Videos con Autoajuste) -->
             <dialog class="status-upload-dialog" id="garden-status-upload-dialog" aria-labelledby="status-upload-title">
                 <div class="status-upload-card">
                     <header class="status-upload-header">
-                        <div>
-                            <span class="eyebrow">ESTADO EFÍMERO · DURA 24 HORAS</span>
-                            <h3 id="status-upload-title">Publicar Estado en Inicio</h3>
+                        <div class="status-header-title-box">
+                            <span class="status-header-badge">
+                                <span class="status-badge-dot"></span> ESTADO 24 HORAS · ESTILO WHATSAPP
+                            </span>
+                            <h3 id="status-upload-title">Crear Nuevo Instante Efímero</h3>
                         </div>
-                        <button type="button" class="status-modal-close" id="btn-close-status-upload" aria-label="Cerrar">✕</button>
+                        <button type="button" class="status-modal-close-btn" id="btn-close-status-upload" aria-label="Cerrar modal">✕</button>
                     </header>
 
                     <form id="garden-status-upload-form" enctype="multipart/form-data">
+                        <!-- Selector Dual: Imagen o Video -->
                         <label class="status-dropzone" id="status-upload-dropzone" for="status-upload-input">
-                            <input type="file" id="status-upload-input" name="images[]" accept="image/jpeg,image/png,image/webp,image/gif" multiple required hidden>
+                            <input type="file" id="status-upload-input" name="images[]" accept="image/jpeg,image/png,image/webp,image/gif,video/mp4,video/webm,video/quicktime" multiple required hidden>
+                            
+                            <!-- Estado Vacío del Dropzone -->
                             <div class="status-dropzone-empty" id="status-dropzone-empty">
-                                <span class="status-dropzone-icon">🌹</span>
-                                <strong>Selecciona o arrastra cualquier imagen aquí</strong>
-                                <small>Vertical, horizontal o cuadrada · Se autoajustará automáticamente sin recortarse</small>
+                                <div class="status-dropzone-icons-duo">
+                                    <span class="dropzone-media-icon camera-icon" title="Fotos">📸</span>
+                                    <span class="dropzone-media-icon video-icon" title="Videos">🎬</span>
+                                </div>
+                                <strong class="status-dropzone-headline">Arrastra o elige tus Fotos o Videos</strong>
+                                <span class="status-dropzone-sub">Compatible con JPG, PNG, WEBP, MP4 y WEBM</span>
+                                <div class="status-dropzone-features">
+                                    <span class="dropzone-feat-pill">✨ Autoajuste Vertical & Panorámico</span>
+                                    <span class="dropzone-feat-pill">⏳ Expira en 24h</span>
+                                </div>
                             </div>
+
+                            <!-- Escenario de Previsualización en Vivo Dual (Foto o Video) -->
                             <div class="status-live-preview-stage" id="status-live-preview-stage" hidden>
                                 <div class="status-preview-blur-bg" id="status-preview-blur-bg"></div>
-                                <img class="status-preview-main-img" id="status-preview-main-img" src="" alt="Vista previa autoajustada">
-                                <span class="status-preview-badge" id="status-preview-count-badge">Autoajuste inteligente activo</span>
+                                <img class="status-preview-main-img" id="status-preview-main-img" src="" alt="Vista previa de imagen" style="display: none;">
+                                <video class="status-preview-main-video" id="status-preview-main-video" autoplay muted loop playsinline style="display: none;"></video>
+                                <div class="status-preview-overlay-info">
+                                    <span class="status-preview-badge" id="status-preview-count-badge">✨ Autoajuste en vivo</span>
+                                    <button type="button" class="status-preview-change-btn" id="btn-change-preview-media">Cambiar archivo</button>
+                                </div>
                             </div>
                         </label>
 
+                        <!-- Input de Leyenda Estilo WhatsApp -->
                         <div class="status-upload-field">
-                            <label for="status-upload-caption">Frase o pensamiento para el estado <span>(opcional)</span></label>
-                            <input type="text" id="status-upload-caption" name="caption" maxlength="280" placeholder="Ej.: Un instante bonito de hoy en el jardín... ✨">
+                            <label for="status-upload-caption" class="status-caption-label">
+                                <span>Añadir un pensamiento o frase</span>
+                                <span class="status-caption-counter" id="status-caption-counter">0 / 280</span>
+                            </label>
+                            <div class="status-caption-input-wrap">
+                                <input type="text" id="status-upload-caption" name="caption" maxlength="280" placeholder="Escribe un mensaje para tu estado... ✨" autocomplete="off">
+                                <div class="status-quick-emojis">
+                                    <button type="button" class="btn-quick-emoji" data-emoji="🌹">🌹</button>
+                                    <button type="button" class="btn-quick-emoji" data-emoji="✨">✨</button>
+                                    <button type="button" class="btn-quick-emoji" data-emoji="💖">💖</button>
+                                    <button type="button" class="btn-quick-emoji" data-emoji="🌸">🌸</button>
+                                </div>
+                            </div>
                         </div>
 
+                        <!-- Acciones del Modal -->
                         <div class="status-upload-actions">
-                            <button type="button" class="button button-outline" id="btn-cancel-status-upload">Cancelar</button>
-                            <button type="submit" class="button button-primary" id="btn-submit-status-upload">✨ Publicar por 24 horas</button>
+                            <button type="button" class="button button-outline status-btn-cancel" id="btn-cancel-status-upload">Cancelar</button>
+                            <button type="submit" class="button button-primary status-btn-submit" id="btn-submit-status-upload">
+                                <span>✦ Publicar por 24 horas</span>
+                            </button>
                         </div>
                     </form>
                 </div>
@@ -252,10 +297,11 @@
                         </div>
                     </header>
 
-                    <!-- Escenario con Autoajuste Inteligente Dual (Fondo difuminado + Imagen 100% completa sin recortes) -->
+                    <!-- Escenario con Autoajuste Inteligente Dual (Fondo difuminado + Imagen o Video 100% completo sin recortes) -->
                     <div class="status-viewer-stage" id="status-viewer-stage">
                         <div class="status-viewer-backdrop-blur" id="status-viewer-backdrop-blur"></div>
-                        <img class="status-viewer-main-photo" id="status-viewer-main-photo" src="" alt="Estado de Carla Lorena">
+                        <img class="status-viewer-main-photo" id="status-viewer-main-photo" src="" alt="Estado de Carla Lorena" style="display: none;">
+                        <video class="status-viewer-main-video" id="status-viewer-main-video" playsinline webkit-playsinline style="display: none;"></video>
                         <button type="button" class="status-viewer-nav status-nav-prev" id="btn-status-prev" aria-label="Estado anterior">‹</button>
                         <button type="button" class="status-viewer-nav status-nav-next" id="btn-status-next" aria-label="Siguiente estado">›</button>
                     </div>

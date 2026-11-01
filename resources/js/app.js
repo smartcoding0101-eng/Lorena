@@ -4196,11 +4196,14 @@ function initGardenStatuses24h() {
     const uploadForm = document.getElementById('garden-status-upload-form');
     const fileInput = document.getElementById('status-upload-input');
     const captionInput = document.getElementById('status-upload-caption');
+    const captionCounter = document.getElementById('status-caption-counter');
     const emptyDropzone = document.getElementById('status-dropzone-empty');
     const previewStage = document.getElementById('status-live-preview-stage');
     const previewBlurBg = document.getElementById('status-preview-blur-bg');
     const previewMainImg = document.getElementById('status-preview-main-img');
+    const previewMainVideo = document.getElementById('status-preview-main-video');
     const previewCountBadge = document.getElementById('status-preview-count-badge');
+    const btnChangeMedia = document.getElementById('btn-change-preview-media');
     const submitBtn = document.getElementById('btn-submit-status-upload');
 
     // Elementos del Visor estilo WhatsApp
@@ -4209,6 +4212,7 @@ function initGardenStatuses24h() {
     const viewerTime = document.getElementById('status-viewer-time');
     const viewerBackdrop = document.getElementById('status-viewer-backdrop-blur');
     const viewerPhoto = document.getElementById('status-viewer-main-photo');
+    const viewerVideo = document.getElementById('status-viewer-main-video');
     const viewerCaption = document.getElementById('status-viewer-caption');
     const viewerFooter = document.getElementById('status-viewer-footer');
     const btnPause = document.getElementById('btn-status-viewer-pause');
@@ -4251,7 +4255,7 @@ function initGardenStatuses24h() {
         section.hidden = false;
     }
 
-    // Construir HTML de una tarjeta de estado recién subida
+    // Construir HTML de una tarjeta de estado recién subida (Foto o Video)
     function createStatusCardElement(st) {
         const article = document.createElement('article');
         article.className = 'status-story-card status-active-item';
@@ -4259,6 +4263,7 @@ function initGardenStatuses24h() {
         article.setAttribute('tabindex', '0');
         article.dataset.statusId = st.id;
         article.dataset.imageUrl = st.image_url;
+        article.dataset.mediaType = st.media_type || 'image';
         article.dataset.caption = st.caption || '';
         article.dataset.timeAgo = st.time_ago || 'Justo ahora';
         article.dataset.remaining = st.remaining_label || '24h';
@@ -4270,9 +4275,19 @@ function initGardenStatuses24h() {
             .replace(/</g, '&lt;')
             .replace(/>/g, '&gt;');
 
+        const isVideo = (st.media_type || 'image') === 'video';
+
         article.innerHTML = `
-            <div class="status-card-bg-blur" style="background-image: url('${st.image_url}');"></div>
-            <img class="status-card-img" src="${st.image_url}" alt="${safeCaption || 'Estado del jardín'}" loading="lazy">
+            ${isVideo ? `
+                <div class="status-card-bg-blur status-video-bg-blur">
+                    <video src="${st.image_url}" muted loop playsinline></video>
+                </div>
+                <video class="status-card-img status-card-video" src="${st.image_url}" muted loop playsinline></video>
+                <span class="status-video-indicator-badge">🎬 Video</span>
+            ` : `
+                <div class="status-card-bg-blur" style="background-image: url('${st.image_url}');"></div>
+                <img class="status-card-img" src="${st.image_url}" alt="${safeCaption || 'Estado del jardín'}" loading="lazy">
+            `}
             <div class="status-card-shade"></div>
             <div class="status-card-top">
                 <span class="status-ring-avatar" aria-hidden="true">
@@ -4316,7 +4331,35 @@ function initGardenStatuses24h() {
     document.getElementById('btn-close-status-upload')?.addEventListener('click', closeUploadModal);
     document.getElementById('btn-cancel-status-upload')?.addEventListener('click', closeUploadModal);
 
-    // Vista previa con Autoajuste Inteligente Dual al elegir imagen
+    // Contador de caracteres de la leyenda
+    captionInput?.addEventListener('input', () => {
+        if (captionCounter) {
+            captionCounter.textContent = `${captionInput.value.length} / 280`;
+        }
+    });
+
+    // Emojis rápidos para el estado
+    document.querySelectorAll('.btn-quick-emoji').forEach((btn) => {
+        btn.addEventListener('click', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            if (captionInput) {
+                captionInput.value += btn.dataset.emoji || '';
+                captionInput.focus();
+                if (captionCounter) {
+                    captionCounter.textContent = `${captionInput.value.length} / 280`;
+                }
+            }
+        });
+    });
+
+    btnChangeMedia?.addEventListener('click', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        fileInput?.click();
+    });
+
+    // Vista previa con Autoajuste Inteligente Dual al elegir imagen o video
     fileInput?.addEventListener('change', () => {
         const files = fileInput.files;
         if (!files || files.length === 0) {
@@ -4325,14 +4368,43 @@ function initGardenStatuses24h() {
             return;
         }
         const firstFile = files[0];
+        const isVideo = firstFile.type.startsWith('video/') || /\.(mp4|webm|mov)$/i.test(firstFile.name);
         const objectUrl = URL.createObjectURL(firstFile);
-        if (previewBlurBg) previewBlurBg.style.backgroundImage = `url('${objectUrl}')`;
-        if (previewMainImg) previewMainImg.src = objectUrl;
-        if (previewCountBadge) {
-            previewCountBadge.textContent = files.length === 1
-                ? '✨ Autoajuste inteligente activo · Dura 24h'
-                : `✨ ${files.length} imágenes seleccionadas · Autoajuste activo`;
+
+        if (isVideo) {
+            if (previewMainImg) previewMainImg.style.display = 'none';
+            if (previewMainVideo) {
+                previewMainVideo.src = objectUrl;
+                previewMainVideo.style.display = 'block';
+                previewMainVideo.play().catch(() => {});
+            }
+            if (previewBlurBg) {
+                previewBlurBg.style.backgroundImage = 'none';
+                previewBlurBg.style.backgroundColor = '#18040a';
+            }
+            if (previewCountBadge) {
+                previewCountBadge.textContent = '🎬 Video listo · Autoajuste WhatsApp activo';
+            }
+        } else {
+            if (previewMainVideo) {
+                previewMainVideo.pause();
+                previewMainVideo.src = '';
+                previewMainVideo.style.display = 'none';
+            }
+            if (previewMainImg) {
+                previewMainImg.src = objectUrl;
+                previewMainImg.style.display = 'block';
+            }
+            if (previewBlurBg) {
+                previewBlurBg.style.backgroundImage = `url('${objectUrl}')`;
+            }
+            if (previewCountBadge) {
+                previewCountBadge.textContent = files.length === 1
+                    ? '✨ Autoajuste inteligente activo · Dura 24h'
+                    : `✨ ${files.length} fotos seleccionadas · Autoajuste activo`;
+            }
         }
+
         if (emptyDropzone) emptyDropzone.hidden = true;
         if (previewStage) previewStage.hidden = false;
     });
@@ -4464,6 +4536,8 @@ function initGardenStatuses24h() {
         const activeCard = cards[currentIndex];
 
         const imgUrl = activeCard.dataset.imageUrl || '';
+        const mediaType = activeCard.dataset.mediaType || 'image';
+        const isVideo = mediaType === 'video' || /\.(mp4|webm|mov)$/i.test(imgUrl);
         const caption = activeCard.dataset.caption || '';
         const timeAgo = activeCard.dataset.timeAgo || 'Justo ahora';
         const remaining = activeCard.dataset.remaining || '24h';
@@ -4475,10 +4549,33 @@ function initGardenStatuses24h() {
                 .join('');
         }
 
-        if (viewerBackdrop) viewerBackdrop.style.backgroundImage = `url('${imgUrl}')`;
-        if (viewerPhoto) {
-            viewerPhoto.src = imgUrl;
-            viewerPhoto.alt = caption || 'Estado de Carla Lorena';
+        if (isVideo) {
+            if (viewerPhoto) {
+                viewerPhoto.style.display = 'none';
+                viewerPhoto.src = '';
+            }
+            if (viewerVideo) {
+                viewerVideo.src = imgUrl;
+                viewerVideo.style.display = 'block';
+                viewerVideo.currentTime = 0;
+                viewerVideo.play().catch(() => {});
+            }
+            if (viewerBackdrop) {
+                viewerBackdrop.style.backgroundImage = 'none';
+                viewerBackdrop.style.backgroundColor = '#18040a';
+            }
+        } else {
+            if (viewerVideo) {
+                viewerVideo.pause();
+                viewerVideo.src = '';
+                viewerVideo.style.display = 'none';
+            }
+            if (viewerPhoto) {
+                viewerPhoto.src = imgUrl;
+                viewerPhoto.alt = caption || 'Estado de Carla Lorena';
+                viewerPhoto.style.display = 'block';
+            }
+            if (viewerBackdrop) viewerBackdrop.style.backgroundImage = `url('${imgUrl}')`;
         }
         if (viewerTime) viewerTime.textContent = `${timeAgo} · ⏳ Expira en ${remaining}`;
         if (viewerCaption) viewerCaption.textContent = caption;

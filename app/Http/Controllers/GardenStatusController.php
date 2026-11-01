@@ -11,7 +11,7 @@ use Illuminate\Validation\Rules\File;
 
 class GardenStatusController extends Controller
 {
-    private const IMAGE_MAX_KILOBYTES = 15360; // 15 MB
+    private const MEDIA_MAX_KILOBYTES = 51200; // 50 MB (imágenes y videos)
 
     /**
      * Lista pública de estados activos (últimas 24 horas).
@@ -31,7 +31,7 @@ class GardenStatusController extends Controller
     }
 
     /**
-     * Subida directa de uno o varios estados (duración automática de 24 horas) por el Admin.
+     * Subida directa de uno o varios estados (fotos o videos, duración automática de 24 horas) por el Admin.
      */
     public function store(Request $request): JsonResponse
     {
@@ -39,12 +39,16 @@ class GardenStatusController extends Controller
             'caption' => ['nullable', 'string', 'max:280'],
             'image' => [
                 'nullable',
-                File::image()->max(self::IMAGE_MAX_KILOBYTES),
+                'file',
+                'mimes:jpeg,png,webp,gif,jpg,mp4,webm,mov,quicktime',
+                'max:' . self::MEDIA_MAX_KILOBYTES,
             ],
             'images' => ['nullable', 'array'],
             'images.*' => [
                 'required',
-                File::image()->max(self::IMAGE_MAX_KILOBYTES),
+                'file',
+                'mimes:jpeg,png,webp,gif,jpg,mp4,webm,mov,quicktime',
+                'max:' . self::MEDIA_MAX_KILOBYTES,
             ],
         ]);
 
@@ -57,7 +61,7 @@ class GardenStatusController extends Controller
 
         if (empty($files)) {
             return response()->json([
-                'message' => 'Selecciona al menos una imagen para publicar en el estado.',
+                'message' => 'Selecciona al menos una foto o video para publicar en el estado.',
             ], 422);
         }
 
@@ -66,13 +70,18 @@ class GardenStatusController extends Controller
         $created = [];
 
         foreach ($files as $uploadedFile) {
-            $ext = $uploadedFile->getClientOriginalExtension() ?: 'jpg';
+            $ext = strtolower($uploadedFile->getClientOriginalExtension() ?: 'jpg');
+            $isVideo = in_array($ext, ['mp4', 'webm', 'mov', 'quicktime'], true) 
+                || str_starts_with((string)$uploadedFile->getMimeType(), 'video/');
+
+            $mediaType = $isVideo ? 'video' : 'image';
             $safeName = Str::uuid()->toString() . '.' . $ext;
             $path = $uploadedFile->storeAs('garden-statuses', $safeName, 'public');
 
             $status = GardenStatus::create([
                 'user_id' => $request->user()?->id,
                 'caption' => $caption !== '' ? $caption : null,
+                'media_type' => $mediaType,
                 'image_path' => $path,
                 'expires_at' => $expiresAt,
             ]);
