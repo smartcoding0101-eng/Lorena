@@ -11158,12 +11158,28 @@ h1 em, .page-heading h1 em { color: var(--green-600); font-weight: 400; }
 /* ─────────────────────────────────────────────────────────────────────────────
    3. Estilos de Cámara Polaroid Instantánea (Ajuste Compacto y Firme sin Scroll)
    ───────────────────────────────────────────────────────────────────────────── */
+#polaroid-camera-dialog,
+#polaroid-camera-dialog *,
+#polaroid-camera-dialog .polaroid-card,
+#polaroid-camera-dialog .polaroid-frame,
+#polaroid-camera-dialog .polaroid-frame:hover,
+#polaroid-camera-dialog .polaroid-photo-stage,
+#polaroid-camera-dialog .polaroid-card:hover {
+    transform: none !important;
+    animation: none !important;
+    perspective: none !important;
+}
+
 #polaroid-camera-dialog {
     animation: none !important;
     transform: none !important;
     transition: none !important;
     max-height: 94vh !important;
     overflow: hidden !important;
+}
+
+#polaroid-camera-dialog .tilt-specular-sheen {
+    display: none !important;
 }
 
 #polaroid-camera-dialog .polaroid-card {

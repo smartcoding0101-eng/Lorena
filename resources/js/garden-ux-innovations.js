@@ -99,7 +99,7 @@ function init3DTiltCards() {
     const cardSelectors = [
         '.family-member-card',
         '.family-memory-item',
-        '.polaroid-card',
+        // '.polaroid-card', // Removido: Polaroid completamente estática sin efecto tilt/balanceo
         '.space-card',
         '.corner-note-card',
         '.promenade-card',
