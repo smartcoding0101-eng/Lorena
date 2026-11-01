@@ -2085,12 +2085,26 @@ function triggerConstellationStarBurst(star) {
     }
 }
 
+function resizeWishConstellationCanvas() {
+    const cCanvas = document.getElementById('wish-constellation-canvas');
+    if (!cCanvas) return;
+    const wrap = cCanvas.parentElement;
+    const targetW = wrap ? Math.max(300, Math.floor(wrap.clientWidth)) : 720;
+    if (cCanvas.width !== targetW) {
+        cCanvas.width = targetW;
+        cCanvas.height = 190;
+        rebuildConstellationNodes();
+    }
+}
+
 function startWishConstellationLoop() {
     const cCanvas = document.getElementById('wish-constellation-canvas');
     const dialog = document.getElementById('wish-star-dialog');
     if (!cCanvas || !dialog) return;
     const cCtx = cCanvas.getContext('2d');
     if (!cCtx) return;
+
+    resizeWishConstellationCanvas();
 
     if (wishConstellationAnimId) {
         cancelAnimationFrame(wishConstellationAnimId);
@@ -2107,23 +2121,23 @@ function startWishConstellationLoop() {
         const h = cCanvas.height;
         cCtx.clearRect(0, 0, w, h);
 
-        // Fondo editorial cálido perlado con sutil halo rosado/dorado del sitio
+        // Fondo editorial LunaBella: Cielo perlado seda y rosa empolvado con sutil luminosidad
         const bgGrad = cCtx.createLinearGradient(0, 0, w, h);
-        bgGrad.addColorStop(0, '#fdf6f0');
-        bgGrad.addColorStop(0.5, '#f9ebe4');
-        bgGrad.addColorStop(1, '#f5e1da');
+        bgGrad.addColorStop(0, '#fefbfb');
+        bgGrad.addColorStop(0.45, '#fff1f2');
+        bgGrad.addColorStop(1, '#fde2e4');
         cCtx.fillStyle = bgGrad;
         cCtx.fillRect(0, 0, w, h);
 
-        // Polvo estelar sutil de fondo
+        // Polvo estelar sutil y destellos dorados
         cCtx.save();
-        for (let i = 0; i < 36; i++) {
-            const bx = ((i * 193) % (w - 20)) + 10;
-            const by = ((i * 109) % (h - 20)) + 10;
-            const tw = 0.25 + 0.35 * Math.sin(now * 0.002 + i);
-            cCtx.fillStyle = i % 2 === 0 ? `rgba(212, 96, 122, ${tw})` : `rgba(212, 175, 55, ${tw})`;
+        for (let i = 0; i < 38; i++) {
+            const bx = ((i * 193) % (w - 24)) + 12;
+            const by = ((i * 109) % (h - 24)) + 12;
+            const tw = 0.28 + 0.38 * Math.sin(now * 0.0022 + i);
+            cCtx.fillStyle = i % 2 === 0 ? `rgba(225, 29, 72, ${tw})` : `rgba(217, 119, 6, ${tw})`;
             cCtx.beginPath();
-            cCtx.arc(bx, by, (i % 3 === 0) ? 1.8 : 1.1, 0, Math.PI * 2);
+            cCtx.arc(bx, by, (i % 3 === 0) ? 1.7 : 1.1, 0, Math.PI * 2);
             cCtx.fill();
         }
         cCtx.restore();
@@ -2518,14 +2532,21 @@ function initWishVault() {
         });
     }
 
-    openBtn?.addEventListener('click', () => {
+        openBtn?.addEventListener('click', () => {
         const popover = document.getElementById('weather-season-popover');
         if (popover) popover.hidden = true;
         renderWishCards();
         updateCounter();
         dialog.showModal();
+        resizeWishConstellationCanvas();
         startWishConstellationLoop();
         setTimeout(() => spawnConstellationMeteor(), 280);
+    });
+
+    window.addEventListener('resize', () => {
+        if (dialog.open) {
+            resizeWishConstellationCanvas();
+        }
     });
 
     closeBtn?.addEventListener('click', () => {

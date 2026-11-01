@@ -12646,7 +12646,7 @@ body.theme-filter-vintage .atmospheric-color-overlay {
 }
 
 /* ═══════════════════════════════════════════════════════════════════════════
-   PILAR 7: MODAL BÓVEDA DE DESEOS A LAS ESTRELLAS
+   PILAR 7: BÓVEDA DE DESEOS A LAS ESTRELLAS - ESTÁNDAR LUNABELLA FLORAL
    ═══════════════════════════════════════════════════════════════════════════ */
 .wish-star-dialog {
     position: fixed !important;
@@ -12656,141 +12656,288 @@ body.theme-filter-vintage .atmospheric-color-overlay {
     border: none;
     padding: 0;
     background: transparent;
-    border-radius: 24px;
-    box-shadow: 0 25px 75px rgba(15, 23, 42, 0.6);
-    max-width: 680px;
+    border-radius: 28px;
+    box-shadow: 0 30px 90px rgba(136, 19, 55, 0.22), 0 10px 30px rgba(15, 23, 42, 0.12);
+    max-width: 740px;
     width: 92vw;
-    margin: auto;
+    max-height: 88vh;
     overflow: hidden;
 }
 
 .wish-star-dialog::backdrop {
-    background: rgba(11, 15, 25, 0.8);
-    backdrop-filter: blur(10px);
+    background: rgba(30, 10, 20, 0.45);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
 }
 
 .wish-dialog-card {
-    background: linear-gradient(165deg, #13192b 0%, #1c233a 50%, #151b2e 100%);
-    border-radius: 24px;
-    border: 1px solid rgba(148, 163, 184, 0.2);
-    color: #f1f5f9;
+    background: linear-gradient(165deg, rgba(255, 255, 255, 0.98) 0%, rgba(255, 248, 250, 0.96) 50%, rgba(254, 242, 242, 0.98) 100%);
+    border-radius: 28px;
+    border: 1.5px solid rgba(244, 114, 182, 0.35);
+    color: #4c0519;
     display: flex;
     flex-direction: column;
-    max-height: 85vh;
+    max-height: 88vh;
+    box-sizing: border-box;
+    overflow: hidden;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.85);
 }
 
 .wish-dialog-header {
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
-    padding: 22px 26px 16px;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-    background: linear-gradient(135deg, rgba(234, 179, 8, 0.06), transparent);
+    padding: 20px 24px 16px;
+    border-bottom: 1px solid rgba(244, 114, 182, 0.18);
+    background: linear-gradient(135deg, rgba(255, 228, 230, 0.6) 0%, rgba(254, 242, 242, 0.3) 100%);
+    position: relative;
+    flex-shrink: 0;
 }
 
 .wish-badge {
-    display: inline-block;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
     font-size: 10.5px;
     font-weight: 700;
     text-transform: uppercase;
-    letter-spacing: 0.1em;
-    color: #fef08a;
-    background: rgba(234, 179, 8, 0.15);
-    padding: 3px 10px;
-    border-radius: 20px;
+    letter-spacing: 0.12em;
+    color: #9f1239;
+    background: rgba(244, 63, 94, 0.1);
+    border: 1px solid rgba(244, 114, 182, 0.35);
+    padding: 3px 12px;
+    border-radius: 999px;
     margin-bottom: 6px;
 }
 
 .wish-title {
-    font-family: var(--serif);
-    font-size: 23px;
-    font-weight: 600;
-    color: #ffffff;
+    font-family: var(--serif-editorial, "Playfair Display", Georgia, serif);
+    font-size: clamp(20px, 2.4vw, 24px);
+    font-weight: 700;
+    color: #881337 !important;
     margin: 0;
+    letter-spacing: -0.015em;
+    line-height: 1.2;
 }
 
 .wish-subtitle {
     font-size: 12.5px;
-    color: var(--muted);
-    margin: 4px 0 0;
+    color: #64748b !important;
+    margin: 5px 0 0;
     line-height: 1.45;
 }
 
 .wish-close-btn {
-    border: none;
-    background: rgba(255, 255, 255, 0.1);
-    color: #cbd5e1;
-    font-size: 20px;
-    width: 32px;
-    height: 32px;
+    border: 1px solid rgba(244, 114, 182, 0.3);
+    background: rgba(255, 255, 255, 0.9);
+    color: #9f1239;
+    font-size: 16px;
+    font-weight: bold;
+    width: 34px;
+    height: 34px;
     border-radius: 50%;
     cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
-    transition: all 0.2s ease;
+    transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    box-shadow: 0 2px 8px rgba(136, 19, 55, 0.08);
+    flex-shrink: 0;
 }
 
 .wish-close-btn:hover {
-    background: rgba(255, 255, 255, 0.25);
+    background: #e11d48;
     color: #ffffff;
+    border-color: #e11d48;
+    transform: rotate(90deg) scale(1.06);
+    box-shadow: 0 4px 12px rgba(225, 29, 72, 0.3);
 }
 
 .wish-dialog-body {
-    padding: 22px 26px;
+    padding: 18px 24px 22px;
     overflow-y: auto;
+    overflow-x: hidden;
     display: flex;
     flex-direction: column;
-    gap: 22px;
+    gap: 16px;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(244, 114, 182, 0.4) transparent;
 }
 
+.wish-dialog-body::-webkit-scrollbar {
+    width: 6px;
+}
+
+.wish-dialog-body::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.wish-dialog-body::-webkit-scrollbar-thumb {
+    background: rgba(244, 114, 182, 0.35);
+    border-radius: 10px;
+}
+
+/* ✦ Stage de la Constelación */
+.wish-constellation-stage {
+    background: rgba(255, 255, 255, 0.85);
+    border: 1.5px solid rgba(244, 114, 182, 0.25);
+    border-radius: 20px;
+    padding: 12px 14px;
+    box-shadow: 0 4px 20px rgba(136, 19, 55, 0.04);
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.wish-constellation-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.wish-constellation-eyebrow {
+    font-size: 10.5px;
+    font-weight: 700;
+    color: #9f1239;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    display: block;
+}
+
+.wish-constellation-hint {
+    font-size: 11.5px;
+    color: #64748b;
+    margin: 2px 0 0;
+}
+
+.wish-shooting-star-btn {
+    border: 1px solid rgba(244, 114, 182, 0.35);
+    background: linear-gradient(135deg, #fff1f2, #ffe4e6);
+    color: #9f1239;
+    font-size: 11.5px;
+    font-weight: 600;
+    padding: 5px 12px;
+    border-radius: 999px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.wish-shooting-star-btn:hover {
+    background: linear-gradient(135deg, #f43f5e, #e11d48);
+    color: #ffffff;
+    border-color: #e11d48;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(225, 29, 72, 0.25);
+}
+
+.wish-constellation-canvas-wrap {
+    position: relative;
+    width: 100%;
+    border-radius: 14px;
+    overflow: hidden;
+    border: 1px solid rgba(244, 114, 182, 0.2);
+    box-shadow: inset 0 2px 8px rgba(136, 19, 55, 0.03);
+    background: #fefbfb;
+}
+
+#wish-constellation-canvas {
+    width: 100% !important;
+    max-width: 100% !important;
+    height: 190px !important;
+    display: block;
+    box-sizing: border-box;
+}
+
+.wish-constellation-tooltip {
+    position: absolute;
+    pointer-events: none;
+    background: rgba(30, 10, 20, 0.88);
+    color: #ffffff;
+    font-size: 11px;
+    padding: 4px 10px;
+    border-radius: 8px;
+    white-space: nowrap;
+    z-index: 10;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.25);
+    backdrop-filter: blur(4px);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+/* ✦ Formulario de Nuevo Deseo */
 .wish-form {
-    background: rgba(255, 255, 255, 0.04);
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    border-radius: 18px;
+    background: rgba(255, 255, 255, 0.9);
+    border: 1.5px solid rgba(244, 114, 182, 0.28);
+    border-radius: 20px;
     padding: 16px 18px;
     display: flex;
     flex-direction: column;
     gap: 12px;
+    box-shadow: 0 4px 18px rgba(136, 19, 55, 0.04);
+}
+
+.wish-form-label-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
 .wish-label {
     font-size: 12.5px;
-    font-weight: 600;
-    color: #e2e8f0;
+    font-weight: 700;
+    color: #881337;
+    letter-spacing: -0.01em;
+}
+
+.wish-char-counter {
+    font-size: 11px;
+    color: #94a3b8;
+    font-weight: 500;
 }
 
 .wish-textarea {
     width: 100%;
-    background: rgba(15, 23, 42, 0.6);
-    border: 1px solid rgba(148, 163, 184, 0.3);
-    border-radius: 12px;
-    padding: 12px;
-    color: #ffffff;
+    background: rgba(255, 255, 255, 0.95);
+    border: 1.5px solid rgba(244, 114, 182, 0.32);
+    border-radius: 14px;
+    padding: 12px 14px;
+    color: #4c0519;
     font-family: inherit;
     font-size: 13.5px;
     line-height: 1.5;
-    resize: vertical;
+    resize: none;
     box-sizing: border-box;
-    transition: border-color 0.2s ease;
+    transition: all 0.2s ease;
+    box-shadow: inset 0 1px 3px rgba(136, 19, 55, 0.03);
+}
+
+.wish-textarea::placeholder {
+    color: #94a3b8;
+    font-size: 13px;
 }
 
 .wish-textarea:focus {
     outline: none;
-    border-color: #f59e0b;
-    box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.25);
+    border-color: #e11d48;
+    background: #ffffff;
+    box-shadow: 0 0 0 3px rgba(225, 29, 72, 0.15);
 }
 
 .wish-type-label {
     display: block;
     font-size: 11.5px;
-    color: var(--muted);
+    font-weight: 600;
+    color: #64748b;
     margin-bottom: 6px;
 }
 
 .wish-types-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
     gap: 8px;
 }
 
@@ -12804,63 +12951,104 @@ body.theme-filter-vintage .atmospheric-color-overlay {
 
 .wish-type-chip {
     display: block;
-    padding: 6px 10px;
-    border-radius: 10px;
-    border: 1px solid rgba(255, 255, 255, 0.12);
-    background: rgba(255, 255, 255, 0.05);
-    font-size: 11px;
-    font-weight: 500;
-    color: #cbd5e1;
+    padding: 7px 10px;
+    border-radius: 12px;
+    border: 1.5px solid rgba(226, 232, 240, 0.9);
+    background: #ffffff;
+    font-size: 11.5px;
+    font-weight: 600;
+    color: #475569;
     text-align: center;
     transition: all 0.2s ease;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.02);
+}
+
+.wish-type-chip:hover {
+    border-color: #fda4af;
+    color: #9f1239;
+    transform: translateY(-1px);
 }
 
 .wish-type-item input:checked + .wish-type-chip.chip-golden {
-    background: rgba(234, 179, 8, 0.25);
+    background: linear-gradient(135deg, #fefce8, #fef08a);
     border-color: #facc15;
-    color: #fef08a;
-    box-shadow: 0 0 10px rgba(250, 204, 21, 0.3);
+    color: #854d0e;
+    box-shadow: 0 3px 10px rgba(234, 179, 8, 0.25);
 }
 
 .wish-type-item input:checked + .wish-type-chip.chip-rose {
-    background: rgba(82, 183, 136, 0.25);
-    border-color: #52b788;
-    color: #b7e4c7;
-    box-shadow: 0 0 10px rgba(82, 183, 136, 0.3);
+    background: linear-gradient(135deg, #fff1f2, #ffe4e6);
+    border-color: #f43f5e;
+    color: #9f1239;
+    box-shadow: 0 3px 10px rgba(244, 63, 94, 0.22);
 }
 
 .wish-type-item input:checked + .wish-type-chip.chip-purple {
-    background: rgba(192, 132, 252, 0.25);
+    background: linear-gradient(135deg, #faf5ff, #f3e8ff);
     border-color: #c084fc;
-    color: #e9d5ff;
-    box-shadow: 0 0 10px rgba(192, 132, 252, 0.3);
+    color: #6b21a8;
+    box-shadow: 0 3px 10px rgba(192, 132, 252, 0.22);
 }
 
 .wish-type-item input:checked + .wish-type-chip.chip-azure {
-    background: rgba(56, 189, 248, 0.25);
+    background: linear-gradient(135deg, #f0f9ff, #e0f2fe);
     border-color: #38bdf8;
-    color: #bae6fd;
-    box-shadow: 0 0 10px rgba(56, 189, 248, 0.3);
+    color: #0369a1;
+    box-shadow: 0 3px 10px rgba(56, 189, 248, 0.22);
+}
+
+.wish-form-submit-row {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 10px;
+    margin-top: 4px;
+}
+
+.wish-inspire-btn {
+    border: 1px solid rgba(244, 114, 182, 0.35);
+    background: #ffffff;
+    color: #9f1239;
+    font-size: 12px;
+    font-weight: 600;
+    padding: 9px 15px;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.wish-inspire-btn:hover {
+    background: #ffe4e6;
+    border-color: #f43f5e;
+    transform: translateY(-1px);
 }
 
 .wish-submit-btn {
     border: none;
-    background: linear-gradient(135deg, #f59e0b, #d97706);
+    background: linear-gradient(135deg, #e11d48, #be123c);
     color: #ffffff;
-    font-size: 13px;
-    font-weight: 600;
-    padding: 10px 18px;
+    font-size: 12.5px;
+    font-weight: 700;
+    padding: 9px 20px;
     border-radius: 12px;
     cursor: pointer;
-    transition: all 0.2s ease;
-    box-shadow: 0 4px 14px rgba(245, 158, 11, 0.35);
+    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    box-shadow: 0 4px 14px rgba(225, 29, 72, 0.3);
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
 }
 
 .wish-submit-btn:hover {
+    background: linear-gradient(135deg, #f43f5e, #e11d48);
     transform: translateY(-1px);
-    box-shadow: 0 6px 18px rgba(245, 158, 11, 0.5);
+    box-shadow: 0 6px 18px rgba(225, 29, 72, 0.4);
 }
 
+/* ✦ Lista de Deseos en el Firmamento */
 .wish-collection-container {
     display: flex;
     flex-direction: column;
@@ -12871,48 +13059,129 @@ body.theme-filter-vintage .atmospheric-color-overlay {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    flex-wrap: wrap;
+    gap: 10px;
 }
 
-.wish-collection-header h3 {
-    font-family: var(--serif);
+.wish-collection-title-group {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.wish-collection-title-group h3 {
+    font-family: var(--serif-editorial, "Playfair Display", Georgia, serif);
     font-size: 16px;
-    color: #f1f5f9;
+    font-weight: 700;
+    color: #881337;
     margin: 0;
 }
 
 .wish-count-badge {
     font-size: 11px;
-    color: var(--muted);
-    background: rgba(255, 255, 255, 0.08);
-    padding: 2px 8px;
-    border-radius: 12px;
+    font-weight: 600;
+    color: #9f1239;
+    background: rgba(244, 63, 94, 0.1);
+    border: 1px solid rgba(244, 114, 182, 0.25);
+    padding: 2px 9px;
+    border-radius: 999px;
+}
+
+.wish-collection-controls {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.wish-filter-pills {
+    display: inline-flex;
+    gap: 4px;
+    background: rgba(241, 245, 249, 0.85);
+    padding: 3px;
+    border-radius: 999px;
+    border: 1px solid rgba(226, 232, 240, 0.8);
+}
+
+.wish-filter-pill {
+    border: none;
+    background: transparent;
+    font-size: 11px;
+    font-weight: 600;
+    color: #64748b;
+    padding: 4px 10px;
+    border-radius: 999px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.wish-filter-pill:hover {
+    color: #0f172a;
+}
+
+.wish-filter-pill.is-active {
+    background: #ffffff;
+    color: #9f1239;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
+}
+
+.wish-search-input {
+    background: #ffffff;
+    border: 1px solid rgba(226, 232, 240, 0.9);
+    border-radius: 999px;
+    padding: 5px 12px;
+    font-size: 11.5px;
+    color: #334155;
+    outline: none;
+    transition: all 0.2s ease;
+    width: 140px;
+}
+
+.wish-search-input:focus {
+    border-color: #fda4af;
+    width: 170px;
+    box-shadow: 0 0 0 3px rgba(244, 114, 182, 0.15);
 }
 
 .wish-cards-list {
     display: flex;
     flex-direction: column;
-    gap: 10px;
-    max-height: 240px;
+    gap: 9px;
+    max-height: 220px;
     overflow-y: auto;
     padding-right: 4px;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(244, 114, 182, 0.35) transparent;
+}
+
+.wish-cards-list::-webkit-scrollbar {
+    width: 5px;
+}
+
+.wish-cards-list::-webkit-scrollbar-thumb {
+    background: rgba(244, 114, 182, 0.3);
+    border-radius: 10px;
 }
 
 .wish-card {
-    background: rgba(255, 255, 255, 0.035);
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    border-radius: 14px;
-    padding: 12px 14px;
-    transition: all 0.25s ease;
+    background: #ffffff;
+    border: 1px solid rgba(244, 114, 182, 0.22);
+    border-radius: 16px;
+    padding: 12px 15px;
+    transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    box-shadow: 0 2px 8px rgba(136, 19, 55, 0.03);
 }
 
 .wish-card:hover {
-    background: rgba(255, 255, 255, 0.07);
-    border-color: rgba(255, 255, 255, 0.18);
+    border-color: rgba(244, 114, 182, 0.45);
+    box-shadow: 0 4px 14px rgba(136, 19, 55, 0.07);
+    transform: translateY(-1px);
 }
 
 .wish-card.is-resonating {
-    transform: scale(1.02);
-    box-shadow: 0 0 20px rgba(254, 240, 138, 0.6);
+    transform: scale(1.015);
+    border-color: #f43f5e;
+    box-shadow: 0 0 18px rgba(244, 63, 94, 0.35);
 }
 
 .wish-card-header {
@@ -12927,36 +13196,37 @@ body.theme-filter-vintage .atmospheric-color-overlay {
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 0.06em;
-    padding: 2px 8px;
-    border-radius: 12px;
+    padding: 3px 9px;
+    border-radius: 999px;
 }
 
-.tag-golden { color: #fef08a; background: rgba(234, 179, 8, 0.18); }
-.tag-rose   { color: #b7e4c7; background: rgba(82, 183, 136, 0.18); }
-.tag-purple { color: #e9d5ff; background: rgba(192, 132, 252, 0.18); }
-.tag-azure  { color: #bae6fd; background: rgba(56, 189, 248, 0.18); }
+.tag-golden { color: #854d0e; background: #fef9c3; border: 1px solid #fde047; }
+.tag-rose   { color: #9f1239; background: #ffe4e6; border: 1px solid #fecdd3; }
+.tag-purple { color: #6b21a8; background: #f3e8ff; border: 1px solid #e9d5ff; }
+.tag-azure  { color: #0369a1; background: #e0f2fe; border: 1px solid #bae6fd; }
 
 .wish-card-date {
     font-size: 10.5px;
-    color: var(--ink-soft);
+    color: #94a3b8;
 }
 
 .wish-card-text {
-    font-family: var(--serif);
+    font-family: var(--serif-editorial, "Playfair Display", Georgia, serif);
     font-style: italic;
     font-size: 13.5px;
-    color: #e2e8f0;
+    color: #334155;
     line-height: 1.5;
-    margin: 0 0 10px;
+    margin: 0 0 8px;
 }
 
 .wish-card-actions {
     display: flex;
     justify-content: flex-end;
-    gap: 8px;
+    gap: 6px;
 }
 
 .btn-resonate-wish,
+.btn-copy-wish,
 .btn-delete-wish {
     border: none;
     background: transparent;
@@ -12964,35 +13234,47 @@ body.theme-filter-vintage .atmospheric-color-overlay {
     font-weight: 600;
     cursor: pointer;
     padding: 3px 8px;
-    border-radius: 6px;
+    border-radius: 8px;
     transition: all 0.2s ease;
 }
 
 .btn-resonate-wish {
-    color: #facc15;
+    color: #b45309;
+    background: #fefce8;
 }
 .btn-resonate-wish:hover {
-    background: rgba(250, 204, 21, 0.15);
+    background: #fef08a;
+    color: #713f12;
+}
+
+.btn-copy-wish {
+    color: #475569;
+    background: #f1f5f9;
+}
+.btn-copy-wish:hover {
+    background: #e2e8f0;
+    color: #0f172a;
 }
 
 .btn-delete-wish {
-    color: var(--muted);
+    color: #94a3b8;
 }
 .btn-delete-wish:hover {
-    background: rgba(239, 68, 68, 0.15);
-    color: #f97316;
+    background: #fee2e2;
+    color: #b91c1c;
 }
 
 .wish-empty-state {
     text-align: center;
-    padding: 28px;
-    color: var(--muted);
-    font-size: 13px;
+    padding: 24px;
+    color: #94a3b8;
+    font-size: 12.5px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
 }
 
-/* ══════════════════════════════════════════════
-   ADMIN EMPTY STATE & ENHANCED ALBUMS UI
-   ══════════════════════════════════════════════ */
 .admin-empty-state {
     grid-column: 1 / -1;
     display: flex;
