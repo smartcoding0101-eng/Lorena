@@ -14442,107 +14442,226 @@ button[type="submit"]:hover {
     box-shadow: 0 20px 42px rgba(181, 48, 79, 0.14), 0 0 24px rgba(245, 184, 196, 0.40) !important;
 }
 
-/* Barra superior de las tarjetas con gradiente blush/durazno suave */
+/* ═══════════════════════════════════════════════════════════════════════
+   TARJETAS EDITORIALES DE ÉLITE (RINCONES DEL JARDÍN) — ANIMACIÓN & LUJO
+   ═══════════════════════════════════════════════════════════════════════ */
+
+.space-card {
+    min-height: 250px;
+    padding: 0;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    justify-content: flex-start;
+    background: #ffffff !important;
+    border: 1.5px solid rgba(244, 63, 94, 0.18) !important;
+    border-radius: 24px !important;
+    box-shadow: 0 10px 30px rgba(181, 48, 79, 0.08), 0 2px 8px rgba(0, 0, 0, 0.02) !important;
+    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+                box-shadow 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+                border-color 0.4s ease !important;
+    transform-style: preserve-3d;
+    will-change: transform, box-shadow;
+    cursor: pointer;
+}
+
+/* Efecto de Aura y Partícula Geométrica en la esquina */
+.space-card::before {
+    content: '';
+    position: absolute;
+    width: 160px;
+    height: 160px;
+    right: -40px;
+    bottom: -40px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(254, 205, 211, 0.45) 0%, rgba(255, 240, 243, 0.1) 70%, transparent 100%);
+    pointer-events: none;
+    transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.6s ease;
+    opacity: 0.6;
+    z-index: 1;
+}
+
+/* Borde inferior interactivo en gradiente rosa/oro */
+.space-card::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 4px;
+    background: linear-gradient(90deg, #f43f5e 0%, #fb7185 35%, #f472b6 70%, #fda4af 100%) !important;
+    border-radius: 0 0 24px 24px;
+    opacity: 0.75;
+    transition: height 0.35s ease, opacity 0.35s ease, filter 0.35s ease;
+    z-index: 3;
+}
+
+/* Hover Humano y Hover Automático Sincronizado */
+.space-card:hover,
+.space-card.is-auto-hover {
+    transform: translateY(-8px) scale(1.02) !important;
+    border-color: #fda4af !important;
+    box-shadow: 0 24px 48px rgba(181, 48, 79, 0.18), 0 0 24px rgba(254, 205, 211, 0.6) !important;
+}
+
+.space-card:hover::before,
+.space-card.is-auto-hover::before {
+    transform: scale(1.35);
+    opacity: 1;
+}
+
+.space-card:hover::after,
+.space-card.is-auto-hover::after {
+    height: 6px;
+    opacity: 1;
+    filter: drop-shadow(0 0 8px rgba(244, 63, 94, 0.8));
+}
+
+/* Barra superior de las tarjetas */
 .space-card .card-top-bar {
     width: 100% !important;
     margin: 0 !important;
-    padding: 13px 20px !important;
-    border-radius: 19px 19px 0 0 !important;
-    background: linear-gradient(135deg, #fdedf0 0%, #fadadd 60%, #f7c4ce 100%) !important;
-    border-bottom: 1px solid rgba(212, 96, 122, 0.20) !important;
+    padding: 14px 20px !important;
+    border-radius: 22px 22px 0 0 !important;
+    background: linear-gradient(135deg, #fff0f3 0%, #ffe4e8 50%, #fecdd3 100%) !important;
+    border-bottom: 1px solid rgba(244, 63, 94, 0.16) !important;
     display: flex !important;
     align-items: center !important;
     justify-content: space-between !important;
     box-sizing: border-box !important;
+    position: relative;
+    z-index: 2;
+    transition: background 0.4s ease;
+}
+
+.space-card:hover .card-top-bar,
+.space-card.is-auto-hover .card-top-bar {
+    background: linear-gradient(135deg, #ffe4e8 0%, #fecdd3 50%, #fda4af 100%) !important;
 }
 
 .space-card .card-top-bar .card-icon-emblem {
-    font-size: 18px !important;
-    color: #d4607a !important;
-    filter: drop-shadow(0 2px 4px rgba(212, 96, 122, 0.25)) !important;
+    font-size: 20px !important;
+    line-height: 1 !important;
+    filter: drop-shadow(0 2px 6px rgba(225, 29, 72, 0.25)) !important;
+    transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.space-card:hover .card-top-bar .card-icon-emblem,
+.space-card.is-auto-hover .card-top-bar .card-icon-emblem {
+    transform: scale(1.28) rotate(-6deg);
 }
 
 .space-card .card-top-bar .card-number {
-    font-size: 8.5px !important;
+    font-size: 9px !important;
     font-weight: 700 !important;
-    letter-spacing: 0.18em !important;
+    letter-spacing: 0.16em !important;
     text-transform: uppercase !important;
-    color: #872040 !important;
-    background: rgba(255, 255, 255, 0.90) !important;
-    border: 1px solid #f2aab8 !important;
-    padding: 3.5px 10px !important;
-    border-radius: 12px !important;
-    backdrop-filter: blur(4px) !important;
-    box-shadow: 0 2px 6px rgba(212, 96, 122, 0.12) !important;
+    color: #881337 !important;
+    background: rgba(255, 255, 255, 0.95) !important;
+    border: 1px solid rgba(244, 63, 94, 0.25) !important;
+    padding: 4px 12px !important;
+    border-radius: 999px !important;
+    backdrop-filter: blur(8px) !important;
+    box-shadow: 0 2px 8px rgba(181, 48, 79, 0.08) !important;
+    transition: all 0.3s ease;
 }
 
+.space-card:hover .card-top-bar .card-number,
+.space-card.is-auto-hover .card-top-bar .card-number {
+    border-color: #f43f5e !important;
+    color: #e11d48 !important;
+    box-shadow: 0 4px 12px rgba(225, 29, 72, 0.2) !important;
+}
+
+/* Cuerpo de la tarjeta */
 .space-card-body-link {
     background: #ffffff !important;
-    padding: 22px 24px 20px !important;
-    border-radius: 0 0 19px 19px !important;
+    padding: 24px 26px 22px !important;
+    border-radius: 0 0 22px 22px !important;
     box-sizing: border-box !important;
+    position: relative;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    width: 100%;
+    text-decoration: none;
+    color: inherit;
 }
 
-/* Títulos de tarjetas con gradiente vino/rosa femenino */
+/* Títulos con gradiente */
 .space-card h3 {
     margin: 0 0 10px !important;
-    font: 700 24px/1.2 var(--serif) !important;
-    background: linear-gradient(135deg, #3d0a14 0%, #872040 50%, #b5304f 100%) !important;
+    font: 700 23px/1.25 var(--serif) !important;
+    background: linear-gradient(135deg, #2b171c 0%, #881337 55%, #b5304f 100%) !important;
     -webkit-background-clip: text !important;
     -webkit-text-fill-color: transparent !important;
-    filter: drop-shadow(0 1px 1px rgba(255, 255, 255, 0.9)) !important;
-    letter-spacing: -0.015em !important;
+    letter-spacing: -0.02em !important;
+    transition: filter 0.3s ease;
 }
 
-.space-card:hover h3 {
-    background: linear-gradient(135deg, #5c1526 0%, #b5304f 50%, #d4607a 100%) !important;
+.space-card:hover h3,
+.space-card.is-auto-hover h3 {
+    background: linear-gradient(135deg, #881337 0%, #b5304f 50%, #e11d48 100%) !important;
     -webkit-background-clip: text !important;
     -webkit-text-fill-color: transparent !important;
-    filter: drop-shadow(0 1px 2px rgba(212, 96, 122, 0.25)) !important;
+    filter: drop-shadow(0 2px 6px rgba(225, 29, 72, 0.2));
 }
 
-.blog-card h3,
-.reading-card h3,
-.bookshelf-note h3,
-.media-card h3,
-.game-card h3 {
-    color: #3d0a14 !important;
-    font-weight: 600 !important;
-    letter-spacing: -0.01em !important;
-}
-
-.blog-card:hover h3,
-.bookshelf-note:hover h3,
-.media-card:hover h3 {
-    color: #b5304f !important;
-}
-
-.space-card p,
-.blog-card p,
-.reading-card p {
-    color: #6b3a48 !important;
-    font-size: 12px !important;
-    line-height: 1.7 !important;
+.space-card p {
+    color: #5c4248 !important;
+    font-size: 13px !important;
+    line-height: 1.65 !important;
+    margin: 0 0 16px !important;
+    font-weight: 400;
 }
 
 .card-mini-quote {
-    color: #872040 !important;
-    border-left: 2px solid #d4607a !important;
+    margin-top: auto;
+    display: inline-block;
+    color: #9f1239 !important;
+    border-left: 2.5px solid #fda4af !important;
+    padding-left: 10px;
+    font-size: 11.5px !important;
     font-style: italic !important;
+    line-height: 1.4;
+    transition: border-color 0.3s ease, color 0.3s ease;
 }
 
+.space-card:hover .card-mini-quote,
+.space-card.is-auto-hover .card-mini-quote {
+    border-left-color: #e11d48 !important;
+    color: #881337 !important;
+}
+
+/* Flecha de acción interactiva */
 .card-arrow {
-    color: #d4607a !important;
-}
-
-.space-card:hover .card-arrow {
+    position: absolute;
+    right: 20px;
+    bottom: 18px;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: #fff0f3;
+    border: 1px solid #fecdd3;
     color: #b5304f !important;
-    transform: translate(4px, -4px) !important;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
+    transition: all 0.35s cubic-bezier(0.34, 1.56, 0.64, 1) !important;
+    box-shadow: 0 2px 6px rgba(181, 48, 79, 0.08);
 }
 
-/* Borde inferior interactivo en gradiente rosa/durazno */
-.space-card::after {
-    background: linear-gradient(90deg, #f7c4ce 0%, #d4607a 40%, #e8a598 70%, #fadadd 100%) !important;
+.space-card:hover .card-arrow,
+.space-card.is-auto-hover .card-arrow {
+    background: linear-gradient(135deg, #b5304f 0%, #e11d48 100%) !important;
+    color: #ffffff !important;
+    border-color: #b5304f !important;
+    transform: scale(1.15) translate(2px, -2px) !important;
+    box-shadow: 0 6px 16px rgba(225, 29, 72, 0.35) !important;
 }
 
 /* 6. Píldoras, Medallones y Badges Florales */
