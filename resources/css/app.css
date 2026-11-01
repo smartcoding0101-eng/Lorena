@@ -13801,8 +13801,178 @@ body.theme-filter-vintage .atmospheric-color-overlay {
 }
 
 /* ═══════════════════════════════════════════════════════════════════════
-   CICLO DE HOVER AUTOMÁTICO CADA 3 SEGUNDOS PARA BOTONES DEL NAVBAR
+   HERO PRINCIPAL DE ÉLITE — ARMONÍA, DIMENSIONES Y ELEGANCIA EDITORIAL
    ═══════════════════════════════════════════════════════════════════════ */
+.cinematic-hero.welcome-wrap {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 32px 6% 36px;
+    display: grid;
+    grid-template-columns: minmax(0, 1.15fr) minmax(360px, 0.95fr);
+    grid-template-rows: auto auto;
+    align-items: center;
+    column-gap: clamp(32px, 5vw, 68px);
+    row-gap: 28px;
+    min-height: calc(100vh - 120px);
+}
+
+.welcome-copy {
+    padding: 10px 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    max-width: 580px;
+}
+
+.romantic-crown-tag {
+    align-self: flex-start;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 16px;
+    border-radius: 999px;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    margin-bottom: 22px;
+}
+
+.hero-grand-title {
+    font-family: var(--serif);
+    font-size: clamp(38px, 4.4vw, 58px);
+    line-height: 1.14;
+    letter-spacing: -0.025em;
+    color: #2b171c;
+    margin: 0 0 18px;
+}
+
+.hero-grand-title .grand-script {
+    font-family: var(--script);
+    font-size: clamp(48px, 5.6vw, 76px);
+    line-height: 1.05;
+    color: #b5304f !important;
+    display: block;
+    margin-top: 6px;
+}
+
+.welcome-text {
+    max-width: 520px;
+    margin: 0 0 26px;
+    color: #5c4248;
+    font-size: 14.5px;
+    line-height: 1.75;
+    font-weight: 400;
+}
+
+.welcome-actions {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-bottom: 28px;
+}
+
+.welcome-actions .button {
+    min-height: 44px;
+    padding: 0 20px;
+    font-size: 12px;
+    letter-spacing: 0.02em;
+    white-space: nowrap;
+}
+
+.daily-bloom-card {
+    margin-top: 0;
+    max-width: 520px;
+    padding: 16px 22px !important;
+    border-radius: 20px !important;
+}
+
+/* Retrato Editorial Marco Encantado Proporciones Doradas */
+.welcome-art.enchanted-frame {
+    width: 100%;
+    max-width: 480px;
+    height: auto;
+    aspect-ratio: 4 / 4.8;
+    max-height: 560px;
+    margin: 0 auto;
+    position: relative;
+    border-radius: 36px !important;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    align-self: center;
+    box-shadow: 0 20px 50px rgba(181, 48, 79, 0.16) !important;
+}
+
+.frame-oval-border {
+    width: 100%;
+    height: 100%;
+    border-radius: 32px !important;
+    overflow: hidden;
+    position: relative;
+}
+
+.frame-oval-border img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center 25%;
+    transition: transform 0.65s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.interactive-enchanted-rose {
+    bottom: 20px;
+    left: -20px;
+    width: 60px;
+    height: 60px;
+}
+
+.art-stamp.luxury-monogram {
+    top: 20px;
+    right: 20px;
+    width: 64px;
+    height: 64px;
+}
+
+.welcome-bottom {
+    grid-column: 1 / -1;
+    border-top: 1px solid rgba(212, 96, 122, 0.16);
+    padding-top: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    color: #9e6b78;
+    font-size: 10px;
+    letter-spacing: 0.14em;
+}
+
+@media (max-width: 980px) {
+    .cinematic-hero.welcome-wrap {
+        grid-template-columns: 1fr;
+        padding: 24px 20px 32px;
+        row-gap: 36px;
+    }
+    .welcome-copy {
+        max-width: 100%;
+        text-align: center;
+        align-items: center;
+    }
+    .romantic-crown-tag {
+        align-self: center;
+    }
+    .welcome-actions {
+        justify-content: center;
+    }
+    .daily-bloom-card {
+        max-width: 100%;
+        text-align: left;
+    }
+    .welcome-art.enchanted-frame {
+        max-width: 400px;
+        aspect-ratio: 1 / 1.15;
+    }
+}
 .main-nav .nav-item.is-auto-hover {
     color: #b5304f !important;
     transform: translateY(-2px) scale(1.05);
