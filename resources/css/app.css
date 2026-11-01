@@ -13800,6 +13800,37 @@ body.theme-filter-vintage .atmospheric-color-overlay {
     box-shadow: 0 8px 22px rgba(212, 96, 122, 0.35) !important;
 }
 
+/* ═══════════════════════════════════════════════════════════════════════
+   CICLO DE HOVER AUTOMÁTICO CADA 3 SEGUNDOS PARA BOTONES DEL NAVBAR
+   ═══════════════════════════════════════════════════════════════════════ */
+.main-nav .nav-item.is-auto-hover {
+    color: #b5304f !important;
+    transform: translateY(-2px) scale(1.05);
+    text-shadow: 0 0 12px rgba(212, 96, 122, 0.45);
+    transition: all 0.35s cubic-bezier(0.2, 0.8, 0.25, 1);
+}
+
+.main-nav .nav-item.is-auto-hover::after {
+    width: 100% !important;
+    left: 0 !important;
+    box-shadow: 0 0 10px rgba(212, 96, 122, 0.7);
+}
+
+.main-nav .nav-family-link.is-auto-hover {
+    background: linear-gradient(135deg, rgba(254, 226, 232, 0.98), rgba(253, 242, 248, 0.98)) !important;
+    border-color: rgba(225, 29, 72, 0.6) !important;
+    color: #9f1239 !important;
+    transform: translateY(-2px) scale(1.06) !important;
+    box-shadow: 0 6px 18px rgba(190, 18, 60, 0.28) !important;
+}
+
+.main-nav .nav-passport-btn.is-auto-hover {
+    background: linear-gradient(135deg, #d4607a 0%, #e8a598 100%) !important;
+    transform: translateY(-2px) scale(1.05) !important;
+    box-shadow: 0 8px 24px rgba(212, 96, 122, 0.45) !important;
+    border-color: rgba(255, 255, 255, 0.9) !important;
+}
+
 .passport-stamp-badge {
     background: #ffffff !important;
     color: #872040 !important;
