@@ -811,13 +811,26 @@
                     <button type="button" class="corner-drawer-close" data-drawer-close aria-label="Cerrar panel">✕</button>
                 </header>
 
-                <div class="corner-drawer-tabs">
-                    <button type="button" class="corner-tab is-active" data-drawer-tab="list">📖 Ver Notas (<span id="drawer-tab-count">0</span>)</button>
+                <div class="corner-drawer-tabs corner-drawer-modern-tabs">
+                    <button type="button" class="corner-tab is-active" data-drawer-tab="list">📖 Ver Notas <span class="corner-tab-count-badge" id="drawer-tab-count">0</span></button>
                     @auth
                     <button type="button" class="corner-tab" data-drawer-tab="create">✍️ Nueva Nota / Foto</button>
                     @else
                     <a href="#inicio" data-go="inicio" class="corner-tab corner-tab-login" title="Inicia sesión para escribir">🔒 Iniciar sesión</a>
                     @endauth
+                </div>
+
+                <!-- Barra de Búsqueda y Filtros de Emoción Interactivos -->
+                <div class="corner-drawer-filter-bar">
+                    <input type="search" id="corner-notes-search-input" class="corner-notes-search-input" placeholder="🔍 Buscar en recuerdos, fotos y pensamientos..." aria-label="Buscar en notas">
+                    <div class="corner-mood-filters" id="corner-mood-filters">
+                        <button type="button" class="corner-mood-chip is-active" data-mood-filter="all">✨ Todos</button>
+                        <button type="button" class="corner-mood-chip" data-mood-filter="love">💌 Amor</button>
+                        <button type="button" class="corner-mood-chip" data-mood-filter="gratitude">🌸 Gratitud</button>
+                        <button type="button" class="corner-mood-chip" data-mood-filter="dream">✨ Sueño</button>
+                        <button type="button" class="corner-mood-chip" data-mood-filter="memory">📷 Recuerdo</button>
+                        <button type="button" class="corner-mood-chip" data-mood-filter="secret">🌙 Íntimo</button>
+                    </div>
                 </div>
 
                 <!-- Vista de Lista de Notas -->
@@ -889,7 +902,7 @@
                 @endauth
             </div>
         </aside>
-    </div>
+    
 
     <!-- ═══════════════════════════════════════════════════════════════════════ -->
     <!--  MINI-REPRODUCTOR FLOTANTE PERSISTENTE (DOCK GLOBAL TIPO SPOTIFY)      -->

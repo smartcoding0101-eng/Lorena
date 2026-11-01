@@ -23,7 +23,7 @@ export function initializeCornerNotes() {
 
     const screenNameEl = document.getElementById('drawer-screen-name');
     const notesListEl = document.getElementById('corner-notes-list');
-    const notesCountBadge = document.getElementById('floating-notes-count-badge');
+    const notesCountBadge = document.getElementById('corner-notes-count') || document.getElementById('floating-notes-count-badge');
     const tabCountEl = document.getElementById('drawer-tab-count');
     const noteForm = document.getElementById('corner-note-form');
     const formIdInput = document.getElementById('note-form-id');
@@ -408,14 +408,31 @@ export function initializeCornerNotes() {
         });
     }
 
-    // Enganchar el botón flotante del Dock Derecho
-    const dockNotesBtn = document.getElementById('dock-btn-notes');
-    if (dockNotesBtn) {
-        dockNotesBtn.addEventListener('click', (e) => {
-            e.preventDefault();
-            window.openCornerNotesDrawer();
-        });
-    }
+    // Enganchar el botón flotante del Dock Derecho y del Dock Inferior
+    const bindNotesButton = (btnId) => {
+        const btn = document.getElementById(btnId);
+        if (btn) {
+            btn.addEventListener('click', (e) => {
+                e.preventDefault();
+                window.openCornerNotesDrawer();
+            });
+        }
+    };
+    bindNotesButton('corner-crud-trigger');
+    bindNotesButton('dock-btn-notes');
+    bindNotesButton('compass-btn-notes');
+
+    // Escuchar cambios de rincón / hash para refrescar contexto y contador
+    window.addEventListener('hashchange', () => {
+        currentScreenKey = getActiveScreenKey();
+        if (screenNameEl) {
+            screenNameEl.textContent = screenFriendlyNames[currentScreenKey] || 'Este Rincón';
+        }
+        if (formScreenInput) {
+            formScreenInput.value = currentScreenKey;
+        }
+        fetchNotesForCurrentScreen();
+    });
 
     // Escuchar tecla Escape
     document.addEventListener('keydown', (e) => {
