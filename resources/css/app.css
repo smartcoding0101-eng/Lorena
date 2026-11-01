@@ -3551,6 +3551,10 @@ h1 em, .page-heading h1 em { color: var(--green-600); font-weight: 400; }
 
 /* Enchanted Rose Dialog */
 .enchanted-rose-dialog {
+    position: fixed !important;
+    inset: 0 !important;
+    margin: auto !important;
+    z-index: 99999;
     border: none;
     border-radius: 24px;
     padding: 0;
@@ -9729,6 +9733,10 @@ h1 em, .page-heading h1 em { color: var(--green-600); font-weight: 400; }
 
 /* Modal del Pasaporte */
 .passport-dialog {
+    position: fixed !important;
+    inset: 0 !important;
+    margin: auto !important;
+    z-index: 99999;
     width: min(780px, 94vw);
     max-height: 92vh;
     padding: 0;
@@ -10011,6 +10019,10 @@ h1 em, .page-heading h1 em { color: var(--green-600); font-weight: 400; }
 /*  MODAL DE DETALLE DEL PASAPORTE (10 VARIABLES DEDICADAS A CARLA)        */
 /* ═══════════════════════════════════════════════════════════════════════ */
 .passport-detail-dialog {
+    position: fixed !important;
+    inset: 0 !important;
+    margin: auto !important;
+    z-index: 99999;
     border: none;
     border-radius: 26px;
     padding: 0;
@@ -10440,6 +10452,10 @@ h1 em, .page-heading h1 em { color: var(--green-600); font-weight: 400; }
 /*  MODALES DE SORPRESAS                                                   */
 /* ═══════════════════════════════════════════════════════════════════════ */
 .surprise-modal-dialog {
+    position: fixed !important;
+    inset: 0 !important;
+    margin: auto !important;
+    z-index: 99999;
     width: min(580px, 94vw);
     max-height: 92vh;
     padding: 0;
@@ -12085,6 +12101,10 @@ body.theme-filter-vintage .atmospheric-color-overlay {
    PILAR 5: MODAL CRISTAL EMPAÑADO DE LLUVIA
    ═══════════════════════════════════════════════════════════════════════════ */
 .misty-window-dialog {
+    position: fixed !important;
+    inset: 0 !important;
+    margin: auto !important;
+    z-index: 99999;
     border: none;
     padding: 0;
     background: transparent;
@@ -12304,6 +12324,10 @@ body.theme-filter-vintage .atmospheric-color-overlay {
    PILAR 7: MODAL BÓVEDA DE DESEOS A LAS ESTRELLAS
    ═══════════════════════════════════════════════════════════════════════════ */
 .wish-star-dialog {
+    position: fixed !important;
+    inset: 0 !important;
+    margin: auto !important;
+    z-index: 99999;
     border: none;
     padding: 0;
     background: transparent;
@@ -12806,6 +12830,10 @@ body.theme-filter-vintage .atmospheric-color-overlay {
 /*  MODAL DEL CORAZÓN DEL MAPA (ROSA CENTRAL: CARTA, POEMA, SENTIMIENTO)   */
 /* ═══════════════════════════════════════════════════════════════════════ */
 .map-rose-dialog {
+    position: fixed !important;
+    inset: 0 !important;
+    margin: auto !important;
+    z-index: 99999;
     border: none;
     border-radius: 28px;
     padding: 0;
@@ -13327,14 +13355,21 @@ body.theme-filter-vintage .atmospheric-color-overlay {
 /*  MODAL DE LA GUÍA COMPLETA DEL SISTEMA                                  */
 /* ═══════════════════════════════════════════════════════════════════════ */
 .system-guide-dialog {
+    position: fixed !important;
+    inset: 0 !important;
+    margin: auto !important;
     border: none;
     border-radius: 28px;
     padding: 0;
     max-width: 780px;
     width: 95vw;
+    height: fit-content;
+    max-height: 90vh;
     background: transparent;
     box-shadow: 0 25px 70px rgba(76, 5, 25, 0.4);
     outline: none;
+    overflow-y: auto;
+    z-index: 99999;
 }
 
 .system-guide-dialog::backdrop {
