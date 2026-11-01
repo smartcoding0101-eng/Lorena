@@ -599,7 +599,8 @@ h1 em, .page-heading h1 em { color: var(--green-600); font-weight: 400; }
 .place-games        { bottom: 4%; right: 28%; }
 .place-dreams       { bottom: 4%; left: 32%; }
 .place-blog         { bottom: 8%; left: 6%; }
-.place-stories      { top: 38%; left: 3%; }
+.place-stories      { top: 28%; left: 3%; }
+.place-family       { top: 52%; left: 3%; }
 
 .map-center { position: absolute; z-index: 1; top: calc(50% - 42px); left: calc(50% - 42px); width: 84px; height: 84px; border: 2px solid var(--red-500); border-radius: 50%; background: radial-gradient(circle at 35% 35%, #ffffff 0%, #fff5f5 50%, #fee2e2 100%); display: flex; flex-direction: column; align-items: center; justify-content: center; color: var(--red-600); box-shadow: 0 10px 24px rgba(220, 38, 38, 0.25); animation: redPulse 3.5s ease-in-out infinite; }
 .map-center span { font-size: 20px; }
@@ -14261,9 +14262,892 @@ footer a:hover, .site-footer a:hover {
 
 
 
+
+/* ==========================================================================
+   RED ISEÑO MODERNO & INTERACTIVO DEL CAJÓN: NOTAS & MEMORIAS (#corner-crud-drawer)
+   ========================================================================== */
+
+.corner-drawer-modern-panel {
+    background:
+        radial-gradient(circle at 92% 10%, rgba(254, 205, 211, 0.45), transparent 40%),
+        radial-gradient(circle at 10% 90%, rgba(254, 240, 138, 0.25), transparent 45%),
+        linear-gradient(165deg, rgba(255, 253, 252, 0.98) 0%, rgba(255, 245, 248, 0.96) 100%) !important;
+    backdrop-filter: blur(20px) saturate(160%) !important;
+    -webkit-backdrop-filter: blur(20px) saturate(160%) !important;
+    border-left: 2px solid rgba(225, 29, 72, 0.22) !important;
+    box-shadow: -15px 0 45px rgba(136, 19, 55, 0.22) !important;
+}
+
+.corner-drawer-glass-sheen {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 4px;
+    background: linear-gradient(90deg, #f43f5e, #fb923c, #facc15);
+    z-index: 10;
+}
+
+.corner-drawer-modern-header {
+    background: rgba(255, 255, 255, 0.75) !important;
+    backdrop-filter: blur(10px) !important;
+    border-bottom: 1px solid rgba(225, 29, 72, 0.15) !important;
+    padding: 22px 26px !important;
+}
+
+.corner-header-info .drawer-eyebrow {
+    color: #be123c !important;
+    font-size: 0.74rem !important;
+    font-weight: 700 !important;
+    letter-spacing: 0.08em;
+}
+
+.corner-drawer-modern-header h2 {
+    font-family: var(--serif, 'Playfair Display', Georgia, serif) !important;
+    font-size: 1.65rem !important;
+    color: #881337 !important;
+    margin: 4px 0 0 !important;
+}
+
+/* Pestañas Modernas */
+.corner-drawer-modern-tabs {
+    background: rgba(255, 241, 245, 0.65) !important;
+    border-bottom: 1px solid rgba(225, 29, 72, 0.14) !important;
+    padding: 6px 18px 0 !important;
+    gap: 8px;
+}
+
+.corner-drawer-modern-tabs .corner-tab {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 11px 18px !important;
+    font-weight: 600 !important;
+    font-size: 0.86rem !important;
+    color: #64748b !important;
+    border-radius: 12px 12px 0 0;
+    transition: all 0.22s ease !important;
+}
+
+.corner-drawer-modern-tabs .corner-tab.is-active {
+    color: #be123c !important;
+    background: #ffffff !important;
+    border-bottom: 3px solid #be123c !important;
+    box-shadow: 0 -3px 10px rgba(190, 18, 60, 0.08);
+}
+
+.corner-tab-count-badge {
+    background: #fff0f4;
+    color: #be123c;
+    border: 1px solid rgba(190, 18, 60, 0.25);
+    padding: 2px 7px;
+    border-radius: 999px;
+    font-size: 0.72rem;
+    font-weight: 700;
+}
+
+/* Barra de Búsqueda y Filtros de Emoción */
+.corner-drawer-filter-bar {
+    padding: 14px 20px 8px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    background: rgba(255, 255, 255, 0.5);
+    border-bottom: 1px solid rgba(225, 29, 72, 0.08);
+}
+
+.corner-notes-search-input {
+    width: 100%;
+    padding: 9px 14px;
+    border-radius: 999px;
+    border: 1.5px solid rgba(225, 29, 72, 0.18);
+    background: #ffffff;
+    font-size: 0.82rem;
+    color: #334155;
+    outline: none;
+    transition: all 0.2s ease;
+}
+
+.corner-notes-search-input:focus {
+    border-color: #be123c;
+    box-shadow: 0 0 0 3px rgba(190, 18, 60, 0.14);
+}
+
+.corner-mood-filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+}
+
+.corner-mood-chip {
+    padding: 4px 10px;
+    border-radius: 999px;
+    background: #ffffff;
+    border: 1px solid rgba(225, 29, 72, 0.16);
+    color: #64748b;
+    font-size: 0.74rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.18s ease;
+}
+
+.corner-mood-chip:hover {
+    background: #fff1f4;
+    color: #be123c;
+    border-color: #f43f5e;
+}
+
+.corner-mood-chip.is-active {
+    background: linear-gradient(135deg, #be123c, #e11d48);
+    color: #ffffff;
+    border-color: #9f1239;
+    box-shadow: 0 3px 8px rgba(190, 18, 60, 0.25);
+}
+
+/* Tarjeta de Nota Rediseñada: Moderna & Dinámica */
+.corner-note-card {
+    border-radius: 20px !important;
+    background: #ffffff !important;
+    border: 1.5px solid rgba(225, 29, 72, 0.14) !important;
+    box-shadow:
+        0 10px 24px -5px rgba(136, 19, 55, 0.07),
+        0 0 0 1px rgba(255, 255, 255, 0.8) inset !important;
+    padding: 18px 22px !important;
+    transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+
+.corner-note-card:hover {
+    transform: translateY(-4px) !important;
+    box-shadow:
+        0 16px 32px -6px rgba(136, 19, 55, 0.14),
+        0 0 14px rgba(244, 63, 94, 0.12) !important;
+    border-color: rgba(225, 29, 72, 0.35) !important;
+}
+
+.corner-note-card.is-pinned {
+    background: linear-gradient(145deg, #ffffff 0%, #fff7f9 100%) !important;
+    border: 2px solid #f43f5e !important;
+    box-shadow:
+        0 12px 28px rgba(225, 29, 72, 0.12),
+        0 0 18px rgba(251, 113, 133, 0.2) !important;
+}
+
+.corner-note-pinned-badge {
+    top: -11px !important;
+    right: 18px !important;
+    background: linear-gradient(135deg, #be123c, #e11d48) !important;
+    border-radius: 999px !important;
+    padding: 3px 10px !important;
+    font-size: 0.68rem !important;
+    letter-spacing: 0.08em !important;
+    box-shadow: 0 4px 10px rgba(190, 18, 60, 0.35) !important;
+}
+
+.corner-note-mood {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 3px 10px;
+    border-radius: 999px;
+    background: #fff1f4;
+    border: 1px solid rgba(225, 29, 72, 0.15);
+    color: #be123c !important;
+    font-size: 0.74rem;
+    font-weight: 700;
+}
+
+.corner-note-time {
+    font-size: 0.76rem;
+    color: #94a3b8;
+    font-weight: 500;
+}
+
+.corner-note-title {
+    font-family: var(--serif, 'Playfair Display', Georgia, serif) !important;
+    font-size: 1.35rem !important;
+    color: #881337 !important;
+    margin: 8px 0 6px !important;
+    line-height: 1.3 !important;
+}
+
+.corner-note-content {
+    font-size: 0.95rem !important;
+    line-height: 1.65 !important;
+    color: #475569 !important;
+    margin-bottom: 14px !important;
+}
+
+/* Envoltorio de imagen con marco pulido */
+.corner-note-image-wrap {
+    position: relative;
+    border-radius: 14px;
+    overflow: hidden;
+    margin-bottom: 14px;
+    border: 1px solid rgba(225, 29, 72, 0.15);
+}
+
+.corner-note-image {
+    width: 100%;
+    max-height: 240px;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.3s ease;
+}
+
+.corner-note-card:hover .corner-note-image {
+    transform: scale(1.02);
+}
+
+.corner-note-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 10px;
+    padding-top: 12px !important;
+    border-top: 1px solid rgba(225, 29, 72, 0.1) !important;
+}
+
+.corner-note-author {
+    color: #881337 !important;
+    font-size: 0.84rem;
+    font-weight: 700;
+}
+
+.corner-note-actions {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.note-btn-action {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 4px 10px !important;
+    border-radius: 8px !important;
+    font-size: 0.74rem !important;
+    font-weight: 600 !important;
+    border: 1px solid transparent !important;
+    transition: all 0.2s ease !important;
+}
+
+.note-btn-action.btn-copy {
+    background: #f8fafc;
+    color: #475569;
+    border-color: #e2e8f0 !important;
+}
+.note-btn-action.btn-copy:hover {
+    background: #f1f5f9;
+    color: #0f172a;
+}
+
+.note-btn-action.btn-edit {
+    background: #eff6ff;
+    color: #2563eb;
+    border-color: #bfdbfe !important;
+}
+.note-btn-action.btn-edit:hover {
+    background: #2563eb;
+    color: #ffffff;
+}
+
+.note-btn-action.btn-delete {
+    background: #fff1f2;
+    color: #e11d48;
+    border-color: #fecdd3 !important;
+}
+.note-btn-action.btn-delete:hover {
+    background: #e11d48;
+    color: #ffffff;
+}
+
+
 /* =========================================================
-   ESTILOS COMPLETOS: SPLASH BOTÁNICO DE CARLA LORENA
-   (Mariposas, Mariquitas, Girasoles, Shimmer & Glassmorphism)
+   BRILLO NATURAL DE SOL & EFECTO ROTATIVO EN MEDALLONES (MAPA)
+   ========================================================= */
+
+/* 1. Capa de Brillo Natural de Sol */
+.sun-glamour-layer {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 1;
+    overflow: hidden;
+    border-radius: inherit;
+}
+
+.sun-golden-orb {
+    position: absolute;
+    top: -90px;
+    right: 8%;
+    width: 380px;
+    height: 380px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(254, 240, 138, 0.45) 0%, rgba(253, 224, 71, 0.22) 35%, rgba(251, 146, 60, 0.12) 65%, transparent 80%);
+    filter: blur(28px);
+    animation: sunBreathing 8s ease-in-out infinite alternate;
+}
+
+.sun-caustic-light {
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at 78% 18%, rgba(255, 255, 255, 0.38) 0%, rgba(254, 243, 199, 0.22) 28%, rgba(255, 241, 242, 0.08) 55%, transparent 80%);
+    mix-blend-mode: soft-light;
+    animation: sunCausticsDrift 14s ease-in-out infinite alternate;
+}
+
+.sun-lens-flare {
+    position: absolute;
+    top: 5%;
+    right: 18%;
+    width: 220px;
+    height: 2px;
+    transform: rotate(-35deg);
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.8) 50%, transparent);
+    filter: drop-shadow(0 0 12px rgba(253, 224, 71, 0.7));
+    opacity: 0.65;
+    animation: sunFlareGleam 6s ease-in-out infinite;
+}
+
+@keyframes sunBreathing {
+    0% {
+        transform: scale(0.92) translate(0, 0);
+        opacity: 0.75;
+    }
+    50% {
+        transform: scale(1.08) translate(-10px, 8px);
+        opacity: 0.95;
+    }
+    100% {
+        transform: scale(0.98) translate(6px, -4px);
+        opacity: 0.82;
+    }
+}
+
+@keyframes sunCausticsDrift {
+    0% { opacity: 0.6; transform: rotate(0deg); }
+    100% { opacity: 0.9; transform: rotate(2deg) scale(1.04); }
+}
+
+@keyframes sunFlareGleam {
+    0%, 100% { opacity: 0.3; transform: rotate(-35deg) scaleX(0.85); }
+    50% { opacity: 0.85; transform: rotate(-35deg) scaleX(1.18); }
+}
+
+/* 2. Medallón Central: Rosa de Carla Lorena - Resplandor Solar & Cartela Perfeccionada */
+.living-grand-rose-core {
+    position: absolute;
+    z-index: 3 !important;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 140px;
+    height: 140px;
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.living-grand-rose-core:hover {
+    transform: translate(-50%, -50%) scale(1.09) !important;
+}
+
+.living-grand-rose-core.sunlit-active,
+.living-grand-rose-core.is-rotating-active {
+    transform: translate(-50%, -50%) scale(1.08) !important;
+}
+
+.grand-rose-imperial-svg {
+    width: 140px;
+    height: 140px;
+    display: block;
+    filter: drop-shadow(0 12px 24px rgba(190, 24, 93, 0.28)) drop-shadow(0 0 18px rgba(253, 224, 71, 0.35));
+    transition: filter 0.4s ease;
+}
+
+.living-grand-rose-core:hover .grand-rose-imperial-svg,
+.living-grand-rose-core.sunlit-active .grand-rose-imperial-svg {
+    filter: drop-shadow(0 16px 32px rgba(190, 24, 93, 0.38)) drop-shadow(0 0 28px rgba(253, 224, 71, 0.65));
+}
+
+.imperial-rose-nameplate {
+    position: absolute;
+    bottom: -6px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: linear-gradient(135deg, #991b1b 0%, #be123c 50%, #e11d48 100%);
+    color: #ffffff;
+    padding: 3.5px 14px;
+    border-radius: 999px;
+    border: 1.5px solid #fef08a;
+    box-shadow: 0 4px 14px rgba(153, 27, 27, 0.42), 0 0 10px rgba(254, 240, 138, 0.45);
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    z-index: 4;
+    white-space: nowrap;
+    transition: all 0.3s ease;
+}
+
+.imperial-name {
+    font-family: var(--serif);
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 0.16em;
+    color: #fff;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.45);
+}
+
+.imperial-spark {
+    color: #fef08a;
+    font-size: 9px;
+}
+
+.living-grand-rose-core:hover .imperial-rose-nameplate,
+.living-grand-rose-core.sunlit-active .imperial-rose-nameplate {
+    box-shadow: 0 6px 18px rgba(153, 27, 27, 0.55), 0 0 16px rgba(254, 240, 138, 0.75);
+    border-color: #ffffff;
+    transform: translateX(-50%) scale(1.06);
+}
+
+/* 3. Efecto Rotativo Suave Cada 3 Segundos por los Medallones */
+.living-flower-node {
+    position: relative;
+    transition: transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.6s ease, border-color 0.6s ease, filter 0.6s ease !important;
+}
+
+.living-flower-node.sunlit-active,
+.living-flower-node.is-rotating-active {
+    transform: translateY(-8px) scale(1.08) !important;
+    border-color: #f59e0b !important;
+    box-shadow: 0 18px 36px rgba(217, 119, 6, 0.24), 0 0 24px rgba(253, 224, 71, 0.65), 0 0 0 2px rgba(251, 191, 36, 0.5) !important;
+    background: radial-gradient(circle at 35% 35%, #ffffff 0%, #fffdf0 55%, #fef3c7 100%) !important;
+}
+
+.living-flower-node.sunlit-active .place-symbol,
+.living-flower-node.is-rotating-active .place-symbol {
+    transform: scale(1.24) rotate(4deg);
+    filter: drop-shadow(0 2px 8px rgba(245, 158, 11, 0.45));
+}
+
+.living-flower-node.sunlit-active .flower-dew-drop,
+.living-flower-node.is-rotating-active .flower-dew-drop {
+    opacity: 1;
+    transform: scale(1.3);
+}
+
+/* Aura dorada solar cuando el nodo recibe el foco rotativo */
+.living-flower-node::after {
+    content: '';
+    position: absolute;
+    inset: -6px;
+    border-radius: inherit;
+    background: radial-gradient(circle, rgba(253, 224, 71, 0.35) 0%, rgba(245, 158, 11, 0.12) 60%, transparent 80%);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.6s ease, transform 0.6s ease;
+    z-index: -1;
+}
+
+.living-flower-node.sunlit-active::after,
+.living-flower-node.is-rotating-active::after {
+    opacity: 1;
+    transform: scale(1.08);
+    animation: sunMedallionAura 3s ease-in-out infinite alternate;
+}
+
+@keyframes sunMedallionAura {
+    0% { transform: scale(1.02); opacity: 0.65; }
+    100% { transform: scale(1.14); opacity: 1; filter: drop-shadow(0 0 10px rgba(253, 224, 71, 0.6)); }
+}
+
+
+/* =========================================================
+   LAS 4 EXPERIENCIAS DE USUARIO DE VANGUARDIA (IU/UX PRO)
+   1. La Brújula del Jardín (Dock Flotante Ergonómico Inferior)
+   2. Efecto Holográfico y Giros 3D (Tilt Card Interaction)
+   3. Modo Lectura de Cartas "Luz de Velas" (Mood Immersion)
+   4. Buscador Universal Mágico (Spotlight Jardín - Ctrl+K)
+   ========================================================= */
+
+/* 1. La Brújula del Jardín: Dock Flotante Ergonómico Inferior */
+.garden-compass-dock {
+    position: fixed;
+    bottom: 22px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 9998;
+    background: rgba(255, 255, 255, 0.82);
+    backdrop-filter: blur(18px) saturate(180%);
+    -webkit-backdrop-filter: blur(18px) saturate(180%);
+    border: 1.5px solid rgba(251, 207, 216, 0.65);
+    border-radius: 999px;
+    padding: 6px 10px;
+    box-shadow: 0 16px 36px rgba(190, 24, 93, 0.16), 0 4px 12px rgba(0, 0, 0, 0.05), inset 0 1px 2px rgba(255, 255, 255, 0.9);
+    transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.3s ease;
+}
+
+.garden-compass-dock:hover {
+    box-shadow: 0 20px 44px rgba(190, 24, 93, 0.22), 0 0 20px rgba(253, 224, 71, 0.35);
+}
+
+.compass-dock-items {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.compass-dock-btn {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-width: 58px;
+    height: 48px;
+    padding: 4px 10px;
+    border-radius: 999px;
+    background: transparent;
+    border: 1px solid transparent;
+    color: #4b5563;
+    text-decoration: none;
+    cursor: pointer;
+    font-family: inherit;
+    transition: all 0.24s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.compass-dock-icon {
+    font-size: 1.25rem;
+    line-height: 1;
+    margin-bottom: 2px;
+    transition: transform 0.24s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.compass-dock-label {
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 0.03em;
+    color: #4b5563;
+    transition: color 0.2s ease;
+}
+
+.compass-dock-btn:hover {
+    background: rgba(255, 241, 242, 0.7);
+    color: #be123c;
+    transform: translateY(-3px) scale(1.05);
+}
+
+.compass-dock-btn:hover .compass-dock-icon {
+    transform: scale(1.22);
+}
+
+.compass-dock-btn.is-active {
+    background: linear-gradient(135deg, #be123c 0%, #e11d48 100%);
+    border-color: #fda4af;
+    color: #ffffff;
+    box-shadow: 0 4px 14px rgba(225, 29, 72, 0.38);
+    transform: translateY(-2px);
+}
+
+.compass-dock-btn.is-active .compass-dock-label {
+    color: #ffffff;
+}
+
+/* 2. Efecto Holográfico y Giros 3D (Tilt Card Interaction) */
+.garden-tilt-card {
+    position: relative;
+    transform-style: preserve-3d;
+    transition: transform 0.15s ease-out, box-shadow 0.25s ease;
+    will-change: transform;
+}
+
+.tilt-specular-sheen {
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+    mix-blend-mode: soft-light;
+    z-index: 10;
+}
+
+/* 3. Modo Lectura de Cartas "Luz de Velas" (Mood Immersion & Fireflies) */
+.candlelight-reading-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 99990;
+    background: radial-gradient(circle at 50% 50%, rgba(254, 243, 199, 0.12) 0%, rgba(30, 10, 18, 0.88) 65%, rgba(15, 3, 8, 0.96) 100%);
+    pointer-events: none;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.8s ease, visibility 0.8s ease;
+    mix-blend-mode: multiply;
+}
+
+.candlelight-reading-overlay.is-active {
+    opacity: 1;
+    visibility: visible;
+}
+
+.candlelight-flicker {
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at 50% 45%, rgba(253, 224, 71, 0.15) 0%, transparent 70%);
+    animation: candleFlicker 2.8s ease-in-out infinite alternate;
+}
+
+@keyframes candleFlicker {
+    0% { opacity: 0.7; transform: scale(0.98); }
+    50% { opacity: 1; transform: scale(1.02); }
+    100% { opacity: 0.8; transform: scale(0.99); }
+}
+
+.candlelight-fireflies {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+}
+
+.candlelight-firefly {
+    position: absolute;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #fef08a;
+    box-shadow: 0 0 10px #fde047, 0 0 20px #eab308;
+    opacity: 0;
+    animation: fireflyFloat infinite ease-in-out;
+}
+
+@keyframes fireflyFloat {
+    0% { opacity: 0; transform: translateY(0) scale(0.6); }
+    40% { opacity: 0.9; transform: translateY(-30px) scale(1.2); }
+    80% { opacity: 0.7; transform: translateY(-60px) scale(0.9); }
+    100% { opacity: 0; transform: translateY(-90px) scale(0.5); }
+}
+
+.candlelight-exit-btn {
+    position: absolute;
+    top: 24px;
+    right: 24px;
+    pointer-events: auto;
+    background: rgba(30, 10, 18, 0.75);
+    backdrop-filter: blur(10px);
+    border: 1.5px solid rgba(253, 224, 71, 0.4);
+    color: #fef08a;
+    padding: 8px 16px;
+    border-radius: 999px;
+    font-size: 0.82rem;
+    font-weight: 600;
+    cursor: pointer;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.5);
+    transition: all 0.2s ease;
+}
+
+.candlelight-exit-btn:hover {
+    background: rgba(253, 224, 71, 0.2);
+    border-color: #fef08a;
+    transform: scale(1.05);
+}
+
+/* 4. Buscador Universal Mágico (Spotlight Jardín - Ctrl+K) */
+.garden-spotlight-modal {
+    position: fixed;
+    inset: 0;
+    margin: auto;
+    width: 92%;
+    max-width: 620px;
+    background: transparent;
+    border: none;
+    padding: 0;
+    z-index: 99999;
+}
+
+.garden-spotlight-modal::backdrop {
+    background: rgba(15, 23, 42, 0.65);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+}
+
+.spotlight-card {
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1.5px solid rgba(251, 207, 216, 0.8);
+    border-radius: 24px;
+    box-shadow: 0 25px 60px rgba(190, 24, 93, 0.25), 0 0 30px rgba(253, 224, 71, 0.2);
+    overflow: hidden;
+    animation: spotlightPop 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@keyframes spotlightPop {
+    from { opacity: 0; transform: scale(0.92) translateY(-10px); }
+    to { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+.spotlight-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 18px 22px;
+    border-bottom: 1px solid rgba(243, 244, 246, 0.9);
+}
+
+.spotlight-search-icon {
+    font-size: 1.3rem;
+    color: #e11d48;
+}
+
+.spotlight-input {
+    flex: 1;
+    border: none !important;
+    background: transparent !important;
+    font-size: 1.05rem !important;
+    color: #1f2937 !important;
+    outline: none !important;
+    box-shadow: none !important;
+    padding: 0 !important;
+}
+
+.spotlight-kbd {
+    background: #f3f4f6;
+    border: 1px solid #d1d5db;
+    border-radius: 6px;
+    padding: 2px 8px;
+    font-size: 0.72rem;
+    font-weight: 700;
+    color: #6b7280;
+}
+
+.spotlight-quick-tags {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 22px;
+    background: #fff5f7;
+    border-bottom: 1px solid rgba(254, 226, 226, 0.6);
+    overflow-x: auto;
+}
+
+.spotlight-tag {
+    padding: 4px 12px;
+    border-radius: 999px;
+    font-size: 0.76rem;
+    font-weight: 600;
+    color: #9f1239;
+    background: #ffffff;
+    border: 1px solid #fecdd3;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: all 0.2s ease;
+}
+
+.spotlight-tag:hover,
+.spotlight-tag.is-active {
+    background: #e11d48;
+    color: #ffffff;
+    border-color: #e11d48;
+}
+
+.spotlight-results {
+    max-height: 340px;
+    overflow-y: auto;
+    padding: 10px 14px;
+}
+
+.spotlight-item {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 12px 14px;
+    border-radius: 14px;
+    cursor: pointer;
+    transition: all 0.18s ease;
+}
+
+.spotlight-item:hover,
+.spotlight-item.is-focused {
+    background: #fff1f2;
+    transform: translateX(4px);
+}
+
+.spotlight-item-icon {
+    font-size: 1.45rem;
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+}
+
+.spotlight-item-info {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.spotlight-item-info strong {
+    font-size: 0.94rem;
+    color: #111827;
+}
+
+.spotlight-item-info small {
+    font-size: 0.78rem;
+    color: #6b7280;
+    margin-top: 1px;
+}
+
+.spotlight-item-type {
+    font-size: 0.68rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    padding: 3px 8px;
+    border-radius: 6px;
+    background: #f1f5f9;
+    color: #475569;
+}
+
+.spotlight-empty {
+    text-align: center;
+    padding: 36px 18px;
+    color: #9ca3af;
+}
+
+.spotlight-empty span {
+    font-size: 2.5rem;
+    display: block;
+    margin-bottom: 8px;
+}
+
+.spotlight-footer {
+    padding: 10px 22px;
+    background: #fafafa;
+    border-top: 1px solid #f3f4f6;
+    text-align: center;
+    color: #9ca3af;
+    font-size: 0.75rem;
+}
+
+.spotlight-shortcut-hint {
+    color: #e11d48;
+    font-weight: 600;
+}
+
+
+/* =========================================================
+   ESTILOS COMPLETOS DEL SPLASH BOTÁNICO:
+   MARIPOSAS, MARIQUITAS, GIRASOLES, BOUQUET & GLASSMORPHISM
    ========================================================= */
 
 .splash-glassmorphism-card {
@@ -14271,7 +15155,7 @@ footer a:hover, .site-footer a:hover {
     overflow: hidden;
     backdrop-filter: blur(20px) saturate(160%) !important;
     -webkit-backdrop-filter: blur(20px) saturate(160%) !important;
-    background: linear-gradient(135deg, rgba(255, 255, 255, 0.96) 0%, rgba(255, 243, 246, 0.92) 50%, rgba(255, 235, 240, 0.96) 100%) !important;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.94) 0%, rgba(255, 240, 245, 0.90) 50%, rgba(255, 235, 240, 0.95) 100%) !important;
     border: 1.5px solid rgba(244, 63, 94, 0.28) !important;
     box-shadow: 0 25px 60px -10px rgba(159, 18, 57, 0.35), 0 0 35px rgba(253, 224, 71, 0.25) !important;
 }
@@ -14307,6 +15191,15 @@ footer a:hover, .site-footer a:hover {
     animation: butterflyFloatB 5.2s ease-in-out infinite alternate;
 }
 
+.bf-center-fly {
+    top: 60px;
+    right: 48px;
+    width: 24px;
+    height: 24px;
+    transform: rotate(10deg);
+    animation: butterflyFloatC 6s ease-in-out infinite alternate;
+}
+
 @keyframes butterflyWingFlap {
     0% { transform: scaleX(0.7) rotate(0deg); }
     100% { transform: scaleX(1.1) rotate(4deg); }
@@ -14320,6 +15213,11 @@ footer a:hover, .site-footer a:hover {
 @keyframes butterflyFloatB {
     0% { transform: translate(0, 0) rotate(24deg); }
     100% { transform: translate(-10px, -12px) rotate(16deg); }
+}
+
+@keyframes butterflyFloatC {
+    0% { transform: translate(0, 0) rotate(10deg); }
+    100% { transform: translate(-14px, 16px) rotate(20deg); }
 }
 
 /* 2. Mariquitas Botánicas de la Suerte */
@@ -14383,6 +15281,18 @@ footer a:hover, .site-footer a:hover {
     display: flex;
     align-items: center;
     justify-content: center;
+}
+
+.splash-grand-rose-svg {
+    width: 100%;
+    height: 100%;
+    filter: drop-shadow(0 6px 14px rgba(225, 29, 72, 0.35));
+    animation: rosePulseGentle 3s ease-in-out infinite alternate;
+}
+
+@keyframes rosePulseGentle {
+    0% { transform: scale(0.96); }
+    100% { transform: scale(1.04); }
 }
 
 .splash-flanking-sunflower {
@@ -14477,7 +15387,10 @@ footer a:hover, .site-footer a:hover {
 }
 
 .splash-name-glow {
-    color: #e11d48 !important;
+    font-family: 'Playfair Display', Georgia, serif;
+    font-style: italic;
+    font-weight: 700;
+    color: #e11d48;
     text-shadow: 0 0 16px rgba(244, 63, 94, 0.4);
 }
 
@@ -14528,6 +15441,887 @@ footer a:hover, .site-footer a:hover {
     background: linear-gradient(90deg, #fde047 0%, #f43f5e 50%, #e11d48 100%) !important;
     box-shadow: 0 0 10px rgba(244, 63, 94, 0.6) !important;
 }
+
+
+/* =========================================================
+   BRILLO NATURAL DE SOL & EFECTO ROTATIVO EN MEDALLONES (MAPA)
+   ========================================================= */
+
+/* 1. Capa de Brillo Natural de Sol */
+.sun-glamour-layer {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 1;
+    overflow: hidden;
+    border-radius: inherit;
+}
+
+.sun-golden-orb {
+    position: absolute;
+    top: -90px;
+    right: 8%;
+    width: 380px;
+    height: 380px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(254, 240, 138, 0.45) 0%, rgba(253, 224, 71, 0.22) 35%, rgba(251, 146, 60, 0.12) 65%, transparent 80%);
+    filter: blur(28px);
+    animation: sunBreathing 8s ease-in-out infinite alternate;
+}
+
+.sun-caustic-light {
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at 78% 18%, rgba(255, 255, 255, 0.38) 0%, rgba(254, 243, 199, 0.22) 28%, rgba(255, 241, 242, 0.08) 55%, transparent 80%);
+    mix-blend-mode: soft-light;
+    animation: sunCausticsDrift 14s ease-in-out infinite alternate;
+}
+
+.sun-lens-flare {
+    position: absolute;
+    top: 5%;
+    right: 18%;
+    width: 220px;
+    height: 2px;
+    transform: rotate(-35deg);
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.8) 50%, transparent);
+    filter: drop-shadow(0 0 12px rgba(253, 224, 71, 0.7));
+    opacity: 0.65;
+    animation: sunFlareGleam 6s ease-in-out infinite;
+}
+
+@keyframes sunBreathing {
+    0% {
+        transform: scale(0.92) translate(0, 0);
+        opacity: 0.75;
+    }
+    50% {
+        transform: scale(1.08) translate(-10px, 8px);
+        opacity: 0.95;
+    }
+    100% {
+        transform: scale(0.98) translate(6px, -4px);
+        opacity: 0.82;
+    }
+}
+
+@keyframes sunCausticsDrift {
+    0% { opacity: 0.6; transform: rotate(0deg); }
+    100% { opacity: 0.9; transform: rotate(2deg) scale(1.04); }
+}
+
+@keyframes sunFlareGleam {
+    0%, 100% { opacity: 0.3; transform: rotate(-35deg) scaleX(0.85); }
+    50% { opacity: 0.85; transform: rotate(-35deg) scaleX(1.18); }
+}
+
+/* 2. Medallón Central: Rosa de Carla Lorena - Resplandor Solar & Cartela Perfeccionada */
+.living-grand-rose-core {
+    position: absolute;
+    z-index: 3 !important;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 140px;
+    height: 140px;
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.living-grand-rose-core:hover {
+    transform: translate(-50%, -50%) scale(1.09) !important;
+}
+
+.living-grand-rose-core.sunlit-active,
+.living-grand-rose-core.is-rotating-active {
+    transform: translate(-50%, -50%) scale(1.08) !important;
+}
+
+.grand-rose-imperial-svg {
+    width: 140px;
+    height: 140px;
+    display: block;
+    filter: drop-shadow(0 12px 24px rgba(190, 24, 93, 0.28)) drop-shadow(0 0 18px rgba(253, 224, 71, 0.35));
+    transition: filter 0.4s ease;
+}
+
+.living-grand-rose-core:hover .grand-rose-imperial-svg,
+.living-grand-rose-core.sunlit-active .grand-rose-imperial-svg {
+    filter: drop-shadow(0 16px 32px rgba(190, 24, 93, 0.38)) drop-shadow(0 0 28px rgba(253, 224, 71, 0.65));
+}
+
+.imperial-rose-nameplate {
+    position: absolute;
+    bottom: -6px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: linear-gradient(135deg, #991b1b 0%, #be123c 50%, #e11d48 100%);
+    color: #ffffff;
+    padding: 3.5px 14px;
+    border-radius: 999px;
+    border: 1.5px solid #fef08a;
+    box-shadow: 0 4px 14px rgba(153, 27, 27, 0.42), 0 0 10px rgba(254, 240, 138, 0.45);
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    z-index: 4;
+    white-space: nowrap;
+    transition: all 0.3s ease;
+}
+
+.imperial-name {
+    font-family: var(--serif);
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 0.16em;
+    color: #fff;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.45);
+}
+
+.imperial-spark {
+    color: #fef08a;
+    font-size: 9px;
+}
+
+.living-grand-rose-core:hover .imperial-rose-nameplate,
+.living-grand-rose-core.sunlit-active .imperial-rose-nameplate {
+    box-shadow: 0 6px 18px rgba(153, 27, 27, 0.55), 0 0 16px rgba(254, 240, 138, 0.75);
+    border-color: #ffffff;
+    transform: translateX(-50%) scale(1.06);
+}
+
+/* 3. Efecto Rotativo Suave Cada 3 Segundos por los Medallones */
+.living-flower-node {
+    position: relative;
+    transition: transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.6s ease, border-color 0.6s ease, filter 0.6s ease !important;
+}
+
+.living-flower-node.sunlit-active,
+.living-flower-node.is-rotating-active {
+    transform: translateY(-8px) scale(1.08) !important;
+    border-color: #f59e0b !important;
+    box-shadow: 0 18px 36px rgba(217, 119, 6, 0.24), 0 0 24px rgba(253, 224, 71, 0.65), 0 0 0 2px rgba(251, 191, 36, 0.5) !important;
+    background: radial-gradient(circle at 35% 35%, #ffffff 0%, #fffdf0 55%, #fef3c7 100%) !important;
+}
+
+.living-flower-node.sunlit-active .place-symbol,
+.living-flower-node.is-rotating-active .place-symbol {
+    transform: scale(1.24) rotate(4deg);
+    filter: drop-shadow(0 2px 8px rgba(245, 158, 11, 0.45));
+}
+
+.living-flower-node.sunlit-active .flower-dew-drop,
+.living-flower-node.is-rotating-active .flower-dew-drop {
+    opacity: 1;
+    transform: scale(1.3);
+}
+
+/* Aura dorada solar cuando el nodo recibe el foco rotativo */
+.living-flower-node::after {
+    content: '';
+    position: absolute;
+    inset: -6px;
+    border-radius: inherit;
+    background: radial-gradient(circle, rgba(253, 224, 71, 0.35) 0%, rgba(245, 158, 11, 0.12) 60%, transparent 80%);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.6s ease, transform 0.6s ease;
+    z-index: -1;
+}
+
+.living-flower-node.sunlit-active::after,
+.living-flower-node.is-rotating-active::after {
+    opacity: 1;
+    transform: scale(1.08);
+    animation: sunMedallionAura 3s ease-in-out infinite alternate;
+}
+
+@keyframes sunMedallionAura {
+    0% { transform: scale(1.02); opacity: 0.65; }
+    100% { transform: scale(1.14); opacity: 1; filter: drop-shadow(0 0 10px rgba(253, 224, 71, 0.6)); }
+}
+
+
+/* =========================================================
+   LAS 4 EXPERIENCIAS DE USUARIO DE VANGUARDIA (IU/UX PRO)
+   1. La Brújula del Jardín (Dock Flotante Ergonómico Inferior)
+   2. Efecto Holográfico y Giros 3D (Tilt Card Interaction)
+   3. Modo Lectura de Cartas "Luz de Velas" (Mood Immersion)
+   4. Buscador Universal Mágico (Spotlight Jardín - Ctrl+K)
+   ========================================================= */
+
+/* 1. La Brújula del Jardín: Dock Flotante Ergonómico Inferior */
+.garden-compass-dock {
+    position: fixed;
+    bottom: 22px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 9998;
+    background: rgba(255, 255, 255, 0.82);
+    backdrop-filter: blur(18px) saturate(180%);
+    -webkit-backdrop-filter: blur(18px) saturate(180%);
+    border: 1.5px solid rgba(251, 207, 216, 0.65);
+    border-radius: 999px;
+    padding: 6px 10px;
+    box-shadow: 0 16px 36px rgba(190, 24, 93, 0.16), 0 4px 12px rgba(0, 0, 0, 0.05), inset 0 1px 2px rgba(255, 255, 255, 0.9);
+    transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.3s ease;
+}
+
+.garden-compass-dock:hover {
+    box-shadow: 0 20px 44px rgba(190, 24, 93, 0.22), 0 0 20px rgba(253, 224, 71, 0.35);
+}
+
+.compass-dock-items {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.compass-dock-btn {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-width: 58px;
+    height: 48px;
+    padding: 4px 10px;
+    border-radius: 999px;
+    background: transparent;
+    border: 1px solid transparent;
+    color: #4b5563;
+    text-decoration: none;
+    cursor: pointer;
+    font-family: inherit;
+    transition: all 0.24s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.compass-dock-icon {
+    font-size: 1.25rem;
+    line-height: 1;
+    margin-bottom: 2px;
+    transition: transform 0.24s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.compass-dock-label {
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 0.03em;
+    color: #4b5563;
+    transition: color 0.2s ease;
+}
+
+.compass-dock-btn:hover {
+    background: rgba(255, 241, 242, 0.7);
+    color: #be123c;
+    transform: translateY(-3px) scale(1.05);
+}
+
+.compass-dock-btn:hover .compass-dock-icon {
+    transform: scale(1.22);
+}
+
+.compass-dock-btn.is-active {
+    background: linear-gradient(135deg, #be123c 0%, #e11d48 100%);
+    border-color: #fda4af;
+    color: #ffffff;
+    box-shadow: 0 4px 14px rgba(225, 29, 72, 0.38);
+    transform: translateY(-2px);
+}
+
+.compass-dock-btn.is-active .compass-dock-label {
+    color: #ffffff;
+}
+
+/* 2. Efecto Holográfico y Giros 3D (Tilt Card Interaction) */
+.garden-tilt-card {
+    position: relative;
+    transform-style: preserve-3d;
+    transition: transform 0.15s ease-out, box-shadow 0.25s ease;
+    will-change: transform;
+}
+
+.tilt-specular-sheen {
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+    mix-blend-mode: soft-light;
+    z-index: 10;
+}
+
+/* 3. Modo Lectura de Cartas "Luz de Velas" (Mood Immersion & Fireflies) */
+.candlelight-reading-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 99990;
+    background: radial-gradient(circle at 50% 50%, rgba(254, 243, 199, 0.12) 0%, rgba(30, 10, 18, 0.88) 65%, rgba(15, 3, 8, 0.96) 100%);
+    pointer-events: none;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.8s ease, visibility 0.8s ease;
+    mix-blend-mode: multiply;
+}
+
+.candlelight-reading-overlay.is-active {
+    opacity: 1;
+    visibility: visible;
+}
+
+.candlelight-flicker {
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at 50% 45%, rgba(253, 224, 71, 0.15) 0%, transparent 70%);
+    animation: candleFlicker 2.8s ease-in-out infinite alternate;
+}
+
+@keyframes candleFlicker {
+    0% { opacity: 0.7; transform: scale(0.98); }
+    50% { opacity: 1; transform: scale(1.02); }
+    100% { opacity: 0.8; transform: scale(0.99); }
+}
+
+.candlelight-fireflies {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+}
+
+.candlelight-firefly {
+    position: absolute;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #fef08a;
+    box-shadow: 0 0 10px #fde047, 0 0 20px #eab308;
+    opacity: 0;
+    animation: fireflyFloat infinite ease-in-out;
+}
+
+@keyframes fireflyFloat {
+    0% { opacity: 0; transform: translateY(0) scale(0.6); }
+    40% { opacity: 0.9; transform: translateY(-30px) scale(1.2); }
+    80% { opacity: 0.7; transform: translateY(-60px) scale(0.9); }
+    100% { opacity: 0; transform: translateY(-90px) scale(0.5); }
+}
+
+.candlelight-exit-btn {
+    position: absolute;
+    top: 24px;
+    right: 24px;
+    pointer-events: auto;
+    background: rgba(30, 10, 18, 0.75);
+    backdrop-filter: blur(10px);
+    border: 1.5px solid rgba(253, 224, 71, 0.4);
+    color: #fef08a;
+    padding: 8px 16px;
+    border-radius: 999px;
+    font-size: 0.82rem;
+    font-weight: 600;
+    cursor: pointer;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.5);
+    transition: all 0.2s ease;
+}
+
+.candlelight-exit-btn:hover {
+    background: rgba(253, 224, 71, 0.2);
+    border-color: #fef08a;
+    transform: scale(1.05);
+}
+
+/* 4. Buscador Universal Mágico (Spotlight Jardín - Ctrl+K) */
+.garden-spotlight-modal {
+    position: fixed;
+    inset: 0;
+    margin: auto;
+    width: 92%;
+    max-width: 620px;
+    background: transparent;
+    border: none;
+    padding: 0;
+    z-index: 99999;
+}
+
+.garden-spotlight-modal::backdrop {
+    background: rgba(15, 23, 42, 0.65);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+}
+
+.spotlight-card {
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1.5px solid rgba(251, 207, 216, 0.8);
+    border-radius: 24px;
+    box-shadow: 0 25px 60px rgba(190, 24, 93, 0.25), 0 0 30px rgba(253, 224, 71, 0.2);
+    overflow: hidden;
+    animation: spotlightPop 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@keyframes spotlightPop {
+    from { opacity: 0; transform: scale(0.92) translateY(-10px); }
+    to { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+.spotlight-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 18px 22px;
+    border-bottom: 1px solid rgba(243, 244, 246, 0.9);
+}
+
+.spotlight-search-icon {
+    font-size: 1.3rem;
+    color: #e11d48;
+}
+
+.spotlight-input {
+    flex: 1;
+    border: none !important;
+    background: transparent !important;
+    font-size: 1.05rem !important;
+    color: #1f2937 !important;
+    outline: none !important;
+    box-shadow: none !important;
+    padding: 0 !important;
+}
+
+.spotlight-kbd {
+    background: #f3f4f6;
+    border: 1px solid #d1d5db;
+    border-radius: 6px;
+    padding: 2px 8px;
+    font-size: 0.72rem;
+    font-weight: 700;
+    color: #6b7280;
+}
+
+.spotlight-quick-tags {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 22px;
+    background: #fff5f7;
+    border-bottom: 1px solid rgba(254, 226, 226, 0.6);
+    overflow-x: auto;
+}
+
+.spotlight-tag {
+    padding: 4px 12px;
+    border-radius: 999px;
+    font-size: 0.76rem;
+    font-weight: 600;
+    color: #9f1239;
+    background: #ffffff;
+    border: 1px solid #fecdd3;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: all 0.2s ease;
+}
+
+.spotlight-tag:hover,
+.spotlight-tag.is-active {
+    background: #e11d48;
+    color: #ffffff;
+    border-color: #e11d48;
+}
+
+.spotlight-results {
+    max-height: 340px;
+    overflow-y: auto;
+    padding: 10px 14px;
+}
+
+.spotlight-item {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 12px 14px;
+    border-radius: 14px;
+    cursor: pointer;
+    transition: all 0.18s ease;
+}
+
+.spotlight-item:hover,
+.spotlight-item.is-focused {
+    background: #fff1f2;
+    transform: translateX(4px);
+}
+
+.spotlight-item-icon {
+    font-size: 1.45rem;
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+}
+
+.spotlight-item-info {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.spotlight-item-info strong {
+    font-size: 0.94rem;
+    color: #111827;
+}
+
+.spotlight-item-info small {
+    font-size: 0.78rem;
+    color: #6b7280;
+    margin-top: 1px;
+}
+
+.spotlight-item-type {
+    font-size: 0.68rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    padding: 3px 8px;
+    border-radius: 6px;
+    background: #f1f5f9;
+    color: #475569;
+}
+
+.spotlight-empty {
+    text-align: center;
+    padding: 36px 18px;
+    color: #9ca3af;
+}
+
+.spotlight-empty span {
+    font-size: 2.5rem;
+    display: block;
+    margin-bottom: 8px;
+}
+
+.spotlight-footer {
+    padding: 10px 22px;
+    background: #fafafa;
+    border-top: 1px solid #f3f4f6;
+    text-align: center;
+    color: #9ca3af;
+    font-size: 0.75rem;
+}
+
+.spotlight-shortcut-hint {
+    color: #e11d48;
+    font-weight: 600;
+}
+
+
+/* =========================================================
+   ESTILOS COMPLETOS DEL SPLASH BOTÁNICO:
+   MARIPOSAS, MARIQUITAS, GIRASOLES, BOUQUET & GLASSMORPHISM
+   ========================================================= */
+
+.splash-glassmorphism-card {
+    position: relative;
+    overflow: hidden;
+    backdrop-filter: blur(20px) saturate(160%) !important;
+    -webkit-backdrop-filter: blur(20px) saturate(160%) !important;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.94) 0%, rgba(255, 240, 245, 0.90) 50%, rgba(255, 235, 240, 0.95) 100%) !important;
+    border: 1.5px solid rgba(244, 63, 94, 0.28) !important;
+    box-shadow: 0 25px 60px -10px rgba(159, 18, 57, 0.35), 0 0 35px rgba(253, 224, 71, 0.25) !important;
+}
+
+/* 1. Mariposas Luminosas */
+.splash-flutter-butterfly {
+    position: absolute;
+    width: 32px;
+    height: 32px;
+    pointer-events: none;
+    z-index: 4;
+    filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.15));
+}
+
+.splash-flutter-butterfly svg {
+    width: 100%;
+    height: 100%;
+    display: block;
+    animation: butterflyWingFlap 0.4s ease-in-out infinite alternate;
+}
+
+.bf-top-left {
+    top: 20px;
+    left: 24px;
+    transform: rotate(-18deg);
+    animation: butterflyFloatA 4.5s ease-in-out infinite alternate;
+}
+
+.bf-bottom-right {
+    bottom: 28px;
+    right: 28px;
+    transform: rotate(24deg);
+    animation: butterflyFloatB 5.2s ease-in-out infinite alternate;
+}
+
+.bf-center-fly {
+    top: 60px;
+    right: 48px;
+    width: 24px;
+    height: 24px;
+    transform: rotate(10deg);
+    animation: butterflyFloatC 6s ease-in-out infinite alternate;
+}
+
+@keyframes butterflyWingFlap {
+    0% { transform: scaleX(0.7) rotate(0deg); }
+    100% { transform: scaleX(1.1) rotate(4deg); }
+}
+
+@keyframes butterflyFloatA {
+    0% { transform: translate(0, 0) rotate(-18deg); }
+    100% { transform: translate(12px, 14px) rotate(-10deg); }
+}
+
+@keyframes butterflyFloatB {
+    0% { transform: translate(0, 0) rotate(24deg); }
+    100% { transform: translate(-10px, -12px) rotate(16deg); }
+}
+
+@keyframes butterflyFloatC {
+    0% { transform: translate(0, 0) rotate(10deg); }
+    100% { transform: translate(-14px, 16px) rotate(20deg); }
+}
+
+/* 2. Mariquitas Botánicas de la Suerte */
+.splash-ladybug {
+    position: absolute;
+    width: 28px;
+    height: 28px;
+    pointer-events: none;
+    z-index: 4;
+    filter: drop-shadow(0 3px 6px rgba(0, 0, 0, 0.2));
+}
+
+.splash-ladybug svg {
+    width: 100%;
+    height: 100%;
+    display: block;
+}
+
+.lb-top-right {
+    top: 24px;
+    right: 68px;
+    transform: rotate(45deg);
+    animation: ladybugCrawlA 7s ease-in-out infinite alternate;
+}
+
+.lb-bottom-left {
+    bottom: 32px;
+    left: 32px;
+    transform: rotate(-45deg);
+    animation: ladybugCrawlB 6.5s ease-in-out infinite alternate;
+}
+
+@keyframes ladybugCrawlA {
+    0% { transform: translate(0, 0) rotate(45deg); }
+    50% { transform: translate(6px, -4px) rotate(52deg); }
+    100% { transform: translate(12px, 2px) rotate(40deg); }
+}
+
+@keyframes ladybugCrawlB {
+    0% { transform: translate(0, 0) rotate(-45deg); }
+    50% { transform: translate(-4px, 6px) rotate(-38deg); }
+    100% { transform: translate(4px, 10px) rotate(-48deg); }
+}
+
+/* 3. Bouquet Central: Rosa Imperial y Girasoles Flanqueantes */
+.splash-botanical-bouquet {
+    position: relative;
+    width: 140px;
+    height: 110px;
+    margin: 0 auto 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.splash-main-rose-wrap {
+    position: relative;
+    z-index: 3;
+    width: 84px;
+    height: 84px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.splash-grand-rose-svg {
+    width: 100%;
+    height: 100%;
+    filter: drop-shadow(0 6px 14px rgba(225, 29, 72, 0.35));
+    animation: rosePulseGentle 3s ease-in-out infinite alternate;
+}
+
+@keyframes rosePulseGentle {
+    0% { transform: scale(0.96); }
+    100% { transform: scale(1.04); }
+}
+
+.splash-flanking-sunflower {
+    position: absolute;
+    width: 44px;
+    height: 44px;
+    z-index: 2;
+    filter: drop-shadow(0 4px 10px rgba(217, 119, 6, 0.3));
+    animation: sunflowerSpin 18s linear infinite;
+}
+
+.splash-flanking-sunflower svg {
+    width: 100%;
+    height: 100%;
+    display: block;
+}
+
+.splash-flanking-sunflower.sf-left {
+    left: 2px;
+    bottom: 12px;
+}
+
+.splash-flanking-sunflower.sf-right {
+    right: 2px;
+    bottom: 12px;
+}
+
+@keyframes sunflowerSpin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+.splash-halo-ring {
+    position: absolute;
+    width: 104px;
+    height: 104px;
+    border-radius: 50%;
+    border: 1.5px dashed rgba(253, 224, 71, 0.55);
+    animation: haloRotate 12s linear infinite;
+    z-index: 1;
+}
+
+@keyframes haloRotate {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+.splash-aura-pulsar {
+    position: absolute;
+    width: 90px;
+    height: 90px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(254, 240, 138, 0.45) 0%, rgba(244, 63, 94, 0.25) 55%, transparent 75%);
+    animation: auraPulse 2.8s ease-in-out infinite alternate;
+    z-index: 0;
+}
+
+@keyframes auraPulse {
+    0% { transform: scale(0.9); opacity: 0.6; }
+    100% { transform: scale(1.25); opacity: 1; }
+}
+
+/* 4. Badges Botánicos con Mariposas, Mariquitas y Girasoles */
+.splash-nature-badges-row {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin: 10px auto 14px;
+}
+
+.splash-nature-pill {
+    font-size: 0.72rem;
+    font-weight: 700;
+    padding: 3px 10px;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.85);
+    border: 1px solid rgba(251, 207, 216, 0.8);
+    color: #9f1239;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
+}
+
+.splash-crown-modern {
+    margin-bottom: 6px;
+}
+
+.splash-modern-title {
+    font-size: clamp(22px, 4.8vw, 30px);
+    line-height: 1.25;
+    margin-bottom: 10px;
+}
+
+.splash-name-glow {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-style: italic;
+    font-weight: 700;
+    color: #e11d48;
+    text-shadow: 0 0 16px rgba(244, 63, 94, 0.4);
+}
+
+.splash-modern-verse {
+    font-size: 0.88rem;
+    line-height: 1.6;
+    color: #4b5563;
+    max-width: 440px;
+    margin: 0 auto 20px;
+}
+
+.splash-liquid-btn {
+    position: relative;
+    overflow: hidden;
+    background: linear-gradient(135deg, #e11d48 0%, #be123c 60%, #9f1239 100%) !important;
+    color: #ffffff !important;
+    border: 1.5px solid #fda4af !important;
+    border-radius: 999px !important;
+    padding: 12px 34px !important;
+    font-weight: 700 !important;
+    font-size: 0.95rem !important;
+    box-shadow: 0 8px 24px rgba(225, 29, 72, 0.35), 0 0 16px rgba(253, 224, 71, 0.3) !important;
+    transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1) !important;
+}
+
+.splash-liquid-btn:hover {
+    transform: translateY(-3px) scale(1.04) !important;
+    box-shadow: 0 12px 30px rgba(225, 29, 72, 0.48), 0 0 24px rgba(253, 224, 71, 0.5) !important;
+}
+
+.splash-btn-shimmer {
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 60%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.45), transparent);
+    transform: skewX(-20deg);
+    animation: btnShimmerSlide 2.6s infinite;
+}
+
+@keyframes btnShimmerSlide {
+    0% { left: -100%; }
+    40%, 100% { left: 160%; }
+}
+
+.splash-progress-modern {
+    background: linear-gradient(90deg, #fde047 0%, #f43f5e 50%, #e11d48 100%) !important;
+    box-shadow: 0 0 10px rgba(244, 63, 94, 0.6) !important;
+}
+
 
 /* =========================================================
    ESTILOS COMPLETOS: FRANJA DE ESTADOS DE 24 HORAS (#inicio)
@@ -15034,4 +16828,570 @@ footer a:hover, .site-footer a:hover {
     font-size: 0.85rem;
     font-weight: 600;
     color: #9f1239;
+}
+
+
+/* =========================================================
+   SANTUARIO FAMILIAR PRIVADO DE CARLA LORENA (#familia)
+   Diseño de Alta Gama en Zafiro Real, Oro y Cristal
+   ========================================================= */
+
+.family-sanctuary-shell {
+    position: relative;
+    max-width: 1240px;
+    margin: 0 auto;
+    padding-bottom: 80px;
+}
+
+.family-top-nav-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 24px;
+    flex-wrap: wrap;
+    gap: 12px;
+}
+
+.family-back-map-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 18px;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.9);
+    border: 1.5px solid rgba(56, 189, 248, 0.4);
+    color: #0369a1;
+    font-size: 0.85rem;
+    font-weight: 700;
+    text-decoration: none;
+    box-shadow: 0 4px 12px rgba(3, 105, 161, 0.08);
+    transition: all 0.25s ease;
+}
+
+.family-back-map-btn:hover {
+    background: #0284c7;
+    color: #ffffff;
+    border-color: #0284c7;
+    transform: translateX(-4px);
+    box-shadow: 0 6px 18px rgba(2, 132, 199, 0.25);
+}
+
+.family-security-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 16px;
+    border-radius: 999px;
+    background: #f0fdf4;
+    border: 1px solid #86efac;
+    font-size: 0.76rem;
+    font-weight: 700;
+    color: #166534;
+}
+
+.family-sec-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+}
+
+.family-sec-dot.is-unlocked {
+    background: #10b981;
+    box-shadow: 0 0 8px #10b981;
+}
+
+.family-sec-dot.is-locked {
+    background: #e11d48;
+    box-shadow: 0 0 8px #e11d48;
+}
+
+/* 1. Bóveda Bloqueada (Login Admin en Vivo) */
+.family-vault-gate {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 480px;
+    padding: 20px;
+}
+
+.family-vault-card {
+    max-width: 520px;
+    width: 100%;
+    background: linear-gradient(145deg, #ffffff 0%, #f0f9ff 55%, #e0f2fe 100%);
+    border: 2px solid #bae6fd;
+    border-radius: 32px;
+    padding: 38px 32px;
+    text-align: center;
+    box-shadow: 0 25px 60px rgba(12, 74, 110, 0.18), 0 0 35px rgba(56, 189, 248, 0.15);
+    animation: vaultCardPop 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@keyframes vaultCardPop {
+    from { opacity: 0; transform: scale(0.92) translateY(16px); }
+    to { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+.family-vault-sapphire-emblem {
+    margin: 0 auto 16px;
+    display: inline-block;
+    filter: drop-shadow(0 8px 18px rgba(2, 132, 199, 0.35));
+}
+
+.family-vault-eyebrow {
+    font-size: 0.74rem;
+    font-weight: 800;
+    letter-spacing: 0.14em;
+    color: #0284c7;
+    display: block;
+    margin-bottom: 6px;
+}
+
+.family-vault-title {
+    font-family: var(--serif, 'Playfair Display', Georgia, serif);
+    font-size: clamp(1.6rem, 3.8vw, 2.1rem);
+    color: #0f172a;
+    margin: 0 0 12px;
+}
+
+.family-vault-title em {
+    font-style: italic;
+    color: #0284c7;
+}
+
+.family-vault-desc {
+    font-size: 0.88rem;
+    line-height: 1.65;
+    color: #475569;
+    margin: 0 auto 24px;
+}
+
+.family-vault-login-form {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    text-align: left;
+}
+
+.family-vault-field label {
+    display: block;
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: #0c4a6e;
+    margin-bottom: 6px;
+}
+
+.family-vault-field input {
+    width: 100%;
+    padding: 12px 16px;
+    border-radius: 14px;
+    border: 1.5px solid #bae6fd;
+    background: #ffffff;
+    font-size: 0.92rem;
+    color: #0f172a;
+    transition: all 0.2s ease;
+}
+
+.family-vault-field input:focus {
+    border-color: #0284c7;
+    box-shadow: 0 0 0 3.5px rgba(2, 132, 199, 0.18);
+    outline: none;
+}
+
+.family-vault-submit-btn {
+    width: 100%;
+    padding: 13px;
+    border-radius: 14px;
+    font-size: 0.95rem;
+    font-weight: 700;
+    background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%) !important;
+    border: 1.5px solid #7dd3fc !important;
+    box-shadow: 0 8px 24px rgba(2, 132, 199, 0.35) !important;
+    cursor: pointer;
+    transition: all 0.25s ease !important;
+}
+
+.family-vault-submit-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 30px rgba(2, 132, 199, 0.45) !important;
+}
+
+.family-vault-error {
+    background: #fff1f2;
+    border: 1px solid #fecdd3;
+    color: #be123c;
+    padding: 10px 14px;
+    border-radius: 12px;
+    font-size: 0.82rem;
+    font-weight: 600;
+}
+
+/* 2. Hero Banner del Santuario Familiar Desbloqueado */
+.family-hero-banner {
+    display: grid;
+    grid-template-columns: minmax(0, 1.4fr) minmax(0, 0.9fr);
+    gap: 28px;
+    align-items: center;
+    background: radial-gradient(circle at 10% 20%, rgba(224, 242, 254, 0.8) 0%, rgba(240, 249, 255, 0.9) 100%);
+    border: 2px solid #bae6fd;
+    border-radius: 32px;
+    padding: 38px 42px;
+    margin-bottom: 40px;
+    box-shadow: 0 18px 45px rgba(12, 74, 110, 0.08);
+}
+
+@media (max-width: 900px) {
+    .family-hero-banner {
+        grid-template-columns: 1fr;
+        padding: 28px 22px;
+    }
+}
+
+.family-hero-badges {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 12px;
+}
+
+.family-sapphire-pill {
+    padding: 4px 12px;
+    border-radius: 999px;
+    background: #0284c7;
+    color: #ffffff;
+    font-size: 0.74rem;
+    font-weight: 800;
+    letter-spacing: 0.05em;
+}
+
+.family-members-pill {
+    padding: 4px 12px;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.9);
+    border: 1px solid #bae6fd;
+    color: #0369a1;
+    font-size: 0.74rem;
+    font-weight: 700;
+}
+
+.family-hero-title {
+    font-family: var(--serif, 'Playfair Display', Georgia, serif);
+    font-size: clamp(2rem, 4.2vw, 2.8rem);
+    color: #0f172a;
+    line-height: 1.2;
+    margin: 8px 0;
+}
+
+.family-hero-title em {
+    font-style: italic;
+    color: #0284c7;
+}
+
+.family-hero-subtitle {
+    font-size: 0.95rem;
+    line-height: 1.7;
+    color: #475569;
+    max-width: 580px;
+    margin-bottom: 22px;
+}
+
+.family-hero-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+}
+
+.family-action-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 22px;
+    border-radius: 999px;
+    font-size: 0.88rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+    text-decoration: none;
+}
+
+.family-action-btn.btn-primary {
+    background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%);
+    color: #ffffff;
+    border: 1.5px solid #7dd3fc;
+    box-shadow: 0 6px 18px rgba(2, 132, 199, 0.35);
+}
+
+.family-action-btn.btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 24px rgba(2, 132, 199, 0.48);
+}
+
+.family-action-btn.btn-outline {
+    background: #ffffff;
+    border: 1.5px solid #bae6fd;
+    color: #0369a1;
+}
+
+.family-action-btn.btn-outline:hover {
+    background: #f0f9ff;
+    border-color: #0284c7;
+    transform: translateY(-2px);
+}
+
+/* Tarjeta de Estadísticas de Mi Familia */
+.family-hero-stats-card {
+    background: rgba(255, 255, 255, 0.95);
+    border: 2px solid #bae6fd;
+    border-radius: 26px;
+    padding: 24px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 14px;
+    box-shadow: 0 12px 30px rgba(12, 74, 110, 0.08);
+}
+
+.family-stat-box {
+    text-align: center;
+    padding: 10px;
+}
+
+.family-stat-box strong {
+    display: block;
+    font-size: 1.7rem;
+    color: #0284c7;
+    font-family: var(--serif, 'Playfair Display', Georgia, serif);
+}
+
+.family-stat-box span {
+    font-size: 0.72rem;
+    font-weight: 700;
+    color: #64748b;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+/* 3. Rejilla de Integrantes de la Familia (Carla, Adrián, Ody, Hijos) */
+.family-members-cards-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 22px;
+    margin-bottom: 48px;
+}
+
+.family-member-card {
+    background: rgba(255, 255, 255, 0.96);
+    border: 1.5px solid #bae6fd;
+    border-radius: 24px;
+    padding: 22px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    cursor: pointer;
+    box-shadow: 0 10px 25px rgba(12, 74, 110, 0.06);
+    transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.3s ease, border-color 0.3s ease;
+}
+
+.family-member-card:hover {
+    transform: translateY(-6px);
+    border-color: #0284c7;
+    box-shadow: 0 16px 36px rgba(2, 132, 199, 0.22);
+}
+
+.family-member-photo-wrap {
+    width: 104px;
+    height: 104px;
+    border-radius: 50%;
+    position: relative;
+    margin-bottom: 14px;
+    border: 3px solid #0284c7;
+    box-shadow: 0 6px 18px rgba(2, 132, 199, 0.3);
+    overflow: hidden;
+}
+
+.family-member-photo {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.family-member-icon-badge {
+    position: absolute;
+    bottom: -2px;
+    right: -2px;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: #ffffff;
+    border: 2px solid #0284c7;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1rem;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+}
+
+.family-member-role-badge {
+    font-size: 0.72rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    padding: 3px 10px;
+    border-radius: 999px;
+    background: #f0f9ff;
+    color: #0284c7;
+    border: 1px solid #bae6fd;
+    margin-bottom: 6px;
+}
+
+.family-member-name {
+    font-family: var(--serif, 'Playfair Display', Georgia, serif);
+    font-size: 1.25rem;
+    color: #0f172a;
+    margin: 4px 0 2px;
+}
+
+.family-member-date {
+    font-size: 0.76rem;
+    color: #64748b;
+    margin-bottom: 8px;
+}
+
+.family-member-quote {
+    font-size: 0.82rem;
+    font-style: italic;
+    color: #475569;
+    line-height: 1.5;
+    margin-bottom: 14px;
+}
+
+/* 4. Álbum de Recuerdos Familiares (Fotos Editables) */
+.family-album-toolbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 14px;
+    margin-bottom: 24px;
+}
+
+.family-filter-pills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.family-filter-pill {
+    padding: 6px 14px;
+    border-radius: 999px;
+    background: #ffffff;
+    border: 1.5px solid #bae6fd;
+    color: #0369a1;
+    font-size: 0.8rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.family-filter-pill:hover,
+.family-filter-pill.is-active {
+    background: #0284c7;
+    color: #ffffff;
+    border-color: #0284c7;
+    box-shadow: 0 4px 12px rgba(2, 132, 199, 0.25);
+}
+
+.family-memories-search-input {
+    min-width: 240px;
+    padding: 8px 16px;
+    border-radius: 999px;
+    border: 1.5px solid #bae6fd;
+    background: #ffffff;
+    font-size: 0.82rem;
+    color: #0f172a;
+}
+
+.family-memories-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 22px;
+}
+
+.family-memory-item {
+    background: #ffffff;
+    border: 1.5px solid #bae6fd;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 10px 24px rgba(12, 74, 110, 0.06);
+    transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.3s ease;
+    cursor: pointer;
+}
+
+.family-memory-item:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 16px 36px rgba(2, 132, 199, 0.2);
+}
+
+.family-memory-thumb-wrap {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    overflow: hidden;
+    background: #f0f9ff;
+}
+
+.family-memory-thumb {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.4s ease;
+}
+
+.family-memory-item:hover .family-memory-thumb {
+    transform: scale(1.06);
+}
+
+.family-memory-body {
+    padding: 16px;
+}
+
+.family-memory-tag {
+    font-size: 0.7rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    padding: 2px 8px;
+    border-radius: 999px;
+    background: #f0f9ff;
+    color: #0284c7;
+    display: inline-block;
+    margin-bottom: 6px;
+}
+
+.family-memory-title {
+    font-family: var(--serif, 'Playfair Display', Georgia, serif);
+    font-size: 1.1rem;
+    color: #0f172a;
+    margin: 4px 0 6px;
+}
+
+.family-memory-date {
+    font-size: 0.74rem;
+    color: #64748b;
+    margin-bottom: 8px;
+}
+
+.family-memory-story {
+    font-size: 0.82rem;
+    line-height: 1.55;
+    color: #475569;
+    margin-bottom: 12px;
+}
+
+.family-memory-actions {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 8px;
+    padding-top: 10px;
+    border-top: 1px solid #f1f5f9;
 }
