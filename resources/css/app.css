@@ -12489,7 +12489,7 @@ body.theme-filter-vintage .atmospheric-color-overlay {
 }
 
 /* ═══════════════════════════════════════════════════════════════════════════
-   PILAR 5: MODAL CRISTAL EMPAÑADO DE LLUVIA
+   PILAR 5: CRISTAL EMPAÑADO DE LLUVIA - ESTÁNDAR LUNABELLA ROMÁNTICO
    ═══════════════════════════════════════════════════════════════════════════ */
 .misty-window-dialog {
     position: fixed !important;
@@ -12499,93 +12499,189 @@ body.theme-filter-vintage .atmospheric-color-overlay {
     border: none;
     padding: 0;
     background: transparent;
-    border-radius: 24px;
-    box-shadow: 0 25px 70px rgba(30, 41, 59, 0.45);
-    max-width: 660px;
+    border-radius: 28px;
+    box-shadow: 0 30px 90px rgba(136, 19, 55, 0.22), 0 10px 30px rgba(15, 23, 42, 0.12);
+    max-width: 680px;
     width: 92vw;
-    margin: auto;
+    max-height: 90vh;
     overflow: hidden;
+    animation: none !important;
+    transform: none !important;
 }
 
 .misty-window-dialog::backdrop {
-    background: rgba(15, 23, 42, 0.72);
-    backdrop-filter: blur(8px);
+    background: rgba(30, 10, 20, 0.45);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
 }
 
 .misty-dialog-card {
-    background: linear-gradient(160deg, #ffffff 0%, #f8fafc 100%);
-    border-radius: 24px;
-    border: 1px solid rgba(226, 232, 240, 0.8);
+    background: linear-gradient(165deg, rgba(255, 255, 255, 0.98) 0%, rgba(255, 248, 250, 0.96) 50%, rgba(254, 242, 242, 0.98) 100%);
+    border-radius: 28px;
+    border: 1.5px solid rgba(244, 114, 182, 0.35);
     display: flex;
     flex-direction: column;
     overflow: hidden;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.85);
 }
 
 .misty-dialog-header {
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
-    padding: 20px 24px 14px;
-    background: linear-gradient(135deg, #f0fdf4, #f8fafc);
-    border-bottom: 1px solid #e2e8f0;
+    padding: 18px 24px 14px;
+    background: linear-gradient(135deg, rgba(255, 228, 230, 0.6) 0%, rgba(254, 242, 242, 0.3) 100%);
+    border-bottom: 1px solid rgba(244, 114, 182, 0.2);
+    position: relative;
+    flex-shrink: 0;
 }
 
 .misty-badge {
-    display: inline-block;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
     font-size: 10.5px;
     font-weight: 700;
     text-transform: uppercase;
-    letter-spacing: 0.08em;
-    color: #0284c7;
-    background: #e0f2fe;
-    padding: 3px 10px;
-    border-radius: 20px;
+    letter-spacing: 0.12em;
+    color: #9f1239;
+    background: rgba(244, 63, 94, 0.1);
+    border: 1px solid rgba(244, 114, 182, 0.35);
+    padding: 3px 12px;
+    border-radius: 999px;
     margin-bottom: 6px;
 }
 
 .misty-title {
-    font-family: var(--serif);
-    font-size: 22px;
-    font-weight: 600;
-    color: #1e293b;
+    font-family: var(--serif-editorial, "Playfair Display", Georgia, serif);
+    font-size: clamp(20px, 2.4vw, 24px);
+    font-weight: 700;
+    color: #881337 !important;
     margin: 0;
+    letter-spacing: -0.015em;
+    line-height: 1.2;
 }
 
 .misty-subtitle {
-    font-size: 12.5px;
-    color: var(--ink-soft);
+    font-size: 12px;
+    color: #64748b;
     margin: 4px 0 0;
     line-height: 1.4;
 }
 
 .misty-close-btn {
-    border: none;
-    background: #e2e8f0;
-    color: #475569;
-    font-size: 20px;
-    width: 32px;
-    height: 32px;
+    border: 1px solid rgba(244, 114, 182, 0.3);
+    background: rgba(255, 255, 255, 0.9);
+    color: #9f1239;
+    font-size: 16px;
+    font-weight: bold;
+    width: 34px;
+    height: 34px;
     border-radius: 50%;
     cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
-    transition: all 0.2s ease;
+    transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    box-shadow: 0 2px 8px rgba(136, 19, 55, 0.08);
+    flex-shrink: 0;
 }
 
 .misty-close-btn:hover {
-    background: #cbd5e1;
-    color: #0f172a;
+    background: #e11d48;
+    color: #ffffff;
+    border-color: #e11d48;
+    transform: rotate(90deg) scale(1.06);
+    box-shadow: 0 4px 12px rgba(225, 29, 72, 0.3);
 }
 
+/* ✦ Barra de Opciones / Herramientas Superiores */
+.misty-toolbar-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 22px;
+    background: rgba(255, 255, 255, 0.65);
+    border-bottom: 1px solid rgba(244, 114, 182, 0.15);
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.misty-brush-selector {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.misty-brush-label {
+    font-size: 11px;
+    font-weight: 700;
+    color: #881337;
+    margin-right: 4px;
+}
+
+.misty-brush-chip {
+    padding: 3px 9px;
+    border-radius: 999px;
+    border: 1px solid rgba(244, 114, 182, 0.3);
+    background: #ffffff;
+    color: #64748b;
+    font-size: 11px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.misty-brush-chip:hover {
+    background: #fff1f2;
+    color: #9f1239;
+}
+
+.misty-brush-chip.is-active {
+    background: linear-gradient(135deg, #e11d48, #be123c);
+    color: #ffffff;
+    border-color: #be123c;
+    box-shadow: 0 2px 6px rgba(225, 29, 72, 0.25);
+}
+
+.misty-extra-actions {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.misty-pill-btn {
+    border: 1px solid rgba(244, 114, 182, 0.28);
+    background: #ffffff;
+    color: #881337;
+    font-size: 11px;
+    font-weight: 600;
+    padding: 4px 10px;
+    border-radius: 999px;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    transition: all 0.2s ease;
+    box-shadow: 0 1px 4px rgba(136, 19, 55, 0.04);
+}
+
+.misty-pill-btn:hover {
+    background: #ffe4e6;
+    border-color: #fda4af;
+    transform: translateY(-1px);
+}
+
+/* ✦ Viewport y Lienzo de Desempañado */
 .misty-viewport {
     position: relative;
     width: 100%;
-    height: 380px;
+    height: 310px;
     background: #0f172a;
     overflow: hidden;
     user-select: none;
     touch-action: none;
+    box-shadow: inset 0 2px 10px rgba(0, 0, 0, 0.15);
 }
 
 .misty-secret-layer {
@@ -12595,61 +12691,68 @@ body.theme-filter-vintage .atmospheric-color-overlay {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    padding: 32px;
+    padding: 24px 30px;
     text-align: center;
-    background: radial-gradient(circle at 50% 40%, #fff7ed 0%, #fed7aa 35%, #b7e4c7 75%, #52b788 100%);
-    color: #4a2830;
+    background: radial-gradient(circle at 50% 35%, #fff1f2 0%, #ffe4e6 45%, #fed7aa 80%, #fecdd3 100%);
+    color: #4c0519;
     box-sizing: border-box;
 }
 
 .misty-secret-heart {
-    font-size: 38px;
-    margin-bottom: 8px;
-    filter: drop-shadow(0 4px 10px rgba(82, 183, 136, 0.45));
+    font-size: 34px;
+    margin-bottom: 6px;
+    filter: drop-shadow(0 4px 12px rgba(225, 29, 72, 0.35));
     animation: gentleSpin 8s ease-in-out infinite alternate;
 }
 
 .misty-secret-greeting {
-    font-family: var(--serif);
-    font-size: 24px;
-    color: var(--ink-soft);
-    margin: 0 0 10px;
+    font-family: var(--serif-editorial, "Playfair Display", Georgia, serif);
+    font-size: 20px;
+    font-weight: 700;
+    color: #881337;
+    margin: 0 0 6px;
+    letter-spacing: -0.01em;
 }
 
 .misty-secret-text {
-    font-family: var(--serif);
+    font-family: var(--serif-editorial, "Playfair Display", Georgia, serif);
     font-style: italic;
-    font-size: 16px;
-    line-height: 1.65;
-    color: #501324;
+    font-size: 14.5px;
+    line-height: 1.6;
+    color: #4c0519;
     max-width: 480px;
-    margin: 0 0 12px;
+    margin: 0 0 10px;
     transition: opacity 0.2s ease;
+    text-shadow: 0 1px 0 rgba(255, 255, 255, 0.6);
 }
 
 .misty-secret-author {
-    font-size: 12px;
+    font-size: 11.5px;
     font-weight: 600;
-    color: var(--muted);
+    color: #9f1239;
     letter-spacing: 0.05em;
-    margin-bottom: 14px;
+    margin-bottom: 10px;
 }
 
 .misty-cycle-quote-btn {
-    border: 1px dashed #1b4332;
-    background: rgba(255, 255, 255, 0.7);
-    color: var(--muted);
-    font-size: 11.5px;
+    border: 1px dashed rgba(244, 63, 94, 0.4);
+    background: rgba(255, 255, 255, 0.85);
+    color: #881337;
+    font-size: 11px;
     font-weight: 600;
-    padding: 6px 14px;
-    border-radius: 20px;
+    padding: 5px 12px;
+    border-radius: 999px;
     cursor: pointer;
     transition: all 0.2s ease;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
 }
 
 .misty-cycle-quote-btn:hover {
     background: #ffffff;
-    transform: scale(1.05);
+    border-color: #e11d48;
+    color: #e11d48;
+    transform: translateY(-1px);
+    box-shadow: 0 3px 8px rgba(225, 29, 72, 0.15);
 }
 
 .misty-canvas {
@@ -12660,55 +12763,67 @@ body.theme-filter-vintage .atmospheric-color-overlay {
     cursor: crosshair;
 }
 
+/* ✦ Footer y Botonera */
 .misty-dialog-footer {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 14px 20px;
+    padding: 12px 22px;
     background: #ffffff;
-    border-top: 1px solid #e2e8f0;
-    gap: 12px;
+    border-top: 1px solid rgba(244, 114, 182, 0.2);
+    gap: 10px;
     flex-wrap: wrap;
 }
 
 .misty-actions-left {
     display: flex;
     gap: 8px;
+    flex-wrap: wrap;
 }
 
 .misty-tool-btn {
-    border: 1px solid rgba(64,145,108,0.15);
-    background: #f8fafc;
-    color: #334155;
-    font-size: 12px;
+    border: 1px solid rgba(244, 114, 182, 0.35);
+    background: #ffffff;
+    color: #881337;
+    font-size: 11.5px;
     font-weight: 600;
     padding: 7px 12px;
-    border-radius: 10px;
+    border-radius: 12px;
     cursor: pointer;
     transition: all 0.2s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    box-shadow: 0 1px 4px rgba(136, 19, 55, 0.03);
 }
 
 .misty-tool-btn:hover {
-    background: #e2e8f0;
-    color: #0f172a;
+    background: #fff1f2;
+    border-color: #fda4af;
+    color: #9f1239;
+    transform: translateY(-1px);
 }
 
 .misty-btn-primary {
     border: none;
-    background: linear-gradient(135deg, #40916c, #1b4332);
+    background: linear-gradient(135deg, #e11d48, #be123c);
     color: #ffffff;
-    font-size: 12.5px;
-    font-weight: 600;
+    font-size: 12px;
+    font-weight: 700;
     padding: 8px 18px;
     border-radius: 12px;
     cursor: pointer;
-    box-shadow: 0 4px 12px rgba(236, 72, 153, 0.3);
-    transition: all 0.2s ease;
+    box-shadow: 0 4px 14px rgba(225, 29, 72, 0.3);
+    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
 }
 
 .misty-btn-primary:hover {
-    transform: scale(1.03);
-    box-shadow: 0 6px 16px rgba(236, 72, 153, 0.45);
+    background: linear-gradient(135deg, #f43f5e, #e11d48);
+    transform: translateY(-1px);
+    box-shadow: 0 6px 18px rgba(225, 29, 72, 0.4);
 }
 
 /* ═══════════════════════════════════════════════════════════════════════════

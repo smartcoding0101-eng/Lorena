@@ -1717,12 +1717,26 @@ function initMistyWindow() {
     const finishBtn = document.getElementById('btn-finish-misty');
     const fogAgainBtn = document.getElementById('btn-fog-window-again');
     const heartBtn = document.getElementById('btn-reveal-secret-heart');
+    const starsBtn = document.getElementById('btn-draw-secret-stars');
+    const copyQuoteBtn = document.getElementById('btn-copy-misty-quote');
     const cycleQuoteBtn = document.getElementById('btn-cycle-misty-quote');
     const secretText = document.getElementById('misty-secret-text');
+    const brushChips = document.querySelectorAll('.misty-brush-chip');
     mistyCanvas = document.getElementById('misty-canvas');
 
     if (!dialog || !mistyCanvas) return;
     mistyCtx = mistyCanvas.getContext('2d');
+    let currentBrushRadius = 28;
+
+    // Selector de tamaño de trazo
+    brushChips.forEach((chip) => {
+        chip.addEventListener('click', () => {
+            brushChips.forEach(c => c.classList.remove('is-active'));
+            chip.classList.add('is-active');
+            currentBrushRadius = parseInt(chip.dataset.brushSize || '28', 10);
+            playHarpChime(659.25);
+        });
+    });
 
     function resizeMistyCanvas() {
         const rect = mistyCanvas.getBoundingClientRect();
@@ -1739,16 +1753,16 @@ function initMistyWindow() {
         const h = mistyCanvas.height;
 
         mistyCtx.globalCompositeOperation = 'source-over';
-        // Base de vapor fría translúcida con tono lluvia
+        // Base de vapor fría translúcida con tono lluvia LunaBella
         const grad = mistyCtx.createLinearGradient(0, 0, w, h);
-        grad.addColorStop(0, 'rgba(235, 243, 250, 0.94)');
-        grad.addColorStop(0.5, 'rgba(220, 235, 245, 0.96)');
-        grad.addColorStop(1, 'rgba(205, 225, 240, 0.95)');
+        grad.addColorStop(0, 'rgba(240, 245, 252, 0.94)');
+        grad.addColorStop(0.5, 'rgba(230, 240, 248, 0.96)');
+        grad.addColorStop(1, 'rgba(220, 235, 245, 0.95)');
         mistyCtx.fillStyle = grad;
         mistyCtx.fillRect(0, 0, w, h);
 
         // Micro-gotas de condensación realistas
-        mistyCtx.fillStyle = 'rgba(255, 255, 255, 0.55)';
+        mistyCtx.fillStyle = 'rgba(255, 255, 255, 0.6)';
         for (let i = 0; i < 90; i++) {
             const rx = Math.random() * w;
             const ry = Math.random() * h;
@@ -1758,13 +1772,13 @@ function initMistyWindow() {
             mistyCtx.fill();
         }
 
-        // Trazos tenues de chorritos de agua bajando
-        mistyCtx.strokeStyle = 'rgba(255, 255, 255, 0.4)';
-        mistyCtx.lineWidth = 1.5;
-        for (let i = 0; i < 7; i++) {
-            const sx = (w * 0.1) + Math.random() * (w * 0.8);
-            const sy = Math.random() * (h * 0.3);
-            const slen = 30 + Math.random() * 60;
+        // Trazos tenues de gotas escurriendo
+        mistyCtx.strokeStyle = 'rgba(255, 255, 255, 0.45)';
+        mistyCtx.lineWidth = 1.6;
+        for (let i = 0; i < 8; i++) {
+            const sx = (w * 0.08) + Math.random() * (w * 0.84);
+            const sy = Math.random() * (h * 0.28);
+            const slen = 35 + Math.random() * 65;
             mistyCtx.beginPath();
             mistyCtx.moveTo(sx, sy);
             mistyCtx.bezierCurveTo(sx + (Math.random() - 0.5) * 8, sy + slen * 0.5, sx + (Math.random() - 0.5) * 8, sy + slen, sx, sy + slen);
@@ -1780,7 +1794,7 @@ function initMistyWindow() {
 
         mistyCtx.save();
         mistyCtx.globalCompositeOperation = 'destination-out';
-        const brushR = 26;
+        const brushR = currentBrushRadius;
         const wipeGrad = mistyCtx.createRadialGradient(x, y, 0, x, y, brushR);
         wipeGrad.addColorStop(0, 'rgba(0, 0, 0, 1)');
         wipeGrad.addColorStop(0.7, 'rgba(0, 0, 0, 0.85)');
@@ -1854,38 +1868,80 @@ function initMistyWindow() {
         showToast('🌫️ El cristal se ha vuelto a empañar de lluvia');
     });
 
-    // Revelar mensaje secreto – limpiar TODO el canvas en barrido radial
+    // Revelar mensaje secreto – Dibujar un Corazón grande en el cristal
     heartBtn?.addEventListener('click', () => {
         if (!mistyCtx || !mistyCanvas) return;
         playCelestialChord();
         const cx = mistyCanvas.width / 2;
-        const cy = mistyCanvas.height / 2;
-        const maxR = Math.sqrt(cx * cx + cy * cy) + 20;
-        let r = 0;
-        const speed = maxR / 28; // ~28 frames to full reveal
+        const cy = mistyCanvas.height / 2 - 8;
+        const scale = Math.min(mistyCanvas.width, mistyCanvas.height) / 36;
+        let t = 0;
 
-        const revealInterval = setInterval(() => {
-            r += speed;
+        const drawHeartStep = setInterval(() => {
+            for (let i = 0; i < 4; i++) {
+                t += 0.08;
+                if (t > Math.PI * 2) {
+                    clearInterval(drawHeartStep);
+                    createSparkleBurst(cx, cy, 22, ['#f43f5e', '#ffffff', '#fda4af', '#fb7185']);
+                    showToast('💖 ¡Corazón trazado en el cristal con amor!');
+                    break;
+                }
+                const x = cx + scale * 16 * Math.pow(Math.sin(t), 3);
+                const y = cy - scale * (13 * Math.cos(t) - 5 * Math.cos(2*t) - 2 * Math.cos(3*t) - Math.cos(4*t));
+                
+                mistyCtx.save();
+                mistyCtx.globalCompositeOperation = 'destination-out';
+                const g = mistyCtx.createRadialGradient(x, y, 0, x, y, 22);
+                g.addColorStop(0, 'rgba(0,0,0,1)');
+                g.addColorStop(0.7, 'rgba(0,0,0,0.85)');
+                g.addColorStop(1, 'rgba(0,0,0,0)');
+                mistyCtx.fillStyle = g;
+                mistyCtx.beginPath();
+                mistyCtx.arc(x, y, 22, 0, Math.PI * 2);
+                mistyCtx.fill();
+                mistyCtx.restore();
+            }
+        }, 16);
+    });
+
+    // Salpicar estrellas en el cristal
+    starsBtn?.addEventListener('click', () => {
+        if (!mistyCtx || !mistyCanvas) return;
+        playHarpChime(880.00);
+        const w = mistyCanvas.width;
+        const h = mistyCanvas.height;
+
+        for (let i = 0; i < 8; i++) {
+            const sx = (w * 0.15) + Math.random() * (w * 0.7);
+            const sy = (h * 0.15) + Math.random() * (h * 0.7);
             mistyCtx.save();
             mistyCtx.globalCompositeOperation = 'destination-out';
-            const g = mistyCtx.createRadialGradient(cx, cy, 0, cx, cy, r);
-            g.addColorStop(0, 'rgba(0,0,0,1)');
-            g.addColorStop(0.85, 'rgba(0,0,0,0.95)');
-            g.addColorStop(1, 'rgba(0,0,0,0)');
-            mistyCtx.fillStyle = g;
+            const starR = 18 + Math.random() * 10;
+            const starGrad = mistyCtx.createRadialGradient(sx, sy, 0, sx, sy, starR);
+            starGrad.addColorStop(0, 'rgba(0,0,0,1)');
+            starGrad.addColorStop(1, 'rgba(0,0,0,0)');
+            mistyCtx.fillStyle = starGrad;
             mistyCtx.beginPath();
-            mistyCtx.arc(cx, cy, r, 0, Math.PI * 2);
+            mistyCtx.arc(sx, sy, starR, 0, Math.PI * 2);
             mistyCtx.fill();
             mistyCtx.restore();
+        }
+        showToast('✨ Destellos de luz sobre el cristal');
+    });
 
-            if (r >= maxR) {
-                clearInterval(revealInterval);
-                // Borrar cualquier resto del canvas
-                mistyCtx.clearRect(0, 0, mistyCanvas.width, mistyCanvas.height);
-                createSparkleBurst(cx, cy, 20, ['#52b788', '#ffffff', '#b7e4c7', '#fde68a']);
-                showToast('💌 ¡Mensaje revelado! El amor siempre está detrás del vaho.');
-            }
-        }, 18);
+    // Copiar mensaje poético
+    copyQuoteBtn?.addEventListener('click', async () => {
+        const text = secretText ? secretText.textContent.trim() : '';
+        const postcard = `✦ Cristal Empañado de Lluvia · El Jardín de Carla Lorena ✦\n${text}\n— Con amor desde tu jardín ♡`;
+        try {
+            await navigator.clipboard.writeText(postcard);
+            copyQuoteBtn.innerHTML = '<span>✓ ¡Copiado!</span>';
+            setTimeout(() => {
+                copyQuoteBtn.innerHTML = '<span>📋 Copiar Frase</span>';
+            }, 1800);
+            playHarpChime(783.99);
+            showToast('💌 Pensamiento copiado al portapapeles');
+        } catch (_) {}
     });
 
     // Cambiar frase romántica
@@ -1902,9 +1958,7 @@ function initMistyWindow() {
     });
 }
 
-// ═══════════════════════════════════════════════════════════════════════════
-// PILAR 6: FILTROS CROMÁTICOS CINEMATOGRÁFICOS (COLOR GRADING)
-// ═══════════════════════════════════════════════════════════════════════════
+
 export function setColorGrading(gradingMode, showFeedback = true) {
     const validModes = ['none', 'golden', 'moonlight', 'rose', 'vintage'];
     const mode = validModes.includes(gradingMode) ? gradingMode : 'none';

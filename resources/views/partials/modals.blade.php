@@ -1524,8 +1524,26 @@
                     <h2 id="misty-dialog-title" class="misty-title">Cristal Empañado de Lluvia</h2>
                     <p class="misty-subtitle">Pasa tu dedo o cursor sobre el cristal para desempañarlo y descubrir el mensaje secreto preparado para ti, Carla Lorena ♡</p>
                 </div>
-                <button type="button" class="misty-close-btn" id="btn-close-misty-dialog" aria-label="Cerrar ventana">×</button>
+                <button type="button" class="misty-close-btn" id="btn-close-misty-dialog" aria-label="Cerrar ventana">✕</button>
             </header>
+
+            <!-- Barra de Opciones y Herramientas Interactivas -->
+            <div class="misty-toolbar-bar">
+                <div class="misty-brush-selector">
+                    <span class="misty-brush-label">Trazo:</span>
+                    <button type="button" class="misty-brush-chip is-active" data-brush-size="28">Fino ✍️</button>
+                    <button type="button" class="misty-brush-chip" data-brush-size="44">Medio 👆</button>
+                    <button type="button" class="misty-brush-chip" data-brush-size="64">Grueso 🖐️</button>
+                </div>
+                <div class="misty-extra-actions">
+                    <button type="button" class="misty-pill-btn" id="btn-draw-secret-stars" title="Salpicar estrellas en el cristal">
+                        <span>✨ Estrellas</span>
+                    </button>
+                    <button type="button" class="misty-pill-btn" id="btn-copy-misty-quote" title="Copiar este mensaje secreto al portapapeles">
+                        <span>📋 Copiar Frase</span>
+                    </button>
+                </div>
+            </div>
 
             <div class="misty-viewport">
                 <!-- Capa posterior: Mensaje secreto y diseño romántico -->
@@ -1542,7 +1560,7 @@
                 </div>
 
                 <!-- Capa frontal: Lienzo con efecto empañado interactivo -->
-                <canvas class="misty-canvas" id="misty-canvas" width="600" height="380"></canvas>
+                <canvas class="misty-canvas" id="misty-canvas" width="600" height="310"></canvas>
             </div>
 
             <footer class="misty-dialog-footer">
@@ -1551,7 +1569,7 @@
                         <span>🌫️ Volver a Empañar</span>
                     </button>
                     <button type="button" class="misty-tool-btn" id="btn-reveal-secret-heart">
-                        <span>✨ Dibujar Corazón Automático</span>
+                        <span>✨ Revelar Corazón</span>
                     </button>
                 </div>
                 <button type="button" class="misty-btn-primary" id="btn-finish-misty">
