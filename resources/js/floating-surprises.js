@@ -737,8 +737,7 @@ function fetchRandomBottleMessage(playChime = true) {
     const scrollBox = document.getElementById('parchment-scroll-box');
 
     if (scrollBox) {
-        scrollBox.style.opacity = '0';
-        scrollBox.style.transform = 'translateY(6px)';
+        scrollBox.style.opacity = '0.35';
         setTimeout(() => {
             if (textEl) textEl.textContent = msg.text;
             if (authorEl) authorEl.textContent = msg.author;
@@ -750,8 +749,7 @@ function fetchRandomBottleMessage(playChime = true) {
                 } catch (_) {}
             }
             scrollBox.style.opacity = '1';
-            scrollBox.style.transform = 'translateY(0)';
-        }, 150);
+        }, 140);
     }
 
 }
@@ -1133,6 +1131,9 @@ export function initFloatingSurprises() {
             card.style.display = text.includes(query) ? '' : 'none';
         });
     });
+
+    // Activar interactividad de Polaroid & Botellas (filtros, copiado, favoritos)
+    initEnhancedSurprisesInteractions();
 }
 
 
