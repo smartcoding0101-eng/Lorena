@@ -167,14 +167,22 @@
                     </article>
                     @endforeach
 
-                    <div class="status-empty-placeholder" id="home-statuses-empty-msg" @if($statusesList->isNotEmpty()) hidden @endif style="grid-column: 1 / -1; padding: 18px 22px; border-radius: 20px; background: rgba(255, 250, 252, 0.9); border: 1.5px dashed rgba(201, 59, 97, 0.35); display: flex; align-items: center; justify-content: space-between; gap: 14px; flex-wrap: wrap;">
-                        <div style="display: flex; align-items: center; gap: 12px;">
-                            <span style="font-size: 1.5rem;">🌹</span>
-                            <div>
-                                <strong style="display: block; color: #9e2a47; font-size: 0.95rem;">No hay estados activos en las últimas 24 horas</strong>
-                                <span style="font-size: 0.8rem; color: #7d535e;">Los estados publicados desaparecen automáticamente al cumplir 24 horas.</span>
+                    <div class="status-empty-placeholder" id="home-statuses-empty-msg" @if($statusesList->isNotEmpty()) hidden @endif>
+                        <div class="status-empty-content">
+                            <div class="status-empty-icon-wrap">
+                                <span class="status-empty-icon">🌸</span>
+                                <span class="status-empty-sparkle">✨</span>
+                            </div>
+                            <div class="status-empty-text-wrap">
+                                <strong class="status-empty-title">El jardín espera un nuevo destello</strong>
+                                <span class="status-empty-desc">Los instantes compartidos florecen aquí durante 24 horas antes de convertirse en recuerdos eternos.</span>
                             </div>
                         </div>
+                        @if($isStatusAdmin)
+                        <button type="button" class="status-empty-action-btn" onclick="document.getElementById('btn-open-status-uploader')?.click()">
+                            <span>✦ Publicar el primer instante</span>
+                        </button>
+                        @endif
                     </div>
                 </div>
             </div>
