@@ -10768,239 +10768,271 @@ h1 em, .page-heading h1 em { color: var(--green-600); font-weight: 400; }
     color: #483438;
 }
 
-/* ── 2. Estilos de Botella de Deseos ────────────────────────────────── */
+/* ═══════════════════════════════════════════════════════════════════════════
+   BUZÓN DE BOTELLAS AL VIENTO: COMPACTACIÓN TOTAL Y ELIMINACIÓN DE SCROLL
+   ═══════════════════════════════════════════════════════════════════════════ */
+#bottle-wishes-dialog {
+    animation: none !important;
+    transform: none !important;
+    transition: none !important;
+    max-height: 94vh !important;
+    overflow: hidden !important;
+    width: min(600px, 94vw) !important;
+}
+
+#bottle-wishes-dialog .bottle-card {
+    padding: 16px 22px 18px !important;
+    overflow: hidden !important;
+    max-height: 94vh !important;
+    gap: 0 !important;
+}
+
+#bottle-wishes-dialog .surprise-modal-header {
+    margin-bottom: 8px !important;
+    display: flex !important;
+    align-items: flex-start !important;
+    justify-content: space-between !important;
+}
+
+#bottle-wishes-dialog .surprise-emblem {
+    font-size: 10px !important;
+    letter-spacing: 0.12em !important;
+    color: #9f1239 !important;
+    font-weight: 700 !important;
+    display: block !important;
+    margin-bottom: 2px !important;
+}
+
+#bottle-wishes-dialog .surprise-title {
+    margin: 0 !important;
+    font-family: var(--serif) !important;
+    font-size: 20px !important;
+    font-weight: 700 !important;
+    color: #881337 !important;
+    line-height: 1.2 !important;
+}
+
+#bottle-wishes-dialog .surprise-header-subtitle {
+    font-size: 11.5px !important;
+    color: #64748b !important;
+    margin: 2px 0 0 !important;
+    line-height: 1.35 !important;
+}
+
+#bottle-wishes-dialog .surprise-close-btn {
+    width: 32px !important;
+    height: 32px !important;
+    font-size: 14px !important;
+    flex-shrink: 0 !important;
+}
+
+/* Pestañas compactas */
 .bottle-tabs {
     display: flex;
-    gap: 8px;
-    margin-bottom: 18px;
-    border-bottom: 1px solid rgba(228, 202, 208, 0.7);
-    padding-bottom: 8px;
+    gap: 6px;
+    margin-bottom: 10px !important;
+    border-bottom: 1px solid rgba(244, 114, 182, 0.25) !important;
+    padding-bottom: 6px !important;
 }
 
 .bottle-tab {
     flex: 1;
-    padding: 8px 12px;
+    padding: 6px 10px !important;
     border: none;
     background: transparent;
     border-radius: 999px;
-    font-size: 13px;
+    font-size: 11.5px !important;
     font-weight: 600;
-    color: var(--ink-soft);
+    color: #64748b;
     cursor: pointer;
     transition: all 0.2s ease;
+    text-align: center;
 }
 
 .bottle-tab.is-active {
-    background: #ffffff;
-    color: var(--rose-dark);
-    box-shadow: 0 4px 12px rgba(45, 106, 79, 0.15);
+    background: #ffffff !important;
+    color: #881337 !important;
+    box-shadow: 0 2px 8px rgba(136, 19, 55, 0.1) !important;
 }
 
+/* Filtros de Sentimiento Compactos */
+.bottle-category-filter-wrap {
+    display: flex;
+    align-items: center !important;
+    flex-direction: row !important;
+    gap: 8px !important;
+    margin-bottom: 10px !important;
+    flex-wrap: wrap;
+}
+
+.bottle-filter-label {
+    font-size: 9px !important;
+    font-weight: 800;
+    letter-spacing: 0.1em;
+    color: #9f1239;
+    text-transform: uppercase;
+    white-space: nowrap;
+}
+
+.bottle-category-chips {
+    display: flex;
+    gap: 5px !important;
+    flex-wrap: wrap;
+}
+
+.bottle-category-chip {
+    padding: 4px 10px !important;
+    border-radius: 9999px;
+    font-size: 10.5px !important;
+    font-weight: 600;
+    background: rgba(255, 255, 255, 0.9);
+    border: 1px solid rgba(225, 29, 72, 0.18);
+    color: #6d5458;
+    cursor: pointer;
+    box-shadow: 0 1px 3px rgba(136, 78, 88, 0.04);
+    transition: all 0.2s ease;
+    white-space: nowrap;
+}
+
+.bottle-category-chip:hover {
+    background: #fff1f2;
+    color: #9f1239;
+}
+
+.bottle-category-chip.is-active {
+    background: linear-gradient(135deg, #e11d48 0%, #be123c 100%) !important;
+    color: #ffffff !important;
+    border-color: #be123c !important;
+    box-shadow: 0 2px 8px rgba(225, 29, 72, 0.25) !important;
+}
+
+/* Cuadro de Pergamino Compacto y sin scroll */
 .parchment-scroll-box {
-    background: linear-gradient(170deg, #fffdf8 0%, #fff8f0 50%, #fff4e6 100%);
-    border: 1.5px solid rgba(229, 205, 159, 0.85);
-    border-radius: 20px;
-    padding: 26px 24px;
+    background: linear-gradient(170deg, #fffdf8 0%, #fff8f0 50%, #fff4e6 100%) !important;
+    border: 1.5px solid rgba(229, 205, 159, 0.85) !important;
+    border-radius: 16px !important;
+    padding: 14px 18px !important;
     text-align: center;
-    box-shadow: 0 12px 35px rgba(76, 5, 25, 0.08), inset 0 2px 10px rgba(255, 255, 255, 0.9), 0 0 0 1px rgba(217, 119, 6, 0.15);
-    margin-bottom: 16px;
+    box-shadow: 0 8px 24px rgba(76, 5, 25, 0.06), inset 0 1px 6px rgba(255, 255, 255, 0.9) !important;
+    margin-bottom: 10px !important;
     position: relative;
     transform: none !important;
-    transition: box-shadow 0.3s ease, border-color 0.3s ease;
-}
-
-.parchment-scroll-box:hover {
-    transform: none !important;
-    border-color: rgba(217, 119, 6, 0.45);
-    box-shadow: 0 14px 40px rgba(76, 5, 25, 0.1), inset 0 2px 10px rgba(255, 255, 255, 0.9), 0 0 0 1px rgba(217, 119, 6, 0.25);
+    transition: none !important;
 }
 
 .parchment-header-origin {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    margin-bottom: 12px;
-    padding-bottom: 8px;
-    border-bottom: 1px dashed rgba(217, 119, 6, 0.25);
+    margin-bottom: 8px !important;
+    padding-bottom: 6px !important;
+    border-bottom: 1px dashed rgba(217, 119, 6, 0.25) !important;
 }
 
 .parchment-origin-badge {
-    font-size: 10px;
+    font-size: 9.5px !important;
     font-weight: 800;
     text-transform: uppercase;
-    letter-spacing: 0.08em;
+    letter-spacing: 0.06em;
     color: #b45309;
-    background: rgba(254, 243, 199, 0.7);
-    padding: 3px 10px;
+    background: rgba(254, 243, 199, 0.75);
+    padding: 2px 8px !important;
     border-radius: 999px;
     border: 1px solid rgba(245, 158, 11, 0.3);
 }
 
 .parchment-star-btn {
     border: none;
-    background: rgba(255, 255, 255, 0.8);
-    width: 28px;
-    height: 28px;
+    background: rgba(255, 255, 255, 0.9);
+    width: 26px !important;
+    height: 26px !important;
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
     cursor: pointer;
-    font-size: 13px;
-    transition: all 0.22s ease;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.06);
+    font-size: 12px !important;
+    transition: all 0.2s ease;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.06);
 }
 
-.parchment-star-btn:hover {
-    transform: scale(1.18);
-    background: #fef3c7;
+.parchment-wax-seal {
+    font-size: 18px !important;
+    color: #b05567;
+    margin-bottom: 6px !important;
+    line-height: 1 !important;
 }
 
-.parchment-star-btn.is-favorite {
-    background: #fef08a;
-    box-shadow: 0 0 10px rgba(234, 179, 8, 0.5);
+.parchment-text {
+    font-family: var(--serif) !important;
+    font-style: italic;
+    font-size: 14.5px !important;
+    line-height: 1.55 !important;
+    color: #3b282c !important;
+    margin: 0 0 8px !important;
 }
 
+.parchment-author {
+    font-size: 11px !important;
+    font-weight: 600;
+    color: #881337 !important;
+    display: block;
+}
+
+/* Botonera de la Botella Compacta */
+.bottle-actions {
+    display: flex;
+    justify-content: center;
+    gap: 8px !important;
+    flex-wrap: wrap;
+    margin-top: 4px;
+}
+
+.bottle-actions .button {
+    padding: 7px 15px !important;
+    font-size: 11.5px !important;
+    border-radius: 999px !important;
+}
+
+/* Pestaña de Favoritos Ajustada */
 .fav-bottles-wrap {
-    max-height: 280px;
-    overflow-y: auto;
+    max-height: 230px !important;
+    overflow-y: auto !important;
     display: flex;
     flex-direction: column;
-    gap: 10px;
-    padding: 4px;
+    gap: 8px !important;
+    padding: 2px;
 }
 
 .fav-bottle-card {
     background: #ffffff;
     border: 1px solid rgba(244, 63, 94, 0.2);
-    border-radius: 14px;
-    padding: 12px 14px;
-    box-shadow: 0 4px 12px rgba(136, 78, 88, 0.05);
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
+    border-radius: 12px !important;
+    padding: 10px 12px !important;
+    box-shadow: 0 2px 8px rgba(136, 78, 88, 0.05);
 }
 
 .fav-bottle-text {
-    margin: 0;
-    font-family: var(--serif);
-    font-style: italic;
-    font-size: 13.5px;
-    color: #4c0519;
+    font-size: 12.5px !important;
+    line-height: 1.45 !important;
 }
 
-.fav-bottle-meta {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    font-size: 10px;
-    color: #9f1239;
-    font-weight: 700;
-}
-
-.parchment-wax-seal {
-    font-size: 24px;
-    color: #b05567;
-    margin-bottom: 8px;
-}
-
-.parchment-text {
-    font-family: var(--serif);
-    font-style: italic;
-    font-size: 17px;
-    line-height: 1.65;
-    color: #3b282c;
-    margin: 0 0 12px;
-}
-
-.parchment-author {
-    font-size: 12px;
-    font-weight: 600;
-    color: var(--muted);
-}
-
-.bottle-actions {
-    display: flex;
-    justify-content: center;
-}
-
+/* Pestaña de Escribir Deseo Ajustada */
 .wish-form-wrap {
-    background: #ffffff;
-    border: 1px solid rgba(228, 202, 208, 0.8);
-    border-radius: 16px;
-    padding: 18px;
-    margin-bottom: 18px;
+    padding: 12px 14px !important;
+    margin-bottom: 8px !important;
+    border-radius: 14px !important;
 }
 
 .wish-intro {
-    font-size: 12.5px;
-    color: #5d464a;
-    margin: 0 0 10px;
-    line-height: 1.5;
+    font-size: 11.5px !important;
+    margin-bottom: 6px !important;
 }
 
 .wish-textarea {
-    width: 100%;
-    padding: 12px;
-    border-radius: 12px;
-    border: 1.5px solid rgba(228, 202, 208, 0.85);
-    background: #fffdfa;
-    font-family: inherit;
-    font-size: 13.5px;
-    resize: none;
-    outline: none;
-    transition: border-color 0.2s ease;
-    box-sizing: border-box;
-}
-
-.wish-textarea:focus {
-    border-color: var(--rose);
-}
-
-.wish-form-footer {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-top: 10px;
-}
-
-.wish-form-footer small {
-    font-size: 11px;
-    color: var(--muted);
-}
-
-.wishes-list-title {
-    font-size: 13px;
-    font-weight: 700;
-    color: var(--ink);
-    margin: 0 0 10px;
-}
-
-.wishes-cards-scroll {
-    max-height: 180px;
-    overflow-y: auto;
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-}
-
-.wish-item-card {
-    background: #ffffff;
-    border: 1px solid rgba(228, 202, 208, 0.7);
-    border-radius: 10px;
-    padding: 10px 14px;
-}
-
-.wish-item-text {
-    margin: 0 0 4px;
-    font-style: italic;
-    font-size: 13px;
-    color: #4a3639;
-}
-
-.wish-item-date {
-    font-size: 10.5px;
-    color: var(--muted);
+    padding: 8px 10px !important;
+    font-size: 12.5px !important;
+    rows: 2;
 }
 
 /* ─────────────────────────────────────────────────────────────────────────────
