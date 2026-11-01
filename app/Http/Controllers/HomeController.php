@@ -8,6 +8,8 @@ use App\Models\GardenPost;
 use App\Models\GardenProfile;
 use App\Models\FriendDedication;
 use App\Models\GardenHomeCard;
+use App\Models\GardenStatus;
+use Illuminate\Support\Facades\Schema;
 use App\Models\GardenQuizQuestion;
 use App\Models\GardenQuizSettings;
 use App\Models\User;
@@ -75,6 +77,22 @@ class HomeController extends Controller
 
         $friendDedications = FriendDedication::query()->latest()->take(60)->get();
         $homeCards = GardenHomeCard::active()->orderBy('sort_order', 'asc')->get();
+        $activeStatuses = collect();
+        if (Schema::hasTable('garden_statuses')) {
+            if (!app()->runningUnitTests() && GardenStatus::active()->count() === 0) {
+                $this->ensureDefaultGardenStatuses();
+            }
+            $activeStatuses = GardenStatus::active()->orderBy('created_at', 'asc')->get();
+        }
+
+        $isFamilyAdmin = auth()->check() && ((auth()->user()->is_admin ?? false) || in_array(auth()->id(), [1, 2], true));
+        $familyMembers = collect();
+        $familyMemories = collect();
+        if ($isFamilyAdmin && Schema::hasTable('family_members') && Schema::hasTable('family_memories')) {
+            FamilySanctuaryController::ensureDefaultFamilyData();
+            $familyMembers = \App\Models\FamilyMember::query()->orderBy('sort_order')->orderBy('id')->get();
+            $familyMemories = \App\Models\FamilyMemory::query()->with('member')->orderByDesc('is_featured')->orderByDesc('id')->get();
+        }
 
         return view('welcome', compact(
             'albums',
@@ -87,6 +105,10 @@ class HomeController extends Controller
             'timeCapsules',
             'friendDedications',
             'homeCards',
+            'activeStatuses',
+            'isFamilyAdmin',
+            'familyMembers',
+            'familyMemories',
             'personalStats',
             'publicProfile',
             'quizActiveCount',
@@ -102,5 +124,50 @@ class HomeController extends Controller
         $path = GardenQuizSettings::query()->find(1)?->reward_image_path;
 
         return $path !== null && Storage::disk('garden_private')->exists($path);
+    }
+
+    private function ensureDefaultGardenStatuses(): void
+    {
+        if (GardenStatus::count() > 0 || cache()->get('garden_statuses_seeded_v1')) {
+            return;
+        }
+
+        $defaults = [
+            [
+                'source' => public_path('images/carla-hero.jpg'),
+                'target' => 'garden-statuses/estado-bienvenida-1.jpg',
+                'caption' => 'Bienvenida a mi jardín secreto · Cada instante florece con el corazón ✨🌹',
+                'hours' => 24,
+            ],
+            [
+                'source' => public_path('images/hero-option-2.jpg'),
+                'target' => 'garden-statuses/estado-bienvenida-2.jpg',
+                'caption' => 'Luz dorada y pétalos suaves en nuestro rincón especial 🌸',
+                'hours' => 22,
+            ],
+            [
+                'source' => public_path('images/fondo-flores.jpg'),
+                'target' => 'garden-statuses/estado-bienvenida-3.jpg',
+                'caption' => 'Susurros botánicos del día · Un respiro de calma y armonía 🍃',
+                'hours' => 20,
+            ],
+        ];
+
+        foreach ($defaults as $item) {
+            $imagePath = 'images/carla-hero.jpg';
+            if (is_file($item['source'])) {
+                Storage::disk('public')->put($item['target'], file_get_contents($item['source']));
+                $imagePath = $item['target'];
+            }
+
+            GardenStatus::create([
+                'user_id' => User::query()->where('is_admin', true)->value('id') ?? User::query()->value('id'),
+                'caption' => $item['caption'],
+                'image_path' => $imagePath,
+                'expires_at' => now()->addHours($item['hours']),
+            ]);
+        }
+
+        cache()->forever('garden_statuses_seeded_v1', true);
     }
 }

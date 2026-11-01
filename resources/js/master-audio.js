@@ -99,9 +99,12 @@ export const GardenMasterAudio = {
             }
         } catch (_) {}
 
-        // 5. Pausar Reproductor de Entretenimiento (Audio/Video/YouTube)
+        // 5. Pausar Reproductor de Entretenimiento (Audio/Video/YouTube) y Reproductor Flotante
         try {
             pauseEntertainmentMedia();
+        } catch (_) {}
+        try {
+            window.FloatingMediaPlayer?.pause();
         } catch (_) {}
 
         // 6. Suspender cualquier AudioContext abierto en window
@@ -171,15 +174,20 @@ window.GardenMasterAudio = GardenMasterAudio;
 export function initMasterAudioController() {
     floatingBtn = document.getElementById('master-audio-floating-btn');
     if (!floatingBtn) {
-        const dock = document.getElementById('floating-dock-right');
+        let dock = document.getElementById('floating-dock-right');
+        if (!dock && document.body) {
+            dock = document.createElement('div');
+            dock.id = 'floating-dock-right';
+            dock.className = 'floating-dock-right';
+            dock.setAttribute('aria-label', 'Controles Flotantes del Jardín');
+            document.body.appendChild(dock);
+        }
         floatingBtn = document.createElement('button');
         floatingBtn.id = 'master-audio-floating-btn';
         floatingBtn.className = 'master-audio-floating-btn';
         floatingBtn.type = 'button';
         if (dock) {
             dock.prepend(floatingBtn);
-        } else {
-            document.body.appendChild(floatingBtn);
         }
     }
 

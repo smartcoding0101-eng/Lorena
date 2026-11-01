@@ -1,5 +1,77 @@
+﻿
+    <footer class="site-footer site-footer--rich">
+        {{-- Franja decorativa superior --}}
+        <div class="sf-top-bar" aria-hidden="true">
+            <span class="sf-bar-petal">✿</span>
+            <span class="sf-bar-line"></span>
+            <span class="sf-bar-petal">✿</span>
+        </div>
 
-    <footer class="site-footer"><a class="brand footer-brand" href="#inicio" data-go="inicio"><span class="brand-mark" aria-hidden="true">✳</span><span><strong>El jardín</strong><small>de Carla Lorena</small></span></a><span>Un universo personal, con cariño de Tu Ingeniero Julio Adrián. <span aria-hidden="true">♡</span></span><a class="footer-settings" href="#ajustes" data-go="ajustes">Privacidad y preferencias</a></footer>
+        {{-- Cuerpo principal del footer --}}
+        <div class="sf-body">
+            {{-- Columna 1: Marca --}}
+            <div class="sf-col sf-col--brand">
+                <a class="sf-brand" href="#inicio" data-go="inicio">
+                    <span class="sf-brand-mark" aria-hidden="true">✳</span>
+                    <span class="sf-brand-text">
+                        <strong>El jardín</strong>
+                        <small>de Carla Lorena</small>
+                    </span>
+                </a>
+                <p class="sf-tagline">Un universo donde la belleza,<br>la naturaleza y los sueños florecen.</p>
+                <p class="sf-made-with">Creado con <span class="sf-heart" aria-hidden="true">♡</span> por <strong>Tu Ingeniero Julio Adrián</strong></p>
+            </div>
+
+            {{-- Columna 2: Navegación --}}
+            <div class="sf-col sf-col--nav">
+                <h4 class="sf-col-title">Rincones</h4>
+                <nav class="sf-nav" aria-label="Navegación del footer">
+                    <a class="sf-nav-link" href="#inicio" data-go="inicio">🌿 Inicio</a>
+                    <a class="sf-nav-link" href="#galeria" data-go="galeria">📸 Mi Universo</a>
+                    <a class="sf-nav-link" href="#inspiracion" data-go="inspiracion">✨ Inspiración</a>
+                    <a class="sf-nav-link" href="#experiencias" data-go="experiencias">🎮 Experiencias</a>
+                    <a class="sf-nav-link" href="#mapa" data-go="mapa">🗺️ Mapa del jardín</a>
+                </nav>
+            </div>
+
+            {{-- Columna 3: Cita y datos --}}
+            <div class="sf-col sf-col--quote">
+                <h4 class="sf-col-title">El jardín te dice…</h4>
+                <blockquote class="sf-quote">
+                    <p>«Cada día es una oportunidad de crear algo extraordinario y florecer a tu propio ritmo.»</p>
+                    <cite>— Carla Lorena</cite>
+                </blockquote>
+                <div class="sf-badges">
+                    <span class="sf-badge">🌸 Belleza</span>
+                    <span class="sf-badge">🌿 Naturaleza</span>
+                    <span class="sf-badge">💫 Sueños</span>
+                </div>
+            </div>
+
+            {{-- Columna 4: Accesos rápidos --}}
+            <div class="sf-col sf-col--links">
+                <h4 class="sf-col-title">Accesos</h4>
+                <div class="sf-quick-links">
+                    <a class="sf-quick-link" href="#ajustes" data-go="ajustes">⚙️ Preferencias</a>
+                    <a class="sf-quick-link" href="#biblioteca" data-go="biblioteca">🎵 Música</a>
+                    <a class="sf-quick-link" href="#dedicatorias" data-go="dedicatorias">💌 Dedicatorias</a>
+                    <a class="sf-quick-link" href="#miesspacio" data-go="miesspacio">📔 Mi Espacio</a>
+                </div>
+            </div>
+        </div>
+
+        {{-- Línea divisora --}}
+        <div class="sf-divider" aria-hidden="true"></div>
+
+        {{-- Franja inferior --}}
+        <div class="sf-bottom">
+            <span class="sf-copy">© {{ date('Y') }} El Jardín de Carla Lorena · Todos los derechos reservados</span>
+            <span class="sf-sep" aria-hidden="true">·</span>
+            <a class="sf-legal" href="#ajustes" data-go="ajustes">Privacidad y preferencias</a>
+            <span class="sf-sep" aria-hidden="true">·</span>
+            <span class="sf-version">v2.0 · Jardín Digital</span>
+        </div>
+    </footer>
 
     <!-- ═══════════════════════════════════════════════════════════════════════ -->
     <!--  MODO MUSEO CINEMATOGRÁFICO · LIGHTBOX DE BELLAS ARTES DE CARLA LORENA    -->
@@ -144,7 +216,7 @@
                 <div class="map-rose-tab-content is-active" id="rose-tab-carta" role="tabpanel">
                     <div class="rose-parchment-letter">
                         <div class="rose-watermark" aria-hidden="true">❦</div>
-                        <p class="letter-greeting">Mi queridísima Carla Lorena,</p>
+                        <p class="letter-greeting">Mi amada princesa Lorena,</p>
                         <p class="letter-paragraph">
                             Si este mapa secreto tiene senderos de rosas, cielos estrellados y santuarios de paz, es únicamente porque cada uno de ellos nació de un latido pensando en ti. En medio de un mundo ruidoso y apresurado, quise construir este universo donde el tiempo se detenga y donde tu sonrisa sea la única brújula que guíe mis días.
                         </p>
@@ -455,10 +527,239 @@
         </button>
     </div>
 
-        <!-- Cajón lateral / Drawer de Gestión Contextual -->
-        <aside id="corner-crud-drawer" class="corner-drawer" aria-labelledby="corner-drawer-title" hidden>
+    <!-- ═══════════════════════════════════════════════════════════════════════ -->
+    <!--  REPRODUCTOR FLOTANTE MULTIMEDIA: AUDIO, VIDEO & YOUTUBE EN 2º PLANO    -->
+    <!-- ═══════════════════════════════════════════════════════════════════════ -->
+    <div id="floating-media-player" class="floating-media-player" hidden aria-label="Reproductor Multimedia Flotante" role="region">
+        <div class="fmp-window">
+            <!-- Header Arrastrable -->
+            <div class="fmp-header" id="fmp-drag-handle">
+                <div class="fmp-header-left">
+                    <span class="fmp-header-icon" aria-hidden="true">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/>
+                        </svg>
+                    </span>
+                    <div class="fmp-header-titles">
+                        <span class="fmp-eyebrow">REPRODUCTOR MULTIMEDIA · ATELIER</span>
+                        <h4 class="fmp-title" id="fmp-now-playing-title">Sin reproducción activa</h4>
+                    </div>
+                </div>
+                <div class="fmp-header-actions">
+                    <button type="button" class="fmp-btn-action" id="fmp-btn-toggle-video" title="Ocultar / Mostrar pantalla de video" aria-label="Alternar pantalla de video">
+                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect>
+                            <line x1="8" y1="21" x2="16" y2="21"></line>
+                            <line x1="12" y1="17" x2="12" y2="21"></line>
+                        </svg>
+                    </button>
+                    <button type="button" class="fmp-btn-action" id="fmp-btn-minimize" title="Minimizar a píldora compacta" aria-label="Minimizar reproductor">
+                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <line x1="5" y1="12" x2="19" y2="12"></line>
+                        </svg>
+                    </button>
+                    <button type="button" class="fmp-btn-action fmp-btn-close" id="fmp-btn-close" title="Ocultar panel (sigue sonando en segundo plano)" aria-label="Cerrar panel del reproductor">
+                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <line x1="18" y1="6" x2="6" y2="18"></line>
+                            <line x1="6" y1="6" x2="18" y2="18"></line>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Visor Multimedia (Video / YouTube / Arte Floral con Ecualizador) -->
+            <div class="fmp-viewport" id="fmp-viewport">
+                <!-- Visor de Video HTML5 -->
+                <video id="fmp-native-video" class="fmp-video-el" playsinline style="display: none;"></video>
+                <!-- Elemento Audio Nativo HTML5 -->
+                <audio id="fmp-native-audio" preload="metadata" style="display: none;"></audio>
+                <!-- Contenedor para IFrame de YouTube -->
+                <div id="fmp-youtube-wrapper" class="fmp-youtube-wrapper" style="display: none;">
+                    <div id="fmp-youtube-player"></div>
+                </div>
+                <!-- Carátula / Arte Visualizador para Pistas de Audio -->
+                <div id="fmp-audio-art" class="fmp-audio-art">
+                    <div class="fmp-vinyl-disc" id="fmp-vinyl-disc">
+                        <div class="fmp-vinyl-center">
+                            <span class="fmp-vinyl-icon">🌸</span>
+                        </div>
+                    </div>
+                    <div class="fmp-visualizer-bars" aria-hidden="true">
+                        <span class="fmp-bar"></span>
+                        <span class="fmp-bar"></span>
+                        <span class="fmp-bar"></span>
+                        <span class="fmp-bar"></span>
+                        <span class="fmp-bar"></span>
+                    </div>
+                </div>
+                <!-- Badge de Tipo de Origen -->
+                <span class="fmp-badge-source" id="fmp-badge-source">Listo</span>
+            </div>
+
+            <!-- Controles y Tiempo -->
+            <div class="fmp-body">
+                <!-- Información de Pista -->
+                <div class="fmp-track-info">
+                    <div class="fmp-marquee-wrap">
+                        <div class="fmp-marquee-text" id="fmp-track-name">Carga un archivo o pega un enlace para comenzar</div>
+                    </div>
+                    <span class="fmp-track-author" id="fmp-track-author">El Jardín de Carla Lorena</span>
+                </div>
+
+                <!-- Barra de Progreso Seekable -->
+                <div class="fmp-progress-row">
+                    <span class="fmp-time" id="fmp-current-time">0:00</span>
+                    <div class="fmp-seek-bar-wrap" id="fmp-seek-bar-wrap" role="slider" aria-label="Progreso de reproducción" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" tabindex="0">
+                        <div class="fmp-seek-buffered" id="fmp-seek-buffered"></div>
+                        <div class="fmp-seek-fill" id="fmp-seek-fill"></div>
+                        <div class="fmp-seek-thumb" id="fmp-seek-thumb"></div>
+                    </div>
+                    <span class="fmp-time" id="fmp-duration-time">0:00</span>
+                </div>
+
+                <!-- Botonera de Control -->
+                <div class="fmp-controls-row">
+                    <button type="button" class="fmp-ctrl-btn" id="fmp-btn-shuffle" title="Modo aleatorio" aria-label="Modo aleatorio">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polyline points="16 3 21 3 21 8"></polyline>
+                            <line x1="4" y1="20" x2="21" y2="3"></line>
+                            <polyline points="21 16 21 21 16 21"></polyline>
+                            <line x1="15" y1="15" x2="21" y2="21"></line>
+                            <line x1="4" y1="4" x2="9" y2="9"></line>
+                        </svg>
+                    </button>
+                    <button type="button" class="fmp-ctrl-btn" id="fmp-btn-prev" title="Pista anterior" aria-label="Pista anterior">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polygon points="19 20 9 12 19 4 19 20"></polygon>
+                            <line x1="5" y1="19" x2="5" y2="5"></line>
+                        </svg>
+                    </button>
+                    <button type="button" class="fmp-ctrl-btn fmp-play-pause-btn" id="fmp-btn-play-pause" title="Reproducir / Pausar" aria-label="Reproducir">
+                        <span id="fmp-icon-play" aria-hidden="true">
+                            <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
+                                <polygon points="5 3 19 12 5 21 5 3"></polygon>
+                            </svg>
+                        </span>
+                        <span id="fmp-icon-pause" aria-hidden="true" style="display: none;">
+                            <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
+                                <rect x="6" y="4" width="4" height="16"></rect>
+                                <rect x="14" y="4" width="4" height="16"></rect>
+                            </svg>
+                        </span>
+                    </button>
+                    <button type="button" class="fmp-ctrl-btn" id="fmp-btn-next" title="Pista siguiente" aria-label="Pista siguiente">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polygon points="5 4 15 12 5 20 5 4"></polygon>
+                            <line x1="19" y1="5" x2="19" y2="19"></line>
+                        </svg>
+                    </button>
+                    <button type="button" class="fmp-ctrl-btn" id="fmp-btn-loop" title="Repetir: Desactivado" aria-label="Modo de repetición">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polyline points="17 1 21 5 17 9"></polyline>
+                            <path d="M3 11V9a4 4 0 0 1 4-4h14"></path>
+                            <polyline points="7 23 3 19 7 15"></polyline>
+                            <path d="M21 13v2a4 4 0 0 1-4 4H3"></path>
+                        </svg>
+                        <span class="fmp-loop-badge" id="fmp-loop-badge" style="display: none;">1</span>
+                    </button>
+                </div>
+
+                <!-- Fila de Volumen y Velocidad -->
+                <div class="fmp-extra-controls">
+                    <div class="fmp-volume-wrap">
+                        <button type="button" class="fmp-vol-btn" id="fmp-btn-mute" title="Silenciar / Activar sonido" aria-label="Silenciar">
+                            <span id="fmp-vol-icon">🔊</span>
+                        </button>
+                        <input type="range" id="fmp-volume-slider" class="fmp-volume-slider" min="0" max="1" step="0.02" value="0.8" aria-label="Volumen">
+                    </div>
+                    <div class="fmp-speed-wrap">
+                        <button type="button" class="fmp-speed-btn" id="fmp-btn-speed" title="Velocidad de reproducción">1.0x</button>
+                    </div>
+                </div>
+
+                <!-- Pestañas de Carga y Gestión Multimedia -->
+                <div class="fmp-tabs-bar">
+                    <button type="button" class="fmp-tab-btn is-active" data-fmp-tab="tab-local">
+                        <span>📁 Local</span>
+                    </button>
+                    <button type="button" class="fmp-tab-btn" data-fmp-tab="tab-url">
+                        <span>🔗 Enlace / YT</span>
+                    </button>
+                    <button type="button" class="fmp-tab-btn" data-fmp-tab="tab-playlist">
+                        <span>📋 Lista (<strong id="fmp-playlist-count">0</strong>)</span>
+                    </button>
+                </div>
+
+                <!-- Panel: Archivos Locales (Drag & Drop) -->
+                <div class="fmp-tab-panel" id="fmp-panel-local">
+                    <div class="fmp-dropzone" id="fmp-dropzone">
+                        <span class="fmp-dropzone-icon">📥</span>
+                        <div class="fmp-dropzone-text">
+                            <strong>Arrastra tu música o videos aquí</strong>
+                            <small>Soporta MP3, WAV, AAC, M4A, OGG, MP4, WebM</small>
+                        </div>
+                        <label class="button button-outline fmp-btn-browse">
+                            <span>Examinar archivos</span>
+                            <input type="file" id="fmp-file-input" multiple accept="audio/*,video/*,.mp3,.wav,.ogg,.oga,.m4a,.aac,.flac,.mp4,.webm,.ogv,.mov" hidden>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Panel: Enlace en Línea o YouTube -->
+                <div class="fmp-tab-panel" id="fmp-panel-url" style="display: none;">
+                    <form id="fmp-url-form" class="fmp-url-form">
+                        <div class="fmp-input-row">
+                            <input type="url" id="fmp-url-input" class="fmp-url-input" placeholder="Pega enlace de YouTube (o URL de audio/video)..." required>
+                        </div>
+                        <div class="fmp-url-actions">
+                            <button type="button" class="button button-outline" id="fmp-btn-add-queue">
+                                <span>➕ Añadir</span>
+                            </button>
+                            <button type="submit" class="button button-primary" id="fmp-btn-play-now">
+                                <span>▶ Reproducir</span>
+                            </button>
+                        </div>
+                        <div class="fmp-url-hints">
+                            <small>💡 Compatible con YouTube (watch, shorts, youtu.be), radios en línea y archivos .mp3/.mp4 directos.</small>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- Panel: Lista de Reproducción / Historial -->
+                <div class="fmp-tab-panel" id="fmp-panel-playlist" style="display: none;">
+                    <div class="fmp-playlist-toolbar">
+                        <span class="fmp-playlist-meta" id="fmp-playlist-meta">Pistas en la lista</span>
+                        <button type="button" class="fmp-btn-clear-list" id="fmp-btn-clear-playlist">Limpiar lista</button>
+                    </div>
+                    <ul class="fmp-playlist-list" id="fmp-playlist-list">
+                        <li class="fmp-playlist-empty">No hay pistas en la lista. Carga archivos locales o pega un enlace.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Píldora Flotante Compacta (Cuando se minimiza el reproductor) -->
+    <div id="floating-player-compact-pill" class="floating-player-compact-pill" hidden aria-label="Mini Reproductor Flotante">
+        <button type="button" class="fmp-pill-disc" id="fmp-pill-expand-btn" title="Expandir reproductor">
+            <span class="fmp-pill-disc-inner">🎵</span>
+        </button>
+        <div class="fmp-pill-info" id="fmp-pill-click-expand">
+            <span class="fmp-pill-title" id="fmp-pill-title">Reproduciendo...</span>
+            <span class="fmp-pill-time" id="fmp-pill-time">0:00 / 0:00</span>
+        </div>
+        <button type="button" class="fmp-pill-play-btn" id="fmp-pill-play-btn" title="Pausar / Reanudar">
+            <span id="fmp-pill-icon-play">▶</span>
+            <span id="fmp-pill-icon-pause" style="display: none;">❚❚</span>
+        </button>
+        <button type="button" class="fmp-pill-close-btn" id="fmp-pill-close-btn" title="Ocultar píldora">✕</button>
+    </div>
+
+    <!-- Cajón lateral / Drawer de Gestión Contextual -->
+    <aside id="corner-crud-drawer" class="corner-drawer" aria-labelledby="corner-drawer-title" hidden>
             <div class="corner-drawer-backdrop" data-drawer-close></div>
-            <div class="corner-drawer-panel">
+            <div class="corner-drawer-panel corner-drawer-modern-panel">
+                <div class="corner-drawer-glass-sheen" aria-hidden="true"></div>
                 <header class="corner-drawer-header">
                     <div>
                         <span class="drawer-eyebrow">RINCÓN ACTUAL · <strong id="drawer-screen-name">Inicio</strong></span>
@@ -628,23 +929,35 @@
     <div class="weather-season-popover" id="weather-season-popover" role="dialog" aria-label="Selector de Estaciones y Clima" hidden>
         <div class="weather-popover-card">
             <header class="weather-popover-header">
-                <div class="weather-header-text">
-                    <span class="weather-header-eyebrow">ATMÓSFERA EMOCIONAL</span>
-                    <h4 class="weather-header-title">El Clima del Jardín</h4>
+                <div class="weather-header-top-row">
+                    <button type="button" class="weather-popover-close" id="btn-close-weather-popover" aria-label="Cerrar selector de clima" title="Cerrar">✕</button>
+                    <div class="weather-header-text">
+                        <span class="weather-header-eyebrow">ATMÓSFERA EMOCIONAL</span>
+                        <h4 class="weather-header-title">El Clima del Jardín</h4>
+                    </div>
                 </div>
                 <div class="weather-header-actions">
-                    <button type="button" class="weather-power-off-btn" id="btn-turn-off-atmosphere" title="Apagar toda la atmósfera (partículas, efectos y sonidos)">
-                        <span class="power-icon">⏻</span>
+                    <button type="button" class="weather-toggle-visuals-btn" id="btn-toggle-visual-effects" aria-pressed="true" title="Apagar o encender todos los efectos visuales de la sala (lluvia, hojas, pétalos, nieve, destellos) manteniendo el sonido">
+                        <span class="visuals-status-dot" aria-hidden="true"></span>
+                        <span class="visuals-icon" aria-hidden="true">✨</span>
+                        <span class="visuals-text">Apagar Efectos</span>
+                    </button>
+                    <button type="button" class="weather-power-off-btn" id="btn-turn-off-atmosphere" aria-pressed="false" title="Silenciar toda la sala y apagar atmósfera (excepto el reproductor de música)">
+                        <span class="power-status-dot" aria-hidden="true"></span>
+                        <span class="power-icon" aria-hidden="true">⏻</span>
                         <span class="power-text">Apagar Atmósfera</span>
                     </button>
-                    <button type="button" class="weather-popover-close" id="btn-close-weather-popover" aria-label="Cerrar selector de clima">✕</button>
                 </div>
             </header>
 
             <div class="weather-popover-body">
                 <!-- PILAR 1: Catálogo de Estaciones & Climas -->
-                <div class="weather-section-label">
+                <div class="weather-section-label weather-section-label-with-action">
                     <span>SELECCIONA UNA ESTACIÓN</span>
+                    <button type="button" class="weather-season-off-btn" id="btn-turn-off-season-effects" aria-pressed="false" title="Apagar inmediatamente cualquier efecto de las estaciones (pétalos, lluvia, hojas, nieve, estrellas, burbujas)">
+                        <span class="season-off-icon" aria-hidden="true">🚫</span>
+                        <span class="season-off-text">Apagar Efectos de Estación</span>
+                    </button>
                 </div>
 
                 <div class="weather-seasons-grid" role="radiogroup" aria-label="Selecciona una estación">
@@ -747,14 +1060,14 @@
                     <div class="weather-control-item">
                         <div class="weather-sound-control-row">
                             <div class="weather-sound-label">
-                                <span class="sound-icon-indicator" id="weather-sound-icon">🔊</span>
+                                <span class="sound-icon-indicator" id="weather-sound-icon">🔇</span>
                                 <div>
                                     <strong>Sonido ambiental</strong>
-                                    <small id="weather-sound-desc">Brisa primaveral serena</small>
+                                    <small id="weather-sound-desc">Sin audio cargado (subir desde Admin)</small>
                                 </div>
                             </div>
-                            <label class="weather-sound-toggle-switch" title="Activar o desactivar sonido ambiental">
-                                <input type="checkbox" id="weather-sound-toggle" checked>
+                            <label class="weather-sound-toggle-switch" title="Activar o desactivar sonido ambiental subido desde el Admin">
+                                <input type="checkbox" id="weather-sound-toggle">
                                 <span class="sound-toggle-slider"></span>
                             </label>
                         </div>
@@ -843,150 +1156,85 @@
     </div>
 
     <!-- ═══════════════════════════════════════════════════════════════════════ -->
-    <!--  PILAR 5: DIALOG CRISTAL EMPAÑADO DE LLUVIA (INTERACTIVO)              -->
-    <!-- ═══════════════════════════════════════════════════════════════════════ -->
-    <dialog class="misty-window-dialog" id="misty-window-dialog" aria-label="Ventana con cristal empañado">
-        <div class="misty-dialog-card">
-            <header class="misty-dialog-header">
-                <div>
-                    <span class="misty-badge">🌧️ TARDE DE LLUVIA &amp; CRISTAL</span>
-                    <h3 class="misty-title">Dibuja en la Ventana Empañada</h3>
-                    <p class="misty-subtitle">Arrastra tu ratón o dedo para despejar el vaho y revelar el mensaje secreto.</p>
-                </div>
-                <button type="button" class="misty-close-btn" id="btn-close-misty-dialog" aria-label="Cerrar ventana empañada">✕</button>
-            </header>
-
-            <div class="misty-viewport">
-                <!-- Capa secreta DEBAJO del canvas - se revela al despejar el vaho -->
-                <div class="misty-secret-layer" id="misty-secret-layer" aria-hidden="true">
-                    <span class="misty-secret-heart">♡</span>
-                    <p class="misty-secret-greeting">Para Carla Lorena</p>
-                    <p class="misty-secret-text" id="misty-secret-text">«No importa qué clima haya afuera, en mi corazón siempre hay un rincón cálido reservado para ti.»</p>
-                    <small class="misty-secret-author">— Con cariño, siempre</small>
-                    <button type="button" class="misty-cycle-quote-btn" id="btn-cycle-misty-quote">✨ Siguiente frase</button>
-                </div>
-                <!-- Canvas de vaho ENCIMA de la capa secreta -->
-                <canvas id="misty-canvas" class="misty-canvas"></canvas>
-            </div>
-
-            <footer class="misty-dialog-footer">
-                <div class="misty-actions-left">
-                    <button type="button" class="misty-tool-btn" id="btn-fog-window-again">
-                        🌫️ Volver a empañar
-                    </button>
-                </div>
-                <button type="button" class="misty-btn-primary" id="btn-reveal-secret-heart">
-                    💌 Revelar mensaje secreto
-                </button>
-            </footer>
-        </div>
-    </dialog>
-
-    <!-- ═══════════════════════════════════════════════════════════════════════ -->
-    <!--  PILAR 7: DIALOG BÓVEDA CELESTIAL DE DESEOS A LAS ESTRELLAS             -->
-    <!-- ═══════════════════════════════════════════════════════════════════════ -->
-    <dialog class="wish-star-dialog" id="wish-star-dialog" aria-label="Bóveda de Deseos a las Estrellas">
-        <div class="wish-star-card">
-            <!-- Estrellas de fondo decorativas -->
-            <div class="wish-star-bg" aria-hidden="true">
-                <span class="wish-star-dot" style="top:8%;left:12%;animation-delay:0s"></span>
-                <span class="wish-star-dot" style="top:22%;left:78%;animation-delay:0.4s"></span>
-                <span class="wish-star-dot" style="top:5%;left:55%;animation-delay:0.8s"></span>
-                <span class="wish-star-dot" style="top:40%;left:90%;animation-delay:0.2s"></span>
-                <span class="wish-star-dot" style="top:70%;left:5%;animation-delay:0.6s"></span>
-                <span class="wish-star-dot" style="top:85%;left:65%;animation-delay:1s"></span>
-                <span class="wish-star-dot lg" style="top:15%;left:35%;animation-delay:0.3s"></span>
-                <span class="wish-star-dot lg" style="top:60%;left:82%;animation-delay:0.9s"></span>
-            </div>
-
-            <header class="wish-star-header">
-                <div class="wish-header-content">
-                    <div class="wish-header-icon" aria-hidden="true">🌠</div>
-                    <div>
-                        <span class="wish-eyebrow">✦ NOCHE DE CONSTELACIONES ✦</span>
-                        <h3 class="wish-title">Pide un Deseo a las Estrellas</h3>
-                        <p class="wish-subtitle">Escribe aquello que tu corazón sueña. Quedará guardado en tu cielo personal.</p>
-                    </div>
-                </div>
-                <button type="button" class="wish-close-btn" id="btn-close-wish-star" aria-label="Cerrar bóveda de deseos">✕</button>
-            </header>
-
-            <div class="wish-star-body">
-                <!-- Formulario de nuevo deseo -->
-                <form id="wish-star-form" class="wish-form">
-                    <div class="wish-input-wrapper">
-                        <textarea id="wish-star-text" class="wish-star-textarea" rows="3" maxlength="220" placeholder="Escribe aquí tu deseo más sincero, Carla..." required></textarea>
-                        <span class="wish-counter" id="wish-star-counter">✏ 0 / 220</span>
-                    </div>
-
-                    <div class="wish-types-grid">
-                        <label class="wish-type-item">
-                            <input type="radio" name="star_type" value="golden" checked>
-                            <span class="wish-type-chip chip-golden">🌟 Deseo Dorado</span>
-                        </label>
-                        <label class="wish-type-item">
-                            <input type="radio" name="star_type" value="rose">
-                            <span class="wish-type-chip chip-rose">💖 Deseo del Corazón</span>
-                        </label>
-                        <label class="wish-type-item">
-                            <input type="radio" name="star_type" value="purple">
-                            <span class="wish-type-chip chip-purple">🔮 Deseo Amatista</span>
-                        </label>
-                        <label class="wish-type-item">
-                            <input type="radio" name="star_type" value="azure">
-                            <span class="wish-type-chip chip-azure">💎 Deseo Infinito</span>
-                        </label>
-                    </div>
-
-                    <div class="wish-form-actions">
-                        <button type="submit" class="wish-submit-btn">
-                            ✨ Enviar al Cosmos
-                        </button>
-                    </div>
-                </form>
-
-                <!-- Historial de deseos -->
-                <div class="wish-collection-container">
-                    <div class="wish-collection-header">
-                        <h3>🌌 Tu Cielo de Deseos</h3>
-                        <span class="wish-count-badge" id="wish-count-badge">0 estrellas</span>
-                    </div>
-                    <div class="wishes-list" id="wishes-list">
-                        <div class="wish-empty-state">
-                            <span style="font-size:2rem">✨</span>
-                            <p>Aún no has lanzado deseos. ¡Pide el primero y enciende una estrella en tu cielo!</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </dialog>
-
-    <!-- ═══════════════════════════════════════════════════════════════════════ -->
     <!--  MODALES DE LAS 3 EXPERIENCIAS DE SORPRESAS FLOTANTES                  -->
     <!-- ═══════════════════════════════════════════════════════════════════════ -->
 
-    <!-- 1. DIALOG: COFRE DE SORPRESAS -->
+    <!-- 1. DIALOG: COFRE DE SORPRESAS & RECUERDOS (3 RELIQUIAS MISTERIOSAS + COLECCIONADOR) -->
     <dialog class="surprise-modal-dialog" id="surprise-chest-dialog" aria-label="Cofre de Sorpresas de Carla Lorena">
-        <div class="surprise-modal-card chest-card">
-            <header class="surprise-modal-header">
-                <div>
+        <div class="surprise-modal-card chest-card chest-card-upgraded">
+            <header class="surprise-modal-header chest-header-upgraded">
+                <div class="chest-header-main">
                     <span class="surprise-emblem">✨ 🎁 ✨</span>
                     <h2 class="surprise-title">Cofre de Sorpresas & Recuerdos</h2>
+                    <p class="chest-header-subtitle">Elige una reliquia sellada para romper su lacre real y coleccionar cada tesoro.</p>
                 </div>
-                <button type="button" class="dialog-close surprise-close-btn" aria-label="Cerrar cofre">✕</button>
+                <div class="chest-header-right">
+                    <div class="chest-progress-pill" id="chest-progress-pill" title="Tesoros descubiertos en tu colección">
+                        <span class="chest-progress-icon" aria-hidden="true">🗝️</span>
+                        <span id="chest-progress-count">0 / 12</span>
+                    </div>
+                    <button type="button" class="dialog-close surprise-close-btn" aria-label="Cerrar cofre">✕</button>
+                </div>
             </header>
 
-            <div class="chest-content-stage" id="chest-content-stage">
-                <!-- Se inyecta dinámicamente: Polaroid Flip, Cupón de Amor o Confidencia -->
+            <!-- Barra de progreso global del cofre -->
+            <div class="chest-progress-bar-wrap" aria-hidden="true">
+                <div class="chest-progress-bar-fill" id="chest-progress-bar-fill" style="width: 0%;"></div>
             </div>
 
-            <footer class="surprise-modal-footer">
-                <button type="button" class="button button-primary surprise-action-btn" id="chest-next-btn">
-                    <span>Abrir otra sorpresa</span> <span>🎲</span>
+            <!-- Pestañas interactivas del Cofre -->
+            <nav class="chest-tabs-nav" role="tablist" aria-label="Secciones del Cofre de Sorpresas">
+                <button type="button" class="chest-tab-btn is-active" data-chest-tab="relics" role="tab" aria-selected="true" id="tab-btn-chest-relics">
+                    <span>✨ 3 Reliquias</span>
                 </button>
-                <small class="surprise-hint">Toca la tarjeta para descubrir el reverso</small>
-            </footer>
+                <button type="button" class="chest-tab-btn" data-chest-tab="collection" role="tab" aria-selected="false" id="tab-btn-chest-collection">
+                    <span>📖 Colección</span>
+                    <span class="chest-tab-badge" id="chest-collection-badge">0</span>
+                </button>
+                <button type="button" class="chest-tab-btn" data-chest-tab="coupons" role="tab" aria-selected="false" id="tab-btn-chest-coupons">
+                    <span>🎟️ Mis Cupones</span>
+                    <span class="chest-tab-badge" id="chest-coupons-badge">0</span>
+                </button>
+            </nav>
+
+            <!-- PANEL 1: Selección de 3 Reliquias Misteriosas & Revelación -->
+            <div class="chest-tab-pane is-active" id="chest-pane-relics" role="tabpanel">
+                <div class="chest-content-stage" id="chest-content-stage">
+                    <!-- Se inyecta dinámicamente: Selección de 3 Reliquias o Tarjeta Revelada (Polaroid Flip, Cupón, Secreto) -->
+                </div>
+
+                <footer class="surprise-modal-footer chest-footer-upgraded">
+                    <div class="chest-footer-actions">
+                        <button type="button" class="button button-outline chest-back-relics-btn" id="chest-back-relics-btn" hidden>
+                            <span>← Volver a las 3 Reliquias</span>
+                        </button>
+                        <button type="button" class="button button-primary surprise-action-btn" id="chest-next-btn">
+                            <span>Barajar 3 Nuevas Reliquias</span> <span>🎲</span>
+                        </button>
+                    </div>
+                    <small class="surprise-hint" id="chest-stage-hint">Elige uno de los 3 cofres sellados para descubrir qué guarda para ti hoy</small>
+                </footer>
+            </div>
+
+            <!-- PANEL 2: Álbum Coleccionador de Tesoros Desbloqueados -->
+            <div class="chest-tab-pane" id="chest-pane-collection" role="tabpanel" hidden>
+                <div class="chest-collection-filters" role="group" aria-label="Filtrar tesoros por categoría">
+                    <button type="button" class="chest-filter-chip is-active" data-chest-filter="all">Todos</button>
+                    <button type="button" class="chest-filter-chip" data-chest-filter="polaroid">📷 Polaroids 3D</button>
+                    <button type="button" class="chest-filter-chip" data-chest-filter="coupon">🎫 Cupones</button>
+                    <button type="button" class="chest-filter-chip" data-chest-filter="secret">💎 Confidencias</button>
+                </div>
+                <div class="chest-collection-grid" id="chest-collection-grid">
+                    <!-- Se inyecta dinámicamente -->
+                </div>
+            </div>
+
+            <!-- PANEL 3: Billetera de Cupones Canjeados -->
+            <div class="chest-tab-pane" id="chest-pane-coupons" role="tabpanel" hidden>
+                <div class="chest-coupons-wallet" id="chest-coupons-wallet">
+                    <!-- Se inyecta dinámicamente -->
+                </div>
+            </div>
         </div>
     </dialog>
 
@@ -1230,61 +1478,100 @@
     <dialog id="wish-star-dialog" class="modal-dialog wish-star-dialog" aria-labelledby="wish-dialog-title">
         <div class="wish-dialog-card">
             <header class="wish-dialog-header">
-                <div>
-                    <span class="wish-badge">🌠 Bóveda de Estrellas</span>
-                    <h2 id="wish-dialog-title" class="wish-title">Deseos al Firmamento</h2>
-                    <p class="wish-subtitle">Confía un anhelo al universo. Cada deseo se convertirá en una estrella radiante que acompañará tus pasos para siempre.</p>
+                <div class="wish-header-copy">
+                    <span class="wish-badge">✦ NOCHE DE CONSTELACIONES ✦</span>
+                    <h2 id="wish-dialog-title" class="wish-title">Pide un Deseo a las Estrellas</h2>
+                    <p class="wish-subtitle">Escribe aquello que tu corazón sueña. Cada anhelo quedará grabado en tu constelación personal con la luz del jardín.</p>
                 </div>
-                <button type="button" class="wish-close-btn" id="btn-close-wish-dialog" aria-label="Cerrar bóveda">×</button>
+                <button type="button" class="wish-close-btn" id="btn-close-wish-dialog" aria-label="Cerrar bóveda">✕</button>
             </header>
 
             <div class="wish-dialog-body">
+                <!-- Mapa Interactivo de la Constelación de Carla -->
+                <div class="wish-constellation-stage">
+                    <div class="wish-constellation-top">
+                        <div class="wish-constellation-info">
+                            <span class="wish-constellation-eyebrow">✨ MAPA CELESTIAL INTERACTIVO</span>
+                            <p class="wish-constellation-hint">Toca cualquier estrella para hacerla resonar con música de arpa y leer su deseo.</p>
+                        </div>
+                        <button type="button" class="wish-shooting-star-btn" id="btn-trigger-wish-meteor" title="Cruzar el cielo con una estrella fugaz">
+                            <span>🌠 Estrella Fugaz</span>
+                        </button>
+                    </div>
+                    <div class="wish-constellation-canvas-wrap">
+                        <canvas id="wish-constellation-canvas" width="760" height="200" aria-label="Mapa interactivo de constelación de deseos"></canvas>
+                        <div id="wish-constellation-tooltip" class="wish-constellation-tooltip" hidden></div>
+                    </div>
+                </div>
+
                 <!-- Formulario de nuevo deseo -->
                 <form id="wish-star-form" class="wish-form">
-                    <label for="wish-star-text" class="wish-label">
-                        ¿Qué deseo guarda hoy tu corazón, Carla?
-                    </label>
+                    <div class="wish-form-label-row">
+                        <label for="wish-star-text" class="wish-label">
+                            ¿Qué deseo guarda hoy tu corazón, Carla?
+                        </label>
+                        <span class="wish-char-counter" id="wish-char-counter">0 / 300</span>
+                    </div>
                     <textarea 
                         id="wish-star-text" 
                         class="wish-textarea" 
                         rows="3" 
                         required 
-                        placeholder="Ejemplo: Que este nuevo año de vida esté lleno de risas sinceras, paz en el alma y proyectos que florezcan con amor..."
+                        placeholder="Escribe aquí tu deseo más sincero, Carla... (Ej: Que este nuevo año esté lleno de risas, paz en el alma y sueños cumplidos)"
                         maxlength="300"
                     ></textarea>
 
                     <div class="wish-star-type-selector">
                         <span class="wish-type-label">Elige la luz de tu estrella:</span>
-                        <div class="wish-types-grid" role="radiogroup">
+                        <div class="wish-types-grid" role="radiogroup" aria-label="Color de luz de la estrella">
                             <label class="wish-type-item">
                                 <input type="radio" name="star_type" value="golden" checked>
-                                <span class="wish-type-chip chip-golden">🌟 Dorada · Éxito & Paz</span>
+                                <span class="wish-type-chip chip-golden">🌟 Deseo Dorado · Éxito & Paz</span>
                             </label>
                             <label class="wish-type-item">
                                 <input type="radio" name="star_type" value="rose">
-                                <span class="wish-type-chip chip-rose">💖 Rosa · Amor & Ternura</span>
+                                <span class="wish-type-chip chip-rose">💖 Deseo del Corazón · Amor</span>
                             </label>
                             <label class="wish-type-item">
                                 <input type="radio" name="star_type" value="purple">
-                                <span class="wish-type-chip chip-purple">🔮 Amatista · Sueños Profundos</span>
+                                <span class="wish-type-chip chip-purple">🔮 Deseo Amatista · Magia</span>
                             </label>
                             <label class="wish-type-item">
                                 <input type="radio" name="star_type" value="azure">
-                                <span class="wish-type-chip chip-azure">💎 Zafiro · Serenidad</span>
+                                <span class="wish-type-chip chip-azure">💎 Deseo Infinito · Serenidad</span>
                             </label>
                         </div>
                     </div>
 
-                    <button type="submit" class="wish-submit-btn" id="btn-submit-wish">
-                        <span>Lanzar Deseo al Firmamento 🌠</span>
-                    </button>
+                    <div class="wish-form-submit-row">
+                        <button type="button" class="wish-inspire-btn" id="btn-inspire-wish" title="Sugerir un deseo poético para inspirarte">
+                            <span>🪄 Inspirarme</span>
+                        </button>
+                        <button type="submit" class="wish-submit-btn" id="btn-submit-wish">
+                            <span>✨ Enviar al Cosmos</span>
+                        </button>
+                    </div>
                 </form>
 
                 <!-- Lista de deseos grabados en el firmamento -->
                 <div class="wish-collection-container">
                     <div class="wish-collection-header">
-                        <h3>Constelación de Tus Deseos Guardados</h3>
-                        <span class="wish-count-badge" id="wish-count-badge">0 estrellas</span>
+                        <div class="wish-collection-title-group">
+                            <h3>🌠 Tu Cielo de Deseos</h3>
+                            <span class="wish-count-badge" id="wish-count-badge">0 estrellas</span>
+                        </div>
+                        <div class="wish-collection-controls">
+                            <div class="wish-filter-pills" role="group" aria-label="Filtrar deseos por luz">
+                                <button type="button" class="wish-filter-pill is-active" data-wish-filter="all">Todas</button>
+                                <button type="button" class="wish-filter-pill" data-wish-filter="golden">🌟 Dorada</button>
+                                <button type="button" class="wish-filter-pill" data-wish-filter="rose">💖 Rosa</button>
+                                <button type="button" class="wish-filter-pill" data-wish-filter="purple">🔮 Amatista</button>
+                                <button type="button" class="wish-filter-pill" data-wish-filter="azure">💎 Zafiro</button>
+                            </div>
+                            <div class="wish-search-box">
+                                <input type="search" id="wish-search-input" class="wish-search-input" placeholder="Buscar en tus deseos..." aria-label="Buscar en tus deseos">
+                            </div>
+                        </div>
                     </div>
                     <div class="wish-cards-list" id="wishes-list">
                         <!-- Generados dinámicamente por JS -->

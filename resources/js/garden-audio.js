@@ -413,52 +413,13 @@ function stopCurrentTrack() {
  * @param {string} section  — valor del data-screen
  */
 export function playMusicForScreen(section) {
-    if (window.GardenMasterAudio && window.GardenMasterAudio.isMuted()) {
-        pendingSection = section;
-        return;
-    }
-    if (!userEnabledAudio) {
-        pendingSection = section;
-        return;
-    }
-    if (section === currentSection) return;
-    currentSection = section;
-
-    if (!ensureContext()) return;
-    if (audioCtx.state === 'suspended') audioCtx.resume();
-
-    if (fadeTimer) { clearTimeout(fadeTimer); fadeTimer = null; }
-
-    const profile = TRACK_PROFILES[section] ?? TRACK_PROFILES['__default__'];
-
-    if (currentTrackNodes.length > 0) {
-        fadeOut(() => startTrack(profile));
-    } else {
-        startTrack(profile);
-    }
+    // Sonidos predeterminados de sala desactivados: solo se reproducen los audios cargados desde el panel Admin
+    return;
 }
 
-function startTrack(profile) {
-    if (!ensureContext()) return;
-    const reverb = buildReverb(profile.reverbWet);
-    const track = buildTrack(profile, reverb);
-    currentTrackNodes = [track];
-    fadeIn(profile.volume);
-}
-
-/**
- * Activar audio (debe ser llamado desde un gesto del usuario).
- */
 export function enableAudio() {
-    if (userEnabledAudio) return;
-    userEnabledAudio = true;
-    ensureContext();
-    if (audioCtx?.state === 'suspended') audioCtx.resume();
-    if (pendingSection) {
-        const s = pendingSection;
-        pendingSection = null;
-        playMusicForScreen(s);
-    }
+    // Sonidos predeterminados de sala desactivados
+    return;
 }
 
 /**

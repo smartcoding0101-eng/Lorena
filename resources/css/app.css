@@ -14259,3 +14259,779 @@ footer a:hover, .site-footer a:hover {
 
 
 
+
+
+/* =========================================================
+   ESTILOS COMPLETOS: SPLASH BOTÁNICO DE CARLA LORENA
+   (Mariposas, Mariquitas, Girasoles, Shimmer & Glassmorphism)
+   ========================================================= */
+
+.splash-glassmorphism-card {
+    position: relative;
+    overflow: hidden;
+    backdrop-filter: blur(20px) saturate(160%) !important;
+    -webkit-backdrop-filter: blur(20px) saturate(160%) !important;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.96) 0%, rgba(255, 243, 246, 0.92) 50%, rgba(255, 235, 240, 0.96) 100%) !important;
+    border: 1.5px solid rgba(244, 63, 94, 0.28) !important;
+    box-shadow: 0 25px 60px -10px rgba(159, 18, 57, 0.35), 0 0 35px rgba(253, 224, 71, 0.25) !important;
+}
+
+/* 1. Mariposas Luminosas */
+.splash-flutter-butterfly {
+    position: absolute;
+    width: 32px;
+    height: 32px;
+    pointer-events: none;
+    z-index: 4;
+    filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.15));
+}
+
+.splash-flutter-butterfly svg {
+    width: 100%;
+    height: 100%;
+    display: block;
+    animation: butterflyWingFlap 0.4s ease-in-out infinite alternate;
+}
+
+.bf-top-left {
+    top: 20px;
+    left: 24px;
+    transform: rotate(-18deg);
+    animation: butterflyFloatA 4.5s ease-in-out infinite alternate;
+}
+
+.bf-bottom-right {
+    bottom: 28px;
+    right: 28px;
+    transform: rotate(24deg);
+    animation: butterflyFloatB 5.2s ease-in-out infinite alternate;
+}
+
+@keyframes butterflyWingFlap {
+    0% { transform: scaleX(0.7) rotate(0deg); }
+    100% { transform: scaleX(1.1) rotate(4deg); }
+}
+
+@keyframes butterflyFloatA {
+    0% { transform: translate(0, 0) rotate(-18deg); }
+    100% { transform: translate(12px, 14px) rotate(-10deg); }
+}
+
+@keyframes butterflyFloatB {
+    0% { transform: translate(0, 0) rotate(24deg); }
+    100% { transform: translate(-10px, -12px) rotate(16deg); }
+}
+
+/* 2. Mariquitas Botánicas de la Suerte */
+.splash-ladybug {
+    position: absolute;
+    width: 28px;
+    height: 28px;
+    pointer-events: none;
+    z-index: 4;
+    filter: drop-shadow(0 3px 6px rgba(0, 0, 0, 0.2));
+}
+
+.splash-ladybug svg {
+    width: 100%;
+    height: 100%;
+    display: block;
+}
+
+.lb-top-right {
+    top: 24px;
+    right: 68px;
+    transform: rotate(45deg);
+    animation: ladybugCrawlA 7s ease-in-out infinite alternate;
+}
+
+.lb-bottom-left {
+    bottom: 32px;
+    left: 32px;
+    transform: rotate(-45deg);
+    animation: ladybugCrawlB 6.5s ease-in-out infinite alternate;
+}
+
+@keyframes ladybugCrawlA {
+    0% { transform: translate(0, 0) rotate(45deg); }
+    50% { transform: translate(6px, -4px) rotate(52deg); }
+    100% { transform: translate(12px, 2px) rotate(40deg); }
+}
+
+@keyframes ladybugCrawlB {
+    0% { transform: translate(0, 0) rotate(-45deg); }
+    50% { transform: translate(-4px, 6px) rotate(-38deg); }
+    100% { transform: translate(4px, 10px) rotate(-48deg); }
+}
+
+/* 3. Bouquet Central: Rosa Imperial y Girasoles Flanqueantes */
+.splash-botanical-bouquet {
+    position: relative;
+    width: 140px;
+    height: 110px;
+    margin: 0 auto 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.splash-main-rose-wrap {
+    position: relative;
+    z-index: 3;
+    width: 84px;
+    height: 84px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.splash-flanking-sunflower {
+    position: absolute;
+    width: 44px;
+    height: 44px;
+    z-index: 2;
+    filter: drop-shadow(0 4px 10px rgba(217, 119, 6, 0.3));
+    animation: sunflowerSpin 18s linear infinite;
+}
+
+.splash-flanking-sunflower svg {
+    width: 100%;
+    height: 100%;
+    display: block;
+}
+
+.splash-flanking-sunflower.sf-left {
+    left: 2px;
+    bottom: 12px;
+}
+
+.splash-flanking-sunflower.sf-right {
+    right: 2px;
+    bottom: 12px;
+}
+
+@keyframes sunflowerSpin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+.splash-halo-ring {
+    position: absolute;
+    width: 104px;
+    height: 104px;
+    border-radius: 50%;
+    border: 1.5px dashed rgba(253, 224, 71, 0.55);
+    animation: haloRotate 12s linear infinite;
+    z-index: 1;
+}
+
+@keyframes haloRotate {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+.splash-aura-pulsar {
+    position: absolute;
+    width: 90px;
+    height: 90px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(254, 240, 138, 0.45) 0%, rgba(244, 63, 94, 0.25) 55%, transparent 75%);
+    animation: auraPulse 2.8s ease-in-out infinite alternate;
+    z-index: 0;
+}
+
+@keyframes auraPulse {
+    0% { transform: scale(0.9); opacity: 0.6; }
+    100% { transform: scale(1.25); opacity: 1; }
+}
+
+/* 4. Badges Botánicos con Mariposas, Mariquitas y Girasoles */
+.splash-nature-badges-row {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin: 10px auto 14px;
+}
+
+.splash-nature-pill {
+    font-size: 0.72rem;
+    font-weight: 700;
+    padding: 3px 10px;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.85);
+    border: 1px solid rgba(251, 207, 216, 0.8);
+    color: #9f1239;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
+}
+
+.splash-crown-modern {
+    margin-bottom: 6px;
+}
+
+.splash-modern-title {
+    font-size: clamp(22px, 4.8vw, 30px);
+    line-height: 1.25;
+    margin-bottom: 10px;
+}
+
+.splash-name-glow {
+    color: #e11d48 !important;
+    text-shadow: 0 0 16px rgba(244, 63, 94, 0.4);
+}
+
+.splash-modern-verse {
+    font-size: 0.88rem;
+    line-height: 1.6;
+    color: #4b5563;
+    max-width: 440px;
+    margin: 0 auto 20px;
+}
+
+.splash-liquid-btn {
+    position: relative;
+    overflow: hidden;
+    background: linear-gradient(135deg, #e11d48 0%, #be123c 60%, #9f1239 100%) !important;
+    color: #ffffff !important;
+    border: 1.5px solid #fda4af !important;
+    border-radius: 999px !important;
+    padding: 12px 34px !important;
+    font-weight: 700 !important;
+    font-size: 0.95rem !important;
+    box-shadow: 0 8px 24px rgba(225, 29, 72, 0.35), 0 0 16px rgba(253, 224, 71, 0.3) !important;
+    transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1) !important;
+}
+
+.splash-liquid-btn:hover {
+    transform: translateY(-3px) scale(1.04) !important;
+    box-shadow: 0 12px 30px rgba(225, 29, 72, 0.48), 0 0 24px rgba(253, 224, 71, 0.5) !important;
+}
+
+.splash-btn-shimmer {
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 60%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.45), transparent);
+    transform: skewX(-20deg);
+    animation: btnShimmerSlide 2.6s infinite;
+}
+
+@keyframes btnShimmerSlide {
+    0% { left: -100%; }
+    40%, 100% { left: 160%; }
+}
+
+.splash-progress-modern {
+    background: linear-gradient(90deg, #fde047 0%, #f43f5e 50%, #e11d48 100%) !important;
+    box-shadow: 0 0 10px rgba(244, 63, 94, 0.6) !important;
+}
+
+/* =========================================================
+   ESTILOS COMPLETOS: FRANJA DE ESTADOS DE 24 HORAS (#inicio)
+   ========================================================= */
+
+.home-statuses-wrapper {
+    margin: 28px auto 38px;
+    padding: 0 20px;
+}
+
+.statuses-strip-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 14px;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.statuses-strip-title-wrap {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.statuses-live-ring-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: #10b981;
+    box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.25);
+    animation: pulseDot 2s infinite;
+}
+
+@keyframes pulseDot {
+    0%, 100% { transform: scale(1); opacity: 1; }
+    50% { transform: scale(1.3); opacity: 0.7; }
+}
+
+.statuses-eyebrow {
+    font-size: 0.76rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    color: #9f1239;
+}
+
+.statuses-count-pill {
+    font-size: 0.72rem;
+    font-weight: 600;
+    padding: 2px 8px;
+    border-radius: 999px;
+    background: #fdf2f4;
+    color: #be123c;
+    border: 1px solid #fecdd3;
+}
+
+.statuses-quick-add-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 14px;
+    border-radius: 999px;
+    background: #ffffff;
+    border: 1.5px solid #f43f5e;
+    color: #e11d48;
+    font-size: 0.78rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.statuses-quick-add-btn:hover {
+    background: #e11d48;
+    color: #ffffff;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(225, 29, 72, 0.3);
+}
+
+.home-statuses-strip {
+    display: flex;
+    gap: 14px;
+    overflow-x: auto;
+    padding: 6px 4px 16px;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: thin;
+}
+
+.home-statuses-strip::-webkit-scrollbar {
+    height: 6px;
+}
+
+.home-statuses-strip::-webkit-scrollbar-thumb {
+    background: #fecdd3;
+    border-radius: 999px;
+}
+
+.status-story-card {
+    flex: 0 0 110px;
+    height: 160px;
+    border-radius: 20px;
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+    scroll-snap-align: start;
+    border: 2px solid transparent;
+    transition: transform 0.28s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.28s ease;
+}
+
+.status-story-card:hover {
+    transform: translateY(-5px) scale(1.04);
+    box-shadow: 0 12px 24px rgba(190, 24, 93, 0.25);
+}
+
+.status-create-card {
+    background: linear-gradient(145deg, #fff5f7 0%, #ffe4e8 100%);
+    border: 2px dashed rgba(244, 63, 94, 0.5) !important;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 12px;
+    text-align: center;
+}
+
+.status-create-ring-wrap {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #e11d48, #be123c);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #ffffff;
+    font-size: 1.4rem;
+    box-shadow: 0 4px 12px rgba(225, 29, 72, 0.35);
+    margin-bottom: 8px;
+}
+
+.status-create-title {
+    font-size: 0.82rem;
+    font-weight: 700;
+    color: #881337;
+    margin-top: 4px;
+}
+
+.status-create-sub {
+    font-size: 0.68rem;
+    color: #9f1239;
+    margin-top: 2px;
+}
+
+.status-active-item {
+    border: 2.5px solid #e11d48 !important;
+    background: #1f2937;
+}
+
+.status-story-bg {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: blur(8px) brightness(0.65);
+    transform: scale(1.2);
+}
+
+.status-story-thumb {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    z-index: 1;
+}
+
+.status-story-overlay {
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    background: linear-gradient(180deg, rgba(0, 0, 0, 0.3) 0%, transparent 40%, rgba(0, 0, 0, 0.75) 100%);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 8px;
+    color: #ffffff;
+}
+
+.status-story-author {
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8);
+}
+
+.status-story-time {
+    font-size: 0.64rem;
+    opacity: 0.9;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8);
+}
+
+/* =========================================================
+   ESTILOS COMPLETOS: VISOR MODAL DE ESTADOS 24H (FULLSCREEN DUAL)
+   ========================================================= */
+
+.status-viewer-dialog {
+    position: fixed;
+    inset: 0;
+    margin: auto;
+    width: 100%;
+    height: 100%;
+    max-width: 500px;
+    max-height: 840px;
+    border: none;
+    border-radius: 28px;
+    background: #000000;
+    padding: 0;
+    z-index: 99999;
+    overflow: hidden;
+    box-shadow: 0 30px 80px rgba(0, 0, 0, 0.8);
+}
+
+.status-viewer-dialog::backdrop {
+    background: rgba(0, 0, 0, 0.85);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+}
+
+.status-viewer-shell {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.status-viewer-progress-track {
+    position: absolute;
+    top: 14px;
+    left: 14px;
+    right: 14px;
+    height: 3px;
+    display: flex;
+    gap: 4px;
+    z-index: 10;
+}
+
+.status-prog-segment {
+    flex: 1;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.35);
+    border-radius: 999px;
+    overflow: hidden;
+}
+
+.status-prog-fill {
+    height: 100%;
+    background: #ffffff;
+    width: 0%;
+    transition: width 0.1s linear;
+}
+
+.status-viewer-header {
+    position: absolute;
+    top: 26px;
+    left: 16px;
+    right: 16px;
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    color: #ffffff;
+}
+
+.status-viewer-author {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.status-viewer-avatar {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    background: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+    box-shadow: 0 0 0 2px #e11d48;
+}
+
+.status-viewer-meta {
+    display: flex;
+    flex-direction: column;
+}
+
+.status-viewer-meta strong {
+    font-size: 0.92rem;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.8);
+}
+
+.status-viewer-meta span {
+    font-size: 0.72rem;
+    opacity: 0.85;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.8);
+}
+
+.status-viewer-controls {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.status-viewer-ctrl-btn {
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    background: rgba(0, 0, 0, 0.4);
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    color: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 0.88rem;
+    transition: all 0.2s ease;
+}
+
+.status-viewer-ctrl-btn:hover {
+    background: rgba(255, 255, 255, 0.25);
+}
+
+.status-viewer-stage {
+    position: relative;
+    flex: 1;
+    width: 100%;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.status-viewer-backdrop-blur {
+    position: absolute;
+    inset: 0;
+    background-size: cover;
+    background-position: center;
+    filter: blur(28px) brightness(0.5);
+    transform: scale(1.2);
+}
+
+.status-viewer-main-photo {
+    position: relative;
+    z-index: 2;
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+}
+
+.status-viewer-nav {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 44px;
+    height: 60px;
+    background: rgba(0, 0, 0, 0.25);
+    border: none;
+    color: #ffffff;
+    font-size: 2rem;
+    cursor: pointer;
+    z-index: 8;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+}
+
+.status-viewer-nav:hover {
+    background: rgba(0, 0, 0, 0.6);
+}
+
+.status-nav-prev { left: 0; border-radius: 0 12px 12px 0; }
+.status-nav-next { right: 0; border-radius: 12px 0 0 12px; }
+
+.status-viewer-footer {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 10;
+    padding: 18px 24px;
+    background: linear-gradient(0deg, rgba(0, 0, 0, 0.85) 0%, transparent 100%);
+    color: #ffffff;
+    text-align: center;
+}
+
+.status-viewer-caption {
+    font-size: 0.95rem;
+    font-weight: 500;
+    line-height: 1.5;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.9);
+}
+
+/* Modal Subida de Estado */
+.status-uploader-dialog {
+    position: fixed;
+    inset: 0;
+    margin: auto;
+    width: 90%;
+    max-width: 480px;
+    border: none;
+    border-radius: 24px;
+    background: #ffffff;
+    padding: 0;
+    z-index: 99999;
+    box-shadow: 0 25px 60px rgba(190, 24, 93, 0.3);
+}
+
+.status-uploader-dialog::backdrop {
+    background: rgba(15, 23, 42, 0.6);
+    backdrop-filter: blur(8px);
+}
+
+.status-uploader-card {
+    padding: 24px;
+}
+
+.status-uploader-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 18px;
+    border-bottom: 1px solid #fecdd3;
+    padding-bottom: 12px;
+}
+
+.status-uploader-header h3 {
+    font-size: 1.15rem;
+    color: #881337;
+    margin: 0;
+}
+
+.status-upload-dropzone {
+    border: 2px dashed #fda4af;
+    border-radius: 16px;
+    padding: 20px;
+    text-align: center;
+    background: #fff5f7;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 16px;
+}
+
+.dropzone-icon {
+    font-size: 2.2rem;
+}
+
+.dropzone-text strong {
+    color: #be123c;
+    font-size: 0.92rem;
+}
+
+.dropzone-text small {
+    display: block;
+    color: #64748b;
+    font-size: 0.75rem;
+}
+
+.status-upload-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 18px;
+}
+
+/* Banner Editorial de Cierre */
+.editorial-closing-card {
+    background: linear-gradient(135deg, rgba(255, 241, 245, 0.85) 0%, rgba(255, 248, 250, 0.95) 100%);
+    border: 1.5px solid rgba(244, 63, 94, 0.22);
+    border-radius: 24px;
+    padding: 32px 24px;
+    text-align: center;
+    box-shadow: 0 10px 30px rgba(190, 24, 93, 0.08);
+}
+
+.closing-eyebrow {
+    font-size: 0.76rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    color: #be123c;
+}
+
+.closing-quote {
+    font-family: var(--serif, 'Playfair Display', Georgia, serif);
+    font-size: clamp(1.2rem, 3vw, 1.6rem);
+    font-style: italic;
+    color: #4c0519;
+    margin: 12px 0 8px;
+}
+
+.closing-author {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: #9f1239;
+}

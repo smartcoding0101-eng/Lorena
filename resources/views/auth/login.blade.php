@@ -70,5 +70,7 @@
 
         <a class="back-link" href="{{ route('home') }}">← Volver al jardín</a>
     </main>
+
+    <div class="floating-dock-right" id="floating-dock-right" aria-label="Controles Flotantes del Jardín"></div>
 </body>
 </html>

@@ -1,72 +1,101 @@
-// ═══════════════════════════════════════════════════════════════════════
-//  SISTEMA GLOBAL DE NOTAS & RECUERDOS CONTEXTUALES (CRUD POR PANTALLA)
-// ═══════════════════════════════════════════════════════════════════════
-
-const screenNames = {
-    'inicio': 'Inicio & Bienvenida',
-    'albumes': 'Álbumes de Recuerdos',
-    'lectura': 'Rincón de Lectura',
-    'suenos': 'Castillo de Sueños',
-    'tesoro': 'Búsqueda del Tesoro',
-    'personal': 'Perfil de Carla',
-    'entretenimiento': 'Entretenimiento & Música',
-    'juegos': 'Jardín de Juegos',
-    'jardines-liria': 'Jardín 3D de Sultana',
-    'sultana-plataformas': 'Sultana y los Senderos del Alba',
-    'conociendo-carla': '¿Cuánto conoces a Carla?',
-    'ajustes': 'Ajustes & Preferencias'
-};
-
-const moodIcons = {
-    'love': '💌 Amor',
-    'gratitude': '🌸 Gratitud',
-    'dream': '✨ Sueño',
-    'memory': '📷 Recuerdo',
-    'secret': '🌙 Íntimo'
-};
-
-let currentScreenKey = 'inicio';
-let currentNotes = [];
+function playSoftChime(frequency) {
+    if (window.__gardenMasterAudioMuted) return;
+    try {
+        const AudioCtx = window.AudioContext || window.webkitAudioContext;
+        if (!AudioCtx) return;
+        const ctx = new AudioCtx();
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(frequency || 523.25, ctx.currentTime);
+        gain.gain.setValueAtTime(0.045, ctx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + 0.85);
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+        osc.start();
+        osc.stop(ctx.currentTime + 0.9);
+    } catch (_) {}
+}
 
 export function initializeCornerNotes() {
-    const triggerBtn = document.getElementById('corner-crud-trigger');
     const drawer = document.getElementById('corner-crud-drawer');
+    if (!drawer) return;
+
     const screenNameEl = document.getElementById('drawer-screen-name');
-    const notesCountBadge = document.getElementById('corner-notes-count');
-    const tabCountEl = document.getElementById('drawer-tab-count');
     const notesListEl = document.getElementById('corner-notes-list');
+    const notesCountBadge = document.getElementById('floating-notes-count-badge');
+    const tabCountEl = document.getElementById('drawer-tab-count');
     const noteForm = document.getElementById('corner-note-form');
-    const formScreenInput = document.getElementById('note-form-screen');
     const formIdInput = document.getElementById('note-form-id');
+    const formScreenInput = document.getElementById('note-form-screen');
     const imageInput = document.getElementById('note-image');
     const imagePreview = document.getElementById('note-image-preview');
     const removeImageBtn = document.getElementById('note-remove-image-btn');
     const cancelBtn = document.getElementById('note-cancel-btn');
 
-    if (!triggerBtn || !drawer) return;
+    // Filtros interactivos y buscador
+    const searchInput = document.getElementById('corner-notes-search-input');
+    const moodFilterContainer = document.getElementById('corner-mood-filters');
+    let currentMoodFilter = 'all';
+    let searchQuery = '';
 
-    // Detectar pantalla actual
-    const updateActiveScreen = () => {
-        const hash = window.location.hash.replace('#', '') || 'inicio';
-        currentScreenKey = hash;
-        if (screenNameEl) {
-            screenNameEl.textContent = screenNames[hash] || hash;
-        }
-        if (formScreenInput) {
-            formScreenInput.value = hash;
-        }
-        fetchNotesForCurrentScreen();
+    // Mapeo amigable de nombres de pantallas
+    const screenFriendlyNames = {
+        inicio: 'Inicio & Bienvenida',
+        mapa: 'Mapa del Jardín Secreto',
+        jardin: 'Santuario Botánico',
+        familia: 'Mi Familia',
+        amigos: 'Dedicatorias de Amigos',
+        galeria: 'Galería Fotográfica',
+        biblioteca: 'Biblioteca & Música',
+        capsula: 'Cápsula del Tiempo',
+        destinos: 'Destinos & Sueños',
+        blog: 'Blog del Jardín',
+        diario: 'Mi Diario Íntimo',
+        juegos: 'Rincón de Juegos'
     };
 
-    // Abrir drawer
-    triggerBtn.addEventListener('click', () => {
-        drawer.hidden = false;
-        fetchNotesForCurrentScreen();
-    });
+    const moodIcons = {
+        love: '💌 Amor y Cariño',
+        gratitude: '🌸 Gratitud y Paz',
+        dream: '✨ Sueño o Meta',
+        memory: '📷 Recuerdo Especial',
+        secret: '🌙 Secreto / Íntimo'
+    };
 
-    // Cerrar drawer
-    drawer.querySelectorAll('[data-drawer-close]').forEach((el) => {
-        el.addEventListener('click', () => {
+    let currentScreenKey = 'inicio';
+    let currentNotes = [];
+
+    // Detectar pantalla activa actualmente
+    function getActiveScreenKey() {
+        const hash = (window.location.hash || '').replace(/^#/, '').trim();
+        if (hash && screenFriendlyNames[hash]) return hash;
+        const visibleSection = document.querySelector('section.screen:not([hidden])');
+        if (visibleSection && visibleSection.dataset.screen) {
+            return visibleSection.dataset.screen;
+        }
+        return 'inicio';
+    }
+
+    // Abrir cajón contextual
+    window.openCornerNotesDrawer = function(screenKey) {
+        currentScreenKey = screenKey || getActiveScreenKey();
+        if (screenNameEl) {
+            screenNameEl.textContent = screenFriendlyNames[currentScreenKey] || 'Este Rincón';
+        }
+        if (formScreenInput) {
+            formScreenInput.value = currentScreenKey;
+        }
+        drawer.hidden = false;
+        switchTab('list');
+        fetchNotesForCurrentScreen();
+        playSoftChime(587.33); // Tono musical suave de apertura
+    };
+
+    // Cerrar cajón
+    const closeButtons = drawer.querySelectorAll('[data-drawer-close]');
+    closeButtons.forEach((btn) => {
+        btn.addEventListener('click', () => {
             drawer.hidden = true;
             resetForm();
         });
@@ -80,12 +109,15 @@ export function initializeCornerNotes() {
             tabs.forEach(t => t.classList.toggle('is-active', t === tab));
             const listPane = document.getElementById('pane-notes-list');
             const formPane = document.getElementById('pane-notes-form');
+            const filterBar = drawer.querySelector('.corner-drawer-filter-bar');
             if (target === 'list') {
                 if (listPane) listPane.hidden = false;
                 if (formPane) formPane.hidden = true;
+                if (filterBar) filterBar.hidden = false;
             } else {
                 if (listPane) listPane.hidden = true;
                 if (formPane) formPane.hidden = false;
+                if (filterBar) filterBar.hidden = true;
             }
         });
     });
@@ -95,6 +127,23 @@ export function initializeCornerNotes() {
         const targetTab = drawer.querySelector(`[data-drawer-tab="${tabName}"]`);
         if (targetTab) targetTab.click();
     };
+
+    // Manejo de Filtros por Emoción
+    moodFilterContainer?.querySelectorAll('.corner-mood-chip').forEach(chip => {
+        chip.addEventListener('click', () => {
+            moodFilterContainer.querySelectorAll('.corner-mood-chip').forEach(c => c.classList.remove('is-active'));
+            chip.classList.add('is-active');
+            currentMoodFilter = chip.dataset.moodFilter || 'all';
+            renderNotes(currentNotes);
+            playSoftChime(659.25);
+        });
+    });
+
+    // Buscador interactivo en vivo
+    searchInput?.addEventListener('input', (e) => {
+        searchQuery = (e.target.value || '').toLowerCase().trim();
+        renderNotes(currentNotes);
+    });
 
     // Previsualización de imagen
     if (imageInput) {
@@ -148,52 +197,107 @@ export function initializeCornerNotes() {
         }
     }
 
-    // Renderizar notas en la lista
+    function escapeHtml(str) {
+        if (!str) return '';
+        const div = document.createElement('div');
+        div.textContent = str;
+        return div.innerHTML;
+    }
+
+    // Renderizar notas en la lista con interactividad y filtros
     function renderNotes(notes) {
-        const count = notes.length;
+        const totalCount = notes.length;
         if (notesCountBadge) {
-            notesCountBadge.textContent = String(count);
-            notesCountBadge.hidden = count === 0;
+            notesCountBadge.textContent = String(totalCount);
+            notesCountBadge.hidden = totalCount === 0;
         }
         if (tabCountEl) {
-            tabCountEl.textContent = String(count);
+            tabCountEl.textContent = String(totalCount);
         }
 
         if (!notesListEl) return;
 
-        if (count === 0) {
+        // Aplicar filtros de emoción y búsqueda
+        const filteredNotes = notes.filter(n => {
+            const matchMood = currentMoodFilter === 'all' || n.mood === currentMoodFilter;
+            const searchHaystack = `${n.title || ''} ${n.content || ''} ${n.author_name || ''}`.toLowerCase();
+            const matchSearch = !searchQuery || searchHaystack.includes(searchQuery);
+            return matchMood && matchSearch;
+        });
+
+        if (filteredNotes.length === 0) {
             notesListEl.innerHTML = `
                 <div class="corner-empty-state">
-                    <span class="empty-icon">🌸</span>
-                    <p>Aún no hay notas en este rincón.<br>¡Sé la primera en escribir un recuerdo o pensamiento!</p>
+                    <span class="empty-icon">${totalCount === 0 ? '🌸' : '🔍'}</span>
+                    <p>${totalCount === 0 
+                        ? 'Aún no hay notas en este rincón.<br>¡Sé la primera en escribir un recuerdo o pensamiento!' 
+                        : 'No se encontraron notas que coincidan con este filtro.<br>Intenta con otra emoción o búsqueda.'}
+                    </p>
                 </div>
             `;
             return;
         }
 
-        notesListEl.innerHTML = notes.map(note => `
+        notesListEl.innerHTML = filteredNotes.map(note => `
             <article class="corner-note-card ${note.is_pinned ? 'is-pinned' : ''}" data-note-id="${note.id}">
                 ${note.is_pinned ? '<span class="corner-note-pinned-badge">✦ DESTACADA</span>' : ''}
+                
                 <div class="corner-note-meta">
-                    <span class="corner-note-mood">${moodIcons[note.mood] || '💌 Nota'}</span>
-                    <time>${note.date_formatted}</time>
+                    <span class="corner-note-mood" data-mood="${note.mood || 'love'}">
+                        ${moodIcons[note.mood] || '💌 Nota de Amor'}
+                    </span>
+                    <time class="corner-note-time">${note.date_formatted}</time>
                 </div>
+
                 ${note.title ? `<h3 class="corner-note-title">${escapeHtml(note.title)}</h3>` : ''}
+                
                 <div class="corner-note-content">${escapeHtml(note.content)}</div>
-                ${note.image_url ? `<img src="${note.image_url}" alt="Recuerdo de ${escapeHtml(note.author_name)}" class="corner-note-image" loading="lazy">` : ''}
+                
+                ${note.image_url ? `
+                    <div class="corner-note-image-wrap">
+                        <img src="${note.image_url}" alt="Recuerdo de ${escapeHtml(note.author_name)}" class="corner-note-image" loading="lazy">
+                        <div class="corner-note-image-glass-border"></div>
+                    </div>
+                ` : ''}
+
                 <footer class="corner-note-footer">
                     <span class="corner-note-author">— ${escapeHtml(note.author_name)}</span>
                     <div class="corner-note-actions">
-                        <button type="button" class="note-btn-action btn-edit" data-edit-note="${note.id}" title="Editar nota">✏️ Editar</button>
-                        <button type="button" class="note-btn-action btn-delete" data-delete-note="${note.id}" title="Eliminar nota">🗑️ Borrar</button>
+                        <button type="button" class="note-btn-action btn-copy" data-copy-note="${note.id}" title="Copiar texto al portapapeles">
+                            <span>📋 Copiar</span>
+                        </button>
+                        <button type="button" class="note-btn-action btn-edit" data-edit-note="${note.id}" title="Editar nota">
+                            <span>✏️ Editar</span>
+                        </button>
+                        <button type="button" class="note-btn-action btn-delete" data-delete-note="${note.id}" title="Eliminar nota">
+                            <span>🗑️ Borrar</span>
+                        </button>
                     </div>
                 </footer>
             </article>
         `).join('');
 
-        // Enganchar botones de editar y borrar
+        // Enganchar botones de copiar, editar y borrar
+        notesListEl.querySelectorAll('[data-copy-note]').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                const noteId = Number(btn.dataset.copyNote);
+                const note = currentNotes.find(n => n.id === noteId);
+                if (note && note.content) {
+                    const text = `${note.title ? note.title + '\n\n' : ''}${note.content}\n\n— ${note.author_name || 'Adrián'}`;
+                    navigator.clipboard.writeText(text);
+                    btn.innerHTML = '<span>✓ Copiado</span>';
+                    playSoftChime(880);
+                    setTimeout(() => {
+                        btn.innerHTML = '<span>📋 Copiar</span>';
+                    }, 2000);
+                }
+            });
+        });
+
         notesListEl.querySelectorAll('[data-edit-note]').forEach(btn => {
-            btn.addEventListener('click', () => {
+            btn.addEventListener('click', (e) => {
+                e.stopPropagation();
                 const noteId = Number(btn.dataset.editNote);
                 const note = currentNotes.find(n => n.id === noteId);
                 if (note) editNote(note);
@@ -201,7 +305,8 @@ export function initializeCornerNotes() {
         });
 
         notesListEl.querySelectorAll('[data-delete-note]').forEach(btn => {
-            btn.addEventListener('click', () => {
+            btn.addEventListener('click', (e) => {
+                e.stopPropagation();
                 const noteId = Number(btn.dataset.deleteNote);
                 deleteNote(noteId);
             });
@@ -232,6 +337,7 @@ export function initializeCornerNotes() {
         if (submitBtn) submitBtn.textContent = 'Actualizar recuerdo';
 
         switchTab('create');
+        playSoftChime(523.25);
     }
 
     // Eliminar nota
@@ -248,28 +354,28 @@ export function initializeCornerNotes() {
             });
             const data = await res.json();
             if (data.success) {
-                fetchNotesForCurrentScreen();
+                currentNotes = currentNotes.filter(n => n.id !== id);
+                renderNotes(currentNotes);
             } else {
                 alert(data.message || 'No se pudo eliminar la nota.');
             }
-        } catch (e) {
-            console.error('Error eliminando nota:', e);
-            alert('Error al intentar eliminar. Por favor verifica si tu sesión está activa.');
+        } catch (error) {
+            console.error('Error al eliminar nota:', error);
         }
     }
 
-    // Guardar (Crear o Actualizar)
+    // Enviar formulario (Crear o Actualizar)
     if (noteForm) {
         noteForm.addEventListener('submit', async (e) => {
             e.preventDefault();
             const submitBtn = document.getElementById('note-submit-btn');
             if (submitBtn) submitBtn.disabled = true;
 
+            const formData = new FormData(noteForm);
             const noteId = formIdInput.value;
             const isEditing = Boolean(noteId);
             const url = isEditing ? `/garden-notes/${noteId}` : '/garden-notes';
 
-            const formData = new FormData(noteForm);
             if (isEditing) {
                 formData.append('_method', 'PUT');
             }
@@ -284,35 +390,41 @@ export function initializeCornerNotes() {
                     },
                     body: formData
                 });
-
                 const data = await res.json();
                 if (data.success) {
                     resetForm();
                     switchTab('list');
                     fetchNotesForCurrentScreen();
+                    playSoftChime(783.99); // Chime de éxito
                 } else {
-                    alert(data.message || 'Ocurrió un error al guardar.');
+                    alert(data.message || 'Hubo un error al guardar tu nota.');
                 }
-            } catch (err) {
-                console.error('Error al guardar nota:', err);
-                alert('No se pudo guardar. Revisa que tu sesión esté activa y los campos sean válidos.');
+            } catch (error) {
+                console.error('Error al guardar nota:', error);
+                alert('No se pudo guardar la nota.');
             } finally {
                 if (submitBtn) submitBtn.disabled = false;
             }
         });
     }
 
-    // Escuchar cambios de hash para actualizar contexto
-    window.addEventListener('hashchange', updateActiveScreen);
-    window.addEventListener('popstate', updateActiveScreen);
+    // Enganchar el botón flotante del Dock Derecho
+    const dockNotesBtn = document.getElementById('dock-btn-notes');
+    if (dockNotesBtn) {
+        dockNotesBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            window.openCornerNotesDrawer();
+        });
+    }
 
-    // Inicialización al cargar
-    updateActiveScreen();
-}
+    // Escuchar tecla Escape
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && !drawer.hidden) {
+            drawer.hidden = true;
+            resetForm();
+        }
+    });
 
-function escapeHtml(text) {
-    if (!text) return '';
-    const div = document.createElement('div');
-    div.textContent = text;
-    return div.innerHTML;
+    // Cargar conteo inicial de notas
+    fetchNotesForCurrentScreen();
 }

@@ -148,4 +148,36 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::post('home-cards', [GardenHomeCardController::class, 'store'])->name('home-cards.store');
     Route::put('home-cards/{homeCard}', [GardenHomeCardController::class, 'update'])->name('home-cards.update');
     Route::delete('home-cards/{homeCard}', [GardenHomeCardController::class, 'destroy'])->name('home-cards.destroy');
+
+    // ── Sonidos del Clima y Estaciones (Panel de Administración) ──
+    Route::get('season-audios', [\App\Http\Controllers\SeasonAudioController::class, 'adminIndex'])->name('season-audios.index');
+    Route::post('season-audios', [\App\Http\Controllers\SeasonAudioController::class, 'store'])->name('season-audios.store');
+    Route::put('season-audios/{seasonAudio}', [\App\Http\Controllers\SeasonAudioController::class, 'update'])->name('season-audios.update');
+    Route::post('season-audios/{seasonAudio}/toggle', [\App\Http\Controllers\SeasonAudioController::class, 'toggleActive'])->name('season-audios.toggle');
+    Route::delete('season-audios/{seasonAudio}', [\App\Http\Controllers\SeasonAudioController::class, 'destroy'])->name('season-audios.destroy');
+
+    // ── Estados Efímeros 24h (Estilo WhatsApp en Inicio) ──
+    Route::post('garden-statuses', [\App\Http\Controllers\GardenStatusController::class, 'store'])->name('garden-statuses.store');
+    Route::delete('garden-statuses/{gardenStatus}', [\App\Http\Controllers\GardenStatusController::class, 'destroy'])->name('garden-statuses.destroy');
+
+    // ── Bóveda Familiar "Mi Familia" (Zafiro del Mapa · Exclusivo Admin) ──
+    Route::get('family-sanctuary', [\App\Http\Controllers\FamilySanctuaryController::class, 'index'])->name('family-sanctuary.index');
+    Route::post('family-members', [\App\Http\Controllers\FamilySanctuaryController::class, 'storeMember'])->name('family-members.store');
+    Route::post('family-members/{familyMember}', [\App\Http\Controllers\FamilySanctuaryController::class, 'updateMember'])->name('family-members.update');
+    Route::delete('family-members/{familyMember}', [\App\Http\Controllers\FamilySanctuaryController::class, 'destroyMember'])->name('family-members.destroy');
+    Route::post('family-memories', [\App\Http\Controllers\FamilySanctuaryController::class, 'storeMemory'])->name('family-memories.store');
+    Route::post('family-memories/{familyMemory}', [\App\Http\Controllers\FamilySanctuaryController::class, 'updateMemory'])->name('family-memories.update');
+    Route::delete('family-memories/{familyMemory}', [\App\Http\Controllers\FamilySanctuaryController::class, 'destroyMemory'])->name('family-memories.destroy');
 });
+
+// Desbloqueo con usuario/correo y contraseña de Administrador para el Santuario Familiar (#familia)
+Route::post('/family-sanctuary/unlock', [\App\Http\Controllers\FamilySanctuaryController::class, 'unlock'])
+    ->middleware('throttle:15,1')
+    ->name('family-sanctuary.unlock');
+
+// Ruta pública para cargar los audios reales de cada estación en el reproductor de clima
+Route::get('/season-audios', [\App\Http\Controllers\SeasonAudioController::class, 'index'])->name('season-audios.public');
+
+// Ruta pública para leer los Estados Efímeros activos (< 24h)
+Route::get('/garden-statuses', [\App\Http\Controllers\GardenStatusController::class, 'index'])->name('garden-statuses.index');
+

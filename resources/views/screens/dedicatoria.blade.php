@@ -7,11 +7,13 @@
 
                 <div class="page-heading">
                     <div>
-                        <p class="eyebrow">Mi espacio para dedicar a ella · Carla Lorena</p>
-                        <h1 id="dedication-title" class="shimmer-title">Mi carta de <em>amor y pasión y cariño</em></h1>
-                        <p>Las palabras más sinceras nacen del alma. Este rincón fue creado con paciencia y cariño infinito para recordarte lo inmensamente especial que eres.</p>
+                        <p class="eyebrow">DEDICATORIAS · CARTAS CON AMOR</p>
+                        <h1 id="dedication-title">Dedicatorias · <em>Mensajes escritos con el corazón</em></h1>
+                        <p>Las palabras más sinceras nacen del alma. Este rincón fue creado para recordarte lo inmensamente especial que eres, Carla Lorena.</p>
                     </div>
-                    <span class="heading-mark romantic-spin" aria-hidden="true">💌</span>
+                    <span class="heading-mark" aria-hidden="true">
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg>
+                    </span>
                 </div>
 
                 <!-- Gran Carta Pergamino Principal de Dedicatoria -->

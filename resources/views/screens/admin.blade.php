@@ -4,47 +4,93 @@
                 <a class="back-link" href="#carla" data-go="carla">← Volver a mi espacio</a>
                 <div class="admin-luxury-header">
                     <div class="admin-luxury-header-content">
-                        <span class="admin-badge">Control Maestro & Gestión</span>
-                        <h1 id="admin-title" class="admin-luxury-title">Administración del <em>Jardín</em></h1>
-                        <p class="admin-luxury-subtitle">Gestión completa de contenido, usuarios y configuración global del sitio.</p>
+                        <span class="admin-badge">CARLA LORENA · CENTRO DE GESTIÓN</span>
+                        <h1 id="admin-title" class="admin-luxury-title">Control Center · <em>Gestión editorial</em></h1>
+                        <p class="admin-luxury-subtitle">Gestión completa de contenido, fotos, dedicatorias, usuarios y configuración del universo Carla Lorena.</p>
                     </div>
                     <div class="admin-header-badge-icon" aria-hidden="true">
-                        <span class="admin-gear-spin">⚙</span>
+                        <svg width="34" height="34" viewBox="0 0 36 36" fill="none" aria-hidden="true">
+            <circle cx="18" cy="18" r="15" stroke="currentColor" stroke-width="1.3" stroke-dasharray="3 2" opacity="0.45"/>
+            <path d="M18 7C14.5 7 12 10 12 13.5C12 17.5 15.5 20 18 22C20.5 20 24 17.5 24 13.5C24 10 21.5 7 18 7Z" fill="currentColor" fill-opacity="0.16" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/>
+            <path d="M18 10C16 10 14.8 11.6 14.8 13.4C14.8 15.5 16.5 16.8 18 18C19.5 16.8 21.2 15.5 21.2 13.4C21.2 11.6 20 10 18 10Z" stroke="currentColor" stroke-width="1.4"/>
+            <path d="M18 22V29M18 25C15 25 13 23.2 12.5 21.5M18 26.5C21 26.5 23 24.7 23.5 23" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+        </svg>
                     </div>
                 </div>
 
                 <div class="admin-toolbar-luxury">
-                    <div class="admin-tabs" role="tablist" aria-label="Módulos de administración">
+                    <div class="admin-tabs admin-tabs-visible-grid" role="tablist" aria-label="Módulos de administración">
                         <button class="admin-tab is-active" role="tab" aria-selected="true" data-tab="dashboard">
-                            <span class="tab-icon">📊</span>
+                            <span class="tab-icon"><svg class="admin-svg-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M12 3.5C9.2 3.5 7 6 7 9C7 12.4 9.8 14.6 12 16.2C14.2 14.6 17 12.4 17 9C17 6 14.8 3.5 12 3.5Z" fill="currentColor" fill-opacity="0.18" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/>
+            <path d="M12 6.5C10.5 6.5 9.5 7.7 9.5 9.1C9.5 10.8 10.8 11.9 12 12.8C13.2 11.9 14.5 10.8 14.5 9.1C14.5 7.7 13.5 6.5 12 6.5Z" stroke="currentColor" stroke-width="1.5"/>
+            <path d="M12 16.2V21M12 18.5C9.5 18.5 7.8 17 7.2 15.5M12 19.5C14.5 19.5 16.2 18 16.8 16.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+        </svg></span>
                             <span>Inicio</span>
                         </button>
                         <button class="admin-tab" role="tab" aria-selected="false" data-tab="users">
-                            <span class="tab-icon">👥</span>
+                            <span class="tab-icon"><svg class="admin-svg-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <circle cx="9" cy="8.5" r="3.2" fill="currentColor" fill-opacity="0.16" stroke="currentColor" stroke-width="1.6"/>
+            <path d="M3.8 19.2C3.8 16.1 6.1 14 9 14C11.9 14 14.2 16.1 14.2 19.2" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+            <path d="M17.5 6.2C16.2 6.2 15.2 7.3 15.2 8.7C15.2 10.4 16.5 11.4 17.5 12.2C18.5 11.4 19.8 10.4 19.8 8.7C19.8 7.3 18.8 6.2 17.5 6.2Z" fill="currentColor" fill-opacity="0.22" stroke="currentColor" stroke-width="1.5"/>
+            <path d="M15.2 15C17.8 15.2 19.8 16.9 20.2 19.2" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+        </svg></span>
                             <span>Usuarios</span>
                         </button>
                         <button class="admin-tab" role="tab" aria-selected="false" data-tab="profile">
-                            <span class="tab-icon">👑</span>
+                            <span class="tab-icon"><svg class="admin-svg-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M4 17L5.8 8.5L9.8 12L12 6.5L14.2 12L18.2 8.5L20 17H4Z" fill="currentColor" fill-opacity="0.18" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/>
+            <path d="M5 19.5H19" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+            <circle cx="12" cy="4.2" r="1.2" fill="currentColor"/>
+        </svg></span>
                             <span>Perfil público</span>
                         </button>
                         <button class="admin-tab" role="tab" aria-selected="false" data-tab="posts">
-                            <span class="tab-icon">✍️</span>
+                            <span class="tab-icon"><svg class="admin-svg-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M19.5 4.5C15.5 4.5 11.2 7.2 9.2 11.2L7 17L12.8 14.8C16.8 12.8 19.5 8.5 19.5 4.5Z" fill="currentColor" fill-opacity="0.18" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/>
+            <path d="M14.5 9.5L5 19" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+            <path d="M4.5 20H11.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+        </svg></span>
                             <span>Publicaciones</span>
                         </button>
                         <button class="admin-tab" role="tab" aria-selected="false" data-tab="quiz">
-                            <span class="tab-icon">🧩</span>
+                            <span class="tab-icon"><svg class="admin-svg-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M12 3.5C13.8 3.5 15 5 15 6.8C15 7.4 14.8 8 14.5 8.5C15 8.2 15.6 8 16.2 8C18 8 19.5 9.2 19.5 11C19.5 12.8 18 14 16.2 14C15.6 14 15 13.8 14.5 13.5C14.8 14 15 14.6 15 15.2C15 17 13.8 18.5 12 18.5C10.2 18.5 9 17 9 15.2C9 14.6 9.2 14 9.5 13.5C9 13.8 8.4 14 7.8 14C6 14 4.5 12.8 4.5 11C4.5 9.2 6 8 7.8 8C8.4 8 9 8.2 9.5 8.5C9.2 8 9 7.4 9 6.8C9 5 10.2 3.5 12 3.5Z" fill="currentColor" fill-opacity="0.18" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/>
+            <circle cx="12" cy="11" r="2.2" fill="currentColor"/>
+            <path d="M12 18.5V21.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+        </svg></span>
                             <span>Quiz Carla</span>
                         </button>
                         <button class="admin-tab" role="tab" aria-selected="false" data-tab="albums">
-                            <span class="tab-icon">📸</span>
+                            <span class="tab-icon"><svg class="admin-svg-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <rect x="3.5" y="4.5" width="17" height="15" rx="3.5" fill="currentColor" fill-opacity="0.14" stroke="currentColor" stroke-width="1.6"/>
+            <circle cx="9" cy="9.5" r="1.8" fill="currentColor"/>
+            <path d="M4.5 17L9.5 12.8L13.2 15.8L16.5 13L19.8 16.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg></span>
                             <span>Álbumes</span>
                         </button>
                         <button class="admin-tab" role="tab" aria-selected="false" data-tab="media">
-                            <span class="tab-icon">🎵</span>
+                            <span class="tab-icon"><svg class="admin-svg-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M9 17.5V6.8L19 4.8V15.5" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/>
+            <circle cx="6.8" cy="17.5" r="2.5" fill="currentColor" fill-opacity="0.22" stroke="currentColor" stroke-width="1.6"/>
+            <circle cx="16.8" cy="15.5" r="2.5" fill="currentColor" fill-opacity="0.22" stroke="currentColor" stroke-width="1.6"/>
+        </svg></span>
                             <span>Media</span>
                         </button>
+                        <button class="admin-tab" role="tab" aria-selected="false" data-tab="season-audios">
+                            <span class="tab-icon"><svg class="admin-svg-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M4 9.5H15.5C17.2 9.5 18.5 8.2 18.5 6.5C18.5 4.8 17.2 3.5 15.5 3.5C14 3.5 12.8 4.5 12.6 6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+            <path d="M3 13.5H18.5C20.2 13.5 21.5 14.8 21.5 16.5C21.5 18.2 20.2 19.5 18.5 19.5C17 19.5 15.8 18.5 15.6 17" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+            <path d="M5 17.2H11.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+            <circle cx="7.5" cy="6" r="1.3" fill="currentColor"/>
+        </svg></span>
+                            <span>Sonidos del Clima</span>
+                        </button>
                         <button class="admin-tab" role="tab" aria-selected="false" data-tab="settings">
-                            <span class="tab-icon">⚙️</span>
+                            <span class="tab-icon"><svg class="admin-svg-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <circle cx="12" cy="12" r="3.2" fill="currentColor" fill-opacity="0.2" stroke="currentColor" stroke-width="1.6"/>
+            <path d="M12 3V5.5M12 18.5V21M3 12H5.5M18.5 12H21M5.6 5.6L7.4 7.4M16.6 16.6L18.4 18.4M18.4 5.6L16.6 7.4M7.4 16.6L5.6 18.4" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/>
+        </svg></span>
                             <span>Ajustes</span>
                         </button>
                     </div>
@@ -62,7 +108,12 @@
                         <div class="admin-stats-grid">
                             <article class="admin-stat-card stat-users">
                                 <div class="stat-card-icon-wrap">
-                                    <span class="admin-stat-icon">👤</span>
+                                    <span class="admin-stat-icon"><svg class="admin-svg-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <circle cx="9" cy="8.5" r="3.2" fill="currentColor" fill-opacity="0.16" stroke="currentColor" stroke-width="1.6"/>
+            <path d="M3.8 19.2C3.8 16.1 6.1 14 9 14C11.9 14 14.2 16.1 14.2 19.2" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+            <path d="M17.5 6.2C16.2 6.2 15.2 7.3 15.2 8.7C15.2 10.4 16.5 11.4 17.5 12.2C18.5 11.4 19.8 10.4 19.8 8.7C19.8 7.3 18.8 6.2 17.5 6.2Z" fill="currentColor" fill-opacity="0.22" stroke="currentColor" stroke-width="1.5"/>
+            <path d="M15.2 15C17.8 15.2 19.8 16.9 20.2 19.2" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+        </svg></span>
                                 </div>
                                 <div class="stat-card-data">
                                     <strong id="stat-users">{{ $globalAdminStats['users'] ?? 0 }}</strong>
@@ -72,7 +123,11 @@
                             </article>
                             <article class="admin-stat-card stat-posts">
                                 <div class="stat-card-icon-wrap">
-                                    <span class="admin-stat-icon">📝</span>
+                                    <span class="admin-stat-icon"><svg class="admin-svg-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M19.5 4.5C15.5 4.5 11.2 7.2 9.2 11.2L7 17L12.8 14.8C16.8 12.8 19.5 8.5 19.5 4.5Z" fill="currentColor" fill-opacity="0.18" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/>
+            <path d="M14.5 9.5L5 19" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+            <path d="M4.5 20H11.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+        </svg></span>
                                 </div>
                                 <div class="stat-card-data">
                                     <strong id="stat-posts">{{ $globalAdminStats['posts'] ?? 0 }}</strong>
@@ -82,7 +137,11 @@
                             </article>
                             <article class="admin-stat-card stat-quiz">
                                 <div class="stat-card-icon-wrap">
-                                    <span class="admin-stat-icon">❓</span>
+                                    <span class="admin-stat-icon"><svg class="admin-svg-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M12 3.5C13.8 3.5 15 5 15 6.8C15 7.4 14.8 8 14.5 8.5C15 8.2 15.6 8 16.2 8C18 8 19.5 9.2 19.5 11C19.5 12.8 18 14 16.2 14C15.6 14 15 13.8 14.5 13.5C14.8 14 15 14.6 15 15.2C15 17 13.8 18.5 12 18.5C10.2 18.5 9 17 9 15.2C9 14.6 9.2 14 9.5 13.5C9 13.8 8.4 14 7.8 14C6 14 4.5 12.8 4.5 11C4.5 9.2 6 8 7.8 8C8.4 8 9 8.2 9.5 8.5C9.2 8 9 7.4 9 6.8C9 5 10.2 3.5 12 3.5Z" fill="currentColor" fill-opacity="0.18" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/>
+            <circle cx="12" cy="11" r="2.2" fill="currentColor"/>
+            <path d="M12 18.5V21.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+        </svg></span>
                                 </div>
                                 <div class="stat-card-data">
                                     <strong id="stat-quiz">{{ $globalAdminStats['quiz'] ?? 0 }}</strong>
@@ -92,7 +151,11 @@
                             </article>
                             <article class="admin-stat-card stat-albums">
                                 <div class="stat-card-icon-wrap">
-                                    <span class="admin-stat-icon">📁</span>
+                                    <span class="admin-stat-icon"><svg class="admin-svg-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <rect x="3.5" y="4.5" width="17" height="15" rx="3.5" fill="currentColor" fill-opacity="0.14" stroke="currentColor" stroke-width="1.6"/>
+            <circle cx="9" cy="9.5" r="1.8" fill="currentColor"/>
+            <path d="M4.5 17L9.5 12.8L13.2 15.8L16.5 13L19.8 16.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg></span>
                                 </div>
                                 <div class="stat-card-data">
                                     <strong id="stat-albums">{{ $globalAdminStats['albums'] ?? 0 }}</strong>
@@ -102,7 +165,11 @@
                             </article>
                             <article class="admin-stat-card stat-media">
                                 <div class="stat-card-icon-wrap">
-                                    <span class="admin-stat-icon">🎬</span>
+                                    <span class="admin-stat-icon"><svg class="admin-svg-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M9 17.5V6.8L19 4.8V15.5" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/>
+            <circle cx="6.8" cy="17.5" r="2.5" fill="currentColor" fill-opacity="0.22" stroke="currentColor" stroke-width="1.6"/>
+            <circle cx="16.8" cy="15.5" r="2.5" fill="currentColor" fill-opacity="0.22" stroke="currentColor" stroke-width="1.6"/>
+        </svg></span>
                                 </div>
                                 <div class="stat-card-data">
                                     <strong id="stat-media">{{ $globalAdminStats['media'] ?? 0 }}</strong>
@@ -116,8 +183,13 @@
                     <!-- ═══════════════════════════ PANEL: USUARIOS ═══════════════════════════ -->
                     <div class="admin-panel" id="admin-users" role="tabpanel" aria-labelledby="admin-users-title" hidden>
                         <div class="ap-header">
-                            <div class="ap-header-icon-wrap" style="background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%);">
-                                <span>👥</span>
+                            <div class="ap-header-icon-wrap ap-icon-rose">
+                                <svg class="admin-svg-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <circle cx="9" cy="8.5" r="3.2" fill="currentColor" fill-opacity="0.16" stroke="currentColor" stroke-width="1.6"/>
+            <path d="M3.8 19.2C3.8 16.1 6.1 14 9 14C11.9 14 14.2 16.1 14.2 19.2" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+            <path d="M17.5 6.2C16.2 6.2 15.2 7.3 15.2 8.7C15.2 10.4 16.5 11.4 17.5 12.2C18.5 11.4 19.8 10.4 19.8 8.7C19.8 7.3 18.8 6.2 17.5 6.2Z" fill="currentColor" fill-opacity="0.22" stroke="currentColor" stroke-width="1.5"/>
+            <path d="M15.2 15C17.8 15.2 19.8 16.9 20.2 19.2" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+        </svg>
                             </div>
                             <div class="ap-header-text">
                                 <p class="ap-eyebrow">Gestión de Accesos</p>
@@ -149,8 +221,12 @@
                     <!-- ═══════════════════════════ PANEL: PERFIL PÚBLICO ═══════════════════════════ -->
                     <div class="admin-panel" id="admin-profile" role="tabpanel" aria-labelledby="admin-profile-title" hidden>
                         <div class="ap-header">
-                            <div class="ap-header-icon-wrap" style="background: linear-gradient(135deg, #d8f3dc 0%, #b7e4c7 100%);">
-                                <span>👑</span>
+                            <div class="ap-header-icon-wrap ap-icon-rose">
+                                <svg class="admin-svg-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M4 17L5.8 8.5L9.8 12L12 6.5L14.2 12L18.2 8.5L20 17H4Z" fill="currentColor" fill-opacity="0.18" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/>
+            <path d="M5 19.5H19" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+            <circle cx="12" cy="4.2" r="1.2" fill="currentColor"/>
+        </svg>
                             </div>
                             <div class="ap-header-text">
                                 <p class="ap-eyebrow">Identidad & Presentación</p>
@@ -223,7 +299,7 @@
 
                             <div class="ap-form-section">
                                 <div class="ap-section-label">
-                                    <span class="ap-section-icon">📷</span>
+                                    <span class="ap-section-icon">🌹</span>
                                     <span>Fotografía Destacada</span>
                                 </div>
                                 <div class="ap-field-group">
@@ -248,8 +324,12 @@
                     <!-- ═══════════════════════════ PANEL: PUBLICACIONES ═══════════════════════════ -->
                     <div class="admin-panel" id="admin-posts" role="tabpanel" aria-labelledby="admin-posts-title" hidden>
                         <div class="ap-header">
-                            <div class="ap-header-icon-wrap" style="background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);">
-                                <span>✍️</span>
+                            <div class="ap-header-icon-wrap ap-icon-rose">
+                                <svg class="admin-svg-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M19.5 4.5C15.5 4.5 11.2 7.2 9.2 11.2L7 17L12.8 14.8C16.8 12.8 19.5 8.5 19.5 4.5Z" fill="currentColor" fill-opacity="0.18" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/>
+            <path d="M14.5 9.5L5 19" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+            <path d="M4.5 20H11.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+        </svg>
                             </div>
                             <div class="ap-header-text">
                                 <p class="ap-eyebrow">Blog & Diario Personal</p>
@@ -304,8 +384,12 @@
                     <!-- ═══════════════════════════ PANEL: QUIZ ═══════════════════════════ -->
                     <div class="admin-panel" id="admin-quiz" role="tabpanel" aria-labelledby="admin-quiz-title" hidden>
                         <div class="ap-header">
-                            <div class="ap-header-icon-wrap" style="background: linear-gradient(135deg, #ede9fe 0%, #ddd6fe 100%);">
-                                <span>🧩</span>
+                            <div class="ap-header-icon-wrap ap-icon-rose">
+                                <svg class="admin-svg-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M12 3.5C13.8 3.5 15 5 15 6.8C15 7.4 14.8 8 14.5 8.5C15 8.2 15.6 8 16.2 8C18 8 19.5 9.2 19.5 11C19.5 12.8 18 14 16.2 14C15.6 14 15 13.8 14.5 13.5C14.8 14 15 14.6 15 15.2C15 17 13.8 18.5 12 18.5C10.2 18.5 9 17 9 15.2C9 14.6 9.2 14 9.5 13.5C9 13.8 8.4 14 7.8 14C6 14 4.5 12.8 4.5 11C4.5 9.2 6 8 7.8 8C8.4 8 9 8.2 9.5 8.5C9.2 8 9 7.4 9 6.8C9 5 10.2 3.5 12 3.5Z" fill="currentColor" fill-opacity="0.18" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/>
+            <circle cx="12" cy="11" r="2.2" fill="currentColor"/>
+            <path d="M12 18.5V21.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+        </svg>
                             </div>
                             <div class="ap-header-text">
                                 <p class="ap-eyebrow">Juego Interactivo</p>
@@ -318,7 +402,7 @@
                             <!-- Configuración -->
                             <div class="ap-quiz-card">
                                 <div class="ap-quiz-card-header">
-                                    <span class="ap-quiz-card-icon">⚙️</span>
+                                    <span class="ap-quiz-card-icon">🏵️</span>
                                     <h3 class="ap-quiz-card-title">Configuración del Juego</h3>
                                 </div>
                                 <form class="ap-form" id="admin-quiz-settings-form">
@@ -334,13 +418,13 @@
                                         <label class="ap-label">Preguntas requeridas para ganar</label>
                                         <input class="ap-input" type="number" name="questions_required" min="1" max="50" value="10">
                                     </div>
-                                    <button class="ap-btn-primary" type="submit">💾 Guardar configuración</button>
+                                    <button class="ap-btn-primary" type="submit">🌸 Guardar configuración</button>
                                 </form>
                             </div>
                             <!-- Recompensa -->
                             <div class="ap-quiz-card">
                                 <div class="ap-quiz-card-header">
-                                    <span class="ap-quiz-card-icon">🎁</span>
+                                    <span class="ap-quiz-card-icon">🌹</span>
                                     <h3 class="ap-quiz-card-title">Foto de Recompensa</h3>
                                 </div>
                                 <div id="admin-quiz-reward-preview" class="admin-photo-preview" hidden></div>
@@ -370,7 +454,7 @@
                         <div class="ap-quiz-questions-section">
                             <div class="ap-sub-header">
                                 <div>
-                                    <h3 class="ap-sub-title">❓ Banco de Preguntas</h3>
+                                    <h3 class="ap-sub-title">🌸 Banco de Preguntas</h3>
                                     <p class="ap-sub-desc">Preguntas que aparecerán en el quiz para conocer mejor a Carla Lorena.</p>
                                 </div>
                                 <button class="ap-cta-btn" type="button" data-admin-modal="quiz-question-create">＋ Añadir pregunta</button>
@@ -395,8 +479,12 @@
                     <!-- ═══════════════════════════ PANEL: ÁLBUMES ═══════════════════════════ -->
                     <div class="admin-panel" id="admin-albums" role="tabpanel" aria-labelledby="admin-albums-title" hidden>
                         <div class="ap-header">
-                            <div class="ap-header-icon-wrap" style="background: linear-gradient(135deg, #fff7ed 0%, #fed7aa 100%);">
-                                <span>📸</span>
+                            <div class="ap-header-icon-wrap ap-icon-rose">
+                                <svg class="admin-svg-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <rect x="3.5" y="4.5" width="17" height="15" rx="3.5" fill="currentColor" fill-opacity="0.14" stroke="currentColor" stroke-width="1.6"/>
+            <circle cx="9" cy="9.5" r="1.8" fill="currentColor"/>
+            <path d="M4.5 17L9.5 12.8L13.2 15.8L16.5 13L19.8 16.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
                             </div>
                             <div class="ap-header-text">
                                 <p class="ap-eyebrow">Galería de Recuerdos</p>
@@ -413,8 +501,12 @@
                     <!-- ═══════════════════════════ PANEL: MEDIA ═══════════════════════════ -->
                     <div class="admin-panel" id="admin-media" role="tabpanel" aria-labelledby="admin-media-title" hidden>
                         <div class="ap-header">
-                            <div class="ap-header-icon-wrap" style="background: linear-gradient(135deg, #dcfce7 0%, #bbf7d0 100%);">
-                                <span>🎵</span>
+                            <div class="ap-header-icon-wrap ap-icon-rose">
+                                <svg class="admin-svg-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M9 17.5V6.8L19 4.8V15.5" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/>
+            <circle cx="6.8" cy="17.5" r="2.5" fill="currentColor" fill-opacity="0.22" stroke="currentColor" stroke-width="1.6"/>
+            <circle cx="16.8" cy="15.5" r="2.5" fill="currentColor" fill-opacity="0.22" stroke="currentColor" stroke-width="1.6"/>
+        </svg>
                             </div>
                             <div class="ap-header-text">
                                 <p class="ap-eyebrow">Contenido Audiovisual</p>
@@ -463,11 +555,126 @@
                         <nav class="admin-pagination" id="admin-media-pagination" aria-label="Paginación media"></nav>
                     </div>
 
+                    <!-- ═══════════════════════════ PANEL: SONIDOS DEL CLIMA ═══════════════════════════ -->
+                    <div class="admin-panel" id="admin-season-audios" role="tabpanel" aria-labelledby="admin-season-audios-title" hidden>
+                        <div class="ap-header">
+                            <div class="ap-header-icon-wrap ap-icon-rose">
+                                <svg class="admin-svg-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M4 9.5H15.5C17.2 9.5 18.5 8.2 18.5 6.5C18.5 4.8 17.2 3.5 15.5 3.5C14 3.5 12.8 4.5 12.6 6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+            <path d="M3 13.5H18.5C20.2 13.5 21.5 14.8 21.5 16.5C21.5 18.2 20.2 19.5 18.5 19.5C17 19.5 15.8 18.5 15.6 17" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+            <path d="M5 17.2H11.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+            <circle cx="7.5" cy="6" r="1.3" fill="currentColor"/>
+        </svg>
+                            </div>
+                            <div class="ap-header-text">
+                                <p class="ap-eyebrow">Atmósfera y Sonido Ambiental</p>
+                                <h2 id="admin-season-audios-title" class="ap-title">Sonidos de las Estaciones</h2>
+                                <p class="ap-desc">Carga música, efectos y melodías reales (MP3, WAV, OGG) para cada estación del jardín. Puedes subir varios sonidos a la vez.</p>
+                            </div>
+                        </div>
+
+                        <!-- Tarjeta de subida de audios -->
+                        <div class="ap-card" style="margin-bottom: 24px; padding: 22px; background: #ffffff; border-radius: 16px; border: 1px solid var(--border-editorial); box-shadow: 0 4px 20px rgba(0,0,0,0.03);">
+                            <h3 style="margin: 0 0 14px 0; font-size: 16px; font-weight: 600; color: var(--text-primary); display: flex; align-items: center; gap: 8px;">
+                                <span>📤</span> Subir Audios por Estación
+                            </h3>
+                            <form id="admin-season-audio-form" enctype="multipart/form-data">
+                                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; margin-bottom: 16px;">
+                                    <div>
+                                        <label for="season-audio-select" style="display: block; font-size: 12px; font-weight: 600; color: var(--text-muted); margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.05em;">
+                                            1. SELECCIONA UNA ESTACIÓN *
+                                        </label>
+                                        <select id="season-audio-select" name="season" class="ap-select" required style="width: 100%;">
+                                            <option value="spring">🌸 Primavera Eterna</option>
+                                            <option value="rain">🌧️ Lluvia Romántica</option>
+                                            <option value="summer">☀️ Verano Mágico</option>
+                                            <option value="autumn">🍂 Otoño Cálido</option>
+                                            <option value="winter">❄️ Invierno Encantado</option>
+                                            <option value="stars">🌠 Noche de Estrellas</option>
+                                            <option value="bubbles">🫧 Burbujas de Ensueño</option>
+                                            <option value="clear">✨ Calma Serena</option>
+                                        </select>
+                                    </div>
+                                    <div>
+                                        <label for="season-audio-title" style="display: block; font-size: 12px; font-weight: 600; color: var(--text-muted); margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.05em;">
+                                            2. Título o Descripción (Opcional)
+                                        </label>
+                                        <input type="text" id="season-audio-title" name="title" class="ap-input" placeholder="Ej: Brisa con piano suave" style="width: 100%;" maxlength="160">
+                                    </div>
+                                </div>
+
+                                <div style="margin-bottom: 18px;">
+                                    <label for="season-audio-files" style="display: block; font-size: 12px; font-weight: 600; color: var(--text-muted); margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.05em;">
+                                        3. Seleccionar archivo(s) de audio (MP3, WAV, OGG, AAC - Máx 30MB c/u)
+                                    </label>
+                                    <input type="file" id="season-audio-files" name="files[]" multiple accept="audio/*,.mp3,.wav,.ogg,.oga,.m4a,.aac" class="ap-file-input" required style="width: 100%;">
+                                    <small style="display: block; margin-top: 5px; color: var(--text-muted); font-size: 11.5px;">
+                                        💡 Puedes seleccionar múltiples archivos a la vez manteniendo presionada la tecla Ctrl / Shift.
+                                    </small>
+                                </div>
+
+                                <div style="display: flex; justify-content: flex-end; align-items: center; gap: 12px;">
+                                    <span id="season-audio-upload-status" style="font-size: 12px; color: var(--frambuesa); display: none;"></span>
+                                    <button type="submit" class="ap-cta-btn" id="btn-submit-season-audio">
+                                        <span>⬆️</span> Cargar Sonidos
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+
+                        <!-- Filtro por estación y listado de audios subidos -->
+                        <div class="ap-filters" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px;">
+                            <div class="ap-filter-item">
+                                <label class="ap-filter-label" for="filter-season-audios">Filtrar por estación:</label>
+                                <select class="ap-select" id="filter-season-audios" aria-label="Filtrar por estación">
+                                    <option value="">Todas las estaciones</option>
+                                    <option value="spring">🌸 Primavera</option>
+                                    <option value="rain">🌧️ Lluvia</option>
+                                    <option value="summer">☀️ Verano</option>
+                                    <option value="autumn">🍂 Otoño</option>
+                                    <option value="winter">❄️ Invierno</option>
+                                    <option value="stars">🌠 Estrellas</option>
+                                    <option value="bubbles">🫧 Burbujas</option>
+                                    <option value="clear">✨ Calma</option>
+                                </select>
+                            </div>
+                            <button type="button" class="button button-outline" id="btn-refresh-season-audios" style="padding: 6px 14px; font-size: 12px;">
+                                🔄 Actualizar lista
+                            </button>
+                        </div>
+
+                        <div class="ap-table-wrap">
+                            <table class="admin-table" id="admin-season-audios-table">
+                                <thead>
+                                    <tr>
+                                        <th><span class="th-inner"># ID</span></th>
+                                        <th><span class="th-inner">Estación</span></th>
+                                        <th><span class="th-inner">✦ Título / Archivo</span></th>
+                                        <th><span class="th-inner">▶ Reproducir</span></th>
+                                        <th><span class="th-inner">Tamaño</span></th>
+                                        <th><span class="th-inner">Estado</span></th>
+                                        <th><span class="th-inner">Acciones</span></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td colspan="7" style="text-align: center; padding: 24px; color: var(--text-muted);">
+                                            Cargando sonidos del clima...
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
                     <!-- ═══════════════════════════ PANEL: AJUSTES ═══════════════════════════ -->
                     <div class="admin-panel" id="admin-settings" role="tabpanel" aria-labelledby="admin-settings-title" hidden>
                         <div class="ap-header">
-                            <div class="ap-header-icon-wrap" style="background: linear-gradient(135deg, #f0f9ff 0%, #bae6fd 100%);">
-                                <span>⚙️</span>
+                            <div class="ap-header-icon-wrap ap-icon-rose">
+                                <svg class="admin-svg-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <circle cx="12" cy="12" r="3.2" fill="currentColor" fill-opacity="0.2" stroke="currentColor" stroke-width="1.6"/>
+            <path d="M12 3V5.5M12 18.5V21M3 12H5.5M18.5 12H21M5.6 5.6L7.4 7.4M16.6 16.6L18.4 18.4M18.4 5.6L16.6 7.4M7.4 16.6L5.6 18.4" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/>
+        </svg>
                             </div>
                             <div class="ap-header-text">
                                 <p class="ap-eyebrow">Configuración del Sistema</p>
@@ -479,7 +686,7 @@
                         <form class="ap-form" id="admin-settings-form">
                             <div class="ap-form-section">
                                 <div class="ap-section-label">
-                                    <span class="ap-section-icon">🧩</span>
+                                    <span class="ap-section-icon">🌸</span>
                                     <span>Quiz — Límites de Juego</span>
                                 </div>
                                 <div class="ap-field-group ap-field-group-cols">
@@ -502,7 +709,7 @@
 
                             <div class="ap-form-section">
                                 <div class="ap-section-label">
-                                    <span class="ap-section-icon">📁</span>
+                                    <span class="ap-section-icon">🌷</span>
                                     <span>Archivos & Subidas</span>
                                 </div>
                                 <div class="ap-field-group ap-field-group-cols">
@@ -514,7 +721,7 @@
                             </div>
 
                             <div class="ap-actions">
-                                <button class="ap-btn-primary" type="submit">💾 Guardar configuración</button>
+                                <button class="ap-btn-primary" type="submit">🌸 Guardar configuración</button>
                             </div>
                         </form>
                     </div>

@@ -20,9 +20,14 @@ function showToast(msg) {
     }, 3800);
 }
 
-// ── Colección de Sorpresas del Cofre ──────────────────────────────────────
+// ── Claves de Persistencia del Cofre ──────────────────────────────────────
+const STORAGE_KEY_CHEST_UNLOCKED = 'carla_chest_unlocked_v1';
+const STORAGE_KEY_CHEST_COUPONS  = 'carla_chest_coupons_v1';
+
+// ── Colección de Sorpresas del Cofre (12 Tesoros Coleccionables) ──────────
 const SURPRISE_ITEMS = [
     {
+        id: 'pol-almendros',
         type: 'polaroid',
         title: 'Tarde bajo los almendros',
         img: 'https://images.unsplash.com/photo-1518895949257-7621c3c786d7?auto=format&fit=crop&w=700&q=85',
@@ -31,6 +36,7 @@ const SURPRISE_ITEMS = [
         date: 'Primavera en el jardín'
     },
     {
+        id: 'cup-peliculas',
         type: 'coupon',
         couponTitle: 'CUPÓN DE AMOR EXCLUSIVO',
         validoPor: 'Una tarde de películas, café tibio y mantitas suaves sin mirar el reloj',
@@ -38,12 +44,14 @@ const SURPRISE_ITEMS = [
         mensaje: 'Canjeable en cualquier momento en que necesites desconectar del mundo y descansar.'
     },
     {
+        id: 'sec-ingeniero',
         type: 'secret',
         badge: 'CONFIDENCIA DEL INGENIERO',
         title: 'La razón de cada detalle',
         content: '¿Sabías que cada rosa, cada acorde musical y cada línea de código de esta web fueron creados pensando en hacerte sonreír cuando tu día se sienta pesado? Eres la luz de este proyecto.'
     },
     {
+        id: 'pol-jazmines',
         type: 'polaroid',
         title: 'El susurro de la lluvia y jazmines',
         img: 'https://images.unsplash.com/photo-1509316975850-ff9c5deb0cd9?auto=format&fit=crop&w=700&q=85',
@@ -52,6 +60,7 @@ const SURPRISE_ITEMS = [
         date: 'Tiempo de lluvia y flores'
     },
     {
+        id: 'cup-abrazo',
         type: 'coupon',
         couponTitle: 'VALE POR UN ABRAZO INFINITO',
         validoPor: 'Un abrazo de esos que reconstruyen cualquier pedacito roto y traen calma absoluta',
@@ -59,17 +68,59 @@ const SURPRISE_ITEMS = [
         mensaje: 'Válido sin fecha de vencimiento y con derecho a repetición ilimitada.'
     },
     {
+        id: 'sec-flores',
         type: 'secret',
         badge: 'PENSAMIENTO SECRETO',
         title: 'Entre todas las flores',
         content: 'En un jardín de diez mil flores silvestres, no hay ninguna que iguale la nobleza y calidez de tu corazón. Que nunca se te olvide lo valiosa que eres.'
     },
     {
+        id: 'cup-postre',
         type: 'coupon',
         couponTitle: 'VALE POR UN POSTRE FAVORITO',
         validoPor: 'Una salida por tu helado o dulce favorito, con charla sin prisa y sonrisas',
         codigo: 'DULCE-CARLA-03',
         mensaje: 'Porque endulzar el día siempre es una buena idea.'
+    },
+    {
+        id: 'pol-atardecer',
+        type: 'polaroid',
+        title: 'Dorado atardecer sobre el jardín',
+        img: 'https://images.unsplash.com/photo-1470252649378-9c29740c9fa8?auto=format&fit=crop&w=700&q=85',
+        frontText: 'Cuando el cielo se viste de oro y rosa',
+        backText: '«Cada puesta de sol me recuerda que incluso al terminar el día, tu luz deja tibio todo lo que toca.» — Adrián ♡',
+        date: 'Crepúsculo dorado'
+    },
+    {
+        id: 'cup-cena',
+        type: 'coupon',
+        couponTitle: 'VALE POR UNA CENA ESPECIAL',
+        validoPor: 'Tu plato favorito preparado o elegido por ti, velas encendidas y tu música preferida',
+        codigo: 'CENA-ESTRELLAS-04',
+        mensaje: 'Reservado exclusivamente para celebrar tu vida y tus alegrías.'
+    },
+    {
+        id: 'sec-estrella',
+        type: 'secret',
+        badge: 'SECRETO DEL FIRMAMENTO',
+        title: 'Tu nombre en la arquitectura',
+        content: 'Si sumas las proporciones áureas del mapa y las notas del arpa del jardín, todas están afinadas en 432 Hz y 528 Hz: frecuencias de armonía y bienestar pensadas para darte paz real.'
+    },
+    {
+        id: 'pol-estrellas',
+        type: 'polaroid',
+        title: 'Noche de constelaciones tranquilas',
+        img: 'https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=700&q=85',
+        frontText: 'Un cielo entero cuidando tus sueños',
+        backText: '«Nunca caminas sola; hay un universo de cariño acompañando cada uno de tus pasos, Carla Lorena.»',
+        date: 'Medianoche estrellada'
+    },
+    {
+        id: 'sec-promesa',
+        type: 'secret',
+        badge: 'PROMESA ETERNA',
+        title: 'Un refugio que no caduca',
+        content: 'Pasen los meses o los años, este rincón digital siempre estará abierto para recordarte lo admirada, respetada y profundamente querida que eres.'
     }
 ];
 
@@ -96,35 +147,218 @@ const POLAROID_PHOTOS = [
 let lastChestIndex = -1;
 let lastBottleIndex = -1;
 let currentPolaroid = null;
+let currentRelicsOffer = [];
+let currentCollectionFilter = 'all';
 
 /* ═══════════════════════════════════════════════════════════════════════════
-   1. COFRE DE SORPRESAS
+   1. COFRE DE SORPRESAS (3 RELIQUIAS MISTERIOSAS + ÁLBUM COLECCIONADOR)
    ═══════════════════════════════════════════════════════════════════════════ */
-function openSurpriseChest() {
-    const dialog = document.getElementById('surprise-chest-dialog');
-    if (!dialog) return;
-
-    renderRandomSurprise();
-    dialog.showModal();
-    playChimeNote(523.25, 0.6);
-    setTimeout(() => playChimeNote(659.25, 0.7), 120);
-    setTimeout(() => playChimeNote(880.00, 1.0), 240);
+function getUnlockedChestIds() {
+    try {
+        const raw = localStorage.getItem(STORAGE_KEY_CHEST_UNLOCKED);
+        const parsed = raw ? JSON.parse(raw) : [];
+        return Array.isArray(parsed) ? parsed : [];
+    } catch (_) {
+        return [];
+    }
 }
 
-function renderRandomSurprise() {
+function markChestItemUnlocked(itemId) {
+    if (!itemId) return false;
+    const unlocked = getUnlockedChestIds();
+    if (!unlocked.includes(itemId)) {
+        unlocked.push(itemId);
+        try {
+            localStorage.setItem(STORAGE_KEY_CHEST_UNLOCKED, JSON.stringify(unlocked));
+        } catch (_) {}
+        return true;
+    }
+    return false;
+}
+
+function getRedeemedCoupons() {
+    try {
+        const raw = localStorage.getItem(STORAGE_KEY_CHEST_COUPONS);
+        const parsed = raw ? JSON.parse(raw) : [];
+        return Array.isArray(parsed) ? parsed : [];
+    } catch (_) {
+        return [];
+    }
+}
+
+function saveRedeemedCoupon(couponItem) {
+    if (!couponItem || !couponItem.codigo) return;
+    const list = getRedeemedCoupons();
+    if (list.some(c => c.codigo === couponItem.codigo)) return;
+    const nowStr = new Date().toLocaleDateString('es-ES', { day: 'numeric', month: 'short', year: 'numeric' });
+    list.unshift({
+        id: couponItem.id,
+        couponTitle: couponItem.couponTitle,
+        validoPor: couponItem.validoPor,
+        codigo: couponItem.codigo,
+        mensaje: couponItem.mensaje,
+        redeemedAt: nowStr
+    });
+    try {
+        localStorage.setItem(STORAGE_KEY_CHEST_COUPONS, JSON.stringify(list));
+    } catch (_) {}
+}
+
+function updateChestProgressUI() {
+    const unlocked = getUnlockedChestIds();
+    const coupons = getRedeemedCoupons();
+    const total = SURPRISE_ITEMS.length;
+    const count = Math.min(total, unlocked.length);
+    const pct = Math.round((count / total) * 100);
+
+    const countEl = document.getElementById('chest-progress-count');
+    const barFillEl = document.getElementById('chest-progress-bar-fill');
+    const colBadge = document.getElementById('chest-collection-badge');
+    const cupBadge = document.getElementById('chest-coupons-badge');
+
+    if (countEl) countEl.textContent = `${count} / ${total}`;
+    if (barFillEl) barFillEl.style.width = `${pct}%`;
+    if (colBadge) colBadge.textContent = `${count}`;
+    if (cupBadge) cupBadge.textContent = `${coupons.length}`;
+}
+
+function switchChestTab(tabName) {
+    const tabs = document.querySelectorAll('.chest-tab-btn');
+    tabs.forEach((btn) => {
+        const isCurrent = btn.dataset.chestTab === tabName;
+        btn.classList.toggle('is-active', isCurrent);
+        btn.setAttribute('aria-selected', isCurrent ? 'true' : 'false');
+    });
+
+    const panes = {
+        relics: document.getElementById('chest-pane-relics'),
+        collection: document.getElementById('chest-pane-collection'),
+        coupons: document.getElementById('chest-pane-coupons')
+    };
+
+    Object.entries(panes).forEach(([key, pane]) => {
+        if (!pane) return;
+        const active = key === tabName;
+        pane.classList.toggle('is-active', active);
+        pane.hidden = !active;
+    });
+
+    if (tabName === 'collection') {
+        renderChestCollectionGrid();
+    } else if (tabName === 'coupons') {
+        renderChestCouponsWallet();
+    }
+}
+
+function pickThreeRelics() {
+    const unlocked = getUnlockedChestIds();
+    // Priorizar al menos 1 o 2 tesoros aún no desbloqueados para que sea emocionante completar la colección
+    const lockedPool = SURPRISE_ITEMS.filter(item => !unlocked.includes(item.id));
+    const shuffledAll = [...SURPRISE_ITEMS].sort(() => Math.random() - 0.5);
+    const chosen = [];
+
+    if (lockedPool.length > 0) {
+        const shuffledLocked = [...lockedPool].sort(() => Math.random() - 0.5);
+        chosen.push(shuffledLocked[0]);
+    }
+    for (const candidate of shuffledAll) {
+        if (chosen.length >= 3) break;
+        if (!chosen.some(c => c.id === candidate.id)) {
+            chosen.push(candidate);
+        }
+    }
+    return chosen.sort(() => Math.random() - 0.5);
+}
+
+function renderThreeRelicsStage() {
     const stage = document.getElementById('chest-content-stage');
+    const backBtn = document.getElementById('chest-back-relics-btn');
+    const nextBtn = document.getElementById('chest-next-btn');
+    const hintEl = document.getElementById('chest-stage-hint');
     if (!stage) return;
 
-    let nextIdx;
-    do {
-        nextIdx = Math.floor(Math.random() * SURPRISE_ITEMS.length);
-    } while (SURPRISE_ITEMS.length > 1 && nextIdx === lastChestIndex);
-    lastChestIndex = nextIdx;
+    if (backBtn) backBtn.hidden = true;
+    if (nextBtn) {
+        nextBtn.innerHTML = '<span>Barajar 3 Nuevas Reliquias</span> <span>🎲</span>';
+    }
+    if (hintEl) {
+        hintEl.textContent = 'Toca una de las 3 reliquias selladas para romper su lacre real y revelar tu sorpresa';
+    }
 
-    const item = SURPRISE_ITEMS[nextIdx];
+    currentRelicsOffer = pickThreeRelics();
+    const unlocked = getUnlockedChestIds();
+
+    const relicVisuals = [
+        { title: 'Sobre de Lacre Rosa', subtitle: 'Susurro del Jardín', icon: '💌', seal: '❦', tone: 'rose' },
+        { title: 'Reliquia Dorada', subtitle: 'Promesa de Luz', icon: '🗝️', seal: '✦', tone: 'gold' },
+        { title: 'Cápsula de Cristal', subtitle: 'Recuerdo Eterno', icon: '🏺', seal: '❀', tone: 'amethyst' }
+    ];
+
+    stage.innerHTML = `
+        <div class="chest-relics-trio" role="list" aria-label="Tres reliquias misteriosas para elegir">
+            ${currentRelicsOffer.map((item, idx) => {
+                const vis = relicVisuals[idx % relicVisuals.length];
+                const isAlreadyUnlocked = unlocked.includes(item.id);
+                const typeHint = item.type === 'polaroid' ? '📷 Polaroid' : (item.type === 'coupon' ? '🎫 Vale de Amor' : '💎 Secreto');
+                return `
+                    <button type="button" class="chest-relic-card relic-tone-${vis.tone}" data-relic-index="${idx}" role="listitem">
+                        <span class="relic-status-tag ${isAlreadyUnlocked ? 'is-collected' : 'is-new'}">
+                            ${isAlreadyUnlocked ? '✓ En colección' : '✨ Nuevo tesoro'}
+                        </span>
+                        <div class="relic-icon-orb">
+                            <span class="relic-main-emoji">${vis.icon}</span>
+                            <span class="relic-wax-badge">${vis.seal}</span>
+                        </div>
+                        <h4 class="relic-card-title">${vis.title}</h4>
+                        <p class="relic-card-sub">${vis.subtitle}</p>
+                        <span class="relic-type-pill">${typeHint}</span>
+                        <span class="relic-cta-text">Romper sello →</span>
+                    </button>
+                `;
+            }).join('')}
+        </div>
+    `;
+
+    stage.querySelectorAll('.chest-relic-card').forEach((cardBtn) => {
+        cardBtn.addEventListener('click', () => {
+            const idx = Number(cardBtn.dataset.relicIndex || 0);
+            const selectedItem = currentRelicsOffer[idx];
+            if (!selectedItem) return;
+
+            cardBtn.classList.add('is-breaking-seal');
+            playChimeNote(587.33, 0.45);
+            setTimeout(() => playChimeNote(880.00, 0.8), 110);
+
+            setTimeout(() => {
+                revealTreasureItem(selectedItem, true);
+            }, 260);
+        });
+    });
+}
+
+function revealTreasureItem(item, fromRelicSelection = false) {
+    const stage = document.getElementById('chest-content-stage');
+    const backBtn = document.getElementById('chest-back-relics-btn');
+    const nextBtn = document.getElementById('chest-next-btn');
+    const hintEl = document.getElementById('chest-stage-hint');
+    if (!stage || !item) return;
+
+    const isFirstTime = markChestItemUnlocked(item.id);
+    updateChestProgressUI();
+
+    if (backBtn) backBtn.hidden = false;
+    if (nextBtn) {
+        nextBtn.innerHTML = '<span>Abrir otra sorpresa al azar</span> <span>🎲</span>';
+    }
+
+    const newBadgeHtml = isFirstTime
+        ? '<div class="chest-newly-unlocked-banner">🎉 ¡Nuevo tesoro desbloqueado en tu colección!</div>'
+        : '';
 
     if (item.type === 'polaroid') {
+        if (hintEl) hintEl.textContent = 'Toca la fotografía Polaroid para voltearla en 3D y leer su nota secreta';
         stage.innerHTML = `
+            ${newBadgeHtml}
             <div class="surprise-flip-card" id="surprise-flip-target" role="button" tabindex="0" title="Haz clic para voltear la polaroid">
                 <div class="surprise-flip-inner">
                     <div class="surprise-flip-front">
@@ -159,7 +393,10 @@ function renderRandomSurprise() {
         });
 
     } else if (item.type === 'coupon') {
+        if (hintEl) hintEl.textContent = 'Canjea este cupón para guardarlo en tu billetera personal «Mis Cupones»';
+        const alreadyRedeemed = getRedeemedCoupons().some(c => c.codigo === item.codigo);
         stage.innerHTML = `
+            ${newBadgeHtml}
             <div class="surprise-coupon-card">
                 <div class="coupon-gold-ribbon">🎫 ${item.couponTitle}</div>
                 <div class="coupon-body">
@@ -167,22 +404,28 @@ function renderRandomSurprise() {
                     <p class="coupon-desc">${item.mensaje}</p>
                     <div class="coupon-code-row">
                         <span class="coupon-code">CÓDIGO: ${item.codigo}</span>
-                        <button type="button" class="coupon-redeem-btn" id="coupon-redeem-btn">Canjear Ahora ♡</button>
+                        <button type="button" class="coupon-redeem-btn${alreadyRedeemed ? ' is-redeemed' : ''}" id="coupon-redeem-btn">
+                            ${alreadyRedeemed ? '¡Guardado en Mis Cupones! ✓' : 'Canjear y Guardar ♡'}
+                        </button>
                     </div>
                 </div>
             </div>
         `;
 
         document.getElementById('coupon-redeem-btn')?.addEventListener('click', (e) => {
-            e.currentTarget.textContent = '¡Canjeado con Cariño! ✓';
-            e.currentTarget.style.background = '#4ade80';
-            e.currentTarget.style.color = '#ffffff';
+            saveRedeemedCoupon(item);
+            updateChestProgressUI();
+            const btn = e.currentTarget;
+            btn.textContent = '¡Guardado en Mis Cupones! ✓';
+            btn.classList.add('is-redeemed');
             playChimeNote(880.00, 1.2);
-            showToast('💖 ¡Cupón activado! Se ha guardado en el corazón del jardín.');
+            showToast('💖 ¡Cupón canjeado! Puedes verlo y copiarlo cuando quieras en la pestaña «Mis Cupones».');
         });
 
     } else if (item.type === 'secret') {
+        if (hintEl) hintEl.textContent = 'Una confidencia escrita especialmente para ti y guardada en tu colección';
         stage.innerHTML = `
+            ${newBadgeHtml}
             <div class="surprise-secret-card">
                 <span class="secret-eyebrow">💎 ${item.badge}</span>
                 <h3 class="secret-title">${item.title}</h3>
@@ -195,6 +438,139 @@ function renderRandomSurprise() {
             </div>
         `;
     }
+
+    if (fromRelicSelection && isFirstTime) {
+        showToast('✨ ¡Has descubierto un nuevo tesoro para tu colección!');
+    }
+}
+
+function renderChestCollectionGrid() {
+    const gridEl = document.getElementById('chest-collection-grid');
+    if (!gridEl) return;
+
+    const unlocked = getUnlockedChestIds();
+    const filtered = SURPRISE_ITEMS.filter(item => currentCollectionFilter === 'all' || item.type === currentCollectionFilter);
+
+    gridEl.innerHTML = filtered.map((item) => {
+        const isUnlocked = unlocked.includes(item.id);
+        const typeBadge = item.type === 'polaroid' ? '📷 Polaroid 3D' : (item.type === 'coupon' ? '🎫 Cupón' : '💎 Confidencia');
+        const displayTitle = item.title || item.couponTitle || 'Secreto';
+        const displayDesc = item.type === 'polaroid'
+            ? item.frontText
+            : (item.type === 'coupon' ? item.validoPor : item.content.slice(0, 75) + '…');
+
+        if (!isUnlocked) {
+            return `
+                <article class="chest-col-item is-locked" title="Abre reliquias en la primera pestaña para desbloquear este tesoro">
+                    <div class="chest-col-lock-icon">🔒</div>
+                    <span class="chest-col-type">${typeBadge}</span>
+                    <h4 class="chest-col-title">Tesoro Misterioso</h4>
+                    <p class="chest-col-desc">Rompe los sellos en «3 Reliquias» para revelar este recuerdo.</p>
+                </article>
+            `;
+        }
+
+        return `
+            <article class="chest-col-item is-unlocked" data-item-id="${item.id}" role="button" tabindex="0" title="Haz clic para inspeccionar este tesoro">
+                <div class="chest-col-top">
+                    <span class="chest-col-type">${typeBadge}</span>
+                    <span class="chest-col-check">✓ Desbloqueado</span>
+                </div>
+                <h4 class="chest-col-title">${displayTitle}</h4>
+                <p class="chest-col-desc">${displayDesc}</p>
+                <span class="chest-col-open-link">Ver tesoro completo →</span>
+            </article>
+        `;
+    }).join('');
+
+    gridEl.querySelectorAll('.chest-col-item.is-unlocked').forEach((card) => {
+        const openItem = () => {
+            const itemId = card.dataset.itemId;
+            const found = SURPRISE_ITEMS.find(i => i.id === itemId);
+            if (!found) return;
+            switchChestTab('relics');
+            revealTreasureItem(found, false);
+            playChimeNote(659.25, 0.5);
+        };
+        card.addEventListener('click', openItem);
+        card.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                openItem();
+            }
+        });
+    });
+}
+
+function renderChestCouponsWallet() {
+    const walletEl = document.getElementById('chest-coupons-wallet');
+    if (!walletEl) return;
+
+    const coupons = getRedeemedCoupons();
+    if (coupons.length === 0) {
+        walletEl.innerHTML = `
+            <div class="chest-wallet-empty">
+                <span class="wallet-empty-icon">🎟️</span>
+                <h4>Tu billetera de cupones aún está vacía</h4>
+                <p>Cuando descubras un Vale de Amor en las reliquias y pulses <strong>«Canjear y Guardar ♡»</strong>, aparecerá aquí listo para usar.</p>
+            </div>
+        `;
+        return;
+    }
+
+    walletEl.innerHTML = coupons.map((c) => `
+        <article class="chest-wallet-ticket">
+            <div class="wallet-ticket-header">
+                <span class="wallet-ticket-ribbon">🎫 ${c.couponTitle}</span>
+                <small class="wallet-ticket-date">Canjeado: ${c.redeemedAt}</small>
+            </div>
+            <p class="wallet-ticket-valido">«${c.validoPor}»</p>
+            <div class="wallet-ticket-footer">
+                <code class="wallet-ticket-code">${c.codigo}</code>
+                <button type="button" class="wallet-copy-coupon-btn" data-coupon-code="${c.codigo}" data-coupon-text="${c.validoPor}">
+                    📋 Copiar Vale para Adrián
+                </button>
+            </div>
+        </article>
+    `).join('');
+
+    walletEl.querySelectorAll('.wallet-copy-coupon-btn').forEach((btn) => {
+        btn.addEventListener('click', async () => {
+            const code = btn.dataset.couponCode || '';
+            const text = btn.dataset.couponText || '';
+            const shareText = `🎟️ ¡Hola Adrián! Quiero hacer válido mi cupón del Jardín Secreto:\n«${text}»\nCódigo: ${code} ♡`;
+            try {
+                await navigator.clipboard.writeText(shareText);
+                btn.textContent = '✓ ¡Vale Copiado!';
+                setTimeout(() => { btn.textContent = '📋 Copiar Vale para Adrián'; }, 2000);
+            } catch (_) {}
+            playChimeNote(880.00, 0.7);
+            showToast('💌 ¡Texto del cupón copiado! Ya puedes enviárselo a Adrián.');
+        });
+    });
+}
+
+function openSurpriseChest() {
+    const dialog = document.getElementById('surprise-chest-dialog');
+    if (!dialog) return;
+
+    updateChestProgressUI();
+    switchChestTab('relics');
+    renderThreeRelicsStage();
+    dialog.showModal();
+    playChimeNote(523.25, 0.6);
+    setTimeout(() => playChimeNote(659.25, 0.7), 120);
+    setTimeout(() => playChimeNote(880.00, 1.0), 240);
+}
+
+function renderRandomSurprise() {
+    let nextIdx;
+    do {
+        nextIdx = Math.floor(Math.random() * SURPRISE_ITEMS.length);
+    } while (SURPRISE_ITEMS.length > 1 && nextIdx === lastChestIndex);
+    lastChestIndex = nextIdx;
+
+    revealTreasureItem(SURPRISE_ITEMS[nextIdx], false);
 }
 
 /* ═══════════════════════════════════════════════════════════════════════════
@@ -437,14 +813,41 @@ function downloadPolaroidPNG() {
    INICIALIZACIÓN GENERAL DEL DOCK DE SORPRESAS
    ═══════════════════════════════════════════════════════════════════════════ */
 export function initFloatingSurprises() {
-    // 1. Botón Cofre de Sorpresas
+    // 1. Botón Cofre de Sorpresas (3 Reliquias + Coleccionador + Mis Cupones)
     const chestBtn = document.getElementById('btn-surprise-chest');
     chestBtn?.addEventListener('click', openSurpriseChest);
 
+    const chestBackBtn = document.getElementById('chest-back-relics-btn');
+    chestBackBtn?.addEventListener('click', () => {
+        renderThreeRelicsStage();
+        playChimeNote(587.33, 0.5);
+    });
+
     const chestNextBtn = document.getElementById('chest-next-btn');
     chestNextBtn?.addEventListener('click', () => {
-        renderRandomSurprise();
+        const backBtn = document.getElementById('chest-back-relics-btn');
+        if (backBtn && !backBtn.hidden) {
+            renderRandomSurprise();
+        } else {
+            renderThreeRelicsStage();
+        }
         playChimeNote(659.25, 0.6);
+    });
+
+    document.querySelectorAll('.chest-tab-btn').forEach((tabBtn) => {
+        tabBtn.addEventListener('click', () => {
+            switchChestTab(tabBtn.dataset.chestTab || 'relics');
+            playChimeNote(523.25, 0.45);
+        });
+    });
+
+    document.querySelectorAll('.chest-filter-chip').forEach((chip) => {
+        chip.addEventListener('click', () => {
+            currentCollectionFilter = chip.dataset.chestFilter || 'all';
+            document.querySelectorAll('.chest-filter-chip').forEach(c => c.classList.toggle('is-active', c === chip));
+            renderChestCollectionGrid();
+            playChimeNote(587.33, 0.4);
+        });
     });
 
     // 2. Botón Botella al Viento

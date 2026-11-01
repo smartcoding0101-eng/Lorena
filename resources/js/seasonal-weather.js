@@ -9,6 +9,8 @@
  * ═══════════════════════════════════════════════════════════════════════════
  */
 
+import { muteBackgroundMusic } from './garden-audio.js';
+
 // ── Claves de Almacenamiento Local ───────────────────────────────────────────
 const STORAGE_KEY_SEASON    = 'carla_garden_season';
 const STORAGE_KEY_SOUND     = 'carla_garden_season_sound';
@@ -18,6 +20,7 @@ const STORAGE_KEY_BIORHYTHM = 'carla_garden_season_biorhythm';
 const STORAGE_KEY_REAL_SYNC = 'carla_garden_season_realsync';
 const STORAGE_KEY_GRADING   = 'carla_garden_color_grading';
 const STORAGE_KEY_WISHES    = 'carla_garden_wishes';
+const STORAGE_KEY_VISUALS   = 'carla_garden_visual_effects';
 
 // ── Catálogo Maestro de Estaciones (Pilar 1) ─────────────────────────────────
 export const SEASONS_CONFIG = {
@@ -27,7 +30,7 @@ export const SEASONS_CONFIG = {
         fullName: 'Primavera Eterna',
         icon: '🌸',
         tooltip: 'Clima: Primavera (Pétalos 3D)',
-        soundDesc: 'Brisa floral y campanillas',
+        soundDesc: 'Sin audio cargado (subir desde Admin)',
         toast: '🌸 Primavera eterna: Pétalos de rosa y jazmines en vuelo'
     },
     rain: {
@@ -36,7 +39,7 @@ export const SEASONS_CONFIG = {
         fullName: 'Lluvia Romántica',
         icon: '🌧️',
         tooltip: 'Clima: Lluvia Romántica',
-        soundDesc: 'Gotas de cristal y murmullo',
+        soundDesc: 'Sin audio cargado (subir desde Admin)',
         toast: '🌧️ Lluvia romántica: Gotas de cristal acariciando la tarde'
     },
     summer: {
@@ -45,7 +48,7 @@ export const SEASONS_CONFIG = {
         fullName: 'Verano Mágico',
         icon: '☀️',
         tooltip: 'Clima: Verano (Luciérnagas)',
-        soundDesc: 'Noche cálida y grillos serenos',
+        soundDesc: 'Sin audio cargado (subir desde Admin)',
         toast: '☀️ Verano mágico: Luciérnagas doradas y calor de medianoche'
     },
     autumn: {
@@ -54,7 +57,7 @@ export const SEASONS_CONFIG = {
         fullName: 'Otoño Cálido',
         icon: '🍂',
         tooltip: 'Clima: Otoño (Hojas en remolino)',
-        soundDesc: 'Susurro de viento entre hojas',
+        soundDesc: 'Sin audio cargado (subir desde Admin)',
         toast: '🍂 Otoño cálido: Remolino de hojas doradas y recuerdos'
     },
     winter: {
@@ -63,7 +66,7 @@ export const SEASONS_CONFIG = {
         fullName: 'Invierno Encantado',
         icon: '❄️',
         tooltip: 'Clima: Invierno (Nieve de cristal)',
-        soundDesc: 'Viento sereno y campanas de hielo',
+        soundDesc: 'Sin audio cargado (subir desde Admin)',
         toast: '❄️ Invierno encantado: Copos de nieve y escarcha de ensueño'
     },
     stars: {
@@ -72,7 +75,7 @@ export const SEASONS_CONFIG = {
         fullName: 'Noche de Estrellas Fugaces',
         icon: '🌠',
         tooltip: 'Clima: Estrellas Fugaces (Haz clic para un deseo)',
-        soundDesc: 'Frecuencia de paz 432 Hz',
+        soundDesc: 'Sin audio cargado (subir desde Admin)',
         toast: '🌠 Noche estrellada: Pide un deseo cuando veas una estrella cruzar'
     },
     bubbles: {
@@ -81,7 +84,7 @@ export const SEASONS_CONFIG = {
         fullName: 'Burbujas de Ensueño',
         icon: '🫧',
         tooltip: 'Clima: Burbujas (Pasa el cursor o tócalas)',
-        soundDesc: 'Arpegios etéreos y manantial',
+        soundDesc: 'Sin audio cargado (subir desde Admin)',
         toast: '🫧 Burbujas de ensueño: Toca o roza las burbujas para hacerlas explotar'
     },
     clear: {
@@ -97,11 +100,13 @@ export const SEASONS_CONFIG = {
 
 // ── Estado Global ─────────────────────────────────────────────────────────────
 let currentSeason   = 'spring';
-let soundEnabled    = true;
+let soundEnabled    = false;      // Silencio total por defecto: solo el usuario puede activarlo
 let soundVolume     = 0.7;        // 0.0 a 1.0
 let intensityMode   = 'medium';   // 'low' | 'medium' | 'high'
 let biorhythmActive = false;
 let realSyncActive  = false;
+let visualEffectsEnabled = true;  // Efectos visuales de la sala (lluvia, hojas, pétalos, nieve...)
+let atmosphereTurnedOff  = false;
 
 let canvas = null;
 let ctx = null;
@@ -1034,6 +1039,14 @@ function drawAtmosphericSpecials() {
 
 // ── Bucle de Animación Maestro ───────────────────────────────────────────────
 function renderLoop() {
+    if (!visualEffectsEnabled) {
+        if (canvas && ctx) {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+        }
+        animFrameId = null;
+        return;
+    }
+
     switch (currentSeason) {
         case 'spring':  updateAndDrawSpring(); break;
         case 'rain':    updateAndDrawRain(); break;
@@ -1078,6 +1091,15 @@ function startSeasonAnimation(seasonId) {
 
     if (!canvas || !ctx) return;
 
+    if (!visualEffectsEnabled) {
+        particles = [];
+        splashes = [];
+        sparkles = [];
+        shootingStars = [];
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        return;
+    }
+
     switch (seasonId) {
         case 'spring':  initSpringParticles(); break;
         case 'rain':    initRainParticles(); break;
@@ -1095,28 +1117,65 @@ function startSeasonAnimation(seasonId) {
     renderLoop();
 }
 
-// ── SÍNTESIS SONORA AMBIENTAL (WEB AUDIO API) ────────────────────────────────
+// ── AUDIO AMBIENTAL EXCLUSIVO SUBIDO DESDE EL PANEL ADMIN (SIN SONIDOS PREDETERMINADOS) ──
 function getAudioContext() {
-    if (!audioCtx) {
-        const AudioClass = window.AudioContext || window.webkitAudioContext;
-        if (AudioClass) {
-            audioCtx = new AudioClass();
-            masterGainNode = audioCtx.createGain();
-            masterGainNode.gain.setValueAtTime(soundVolume, audioCtx.currentTime);
-            masterGainNode.connect(audioCtx.destination);
-        }
-    }
-    if (audioCtx && audioCtx.state === 'suspended') {
-        audioCtx.resume();
-    }
-    return audioCtx;
+    return null;
 }
 
 function setMasterSoundVolume(vol) {
     soundVolume = Math.max(0, Math.min(1, vol));
     localStorage.setItem(STORAGE_KEY_VOLUME, soundVolume.toString());
-    if (masterGainNode && audioCtx) {
-        masterGainNode.gain.setValueAtTime(soundVolume, audioCtx.currentTime);
+    if (currentUploadedAudioElement) {
+        currentUploadedAudioElement.volume = soundVolume;
+    }
+}
+
+// ── CATÁLOGO DINÁMICO DE AUDIOS CARGADOS POR EL ADMINISTRADOR ────────────────
+let seasonAudiosCatalog = {};
+let currentUploadedAudioElement = null;
+let currentTrackIndex = 0;
+
+export async function fetchGardenSeasonAudios() {
+    try {
+        const res = await fetch('/season-audios', {
+            headers: { 'Accept': 'application/json' }
+        });
+        if (res.ok) {
+            const data = await res.json();
+            seasonAudiosCatalog = data.seasons || {};
+            updateSoundDescriptionForSeason(currentSeason);
+            if (soundEnabled && !currentUploadedAudioElement) {
+                playAmbientSoundForSeason(currentSeason);
+            }
+        }
+    } catch (_) {}
+}
+
+window.reloadGardenSeasonAudios = fetchGardenSeasonAudios;
+
+function updateSoundDescriptionForSeason(seasonId) {
+    const descEl = document.getElementById('weather-sound-desc');
+    const soundIcon = document.getElementById('weather-sound-icon');
+    if (!descEl) return;
+
+    const list = seasonAudiosCatalog[seasonId] || [];
+    if (!soundEnabled) {
+        if (soundIcon) soundIcon.textContent = '🔇';
+        if (list.length > 0) {
+            descEl.textContent = `Silenciado · ${list.length} audio${list.length > 1 ? 's' : ''} disponible${list.length > 1 ? 's' : ''}`;
+        } else {
+            descEl.textContent = 'Sin audio cargado (subir desde Admin)';
+        }
+        return;
+    }
+
+    if (list.length > 0) {
+        if (soundIcon) soundIcon.textContent = '🔊';
+        const activeItem = list[currentTrackIndex % list.length];
+        descEl.textContent = `🎵 ${activeItem.title} (${list.length} sonido${list.length > 1 ? 's' : ''})`;
+    } else {
+        if (soundIcon) soundIcon.textContent = '🔇';
+        descEl.textContent = 'Sin audio cargado (subir desde Admin)';
     }
 }
 
@@ -1126,574 +1185,61 @@ function stopAmbientSound() {
     chimeTimer = null;
     raindropTimer = null;
 
-    if (activeSoundNodes) {
+    if (currentUploadedAudioElement) {
         try {
-            if (typeof activeSoundNodes.cleanup === 'function') {
-                activeSoundNodes.cleanup();
-            }
+            currentUploadedAudioElement.pause();
+            currentUploadedAudioElement.currentTime = 0;
+            currentUploadedAudioElement.src = '';
         } catch (_) {}
+        currentUploadedAudioElement = null;
     }
-
-    if (activeSoundNodes && audioCtx) {
-        try {
-            const now = audioCtx.currentTime;
-            activeSoundNodes.gainNode?.gain.exponentialRampToValueAtTime(0.0001, now + 0.5);
-            setTimeout(() => {
-                activeSoundNodes?.sources?.forEach(s => {
-                    try { s.stop(); } catch (_) {}
-                });
-                activeSoundNodes = null;
-            }, 550);
-        } catch (_) {
-            activeSoundNodes = null;
-        }
-    }
+    activeSoundNodes = null;
 }
 
-let reverbNode = null;
-function getReverbNode(actx) {
-    if (reverbNode) return reverbNode;
-    try {
-        const delay = actx.createDelay(1.0);
-        delay.delayTime.setValueAtTime(0.18, actx.currentTime);
-        const feedback = actx.createGain();
-        feedback.gain.setValueAtTime(0.24, actx.currentTime);
-        const dampFilter = actx.createBiquadFilter();
-        dampFilter.type = 'lowpass';
-        dampFilter.frequency.setValueAtTime(2200, actx.currentTime);
+// Sonidos sintetizados predeterminados eliminados por completo:
+// Solo se reproducen los archivos de audio subidos por el usuario desde el Panel de Administración.
+function playHarpChime() {}
+function playBubblePopSound() {}
+function playGlassWipeSound() {}
+function playCelestialChord() {}
+function playAuroraHarmonic() {}
 
-        delay.connect(dampFilter);
-        dampFilter.connect(feedback);
-        feedback.connect(delay);
-
-        const wetGain = actx.createGain();
-        wetGain.gain.setValueAtTime(0.22, actx.currentTime);
-        dampFilter.connect(wetGain);
-        wetGain.connect(masterGainNode || actx.destination);
-
-        reverbNode = delay;
-        return reverbNode;
-    } catch (_) {
-        return masterGainNode || actx.destination;
-    }
-}
-
-// ── Campanilla de Arpa Cristalina Multi-Armónica (Pilar 1, 2 & UI) ───────────
-function playHarpChime(freq = 659.25) {
-    if (window.GardenMasterAudio && window.GardenMasterAudio.isMuted()) return;
-    const actx = getAudioContext();
-    if (!actx || !soundEnabled) return;
-    try {
-        const t = actx.currentTime;
-        const dest = masterGainNode || actx.destination;
-        const rev = getReverbNode(actx);
-
-        // 1. Armónico Fundamental (Cálido y redondo)
-        const osc1 = actx.createOscillator();
-        const g1 = actx.createGain();
-        osc1.type = 'sine';
-        osc1.frequency.setValueAtTime(freq, t);
-        g1.gain.setValueAtTime(0.0001, t);
-        g1.gain.exponentialRampToValueAtTime(0.038 * soundVolume, t + 0.015);
-        g1.gain.exponentialRampToValueAtTime(0.0001, t + 1.6);
-        osc1.connect(g1);
-        g1.connect(dest);
-        g1.connect(rev);
-        osc1.start(t);
-        osc1.stop(t + 1.65);
-
-        // 2. Segundo Armónico (Octava brillante)
-        const osc2 = actx.createOscillator();
-        const g2 = actx.createGain();
-        osc2.type = 'sine';
-        osc2.frequency.setValueAtTime(freq * 2, t);
-        g2.gain.setValueAtTime(0.0001, t);
-        g2.gain.exponentialRampToValueAtTime(0.012 * soundVolume, t + 0.012);
-        g2.gain.exponentialRampToValueAtTime(0.0001, t + 1.1);
-        osc2.connect(g2);
-        g2.connect(dest);
-        osc2.start(t);
-        osc2.stop(t + 1.15);
-
-        // 3. Tercer Armónico (Quinta dulce)
-        const osc3 = actx.createOscillator();
-        const g3 = actx.createGain();
-        osc3.type = 'sine';
-        osc3.frequency.setValueAtTime(freq * 3, t);
-        g3.gain.setValueAtTime(0.0001, t);
-        g3.gain.exponentialRampToValueAtTime(0.004 * soundVolume, t + 0.01);
-        g3.gain.exponentialRampToValueAtTime(0.0001, t + 0.65);
-        osc3.connect(g3);
-        g3.connect(dest);
-        osc3.start(t);
-        osc3.stop(t + 0.7);
-    } catch (_) {}
-}
-
-// ── Pop Acuático Cristalino de Burbujas (Pilar 1 & 2) ─────────────────────────
-function playBubblePopSound() {
-    if (window.GardenMasterAudio && window.GardenMasterAudio.isMuted()) return;
-    const actx = getAudioContext();
-    if (!actx || !soundEnabled) return;
-    try {
-        const t = actx.currentTime;
-        const dest = masterGainNode || actx.destination;
-
-        // Tono acuático descendente suave
-        const osc = actx.createOscillator();
-        const g = actx.createGain();
-        osc.type = 'sine';
-        osc.frequency.setValueAtTime(640, t);
-        osc.frequency.exponentialRampToValueAtTime(360, t + 0.045);
-
-        g.gain.setValueAtTime(0.0001, t);
-        g.gain.exponentialRampToValueAtTime(0.024 * soundVolume, t + 0.008);
-        g.gain.exponentialRampToValueAtTime(0.0001, t + 0.05);
-
-        osc.connect(g);
-        g.connect(dest);
-        osc.start(t);
-        osc.stop(t + 0.055);
-
-        // Brillo agudo de la membrana al reventar
-        const popSpark = actx.createOscillator();
-        const popSparkGain = actx.createGain();
-        popSpark.type = 'sine';
-        popSpark.frequency.setValueAtTime(1380, t);
-        popSparkGain.gain.setValueAtTime(0.0001, t);
-        popSparkGain.gain.exponentialRampToValueAtTime(0.008 * soundVolume, t + 0.005);
-        popSparkGain.gain.exponentialRampToValueAtTime(0.0001, t + 0.03);
-        popSpark.connect(popSparkGain);
-        popSparkGain.connect(dest);
-        popSpark.start(t);
-        popSpark.stop(t + 0.035);
-    } catch (_) {}
-}
-
-// ── Fricción Suave sobre Cristal Empañado (Pilar 5) ───────────────────────────
-let lastWipeSoundTime = 0;
-function playGlassWipeSound() {
-    if (window.GardenMasterAudio && window.GardenMasterAudio.isMuted()) return;
-    const actx = getAudioContext();
-    if (!actx || !soundEnabled) return;
-    const now = performance.now();
-    if (now - lastWipeSoundTime < 110) return;
-    lastWipeSoundTime = now;
-
-    try {
-        const t = actx.currentTime;
-        const bufferSize = Math.floor(actx.sampleRate * 0.1);
-        const buffer = actx.createBuffer(1, bufferSize, actx.sampleRate);
-        const data = buffer.getChannelData(0);
-        for (let i = 0; i < bufferSize; i++) {
-            data[i] = (Math.random() * 2 - 1) * 0.2;
-        }
-
-        const noise = actx.createBufferSource();
-        noise.buffer = buffer;
-
-        const filter = actx.createBiquadFilter();
-        filter.type = 'bandpass';
-        const centerFreq = 1050 + Math.random() * 300;
-        filter.frequency.setValueAtTime(centerFreq, t);
-        filter.frequency.exponentialRampToValueAtTime(750, t + 0.09);
-        filter.Q.setValueAtTime(2.8, t);
-
-        const gainNode = actx.createGain();
-        gainNode.gain.setValueAtTime(0.0001, t);
-        gainNode.gain.exponentialRampToValueAtTime(0.016 * soundVolume, t + 0.015);
-        gainNode.gain.exponentialRampToValueAtTime(0.0001, t + 0.09);
-
-        noise.connect(filter);
-        filter.connect(gainNode);
-        gainNode.connect(masterGainNode || actx.destination);
-
-        noise.start(t);
-        noise.stop(t + 0.095);
-    } catch (_) {}
-}
-
-// ── Acorde Celestial Armónico Fmaj9 / Cmaj9 (Pilar 7 & 8) ────────────────────
-function playCelestialChord() {
-    if (window.GardenMasterAudio && window.GardenMasterAudio.isMuted()) return;
-    const actx = getAudioContext();
-    if (!actx || !soundEnabled) return;
-    try {
-        // Escala celestial afinada: C5, E5, G5, B5, C6, E6
-        const chordNotes = [523.25, 659.25, 783.99, 987.77, 1046.50, 1318.51];
-        chordNotes.forEach((freq, idx) => {
-            setTimeout(() => {
-                playHarpChime(freq);
-            }, idx * 48);
-        });
-    } catch (_) {}
-}
-
-// ── Resonancia Armónica y Frecuencia de Aurora Boreal (Pilar 8) ──────────────
-function playAuroraHarmonic() {
-    if (window.GardenMasterAudio && window.GardenMasterAudio.isMuted()) return;
-    const actx = getAudioContext();
-    if (!actx || !soundEnabled) return;
-    try {
-        const t = actx.currentTime;
-        const dest = masterGainNode || actx.destination;
-        const rev = getReverbNode(actx);
-
-        // Batido binaural curativo: 432 Hz y 435 Hz (3 Hz onda delta serena)
-        const osc1 = actx.createOscillator();
-        const osc2 = actx.createOscillator();
-        const g = actx.createGain();
-        const lp = actx.createBiquadFilter();
-
-        lp.type = 'lowpass';
-        lp.frequency.setValueAtTime(1400, t);
-
-        osc1.type = 'sine';
-        osc1.frequency.setValueAtTime(432, t);
-        osc1.frequency.exponentialRampToValueAtTime(648, t + 1.6); // Quinta armónica
-
-        osc2.type = 'sine';
-        osc2.frequency.setValueAtTime(435.5, t);
-        osc2.frequency.exponentialRampToValueAtTime(651.5, t + 1.6);
-
-        g.gain.setValueAtTime(0.0001, t);
-        g.gain.exponentialRampToValueAtTime(0.028 * soundVolume, t + 0.8);
-        g.gain.exponentialRampToValueAtTime(0.0001, t + 2.5);
-
-        osc1.connect(lp);
-        osc2.connect(lp);
-        lp.connect(g);
-        g.connect(dest);
-        g.connect(rev);
-
-        osc1.start(t);
-        osc2.start(t);
-        osc1.stop(t + 2.55);
-        osc2.stop(t + 2.55);
-    } catch (_) {}
-}
-
-// ── SÍNTESIS AMBIENTAL CONTINUA POR ESTACIÓN ─────────────────────────────────
+// ── REPRODUCCIÓN EXCLUSIVA DE AUDIOS SUBIDOS POR EL ADMINISTRADOR ──────────────
 function playAmbientSoundForSeason(seasonId) {
     stopAmbientSound();
+    updateSoundDescriptionForSeason(seasonId);
+
     if (window.GardenMasterAudio && window.GardenMasterAudio.isMuted()) return;
     if (!soundEnabled || seasonId === 'clear') return;
 
-    const ctxAudio = getAudioContext();
-    if (!ctxAudio) return;
-
-    const now = ctxAudio.currentTime;
-    const dest = masterGainNode || ctxAudio.destination;
-    const rev = getReverbNode(ctxAudio);
-
-    // 1. LLUVIA ROMÁNTICA: Lecho suave de gotas y micro-salpicaduras en pentatónica
-    if (seasonId === 'rain') {
-        const bufferSize = ctxAudio.sampleRate * 2;
-        const buffer = ctxAudio.createBuffer(1, bufferSize, ctxAudio.sampleRate);
-        const data = buffer.getChannelData(0);
-        let b0 = 0, b1 = 0, b2 = 0;
-        for (let i = 0; i < bufferSize; i++) {
-            const white = Math.random() * 2 - 1;
-            b0 = 0.99886 * b0 + white * 0.0555179;
-            b1 = 0.99332 * b1 + white * 0.0750759;
-            b2 = 0.96900 * b2 + white * 0.1538520;
-            data[i] = (b0 + b1 + b2) * 0.08;
-        }
-
-        const rainSource = ctxAudio.createBufferSource();
-        rainSource.buffer = buffer;
-        rainSource.loop = true;
-
-        const rainFilter = ctxAudio.createBiquadFilter();
-        rainFilter.type = 'lowpass';
-        rainFilter.frequency.setValueAtTime(750, now);
-
-        const gainNode = ctxAudio.createGain();
-        gainNode.gain.setValueAtTime(0.0001, now);
-        gainNode.gain.exponentialRampToValueAtTime(0.09, now + 1.2);
-
-        rainSource.connect(rainFilter);
-        rainFilter.connect(gainNode);
-        gainNode.connect(dest);
-        rainSource.start();
-
-        activeSoundNodes = { sources: [rainSource], gainNode };
-
-        // Gotas cristalinas cayendo a intervalos orgánicos con afinación de arpa
-        const raindropPentatonic = [1046.50, 1174.66, 1318.51, 1567.98, 1760.00];
-        raindropTimer = setInterval(() => {
-            if (!soundEnabled || currentSeason !== 'rain') return;
-            try {
-                const dropFreq = raindropPentatonic[Math.floor(Math.random() * raindropPentatonic.length)];
-                const dropOsc = ctxAudio.createOscillator();
-                const dropGain = ctxAudio.createGain();
-                const t = ctxAudio.currentTime;
-
-                dropOsc.type = 'sine';
-                dropOsc.frequency.setValueAtTime(dropFreq, t);
-                dropOsc.frequency.exponentialRampToValueAtTime(dropFreq * 0.7, t + 0.07);
-
-                dropGain.gain.setValueAtTime(0.0001, t);
-                dropGain.gain.exponentialRampToValueAtTime(0.015 * soundVolume, t + 0.008);
-                dropGain.gain.exponentialRampToValueAtTime(0.0001, t + 0.09);
-
-                dropOsc.connect(dropGain);
-                dropGain.connect(dest);
-                dropGain.connect(rev);
-
-                dropOsc.start(t);
-                dropOsc.stop(t + 0.1);
-            } catch (_) {}
-        }, 340);
-
-    // 2. VERANO MÁGICO: Noche tibia con grillos tenues y aire cálido F#3/C#4
-    } else if (seasonId === 'summer') {
-        // Drone cálido y sereno de atardecer
-        const oscWarm1 = ctxAudio.createOscillator();
-        const oscWarm2 = ctxAudio.createOscillator();
-        const warmGain = ctxAudio.createGain();
-        const warmFilter = ctxAudio.createBiquadFilter();
-
-        warmFilter.type = 'lowpass';
-        warmFilter.frequency.setValueAtTime(260, now);
-
-        oscWarm1.type = 'sine';
-        oscWarm1.frequency.setValueAtTime(185.00, now); // F#3
-        oscWarm2.type = 'sine';
-        oscWarm2.frequency.setValueAtTime(277.18, now); // C#4
-
-        warmGain.gain.setValueAtTime(0.0001, now);
-        warmGain.gain.exponentialRampToValueAtTime(0.02 * soundVolume, now + 1.8);
-
-        oscWarm1.connect(warmFilter);
-        oscWarm2.connect(warmFilter);
-        warmFilter.connect(warmGain);
-        warmGain.connect(dest);
-
-        oscWarm1.start(now);
-        oscWarm2.start(now);
-
-        // Grillos nocturnos sutiles y musicales
-        const cricketBuffer = ctxAudio.createBuffer(1, Math.floor(ctxAudio.sampleRate * 0.04), ctxAudio.sampleRate);
-        const cricketData = cricketBuffer.getChannelData(0);
-        for (let i = 0; i < cricketData.length; i++) {
-            cricketData[i] = (Math.random() * 2 - 1) * 0.15;
-        }
-
-        const cricketInterval = setInterval(() => {
-            if (!soundEnabled || currentSeason !== 'summer') return;
-            try {
-                const ct = ctxAudio.currentTime;
-                const crk = ctxAudio.createBufferSource();
-                crk.buffer = cricketBuffer;
-
-                const crkFilter = ctxAudio.createBiquadFilter();
-                crkFilter.type = 'bandpass';
-                crkFilter.frequency.setValueAtTime(4500 + Math.random() * 400, ct);
-                crkFilter.Q.setValueAtTime(8, ct);
-
-                const crkGain = ctxAudio.createGain();
-                crkGain.gain.setValueAtTime(0.0001, ct);
-                crkGain.gain.exponentialRampToValueAtTime(0.007 * soundVolume, ct + 0.005);
-                crkGain.gain.exponentialRampToValueAtTime(0.0001, ct + 0.038);
-
-                crk.connect(crkFilter);
-                crkFilter.connect(crkGain);
-                crkGain.connect(dest);
-
-                crk.start(ct);
-                crk.stop(ct + 0.04);
-            } catch (_) {}
-        }, 1800);
-
-        activeSoundNodes = { 
-            sources: [oscWarm1, oscWarm2], 
-            gainNode: warmGain,
-            cleanup: () => clearInterval(cricketInterval)
-        };
-
-    // 3. OTOÑO CÁLIDO: Brisa ondulante entre follaje dorado
-    } else if (seasonId === 'autumn') {
-        const bufferSize = ctxAudio.sampleRate * 2;
-        const buffer = ctxAudio.createBuffer(1, bufferSize, ctxAudio.sampleRate);
-        const data = buffer.getChannelData(0);
-        for (let i = 0; i < bufferSize; i++) {
-            data[i] = (Math.random() * 2 - 1) * 0.14;
-        }
-
-        const windSource = ctxAudio.createBufferSource();
-        windSource.buffer = buffer;
-        windSource.loop = true;
-
-        const windFilter = ctxAudio.createBiquadFilter();
-        windFilter.type = 'bandpass';
-        windFilter.frequency.setValueAtTime(280, now);
-        windFilter.Q.setValueAtTime(2.2, now);
-
-        const windLfo = ctxAudio.createOscillator();
-        const windLfoGain = ctxAudio.createGain();
-        windLfo.frequency.setValueAtTime(0.12, now); // Oscilación natural lenta
-        windLfoGain.gain.setValueAtTime(110, now);
-        windLfo.connect(windFilter.frequency);
-
-        const gainNode = ctxAudio.createGain();
-        gainNode.gain.setValueAtTime(0.0001, now);
-        gainNode.gain.exponentialRampToValueAtTime(0.07, now + 1.2);
-
-        windSource.connect(windFilter);
-        windFilter.connect(gainNode);
-        gainNode.connect(dest);
-
-        windSource.start();
-        windLfo.start();
-
-        activeSoundNodes = { sources: [windSource, windLfo], gainNode };
-
-    // 4. PRIMAVERA ETERNA: Aire floral y campanillas eólicas afinadas
-    } else if (seasonId === 'spring') {
-        const bufferSize = ctxAudio.sampleRate * 2;
-        const buffer = ctxAudio.createBuffer(1, bufferSize, ctxAudio.sampleRate);
-        const data = buffer.getChannelData(0);
-        for (let i = 0; i < bufferSize; i++) {
-            data[i] = (Math.random() * 2 - 1) * 0.08;
-        }
-
-        const breeze = ctxAudio.createBufferSource();
-        breeze.buffer = buffer;
-        breeze.loop = true;
-
-        const filter = ctxAudio.createBiquadFilter();
-        filter.type = 'lowpass';
-        filter.frequency.setValueAtTime(320, now);
-
-        const gainNode = ctxAudio.createGain();
-        gainNode.gain.setValueAtTime(0.0001, now);
-        gainNode.gain.exponentialRampToValueAtTime(0.05, now + 1.2);
-
-        breeze.connect(filter);
-        filter.connect(gainNode);
-        gainNode.connect(dest);
-        breeze.start();
-
-        activeSoundNodes = { sources: [breeze], gainNode };
-
-        // Arpegios de campanillas eólicas (Escala Pentatónica Mayor: C5, D5, E5, G5, A5)
-        const chimeNotes = [523.25, 587.33, 659.25, 783.99, 880.00];
-        chimeTimer = setInterval(() => {
-            if (!soundEnabled || currentSeason !== 'spring') return;
-            try {
-                const note = chimeNotes[Math.floor(Math.random() * chimeNotes.length)];
-                playHarpChime(note);
-            } catch (_) {}
-        }, 4600);
-
-    // 5. INVIERNO ENCANTADO: Escarcha cristalina y brisa helada serena
-    } else if (seasonId === 'winter') {
-        const bufferSize = ctxAudio.sampleRate * 2;
-        const buffer = ctxAudio.createBuffer(1, bufferSize, ctxAudio.sampleRate);
-        const data = buffer.getChannelData(0);
-        for (let i = 0; i < bufferSize; i++) {
-            data[i] = (Math.random() * 2 - 1) * 0.09;
-        }
-
-        const snowWind = ctxAudio.createBufferSource();
-        snowWind.buffer = buffer;
-        snowWind.loop = true;
-
-        const filter = ctxAudio.createBiquadFilter();
-        filter.type = 'bandpass';
-        filter.frequency.setValueAtTime(520, now);
-        filter.Q.setValueAtTime(1.8, now);
-
-        const gainNode = ctxAudio.createGain();
-        gainNode.gain.setValueAtTime(0.0001, now);
-        gainNode.gain.exponentialRampToValueAtTime(0.045, now + 1.4);
-
-        snowWind.connect(filter);
-        filter.connect(gainNode);
-        gainNode.connect(dest);
-        snowWind.start();
-
-        // Destello de escarcha cada 6 segundos
-        const winterChimes = [1567.98, 2093.00, 2349.32];
-        const winterTimer = setInterval(() => {
-            if (!soundEnabled || currentSeason !== 'winter') return;
-            try {
-                const n = winterChimes[Math.floor(Math.random() * winterChimes.length)];
-                playHarpChime(n);
-            } catch (_) {}
-        }, 6200);
-
-        activeSoundNodes = { 
-            sources: [snowWind], 
-            gainNode,
-            cleanup: () => clearInterval(winterTimer)
-        };
-
-    // 6. NOCHE DE ESTRELLAS FUGACES: Afinación 432 Hz y quinta justa de meditación
-    } else if (seasonId === 'stars') {
-        const osc1 = ctxAudio.createOscillator();
-        const osc2 = ctxAudio.createOscillator();
-        const gainNode = ctxAudio.createGain();
-        const lfo = ctxAudio.createOscillator();
-        const lfoGain = ctxAudio.createGain();
-
-        // Frecuencia sagrada 432 Hz + Quinta 648 Hz
-        osc1.type = 'sine';
-        osc1.frequency.setValueAtTime(432, now);
-
-        osc2.type = 'sine';
-        osc2.frequency.setValueAtTime(648, now); // Armónico perfecto
-
-        // Vibrato de respiración suave
-        lfo.type = 'sine';
-        lfo.frequency.setValueAtTime(0.15, now);
-        lfoGain.gain.setValueAtTime(2.5, now);
-        lfo.connect(osc1.frequency);
-
-        gainNode.gain.setValueAtTime(0.0001, now);
-        gainNode.gain.exponentialRampToValueAtTime(0.038, now + 2.0);
-
-        osc1.connect(gainNode);
-        osc2.connect(gainNode);
-        gainNode.connect(dest);
-        gainNode.connect(rev);
-
-        osc1.start(now);
-        osc2.start(now);
-        lfo.start(now);
-
-        activeSoundNodes = { sources: [osc1, osc2, lfo], gainNode };
-
-    // 7. BURBUJAS DE ENSUEÑO: Manantial cristalino y arpegios etéreos
-    } else if (seasonId === 'bubbles') {
-        const oscDrone = ctxAudio.createOscillator();
-        const droneGain = ctxAudio.createGain();
-        oscDrone.type = 'sine';
-        oscDrone.frequency.setValueAtTime(349.23, now); // F4
-        droneGain.gain.setValueAtTime(0.0001, now);
-        droneGain.gain.exponentialRampToValueAtTime(0.018 * soundVolume, now + 1.5);
-        oscDrone.connect(droneGain);
-        droneGain.connect(dest);
-        oscDrone.start();
-
-        // Arpegios de burbujas en Fa Mayor
-        const bubbleNotes = [523.25, 698.46, 880.00, 1046.50];
-        let noteIdx = 0;
-        const bubbleTimer = setInterval(() => {
-            if (!soundEnabled || currentSeason !== 'bubbles') return;
-            try {
-                playHarpChime(bubbleNotes[noteIdx % bubbleNotes.length]);
-                noteIdx++;
-            } catch (_) {}
-        }, 1600);
-
-        activeSoundNodes = { 
-            sources: [oscDrone], 
-            gainNode: droneGain,
-            cleanup: () => clearInterval(bubbleTimer)
-        };
+    const list = seasonAudiosCatalog[seasonId] || [];
+    if (!list || list.length === 0) {
+        // CERO audio predeterminado: solo suena si el administrador subió audios para esta estación
+        return;
     }
+
+    const currentTrack = list[currentTrackIndex % list.length];
+    if (!currentTrack || !currentTrack.url) return;
+
+    try {
+        const audio = new Audio(currentTrack.url);
+        audio.volume = soundVolume;
+        audio.loop = list.length === 1;
+
+        audio.onended = () => {
+            if (soundEnabled && currentSeason === seasonId && list.length > 1) {
+                currentTrackIndex = (currentTrackIndex + 1) % list.length;
+                playAmbientSoundForSeason(seasonId);
+            }
+        };
+
+        const playPromise = audio.play();
+        if (playPromise !== undefined) {
+            playPromise.catch(() => {});
+        }
+
+        currentUploadedAudioElement = audio;
+    } catch (_) {}
 }
 
 // ── PILAR 3: BIORRITMO DEL JARDÍN (SEGÚN LA HORA REAL) ────────────────────────
@@ -1786,20 +1332,184 @@ export async function syncWithRealWeather() {
 }
 
 // ── CONTROL UI Y ACTUALIZACIÓN ───────────────────────────────────────────────
+function syncAllParticleCanvasesVisibility() {
+    const isOff = !visualEffectsEnabled || currentSeason === 'clear';
+    window.__gardenVisualEffectsOff = isOff;
+
+    const canvasIds = [
+        'global-weather-canvas',
+        'global-rose-petals',
+        'garden-petals-canvas',
+        'garden-motion-canvas',
+        'romantic-magic-cursor'
+    ];
+
+    canvasIds.forEach((id) => {
+        const el = document.getElementById(id);
+        if (!el) return;
+        if (isOff) {
+            el.style.opacity = '0';
+            el.style.visibility = 'hidden';
+            try {
+                const c2d = el.getContext?.('2d');
+                if (c2d) c2d.clearRect(0, 0, el.width || 0, el.height || 0);
+            } catch (_) {}
+        } else {
+            el.style.opacity = '';
+            el.style.visibility = '';
+        }
+    });
+}
+
+function updateWeatherActionButtonsUI() {
+    const isVisualsOff = !visualEffectsEnabled || currentSeason === 'clear';
+
+    const visualsBtn = document.getElementById('btn-toggle-visual-effects');
+    if (visualsBtn) {
+        const textEl = visualsBtn.querySelector('.visuals-text');
+        const iconEl = visualsBtn.querySelector('.visuals-icon');
+        visualsBtn.classList.toggle('is-off', isVisualsOff);
+        visualsBtn.setAttribute('aria-pressed', !isVisualsOff ? 'true' : 'false');
+        if (textEl) {
+            textEl.textContent = !isVisualsOff ? 'Apagar Efectos' : 'Efectos Apagados';
+        }
+        if (iconEl) {
+            iconEl.textContent = !isVisualsOff ? '✨' : '🚫';
+        }
+    }
+
+    const seasonOffBtn = document.getElementById('btn-turn-off-season-effects');
+    if (seasonOffBtn) {
+        seasonOffBtn.classList.toggle('is-off', isVisualsOff);
+        seasonOffBtn.setAttribute('aria-pressed', isVisualsOff ? 'true' : 'false');
+        const txt = seasonOffBtn.querySelector('.season-off-text');
+        if (txt) {
+            txt.textContent = isVisualsOff ? 'Efectos de Estación Apagados' : 'Apagar Efectos de Estación';
+        }
+    }
+
+    const powerBtn = document.getElementById('btn-turn-off-atmosphere');
+    if (powerBtn) {
+        const textEl = powerBtn.querySelector('.power-text');
+        powerBtn.classList.toggle('is-off', atmosphereTurnedOff);
+        powerBtn.setAttribute('aria-pressed', atmosphereTurnedOff ? 'true' : 'false');
+        if (textEl) {
+            textEl.textContent = atmosphereTurnedOff ? 'Atmósfera Apagada' : 'Apagar Atmósfera';
+        }
+    }
+
+    syncAllParticleCanvasesVisibility();
+}
+
+export function turnOffSeasonEffects(showFeedback = true) {
+    visualEffectsEnabled = false;
+    localStorage.setItem(STORAGE_KEY_VISUALS, '0');
+
+    if (biorhythmActive) {
+        biorhythmActive = false;
+        localStorage.setItem(STORAGE_KEY_BIORHYTHM, '0');
+        const biorhythmToggle = document.getElementById('weather-biorhythm-toggle');
+        if (biorhythmToggle) biorhythmToggle.checked = false;
+    }
+
+    if (animFrameId) {
+        cancelAnimationFrame(animFrameId);
+        animFrameId = null;
+    }
+    particles = [];
+    splashes = [];
+    sparkles = [];
+    shootingStars = [];
+
+    if (rainbowState) {
+        rainbowState.active = false;
+        rainbowState.opacity = 0;
+    }
+    if (auroraState) {
+        auroraState.active = false;
+        auroraState.opacity = 0;
+        const auroraBtn = document.getElementById('btn-toggle-aurora');
+        if (auroraBtn) auroraBtn.classList.remove('is-active');
+    }
+
+    setColorGrading('none', false);
+    currentSeason = 'clear';
+    localStorage.setItem(STORAGE_KEY_SEASON, 'clear');
+
+    const cfg = SEASONS_CONFIG.clear;
+    const dockIcon = document.getElementById('dock-weather-icon');
+    const dockTooltip = document.getElementById('dock-weather-tooltip');
+    if (dockIcon) dockIcon.textContent = cfg.icon;
+    if (dockTooltip) dockTooltip.textContent = cfg.tooltip;
+
+    document.querySelectorAll('.weather-season-opt').forEach((btn) => {
+        const isSelected = btn.dataset.season === 'clear';
+        btn.classList.toggle('is-active', isSelected);
+        btn.setAttribute('aria-checked', isSelected ? 'true' : 'false');
+    });
+
+    if (canvas && ctx) {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+    }
+
+    updateWeatherActionButtonsUI();
+
+    if (showFeedback) {
+        showToast('🚫 Todos los efectos de las estaciones han sido apagados por completo.');
+    }
+}
+
+export function toggleVisualEffects(forceState = null, showFeedback = true) {
+    if (forceState !== null) {
+        visualEffectsEnabled = Boolean(forceState);
+    } else {
+        visualEffectsEnabled = !visualEffectsEnabled;
+    }
+
+    if (!visualEffectsEnabled) {
+        turnOffSeasonEffects(showFeedback);
+    } else {
+        localStorage.setItem(STORAGE_KEY_VISUALS, '1');
+        atmosphereTurnedOff = false;
+
+        if (currentSeason === 'clear') {
+            currentSeason = 'spring';
+            localStorage.setItem(STORAGE_KEY_SEASON, 'spring');
+        }
+
+        updateWeatherActionButtonsUI();
+        setGardenSeason(currentSeason, false);
+
+        if (showFeedback) {
+            showToast(`✨ Efectos de estación restaurados (${SEASONS_CONFIG[currentSeason]?.name || 'Primavera'}).`);
+        }
+    }
+}
+
 export function setGardenSeason(seasonId, triggerToast = true) {
     if (!SEASONS_CONFIG[seasonId]) seasonId = 'spring';
     currentSeason = seasonId;
 
+    if (seasonId !== 'clear') {
+        atmosphereTurnedOff = false;
+        if (!visualEffectsEnabled && triggerToast) {
+            visualEffectsEnabled = true;
+            localStorage.setItem(STORAGE_KEY_VISUALS, '1');
+            const magicCursor = document.getElementById('romantic-magic-cursor');
+            if (magicCursor) magicCursor.style.opacity = '';
+        }
+    }
+
     localStorage.setItem(STORAGE_KEY_SEASON, seasonId);
+    updateWeatherActionButtonsUI();
 
     const cfg = SEASONS_CONFIG[seasonId];
     const dockIcon = document.getElementById('dock-weather-icon');
     const dockTooltip = document.getElementById('dock-weather-tooltip');
-    const soundDesc = document.getElementById('weather-sound-desc');
 
     if (dockIcon) dockIcon.textContent = cfg.icon;
     if (dockTooltip) dockTooltip.textContent = cfg.tooltip;
-    if (soundDesc) soundDesc.textContent = soundEnabled ? cfg.soundDesc : 'Sonido en silencio';
+    updateSoundDescriptionForSeason(seasonId);
 
     const seasonBtns = document.querySelectorAll('.weather-season-opt');
     seasonBtns.forEach((btn) => {
@@ -1845,26 +1555,24 @@ export function toggleSeasonSound(forceState = null) {
     localStorage.setItem(STORAGE_KEY_SOUND, soundEnabled ? '1' : '0');
 
     const soundToggle = document.getElementById('weather-sound-toggle');
-    const soundIcon = document.getElementById('weather-sound-icon');
-    const soundDesc = document.getElementById('weather-sound-desc');
-
     if (soundToggle) soundToggle.checked = soundEnabled;
-    if (soundIcon) soundIcon.textContent = soundEnabled ? '🔊' : '🔇';
-    if (soundDesc) {
-        soundDesc.textContent = soundEnabled 
-            ? SEASONS_CONFIG[currentSeason].soundDesc 
-            : 'Sonido en silencio';
-    }
 
     if (soundEnabled) {
+        atmosphereTurnedOff = false;
+        updateWeatherActionButtonsUI();
         if (window.GardenMasterAudio && window.GardenMasterAudio.isMuted()) {
             window.GardenMasterAudio.unmuteAll(false);
         }
-        getAudioContext();
         playAmbientSoundForSeason(currentSeason);
-        showToast(`🔊 Sonido ambiental activado (${SEASONS_CONFIG[currentSeason].name})`);
+        const list = seasonAudiosCatalog[currentSeason] || [];
+        if (list.length > 0) {
+            showToast(`🔊 Sonido ambiental activado (${SEASONS_CONFIG[currentSeason].name})`);
+        } else {
+            showToast(`🔇 Esta estación no tiene audios cargados aún (puedes subirlos desde el panel Admin).`);
+        }
     } else {
         stopAmbientSound();
+        updateSoundDescriptionForSeason(currentSeason);
         showToast('🔇 Sonido ambiental silenciado');
     }
 }
@@ -1891,8 +1599,12 @@ export function stopAllWeatherSound(silent = true) {
     if (soundDesc) soundDesc.textContent = 'Sonido en silencio';
 }
 
-// ── APAGAR TODA LA ATMÓSFERA COMPLETA ────────────────────────────────────────
+// ── APAGAR TODA LA ATMÓSFERA COMPLETA (EXCEPTO REPRODUCTORES DE MÚSICA) ───────
 export function turnOffAtmosphere() {
+    atmosphereTurnedOff = true;
+    visualEffectsEnabled = false;
+    localStorage.setItem(STORAGE_KEY_VISUALS, '0');
+
     // 1. Desactivar biorritmo automático si estuviera activo
     if (biorhythmActive) {
         biorhythmActive = false;
@@ -1901,15 +1613,42 @@ export function turnOffAtmosphere() {
         if (biorhythmToggle) biorhythmToggle.checked = false;
     }
 
-    // 2. Silenciar sonido ambiental
-    soundEnabled = false;
-    localStorage.setItem(STORAGE_KEY_SOUND, '0');
-    stopAmbientSound();
-    const soundToggle = document.getElementById('weather-sound-toggle');
-    const soundIcon = document.getElementById('weather-sound-icon');
+    // 2. Silenciar todo sonido de la sala EXCEPTO los reproductores de música (FloatingMediaPlayer y Entretenimiento)
+    stopAllWeatherSound(true);
+    try { muteBackgroundMusic(); } catch (_) {}
+    try { if (typeof window._stopAppRelaxMelody === 'function') window._stopAppRelaxMelody(); } catch (_) {}
+    try { if (typeof window._stopAppAmbientSounds === 'function') window._stopAppAmbientSounds(); } catch (_) {}
+
+    // Suspender todos los contextos Web Audio (sintetizadores, arpas, ambientes)
+    if (Array.isArray(window._globalAudioContexts)) {
+        window._globalAudioContexts.forEach((ctxItem) => {
+            try {
+                if (ctxItem && ctxItem.state === 'running') {
+                    ctxItem.suspend();
+                }
+            } catch (_) {}
+        });
+    }
+
+    // Pausar cualquier elemento <audio> suelto que NO pertenezca al reproductor flotante ni al de entretenimiento
+    const protectedAudioEls = new Set();
+    if (window.FloatingMediaPlayer?.audioEl) {
+        protectedAudioEls.add(window.FloatingMediaPlayer.audioEl);
+    }
+    const entSection = document.getElementById('entretenimiento');
+    if (entSection) {
+        entSection.querySelectorAll('audio, video').forEach(el => protectedAudioEls.add(el));
+    }
+    document.querySelectorAll('audio').forEach((aEl) => {
+        if (!protectedAudioEls.has(aEl)) {
+            try {
+                aEl.pause();
+                aEl.currentTime = 0;
+            } catch (_) {}
+        }
+    });
+
     const soundDesc = document.getElementById('weather-sound-desc');
-    if (soundToggle) soundToggle.checked = false;
-    if (soundIcon) soundIcon.textContent = '🔇';
     if (soundDesc) soundDesc.textContent = 'Atmósfera apagada';
 
     // 3. Desactivar micro-eventos especiales (Arcoíris y Aurora)
@@ -1936,12 +1675,22 @@ export function turnOffAtmosphere() {
         animFrameId = null;
     }
     particles = [];
+    splashes = [];
+    sparkles = [];
+    shootingStars = [];
     if (canvas && ctx) {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
     }
 
-    // 7. Notificación visual silenciosa (CERO emisión de sonido)
-    showToast('💤 Toda la atmósfera ha sido apagada. El jardín descansa en serenidad.');
+    const magicCursor = document.getElementById('romantic-magic-cursor');
+    if (magicCursor) {
+        magicCursor.style.opacity = '0';
+    }
+
+    updateWeatherActionButtonsUI();
+
+    // 7. Notificación visual silenciosa (CERO emisión de sonido, respetando reproductor de música)
+    showToast('💤 Toda la sala y sus sonidos ambientales se han apagado (tu reproductor de música sigue intacto).');
 }
 
 // ═══════════════════════════════════════════════════════════════════════════
@@ -2204,7 +1953,7 @@ function initColorGrading() {
 }
 
 // ═══════════════════════════════════════════════════════════════════════════
-// PILAR 7: BÓVEDA CELESTIAL DE DESEOS AL COSMOS (WISH VAULT)
+// PILAR 7: BÓVEDA CELESTIAL DE DESEOS AL COSMOS (WISH VAULT INTERACTIVO)
 // ═══════════════════════════════════════════════════════════════════════════
 const DEFAULT_WISHES = [
     {
@@ -2218,8 +1967,31 @@ const DEFAULT_WISHES = [
         text: "Que la serenidad de este jardín secreto sea tu refugio de paz en cada instante.",
         type: "rose",
         date: "19 Oct 2026"
+    },
+    {
+        id: 1729000000003,
+        text: "Que cada meta que imagines florezca con luz propia y siempre te sientas acompañada y amada.",
+        type: "purple",
+        date: "24 Oct 2026"
     }
 ];
+
+const WISH_INSPIRATIONS = [
+    "Que cada mañana despierte con paz en el corazón y motivos nuevos para sonreír sin prisa.",
+    "Que todos los proyectos que hoy nacen en mi mente florezcan con sabiduría, amor y abundancia.",
+    "Que este jardín secreto guarde siempre nuestra complicidad, ternura y los recuerdos más bonitos.",
+    "Que nunca me falte la serenidad para disfrutar el presente ni la ilusión para abrazar el mañana.",
+    "Que la salud, la alegría y las buenas noticias rodeen siempre a quienes más amo."
+];
+
+let currentWishFilter = 'all';
+let currentWishSearch = '';
+let wishConstellationAnimId = null;
+let constellationStars = [];
+let constellationMeteors = [];
+let constellationSparkles = [];
+let hoveredConstellationStar = null;
+let selectedConstellationWishId = null;
 
 function getSavedWishes() {
     try {
@@ -2236,43 +2008,316 @@ function saveWishesToStorage(wishes) {
     localStorage.setItem(STORAGE_KEY_WISHES, JSON.stringify(wishes));
 }
 
+function getStarColorPalette(type) {
+    switch (type) {
+        case 'rose':
+            return { core: '#d4607a', glow: 'rgba(212, 96, 122, 0.45)', ring: '#f4b6c2', label: 'Rosa' };
+        case 'purple':
+            return { core: '#8b5cf6', glow: 'rgba(139, 92, 246, 0.42)', ring: '#d8b4fe', label: 'Amatista' };
+        case 'azure':
+            return { core: '#0284c7', glow: 'rgba(2, 132, 199, 0.42)', ring: '#bae6fd', label: 'Zafiro' };
+        case 'golden':
+        default:
+            return { core: '#d97706', glow: 'rgba(217, 119, 6, 0.45)', ring: '#fde68a', label: 'Dorada' };
+    }
+}
+
+function rebuildConstellationNodes() {
+    const cCanvas = document.getElementById('wish-constellation-canvas');
+    if (!cCanvas) return;
+    const wishes = getSavedWishes();
+    const w = cCanvas.width || 760;
+    const h = cCanvas.height || 200;
+
+    constellationStars = wishes.map((wish, idx) => {
+        // Distribución armónica determinista basada en el ID e índice del deseo
+        const seed = (Number(wish.id) || (idx + 1) * 9973) % 1000;
+        const count = Math.max(1, wishes.length);
+        const colSpan = (w - 120) / count;
+        const baseX = 60 + colSpan * idx + colSpan * 0.5;
+        const jitterX = ((seed % 41) - 20) * 0.9;
+        const x = Math.max(44, Math.min(w - 44, baseX + jitterX));
+        const waveY = Math.sin(idx * 1.35 + (seed % 7)) * (h * 0.25);
+        const y = Math.max(36, Math.min(h - 36, (h * 0.5) + waveY));
+
+        return {
+            wish,
+            x,
+            y,
+            baseRadius: 5.5 + (idx === 0 ? 1.5 : 0),
+            phase: (seed % 100) * 0.06,
+            pulseBoost: 0
+        };
+    });
+}
+
+function spawnConstellationMeteor() {
+    const cCanvas = document.getElementById('wish-constellation-canvas');
+    if (!cCanvas) return;
+    const w = cCanvas.width || 760;
+    const h = cCanvas.height || 200;
+    constellationMeteors.push({
+        x: Math.random() * (w * 0.55) + 40,
+        y: 18 + Math.random() * 35,
+        vx: 6.5 + Math.random() * 2.5,
+        vy: 1.8 + Math.random() * 1.2,
+        len: 65 + Math.random() * 35,
+        alpha: 1
+    });
+}
+
+function triggerConstellationStarBurst(star) {
+    if (!star) return;
+    star.pulseBoost = 1.4;
+    const palette = getStarColorPalette(star.wish.type);
+    for (let i = 0; i < 16; i++) {
+        const angle = (Math.PI * 2 * i) / 16;
+        const speed = 1.1 + Math.random() * 2.2;
+        constellationSparkles.push({
+            x: star.x,
+            y: star.y,
+            vx: Math.cos(angle) * speed,
+            vy: Math.sin(angle) * speed,
+            r: 1.8 + Math.random() * 2,
+            color: i % 2 === 0 ? palette.core : palette.ring,
+            alpha: 1
+        });
+    }
+}
+
+function startWishConstellationLoop() {
+    const cCanvas = document.getElementById('wish-constellation-canvas');
+    const dialog = document.getElementById('wish-star-dialog');
+    if (!cCanvas || !dialog) return;
+    const cCtx = cCanvas.getContext('2d');
+    if (!cCtx) return;
+
+    if (wishConstellationAnimId) {
+        cancelAnimationFrame(wishConstellationAnimId);
+        wishConstellationAnimId = null;
+    }
+
+    function drawFrame(now) {
+        if (!dialog.open) {
+            wishConstellationAnimId = null;
+            return;
+        }
+
+        const w = cCanvas.width;
+        const h = cCanvas.height;
+        cCtx.clearRect(0, 0, w, h);
+
+        // Fondo editorial cálido perlado con sutil halo rosado/dorado del sitio
+        const bgGrad = cCtx.createLinearGradient(0, 0, w, h);
+        bgGrad.addColorStop(0, '#fdf6f0');
+        bgGrad.addColorStop(0.5, '#f9ebe4');
+        bgGrad.addColorStop(1, '#f5e1da');
+        cCtx.fillStyle = bgGrad;
+        cCtx.fillRect(0, 0, w, h);
+
+        // Polvo estelar sutil de fondo
+        cCtx.save();
+        for (let i = 0; i < 36; i++) {
+            const bx = ((i * 193) % (w - 20)) + 10;
+            const by = ((i * 109) % (h - 20)) + 10;
+            const tw = 0.25 + 0.35 * Math.sin(now * 0.002 + i);
+            cCtx.fillStyle = i % 2 === 0 ? `rgba(212, 96, 122, ${tw})` : `rgba(212, 175, 55, ${tw})`;
+            cCtx.beginPath();
+            cCtx.arc(bx, by, (i % 3 === 0) ? 1.8 : 1.1, 0, Math.PI * 2);
+            cCtx.fill();
+        }
+        cCtx.restore();
+
+        // Líneas de constelación doradas/rosadas entre las estrellas de deseos
+        if (constellationStars.length > 1) {
+            cCtx.save();
+            cCtx.beginPath();
+            for (let i = 0; i < constellationStars.length - 1; i++) {
+                const a = constellationStars[i];
+                const b = constellationStars[i + 1];
+                cCtx.moveTo(a.x, a.y);
+                cCtx.lineTo(b.x, b.y);
+            }
+            const lineGrad = cCtx.createLinearGradient(0, 0, w, 0);
+            lineGrad.addColorStop(0, 'rgba(212, 175, 55, 0.38)');
+            lineGrad.addColorStop(0.5, 'rgba(212, 96, 122, 0.45)');
+            lineGrad.addColorStop(1, 'rgba(139, 92, 246, 0.38)');
+            cCtx.strokeStyle = lineGrad;
+            cCtx.lineWidth = 1.6;
+            cCtx.setLineDash([5, 5]);
+            cCtx.stroke();
+            cCtx.restore();
+        }
+
+        // Estrellas fugaces dentro del mapa
+        for (let i = constellationMeteors.length - 1; i >= 0; i--) {
+            const m = constellationMeteors[i];
+            m.x += m.vx;
+            m.y += m.vy;
+            m.alpha -= 0.018;
+            if (m.alpha <= 0 || m.x > w + 80 || m.y > h + 50) {
+                constellationMeteors.splice(i, 1);
+                continue;
+            }
+            cCtx.save();
+            const tailX = m.x - m.vx * (m.len / 7);
+            const tailY = m.y - m.vy * (m.len / 7);
+            const mGrad = cCtx.createLinearGradient(m.x, m.y, tailX, tailY);
+            mGrad.addColorStop(0, `rgba(212, 96, 122, ${m.alpha})`);
+            mGrad.addColorStop(0.4, `rgba(217, 119, 6, ${m.alpha * 0.7})`);
+            mGrad.addColorStop(1, 'rgba(217, 119, 6, 0)');
+            cCtx.strokeStyle = mGrad;
+            cCtx.lineWidth = 2.4;
+            cCtx.beginPath();
+            cCtx.moveTo(m.x, m.y);
+            cCtx.lineTo(tailX, tailY);
+            cCtx.stroke();
+
+            cCtx.fillStyle = `rgba(217, 119, 6, ${m.alpha})`;
+            cCtx.beginPath();
+            cCtx.arc(m.x, m.y, 2.8, 0, Math.PI * 2);
+            cCtx.fill();
+            cCtx.restore();
+        }
+
+        // Partículas de destello al tocar una estrella
+        for (let i = constellationSparkles.length - 1; i >= 0; i--) {
+            const sp = constellationSparkles[i];
+            sp.x += sp.vx;
+            sp.y += sp.vy;
+            sp.alpha -= 0.028;
+            if (sp.alpha <= 0) {
+                constellationSparkles.splice(i, 1);
+                continue;
+            }
+            cCtx.save();
+            cCtx.globalAlpha = sp.alpha;
+            cCtx.fillStyle = sp.color;
+            cCtx.beginPath();
+            cCtx.arc(sp.x, sp.y, sp.r, 0, Math.PI * 2);
+            cCtx.fill();
+            cCtx.restore();
+        }
+
+        // Dibujar cada estrella de deseo
+        constellationStars.forEach((star, idx) => {
+            const palette = getStarColorPalette(star.wish.type);
+            const isHovered = hoveredConstellationStar && hoveredConstellationStar.wish.id === star.wish.id;
+            const isSelected = selectedConstellationWishId === star.wish.id;
+            if (star.pulseBoost > 0) {
+                star.pulseBoost = Math.max(0, star.pulseBoost - 0.03);
+            }
+
+            const pulse = 1 + 0.18 * Math.sin(now * 0.004 + star.phase) + star.pulseBoost * 0.45 + (isHovered ? 0.35 : 0);
+            const r = star.baseRadius * pulse;
+
+            // Halo exterior
+            cCtx.save();
+            const haloGrad = cCtx.createRadialGradient(star.x, star.y, 1, star.x, star.y, r * 3.4);
+            haloGrad.addColorStop(0, palette.glow);
+            haloGrad.addColorStop(1, 'rgba(255, 255, 255, 0)');
+            cCtx.fillStyle = haloGrad;
+            cCtx.beginPath();
+            cCtx.arc(star.x, star.y, r * 3.4, 0, Math.PI * 2);
+            cCtx.fill();
+
+            // Anillo de selección/hover
+            if (isHovered || isSelected || star.pulseBoost > 0.1) {
+                cCtx.strokeStyle = palette.core;
+                cCtx.lineWidth = 1.5;
+                cCtx.beginPath();
+                cCtx.arc(star.x, star.y, r * 2.1, 0, Math.PI * 2);
+                cCtx.stroke();
+            }
+
+            // Estrella de 4 puntas editorial
+            cCtx.fillStyle = palette.core;
+            cCtx.beginPath();
+            const spikes = 4;
+            const outerR = r * 1.45;
+            const innerR = r * 0.52;
+            for (let s = 0; s < spikes * 2; s++) {
+                const rad = s % 2 === 0 ? outerR : innerR;
+                const ang = (s * Math.PI) / spikes - Math.PI / 2;
+                const sx = star.x + Math.cos(ang) * rad;
+                const sy = star.y + Math.sin(ang) * rad;
+                if (s === 0) cCtx.moveTo(sx, sy);
+                else cCtx.lineTo(sx, sy);
+            }
+            cCtx.closePath();
+            cCtx.fill();
+
+            // Centro brillante
+            cCtx.fillStyle = '#fffcf9';
+            cCtx.beginPath();
+            cCtx.arc(star.x, star.y, r * 0.38, 0, Math.PI * 2);
+            cCtx.fill();
+
+            // Etiqueta numérica o fecha sutil
+            cCtx.font = '600 10px "Plus Jakarta Sans", sans-serif';
+            cCtx.fillStyle = 'rgba(74, 48, 53, 0.72)';
+            cCtx.textAlign = 'center';
+            cCtx.fillText(`✦ ${idx + 1}`, star.x, star.y + r * 2.4 + 8);
+            cCtx.restore();
+        });
+
+        wishConstellationAnimId = requestAnimationFrame(drawFrame);
+    }
+
+    wishConstellationAnimId = requestAnimationFrame(drawFrame);
+}
+
 function renderWishCards() {
     const listEl = document.getElementById('wishes-list');
     const badgeEl = document.getElementById('wish-count-badge');
     if (!listEl) return;
 
-    const wishes = getSavedWishes();
-    if (badgeEl) badgeEl.textContent = `${wishes.length} ${wishes.length === 1 ? 'estrella' : 'estrellas'}`;
+    const allWishes = getSavedWishes();
+    if (badgeEl) badgeEl.textContent = `${allWishes.length} ${allWishes.length === 1 ? 'estrella' : 'estrellas'}`;
 
-    if (wishes.length === 0) {
+    rebuildConstellationNodes();
+
+    const filteredWishes = allWishes.filter((w) => {
+        const matchesType = currentWishFilter === 'all' || (w.type || 'golden') === currentWishFilter;
+        const matchesSearch = !currentWishSearch || (w.text || '').toLowerCase().includes(currentWishSearch);
+        return matchesType && matchesSearch;
+    });
+
+    if (filteredWishes.length === 0) {
         listEl.innerHTML = `
             <div class="wish-empty-state">
-                <span style="font-size: 2rem;">✨</span>
-                <p>Aún no has lanzado deseos. ¡Pide el primero y enciende una estrella en tu cielo!</p>
+                <span class="wish-empty-icon">✨</span>
+                <p>${allWishes.length === 0
+                    ? 'Aún no has lanzado deseos. ¡Pide el primero y enciende una estrella en tu cielo!'
+                    : 'No se encontraron deseos con ese filtro o búsqueda en tu constelación.'}</p>
             </div>
         `;
         return;
     }
 
     const typeIcons = {
-        golden: { icon: '🌟', label: 'Dorada', class: 'tag-golden' },
-        rose:   { icon: '💖', label: 'Rosa', class: 'tag-rose' },
-        purple: { icon: '🔮', label: 'Amatista', class: 'tag-purple' },
-        azure:  { icon: '💎', label: 'Zafiro', class: 'tag-azure' }
+        golden: { icon: '🌟', label: 'Luz Dorada', class: 'tag-golden' },
+        rose:   { icon: '💖', label: 'Luz Rosa', class: 'tag-rose' },
+        purple: { icon: '🔮', label: 'Luz Amatista', class: 'tag-purple' },
+        azure:  { icon: '💎', label: 'Luz Zafiro', class: 'tag-azure' }
     };
 
-    listEl.innerHTML = wishes.map((w) => {
+    listEl.innerHTML = filteredWishes.map((w) => {
         const tInfo = typeIcons[w.type] || typeIcons.golden;
+        const isSelected = selectedConstellationWishId === w.id;
         return `
-            <article class="wish-card wish-card-${w.type || 'golden'}" data-wish-id="${w.id}">
+            <article class="wish-card wish-card-${w.type || 'golden'}${isSelected ? ' is-resonating' : ''}" data-wish-id="${w.id}">
                 <div class="wish-card-header">
-                    <span class="wish-card-type ${tInfo.class}">${tInfo.icon} Luz ${tInfo.label}</span>
+                    <span class="wish-card-type ${tInfo.class}">${tInfo.icon} ${tInfo.label}</span>
                     <time class="wish-card-date">${w.date}</time>
                 </div>
                 <p class="wish-card-text">«${escapeWishHtml(w.text)}»</p>
                 <div class="wish-card-actions">
-                    <button type="button" class="btn-resonate-wish" data-wish-id="${w.id}" title="Hacer brillar este deseo">
+                    <button type="button" class="btn-resonate-wish" data-wish-id="${w.id}" title="Hacer brillar este deseo en la constelación">
                         ✨ Iluminar
+                    </button>
+                    <button type="button" class="btn-copy-wish" data-wish-id="${w.id}" title="Copiar deseo como postal poética">
+                        📋 Copiar Postal
                     </button>
                     <button type="button" class="btn-delete-wish" data-wish-id="${w.id}" title="Liberar deseo al infinito">
                         × Soltar
@@ -2282,25 +2327,50 @@ function renderWishCards() {
         `;
     }).join('');
 
-    // Eventos para iluminar y eliminar
+    // Eventos para iluminar en tarjeta + mapa de constelación
     listEl.querySelectorAll('.btn-resonate-wish').forEach((btn) => {
         btn.addEventListener('click', (e) => {
+            const wId = Number(btn.dataset.wishId);
             const card = e.target.closest('.wish-card');
+            selectedConstellationWishId = wId;
             if (card) {
                 card.classList.add('is-resonating');
-                playHarpChime(784);
-                setTimeout(() => card.classList.remove('is-resonating'), 800);
+                setTimeout(() => card.classList.remove('is-resonating'), 1100);
             }
+            const starNode = constellationStars.find(s => s.wish.id === wId);
+            if (starNode) {
+                triggerConstellationStarBurst(starNode);
+            }
+            spawnConstellationMeteor();
+            playHarpChime(783.99);
+            setTimeout(() => playHarpChime(1046.50), 110);
+        });
+    });
+
+    // Evento para copiar como postal poética
+    listEl.querySelectorAll('.btn-copy-wish').forEach((btn) => {
+        btn.addEventListener('click', async () => {
+            const wId = Number(btn.dataset.wishId);
+            const wishObj = getSavedWishes().find(w => w.id === wId);
+            if (!wishObj) return;
+            const postcard = `✦ Noche de Constelaciones · El Jardín de Carla Lorena ✦\n«${wishObj.text}»\n— Grabado bajo una estrella (${wishObj.date}) ♡`;
+            try {
+                await navigator.clipboard.writeText(postcard);
+                btn.textContent = '✓ ¡Copiado!';
+                setTimeout(() => { btn.textContent = '📋 Copiar Postal'; }, 1800);
+            } catch (_) {}
+            playHarpChime(659.25);
+            showToast('💌 Deseo copiado como postal poética al portapapeles');
         });
     });
 
     listEl.querySelectorAll('.btn-delete-wish').forEach((btn) => {
-        btn.addEventListener('click', (e) => {
+        btn.addEventListener('click', () => {
             const wId = Number(btn.dataset.wishId);
             const updated = getSavedWishes().filter(w => w.id !== wId);
             saveWishesToStorage(updated);
             renderWishCards();
-            showToast('Estrella liberada hacia el infinito del cosmos');
+            showToast('✨ Estrella liberada hacia el infinito del jardín');
         });
     });
 }
@@ -2320,18 +2390,152 @@ function initWishVault() {
     const closeBtn = document.getElementById('btn-close-wish-dialog');
     const form = document.getElementById('wish-star-form');
     const textarea = document.getElementById('wish-star-text');
+    const charCounter = document.getElementById('wish-char-counter');
+    const inspireBtn = document.getElementById('btn-inspire-wish');
+    const meteorBtn = document.getElementById('btn-trigger-wish-meteor');
+    const filterPills = document.querySelectorAll('.wish-filter-pill');
+    const searchInput = document.getElementById('wish-search-input');
+    const cCanvas = document.getElementById('wish-constellation-canvas');
+    const tooltipEl = document.getElementById('wish-constellation-tooltip');
 
     if (!dialog) return;
+
+    const updateCounter = () => {
+        if (charCounter && textarea) {
+            charCounter.textContent = `${textarea.value.length} / 300`;
+        }
+    };
+
+    textarea?.addEventListener('input', updateCounter);
+
+    // Botón de inspiración poética
+    let inspireIdx = 0;
+    inspireBtn?.addEventListener('click', () => {
+        if (!textarea) return;
+        textarea.value = WISH_INSPIRATIONS[inspireIdx % WISH_INSPIRATIONS.length];
+        inspireIdx++;
+        updateCounter();
+        textarea.focus();
+        playHarpChime(659.25);
+    });
+
+    // Botón de lanzar estrella fugaz en el mapa
+    meteorBtn?.addEventListener('click', () => {
+        spawnConstellationMeteor();
+        spawnShootingStar();
+        ensureRenderLoopRunning();
+        playCelestialChord();
+        showToast('🌠 ¡Una estrella fugaz cruza tu constelación de deseos!');
+    });
+
+    // Filtros por tipo de luz
+    filterPills.forEach((pill) => {
+        pill.addEventListener('click', () => {
+            currentWishFilter = pill.dataset.wishFilter || 'all';
+            filterPills.forEach(p => p.classList.toggle('is-active', p === pill));
+            renderWishCards();
+            playHarpChime(587.33);
+        });
+    });
+
+    // Buscador de deseos
+    searchInput?.addEventListener('input', (e) => {
+        currentWishSearch = (e.target.value || '').toLowerCase().trim();
+        renderWishCards();
+    });
+
+    // Interacción con las estrellas del canvas de constelación
+    if (cCanvas) {
+        const getCanvasMousePos = (evt) => {
+            const rect = cCanvas.getBoundingClientRect();
+            const scaleX = cCanvas.width / (rect.width || 1);
+            const scaleY = cCanvas.height / (rect.height || 1);
+            return {
+                x: (evt.clientX - rect.left) * scaleX,
+                y: (evt.clientY - rect.top) * scaleY,
+                rawX: evt.clientX - rect.left,
+                rawY: evt.clientY - rect.top
+            };
+        };
+
+        cCanvas.addEventListener('mousemove', (evt) => {
+            const pos = getCanvasMousePos(evt);
+            let found = null;
+            for (const star of constellationStars) {
+                const dx = pos.x - star.x;
+                const dy = pos.y - star.y;
+                if (Math.sqrt(dx * dx + dy * dy) <= 18) {
+                    found = star;
+                    break;
+                }
+            }
+            hoveredConstellationStar = found;
+            cCanvas.style.cursor = found ? 'pointer' : 'default';
+
+            if (tooltipEl) {
+                if (found) {
+                    const snippet = found.wish.text.length > 75
+                        ? found.wish.text.slice(0, 75) + '…'
+                        : found.wish.text;
+                    tooltipEl.textContent = `«${snippet}» (${found.wish.date})`;
+                    tooltipEl.hidden = false;
+                    tooltipEl.style.left = `${Math.min(Math.max(20, pos.rawX), cCanvas.clientWidth - 180)}px`;
+                    tooltipEl.style.top = `${Math.max(8, pos.rawY - 38)}px`;
+                } else {
+                    tooltipEl.hidden = true;
+                }
+            }
+        });
+
+        cCanvas.addEventListener('mouseleave', () => {
+            hoveredConstellationStar = null;
+            if (tooltipEl) tooltipEl.hidden = true;
+        });
+
+        cCanvas.addEventListener('click', (evt) => {
+            const pos = getCanvasMousePos(evt);
+            let clicked = null;
+            for (const star of constellationStars) {
+                const dx = pos.x - star.x;
+                const dy = pos.y - star.y;
+                if (Math.sqrt(dx * dx + dy * dy) <= 20) {
+                    clicked = star;
+                    break;
+                }
+            }
+            if (clicked) {
+                selectedConstellationWishId = clicked.wish.id;
+                triggerConstellationStarBurst(clicked);
+                playHarpChime(659.25);
+                setTimeout(() => playHarpChime(880.00), 90);
+                renderWishCards();
+                const targetCard = document.querySelector(`.wish-card[data-wish-id="${clicked.wish.id}"]`);
+                targetCard?.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            } else {
+                spawnConstellationMeteor();
+                playHarpChime(523.25);
+            }
+        });
+    }
 
     openBtn?.addEventListener('click', () => {
         const popover = document.getElementById('weather-season-popover');
         if (popover) popover.hidden = true;
         renderWishCards();
+        updateCounter();
         dialog.showModal();
+        startWishConstellationLoop();
+        setTimeout(() => spawnConstellationMeteor(), 280);
     });
 
     closeBtn?.addEventListener('click', () => {
         dialog.close();
+    });
+
+    dialog.addEventListener('click', (e) => {
+        if (e.target === dialog) {
+            dialog.close();
+        }
     });
 
     form?.addEventListener('submit', (e) => {
@@ -2357,15 +2561,24 @@ function initWishVault() {
         currentWishes.unshift(newWish);
         saveWishesToStorage(currentWishes);
 
+        selectedConstellationWishId = newWish.id;
+        currentWishFilter = 'all';
+        filterPills.forEach(p => p.classList.toggle('is-active', p.dataset.wishFilter === 'all'));
+
         renderWishCards();
         if (textarea) textarea.value = '';
+        updateCounter();
 
         // Efectos celestiales de gratificación UX
         playCelestialChord();
+        spawnConstellationMeteor();
+        if (constellationStars[0]) {
+            triggerConstellationStarBurst(constellationStars[0]);
+        }
         spawnShootingStar();
         ensureRenderLoopRunning();
 
-        showToast('🌠 ¡Tu deseo ha sido grabado en las estrellas de tu jardín, Carla!');
+        showToast('🌠 ¡Tu deseo ha sido grabado en tu constelación personal, Carla!');
     });
 }
 
@@ -2417,11 +2630,19 @@ export function initSeasonalWeather() {
     const savedIntensity = localStorage.getItem(STORAGE_KEY_INTENSITY) || 'medium';
     const savedVolume    = localStorage.getItem(STORAGE_KEY_VOLUME);
     const savedBiorhythm = localStorage.getItem(STORAGE_KEY_BIORHYTHM) === '1';
+    const savedVisuals   = localStorage.getItem(STORAGE_KEY_VISUALS);
 
-    soundEnabled    = savedSound !== null ? savedSound === '1' : true;
+    soundEnabled    = savedSound !== null ? savedSound === '1' : false;
     intensityMode   = savedIntensity;
     soundVolume     = savedVolume !== null ? parseFloat(savedVolume) : 0.7;
     biorhythmActive = savedBiorhythm;
+    visualEffectsEnabled = savedVisuals !== null ? savedVisuals === '1' : true;
+    atmosphereTurnedOff  = (!visualEffectsEnabled && !soundEnabled && savedSeason === 'clear');
+
+    // Escuchar cuando el reproductor multimedia flotante empieza a reproducir para silenciar el clima
+    window.addEventListener('floating-player-play', () => {
+        stopAllWeatherSound(true);
+    });
 
     // 2. Elementos del DOM
     const dockBtn        = document.getElementById('btn-weather-season');
@@ -2511,6 +2732,16 @@ export function initSeasonalWeather() {
         toggleSeasonSound(e.target.checked);
     });
 
+    const toggleVisualsBtn = document.getElementById('btn-toggle-visual-effects');
+    toggleVisualsBtn?.addEventListener('click', () => {
+        toggleVisualEffects();
+    });
+
+    const turnOffSeasonBtn = document.getElementById('btn-turn-off-season-effects');
+    turnOffSeasonBtn?.addEventListener('click', () => {
+        turnOffSeasonEffects(true);
+    });
+
     const turnOffBtn = document.getElementById('btn-turn-off-atmosphere');
     turnOffBtn?.addEventListener('click', () => {
         turnOffAtmosphere();
@@ -2543,6 +2774,15 @@ export function initSeasonalWeather() {
 
     const activeIntBtn = document.querySelector(`.weather-intensity-btn[data-intensity="${intensityMode}"]`);
     if (activeIntBtn) activeIntBtn.classList.add('is-active');
+
+    // Cargar catálogo de audios reales subidos por el administrador
+    fetchGardenSeasonAudios();
+
+    if (!visualEffectsEnabled) {
+        const magicCursor = document.getElementById('romantic-magic-cursor');
+        if (magicCursor) magicCursor.style.opacity = '0';
+    }
+    updateWeatherActionButtonsUI();
 
     if (biorhythmActive) {
         evaluateBiorhythmSeason();

@@ -4,6 +4,9 @@ import { initFriendDedications } from './friend-dedications.js';
 import { initHomeCardsAdmin } from './home-cards-admin.js';
 import { initSeasonalWeather } from './seasonal-weather.js';
 import { initMasterAudioController } from './master-audio.js';
+import { initNavbarAutoHover } from './navbar-auto-hover.js';
+import { initCardsAutoHover } from './cards-auto-hover.js';
+import { initFloatingMediaPlayer } from './floating-media-player.js';
 import './bootstrap';
 import { playMusicForScreen, enableAudio, toggleMusic, setMasterVolume, isMusicPlaying } from './garden-audio.js';
 import { getRandomMessage, MESSAGE_COUNT } from './love-messages.js';
@@ -11,6 +14,7 @@ import { initializeCornerNotes } from './corner-notes.js';
 import { initializeAdminSystem } from './admin.js';
 import { initializeEntertainmentPlayer } from './entertainment-player.js';
 import { initializeTimeCapsules } from './time-capsules.js';
+import { initGardenUXInnovations } from './garden-ux-innovations.js';
 
 const screens = [...document.querySelectorAll('[data-screen]')];
 const validScreens = new Set(screens.map((screen) => screen.dataset.screen));
@@ -442,7 +446,7 @@ const sceneGuessCards = [
     },
 ];
 
-const memorySymbols = ['✿', '❀', '✧', '♡', '❋', '☼'];
+const memorySymbols = ['🌹', '🌷', '🌸', '🌺', '🌻', '🪷'];
 const preferencePrompts = [
     { prompt: 'Prepara un momento para ti…', options: ['Una taza de té', 'Un café recién hecho'] },
     { prompt: '¿Qué paisaje elegirías para descansar?', options: ['Un jardín en primavera', 'Una playa al atardecer'] },
@@ -726,9 +730,41 @@ document.addEventListener('click', (event) => {
             button.classList.toggle('is-selected', isSelected);
             button.setAttribute('aria-pressed', String(isSelected));
         });
+        let visibleGalleryCount = 0;
         document.querySelectorAll('.gallery-item').forEach((item) => {
-            item.hidden = filterButton.dataset.filter !== 'todos' && item.dataset.kind !== filterButton.dataset.filter;
+            const isHidden = filterButton.dataset.filter !== 'todos' && item.dataset.kind !== filterButton.dataset.filter;
+            item.hidden = isHidden;
+            if (!isHidden) visibleGalleryCount += 1;
         });
+        const galleryEmpty = document.querySelector('[data-gallery-empty]');
+        if (galleryEmpty) {
+            galleryEmpty.hidden = visibleGalleryCount > 0;
+        }
+        return;
+    }
+
+    const resetGalleryFilterBtn = event.target.closest('[data-gallery-reset-filter]');
+    if (resetGalleryFilterBtn) {
+        const allBtn = document.querySelector('[data-filter="todos"]');
+        if (allBtn) allBtn.click();
+        return;
+    }
+
+    const gallerySizeBtn = event.target.closest('[data-gallery-grid-size]');
+    if (gallerySizeBtn) {
+        const size = gallerySizeBtn.dataset.galleryGridSize || 'standard';
+        const grid = document.querySelector('.luxury-gallery-grid');
+        if (grid) {
+            grid.setAttribute('data-grid-size', size);
+        }
+        document.querySelectorAll('[data-gallery-grid-size]').forEach((btn) => {
+            const active = btn === gallerySizeBtn;
+            btn.classList.toggle('is-active', active);
+            btn.setAttribute('aria-pressed', String(active));
+        });
+        try {
+            localStorage.setItem('carla_gallery_grid_size', size);
+        } catch (e) {}
         return;
     }
 
@@ -1460,7 +1496,7 @@ function renderMemoryBoard() {
 
         const symbol = document.createElement('span');
         symbol.setAttribute('aria-hidden', 'true');
-        symbol.textContent = isShowing ? card.symbol : '✳';
+        symbol.textContent = isShowing ? card.symbol : '🌿';
         button.append(symbol);
         return button;
     }));
@@ -1590,36 +1626,46 @@ showScreen(initialScreen, false);
     }
     EVENTS.forEach((e) => document.addEventListener(e, onFirstGesture, { capture: true, once: false }));
 
-    // Botón flotante de música
+    // Inicializar el Reproductor Flotante Multimedia (Audio, Video, YouTube en Segundo Plano)
+    const floatingPlayer = initFloatingMediaPlayer();
+
+    // Botón flotante del dock (controlador del Reproductor Multimedia Flotante)
     let btn = document.getElementById('music-toggle-btn');
     if (!btn) {
         btn = document.createElement('button');
         btn.id = 'music-toggle-btn';
         btn.className = 'music-toggle-btn';
         btn.type = 'button';
-        btn.setAttribute('aria-label', 'Activar música de fondo');
-        btn.setAttribute('title', 'Música de fondo');
+        btn.setAttribute('aria-label', 'Reproductor multimedia flotante (Música y Video)');
+        btn.setAttribute('title', 'Reproductor Multimedia Flotante · Carla Lorena');
         btn.setAttribute('aria-pressed', 'false');
         btn.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
             stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/>
         </svg>`;
-        const dock = document.getElementById('floating-dock-right');
-        if (dock) {
-            dock.appendChild(btn);
-        } else {
-            document.body.appendChild(btn);
+        let dock = document.getElementById('floating-dock-right');
+        if (!dock && document.body) {
+            dock = document.createElement('div');
+            dock.id = 'floating-dock-right';
+            dock.className = 'floating-dock-right';
+            dock.setAttribute('aria-label', 'Controles Flotantes del Jardín');
+            document.body.appendChild(dock);
         }
+        if (document.getElementById('floating-media-player') && dock) {
+            dock.appendChild(btn);
+        }
+    } else {
+        btn.setAttribute('aria-label', 'Reproductor multimedia flotante (Música y Video)');
+        btn.setAttribute('title', 'Reproductor Multimedia Flotante · Carla Lorena');
+        const tooltip = btn.querySelector('.dock-tooltip');
+        if (tooltip) tooltip.textContent = 'Música y Video';
     }
+
     btn.addEventListener('click', () => {
         if (window.GardenMasterAudio && window.GardenMasterAudio.isMuted()) {
             window.GardenMasterAudio.unmuteAll(false);
         }
-        enableAudio();
-        const playing = toggleMusic();
-        btn.setAttribute('aria-pressed', String(playing));
-        btn.classList.toggle('is-playing', playing);
-        btn.setAttribute('aria-label', playing ? 'Pausar música' : 'Reanudar música');
+        floatingPlayer.toggleOpen();
     });
 
     // Inicializar el Botón Flotante Maestro de Apagado General de Sonido
@@ -1826,6 +1872,10 @@ function initBotanicalGarden() {
                 return;
             }
             ctx.clearRect(0, 0, canvas.width, canvas.height);
+            if (window.__gardenVisualEffectsOff) {
+                petalsAnimationId = requestAnimationFrame(loop);
+                return;
+            }
 
             const gardenScreen = document.querySelector('[data-screen="jardin"]');
             const isGardenVisible = gardenScreen && !gardenScreen.hidden;
@@ -1888,8 +1938,8 @@ function initRomanticFeatures() {
         });
     });
 
-    // 2. Tooltips poéticos para las islas del mapa
-    const mapIslands = document.querySelectorAll('.floral-island[data-tooltip]');
+    // 2. Tooltips poéticos para las islas del mapa (excluye el mapa botánico que usa su propio sistema anti-colisión)
+    const mapIslands = document.querySelectorAll('.floral-island[data-tooltip]:not(#dynamic-floral-garden-realm .floral-island)');
     const tooltip = document.getElementById('map-island-tooltip');
 
     mapIslands.forEach((island) => {
@@ -1991,13 +2041,21 @@ function initRomanticFeatures() {
     function playSoftChime(frequency) {
         if (window.GardenMasterAudio && window.GardenMasterAudio.isMuted()) return;
         try {
-            const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+            const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+            if (!AudioContextClass) return;
+            if (!window.__gardenAudioCtx) {
+                window.__gardenAudioCtx = new AudioContextClass();
+            }
+            const audioCtx = window.__gardenAudioCtx;
+            if (audioCtx.state === 'suspended') {
+                audioCtx.resume();
+            }
             const osc = audioCtx.createOscillator();
             const gain = audioCtx.createGain();
             osc.type = 'sine';
             osc.frequency.setValueAtTime(frequency, audioCtx.currentTime);
             gain.gain.setValueAtTime(0.0001, audioCtx.currentTime);
-            gain.gain.exponentialRampToValueAtTime(0.06, audioCtx.currentTime + 0.05);
+            gain.gain.exponentialRampToValueAtTime(0.08, audioCtx.currentTime + 0.05);
             gain.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + 1.2);
             osc.connect(gain);
             gain.connect(audioCtx.destination);
@@ -2141,15 +2199,474 @@ function initRomanticFeatures() {
         }
     });
 
-    // 7. Chime armónico al posar sobre los medallones del mapa
-    const medallions = document.querySelectorAll('.luxury-medallion');
-    const medallionNotes = [523.25, 587.33, 659.25, 698.46, 783.99, 880.00, 987.77, 1046.50];
-    medallions.forEach((medallion, idx) => {
-        medallion.addEventListener('mouseenter', () => {
-            const note = medallionNotes[idx % medallionNotes.length];
-            playSoftChime(note);
+    // ═══════════════════════════════════════════════════════════════════════
+    // MOTOR DE DINAMISMO Y TECNOLOGÍA MOTION · JARDÍN FLORAL VIVIENTE
+    // ═══════════════════════════════════════════════════════════════════════
+    (function initLivingFloralGarden() {
+        const gardenRealm = document.getElementById('dynamic-floral-garden-realm');
+        if (!gardenRealm) return;
+
+        const stage3D = document.getElementById('garden-3d-stage');
+        const canvas = document.getElementById('garden-motion-canvas');
+        const inspectPod = document.getElementById('floral-inspect-pod');
+        const podEmblem = document.getElementById('pod-flower-emblem');
+        const podTitle = document.getElementById('pod-title');
+        const podBiome = document.getElementById('pod-biome-badge');
+        const podQuote = document.getElementById('pod-quote');
+
+        // Controles de la barra
+        const btnBloomWave = document.getElementById('btn-garden-bloom-wave');
+        const btnBreezeToggle = document.getElementById('btn-garden-breeze-toggle');
+        const btnWeatherCycle = document.getElementById('btn-garden-weather-cycle');
+        const btnSoundToggle = document.getElementById('btn-garden-sound-toggle');
+        const labelBreeze = document.getElementById('label-garden-breeze');
+        const labelWeather = document.getElementById('label-garden-weather');
+        const iconWeather = document.getElementById('icon-garden-weather');
+        const labelSound = document.getElementById('label-garden-sound');
+
+        let soundEnabled = true;
+        let isBreezeIntense = false;
+        let currentAtmosphereIndex = 0;
+        const atmospheres = [
+            { id: 'sunset', icon: '🌅', label: 'Atardecer Dorado' },
+            { id: 'night',  icon: '🌌', label: 'Noche de Luciérnagas' },
+            { id: 'day',    icon: '🌞', label: 'Mañana Radiante' }
+        ];
+
+        // 1. ESCENARIO FIJO Y ESTABLE (Sin balanceo ni movimiento con el mouse)
+        if (stage3D) {
+            stage3D.style.transform = 'none';
+        }
+
+        gardenRealm.addEventListener('mouseleave', () => {
+            if (inspectPod) {
+                inspectPod.style.opacity = '0';
+                setTimeout(() => { inspectPod.hidden = true; }, 200);
+            }
+            document.querySelectorAll('.radial-branch').forEach(b => b.classList.remove('is-lit'));
         });
-    });
+
+        // 2. LIENZO DEDICADO DE FÍSICA DE PÉTALOS, POLEN Y ESTELA DEL CURSOR
+        let ctx = null;
+        let petals = [];
+        let canvasW = 0, canvasH = 0;
+        let lastCursorX = 0, lastCursorY = 0;
+        let cursorSpeedX = 0, cursorSpeedY = 0;
+
+        // Clase de Partícula Floral (Pétalos de Sakura, Rosa y Polen)
+        class FloralParticle {
+            constructor() {
+                this.reset(true);
+            }
+
+            reset(initial = false) {
+                this.x = Math.random() * (canvasW || 900);
+                this.y = initial ? Math.random() * (canvasH || 600) : -20;
+                this.size = Math.random() * 7 + 5;
+                this.type = Math.random() > 0.45 ? 'rose_petal' : (Math.random() > 0.45 ? 'blossom' : 'pollen');
+                this.vx = (Math.random() - 0.3) * 1.05;
+                this.vy = Math.random() * 1.1 + 0.55;
+                this.rotation = Math.random() * Math.PI * 2;
+                this.rotSpeed = (Math.random() - 0.5) * 0.04;
+                this.oscAmp = Math.random() * 20 + 10;
+                this.oscFreq = Math.random() * 0.02 + 0.01;
+                this.phase = Math.random() * Math.PI * 2;
+                this.opacity = Math.random() * 0.55 + 0.35;
+                this.scaleX = 1;
+            }
+
+            update(isBreeze = false) {
+                this.phase += this.oscFreq * (isBreeze ? 1.6 : 1);
+                const speedMult = isBreeze ? 1.9 : 1;
+                this.x += (this.vx + Math.sin(this.phase) * 0.9) * speedMult;
+                this.y += this.vy * speedMult;
+                this.rotation += this.rotSpeed * (isBreeze ? 1.8 : 1);
+                this.scaleX = Math.cos(this.phase * 1.4);
+
+                // Interacción suave con la brisa del cursor
+                const dx = this.x - lastCursorX;
+                const dy = this.y - lastCursorY;
+                const dist = Math.hypot(dx, dy);
+                if (dist < 120 && dist > 1) {
+                    const force = (120 - dist) / 120;
+                    this.x += (dx / dist) * force * 5 + cursorSpeedX * 0.4;
+                    this.y += (dy / dist) * force * 4 + cursorSpeedY * 0.4;
+                }
+
+                if (this.y > (canvasH || 650) + 30 || this.x < -40 || this.x > (canvasW || 950) + 40) {
+                    this.reset(false);
+                }
+            }
+
+            draw(ctx) {
+                ctx.save();
+                ctx.translate(this.x, this.y);
+                ctx.rotate(this.rotation);
+                ctx.scale(this.scaleX, 1);
+                ctx.globalAlpha = this.opacity;
+
+                if (this.type === 'rose_petal') {
+                    // 🌸 Pétalo orgánico de Rosa Imperial en acuarela
+                    const s = this.size;
+                    ctx.beginPath();
+                    ctx.moveTo(0, -s);
+                    ctx.bezierCurveTo(s * 0.85, -s * 0.75, s * 0.9, s * 0.45, 0, s);
+                    ctx.bezierCurveTo(-s * 0.9, s * 0.45, -s * 0.85, -s * 0.75, 0, -s);
+                    ctx.closePath();
+                    const grad = ctx.createRadialGradient(0, -s * 0.25, 0, 0, 0, s);
+                    grad.addColorStop(0, '#fff1f5');
+                    grad.addColorStop(0.55, '#fda4af');
+                    grad.addColorStop(1, '#e11d48');
+                    ctx.fillStyle = grad;
+                    ctx.shadowColor = 'rgba(225, 29, 72, 0.35)';
+                    ctx.shadowBlur = 6;
+                    ctx.fill();
+                } else if (this.type === 'blossom') {
+                    // 🌺 Corola delicada de 5 pétalos (Sakura Imperial)
+                    const s = this.size * 0.52;
+                    for (let i = 0; i < 5; i++) {
+                        ctx.save();
+                        ctx.rotate((i * Math.PI * 2) / 5);
+                        ctx.beginPath();
+                        ctx.ellipse(0, -s * 0.95, s * 0.48, s * 0.85, 0, 0, Math.PI * 2);
+                        ctx.fillStyle = '#fbcfe8';
+                        ctx.fill();
+                        ctx.restore();
+                    }
+                    ctx.beginPath();
+                    ctx.arc(0, 0, s * 0.38, 0, Math.PI * 2);
+                    ctx.fillStyle = '#fef08a';
+                    ctx.fill();
+                } else {
+                    // ✨ Rocío de polen dorado suave
+                    const s = this.size * 0.45;
+                    ctx.beginPath();
+                    ctx.arc(0, 0, s, 0, Math.PI * 2);
+                    const grad = ctx.createRadialGradient(0, 0, 0, 0, 0, s);
+                    grad.addColorStop(0, '#ffffff');
+                    grad.addColorStop(0.5, '#fef08a');
+                    grad.addColorStop(1, '#f472b6');
+                    ctx.fillStyle = grad;
+                    ctx.shadowColor = 'rgba(212, 175, 55, 0.55)';
+                    ctx.shadowBlur = 7;
+                    ctx.fill();
+                }
+                ctx.restore();
+            }
+        }
+
+        if (canvas) {
+            ctx = canvas.getContext('2d');
+            function resizeCanvas() {
+                const rect = gardenRealm.getBoundingClientRect();
+                if (rect.width > 0 && rect.height > 0) {
+                    canvasW = canvas.width = Math.round(rect.width);
+                    canvasH = canvas.height = Math.round(rect.height);
+                }
+            }
+            resizeCanvas();
+            window.addEventListener('resize', resizeCanvas);
+
+            function initPetals(count = 36) {
+                petals = [];
+                for (let i = 0; i < count; i++) {
+                    petals.push(new FloralParticle());
+                }
+            }
+            initPetals(36);
+
+            gardenRealm.addEventListener('mousemove', (e) => {
+                const rect = gardenRealm.getBoundingClientRect();
+                const curX = e.clientX - rect.left;
+                const curY = e.clientY - rect.top;
+                cursorSpeedX = (curX - lastCursorX) * 0.3;
+                cursorSpeedY = (curY - lastCursorY) * 0.3;
+                lastCursorX = curX;
+                lastCursorY = curY;
+            });
+
+            function renderPetals() {
+                if (window.__gardenVisualEffectsOff) {
+                    if (ctx && canvasW > 0 && canvasH > 0) ctx.clearRect(0, 0, canvasW, canvasH);
+                    requestAnimationFrame(renderPetals);
+                    return;
+                }
+                const isScreenActive = !gardenRealm.closest('.screen')?.hidden;
+                if (isScreenActive && ctx) {
+                    const rect = gardenRealm.getBoundingClientRect();
+                    if (rect.width > 0 && (canvasW !== Math.round(rect.width) || canvasH !== Math.round(rect.height))) {
+                        canvasW = canvas.width = Math.round(rect.width);
+                        canvasH = canvas.height = Math.round(rect.height);
+                    }
+                    if (canvasW > 0 && canvasH > 0) {
+                        ctx.clearRect(0, 0, canvasW, canvasH);
+                        for (let p of petals) {
+                            p.update(isBreezeIntense);
+                            p.draw(ctx);
+                        }
+                    }
+                }
+                requestAnimationFrame(renderPetals);
+            }
+            requestAnimationFrame(renderPetals);
+        }
+
+        // 3. ILUMINACIÓN DE RAMAS, CÁPSULA EDITORIAL & POD ANTI-COLISIÓN EN HOVER
+        const flowerNodes = gardenRealm.querySelectorAll('.living-flower-node');
+        const radialBranches = gardenRealm.querySelectorAll('.radial-branch');
+
+        // Referencias a la Cápsula Editorial Integrada
+        const meiBar = document.getElementById('map-editorial-inspect-bar');
+        const meiEmblem = document.getElementById('mei-emblem');
+        const meiTitle = document.getElementById('mei-title');
+        const meiBadge = document.getElementById('mei-badge');
+        const meiQuote = document.getElementById('mei-quote');
+        const meiHint = document.getElementById('mei-action-hint');
+
+        function hideInspectPod() {
+            if (!inspectPod) return;
+            inspectPod.style.opacity = '0';
+            inspectPod.hidden = true;
+            inspectPod.classList.remove('is-below');
+        }
+
+        flowerNodes.forEach((node) => {
+            const screenTarget = node.dataset.go;
+            const noteFreq = parseFloat(node.dataset.note) || 523.25;
+            const flowerName = node.dataset.flower || '';
+            const tooltipText = node.dataset.tooltip || '';
+            const emblem = node.querySelector('.place-symbol')?.textContent || '🌹';
+            const title = node.querySelector('.flower-node-title')?.textContent || '';
+            const cleanQuote = tooltipText.includes(': ') ? tooltipText.split(': ').slice(1).join(': ') : tooltipText;
+
+            node.addEventListener('mouseenter', () => {
+                // Iluminar enredadera conectada
+                radialBranches.forEach(b => {
+                    const match = b.dataset.branch === screenTarget;
+                    b.classList.toggle('is-lit', match);
+                });
+
+                // Sonido armónico si está habilitado
+                if (soundEnabled && typeof playSoftChime === 'function') {
+                    playSoftChime(noteFreq);
+                }
+
+                // Actualizar Cápsula Editorial Integrada
+                if (meiBar) {
+                    meiBar.classList.add('is-active');
+                    if (meiEmblem) meiEmblem.textContent = emblem;
+                    if (meiTitle) meiTitle.textContent = title;
+                    if (meiBadge) meiBadge.textContent = flowerName;
+                    if (meiQuote) meiQuote.textContent = `«${cleanQuote}»`;
+                    if (meiHint) meiHint.textContent = `Entrar a ${title} →`;
+                }
+
+                // Posicionar Pod Flotante con sistema Anti-Colisión
+                if (inspectPod) {
+                    if (podEmblem) podEmblem.textContent = emblem;
+                    if (podTitle) podTitle.textContent = title;
+                    if (podBiome) podBiome.textContent = flowerName;
+                    if (podQuote) podQuote.textContent = `«${cleanQuote}»`;
+
+                    const realmRect = gardenRealm.getBoundingClientRect();
+                    const nodeRect = node.getBoundingClientRect();
+
+                    const rawCenterX = (nodeRect.left + nodeRect.width / 2) - realmRect.left;
+                    const nodeCenterY = (nodeRect.top + nodeRect.height / 2) - realmRect.top;
+
+                    // Clamping horizontal para que nunca se corte en los bordes laterales
+                    const marginX = 148;
+                    const clampedX = Math.max(marginX, Math.min(realmRect.width - marginX, rawCenterX));
+
+                    // Si el nodo está en la mitad superior del mapa, el globo abre HACIA ABAJO; si está abajo, HACIA ARRIBA
+                    const openBelow = nodeCenterY < realmRect.height * 0.48;
+                    inspectPod.classList.toggle('is-below', openBelow);
+
+                    const posY = openBelow
+                        ? (nodeRect.bottom - realmRect.top) + 10
+                        : (nodeRect.top - realmRect.top) - 10;
+
+                    inspectPod.style.left = `${clampedX}px`;
+                    inspectPod.style.top = `${posY}px`;
+                    inspectPod.hidden = false;
+                    inspectPod.style.opacity = '1';
+                }
+            });
+
+            node.addEventListener('mouseleave', () => {
+                radialBranches.forEach(b => b.classList.remove('is-lit'));
+                hideInspectPod();
+            });
+        });
+
+        gardenRealm.addEventListener('mouseleave', () => {
+            radialBranches.forEach(b => b.classList.remove('is-lit'));
+            hideInspectPod();
+            if (meiBar) {
+                meiBar.classList.remove('is-active');
+                if (meiEmblem) meiEmblem.textContent = '🌹';
+                if (meiTitle) meiTitle.textContent = 'El Corazón del Jardín de Carla';
+                if (meiBadge) meiBadge.textContent = 'GRAN ROSA IMPERIAL';
+                if (meiQuote) meiQuote.textContent = '«Pasa el cursor sobre cualquier flor del mapa para iluminar su sendero y descubrir lo que guarda para ti.»';
+                if (meiHint) meiHint.textContent = 'Explora los 11 rincones ✿';
+            }
+        });
+
+        // 4. CONTROLES DE LA BARRA DE DINAMISMO
+
+        // Floración Radiante (Bloom Wave)
+        btnBloomWave?.addEventListener('click', () => {
+            btnBloomWave.classList.add('is-active');
+            gardenRealm.classList.add('garden-full-bloom');
+            if (soundEnabled && typeof playSoftChime === 'function') {
+                const chordNotes = [523.25, 659.25, 783.99, 1046.50, 1318.51, 1567.98];
+                chordNotes.forEach((n, i) => setTimeout(() => playSoftChime(n), i * 110));
+            }
+            if (typeof showToast === 'function') {
+                showToast('🌹 «¡La Gran Rosa Imperial despliega una cascada de pétalos y luz para ti, Carla!» ✨');
+            }
+
+            if (canvas) {
+                const centerX = (canvasW || 500) * 0.5;
+                const centerY = (canvasH || 320) * 0.5;
+                for (let k = 0; k < 60; k++) {
+                    const p = new FloralParticle();
+                    p.x = centerX + (Math.random() - 0.5) * 50;
+                    p.y = centerY + (Math.random() - 0.5) * 50;
+                    const angle = Math.random() * Math.PI * 2;
+                    const spd = Math.random() * 8 + 3;
+                    p.vx = Math.cos(angle) * spd;
+                    p.vy = Math.sin(angle) * spd;
+                    p.size = Math.random() * 9 + 6;
+                    petals.push(p);
+                }
+            }
+
+            setTimeout(() => {
+                gardenRealm.classList.remove('garden-full-bloom');
+                btnBloomWave.classList.remove('is-active');
+                if (!isBreezeIntense) {
+                    petals = petals.slice(0, 36);
+                }
+            }, 2000);
+        });
+
+        // Alternar Brisa de Pétalos
+        btnBreezeToggle?.addEventListener('click', () => {
+            isBreezeIntense = !isBreezeIntense;
+            gardenRealm.dataset.gardenBreeze = isBreezeIntense ? 'intense' : 'normal';
+            if (labelBreeze) {
+                labelBreeze.textContent = isBreezeIntense ? 'Torbellino de Pétalos' : 'Brisa de Pétalos';
+            }
+            btnBreezeToggle.classList.toggle('is-active', isBreezeIntense);
+
+            if (isBreezeIntense) {
+                while (petals.length < 85) {
+                    petals.push(new FloralParticle());
+                }
+                if (soundEnabled && typeof playSoftChime === 'function') playSoftChime(783.99);
+                if (typeof showToast === 'function') showToast('🌸 Brisa intensa de pétalos activa en el jardín');
+            } else {
+                petals = petals.slice(0, 36);
+                if (typeof showToast === 'function') showToast('🌹 Brisa suave de pétalos restaurada');
+            }
+        });
+
+        // Ciclo de Atmósferas Lumínicas
+        btnWeatherCycle?.addEventListener('click', () => {
+            currentAtmosphereIndex = (currentAtmosphereIndex + 1) % atmospheres.length;
+            const current = atmospheres[currentAtmosphereIndex];
+            gardenRealm.dataset.gardenAtmosphere = current.id;
+
+            if (iconWeather) iconWeather.textContent = current.icon;
+            if (labelWeather) labelWeather.textContent = current.label;
+
+            btnWeatherCycle.classList.add('is-active');
+            setTimeout(() => btnWeatherCycle.classList.remove('is-active'), 600);
+
+            if (soundEnabled && typeof playSoftChime === 'function') {
+                playSoftChime(current.id === 'night' ? 440.00 : (current.id === 'day' ? 987.77 : 659.25));
+            }
+            if (typeof showToast === 'function') {
+                showToast(`${current.icon} Atmósfera: ${current.label}`);
+            }
+        });
+
+        // Activar / Pausar Armonía
+        btnSoundToggle?.addEventListener('click', () => {
+            soundEnabled = !soundEnabled;
+            btnSoundToggle.classList.toggle('is-active', soundEnabled);
+            if (labelSound) {
+                labelSound.textContent = soundEnabled ? 'Armonía Activa' : 'Armonía en Pausa';
+            }
+            if (soundEnabled && typeof playSoftChime === 'function') {
+                playSoftChime(659.25);
+            }
+            if (typeof showToast === 'function') {
+                showToast(soundEnabled ? '🌷 Armonía del jardín activada' : '🔇 Armonía en silencio');
+            }
+        });
+
+        // Clic en el Gran Prisma Central de Carla
+        const centerPrismTrigger = document.getElementById('map-center-rose-trigger');
+        centerPrismTrigger?.addEventListener('click', () => {
+            btnBloomWave?.click();
+        });
+
+        // 5. GIRO DE LUZ SECUENCIAL POR LOS MEDALLONES (CADA 3 SEGUNDOS)
+        let rotatingIndex = 0;
+        let isUserHoveringMap = false;
+
+        const allMapMedallions = [
+            ...Array.from(flowerNodes),
+            centerPrismTrigger
+        ].filter(Boolean);
+
+        function triggerSequentialMedallionGleam() {
+            // Si la usuaria está interactuando con el puntero en el mapa o la pantalla no está activa, pausar el ciclo automático
+            const isMapActive = !gardenRealm.closest('.screen')?.hidden;
+            if (!isMapActive || isUserHoveringMap || allMapMedallions.length === 0) {
+                return;
+            }
+
+            // Remover el brillo del nodo anterior
+            allMapMedallions.forEach(m => {
+                m.classList.remove('sunlit-active', 'is-rotating-active');
+            });
+
+            // Activar el nodo actual en la órbita
+            const currentNode = allMapMedallions[rotatingIndex];
+            if (currentNode) {
+                currentNode.classList.add('sunlit-active', 'is-rotating-active');
+
+                // Si es un nodo de flor, iluminar sutilmente su enredadera conectada
+                const screenTarget = currentNode.dataset?.go;
+                if (screenTarget) {
+                    radialBranches.forEach(b => {
+                        b.classList.toggle('is-lit', b.dataset.branch === screenTarget);
+                    });
+                } else {
+                    radialBranches.forEach(b => b.classList.remove('is-lit'));
+                }
+            }
+
+            rotatingIndex = (rotatingIndex + 1) % allMapMedallions.length;
+        }
+
+        // Detectar si la usuaria está interactuando para cederle el control
+        gardenRealm.addEventListener('mouseenter', () => {
+            isUserHoveringMap = true;
+            allMapMedallions.forEach(m => m.classList.remove('sunlit-active', 'is-rotating-active'));
+        });
+
+        gardenRealm.addEventListener('mouseleave', () => {
+            isUserHoveringMap = false;
+        });
+
+        // Iniciar intervalo de 3 segundos
+        const medallionGleamTimer = setInterval(triggerSequentialMedallionGleam, 3000);
+        window.addEventListener('beforeunload', () => clearInterval(medallionGleamTimer));
+    })();
 
     // 9. Interacción de la pantalla Dedicatoria
     const dedicationSparkBtn = document.getElementById('dedication-spark-btn');
@@ -2173,113 +2690,372 @@ function initRomanticFeatures() {
 }
 
 
-/* --- Rincón de Lectura y Música Calma --- */
+/* --- Rincón de Lectura Dinámico (Cambio Diario Automático + Aleatorio) --- */
 function initReadingNook() {
-    const quotes = [
-        { text: "“La belleza comienza en el instante en que decides ser tú misma.”", author: "— Coco Chanel" },
-        { text: "“Plantar un jardín es creer en el mañana.”", author: "— Audrey Hepburn" },
-        { text: "“La paz viene de adentro. No la busques afuera.”", author: "— Buda" },
-        { text: "“Donde florecen las flores, florece la esperanza.”", author: "— Lady Bird Johnson" },
-        { text: "“En medio del invierno, aprendí por fin que había en mí un verano invencible.”", author: "— Albert Camus" },
-        { text: "“Que la calma te acompañe siempre en cada paso que des, Carla.”", author: "— Dedicado para ti" }
+    const famousQuotes = [
+        { id: 'q1', topic: 'amor', badge: 'FRASE CÉLEBRE · AUTENTICIDAD', title: 'La belleza de ser auténtica', text: '«La belleza comienza en el instante en que decides ser tú misma.»', author: '— Coco Chanel', reflection: '«Las palabras que te elevan son las que más te pertenecen.»' },
+        { id: 'q2', topic: 'naturaleza', badge: 'FRASE CÉLEBRE · ESPERANZA', title: 'Sembrar el mañana', text: '«Plantar un jardín es creer en el mañana.»', author: '— Audrey Hepburn', reflection: '«Cada semilla cuidada con amor transforma el paisaje de los días.»' },
+        { id: 'q3', topic: 'sabiduria', badge: 'FRASE CÉLEBRE · FORTALEZA INTERIOR', title: 'El verano invencible', text: '«En medio del invierno, aprendí por fin que había en mí un verano invencible.»', author: '— Albert Camus', reflection: '«Tu luz interior siempre es más cálida que cualquier tormenta.»' },
+        { id: 'q4', topic: 'naturaleza', badge: 'FRASE CÉLEBRE · JARDÍN & VIDA', title: 'Donde florece la esperanza', text: '«Donde florecen las flores, florece también la esperanza.»', author: '— Lady Bird Johnson', reflection: '«Un rincón florido basta para recordar la bondad del mundo.»' },
+        { id: 'q5', topic: 'literatura', badge: 'FRASE CÉLEBRE · ARTE & VUELO', title: 'Alas para volar', text: '«Pies, ¿para qué los quiero si tengo alas para volar?»', author: '— Frida Kahlo', reflection: '«La imaginación y la sensibilidad no conocen fronteras.»' },
+        { id: 'q6', topic: 'sabiduria', badge: 'FRASE CÉLEBRE · PAZ INTERIOR', title: 'El refugio de la serenidad', text: '«La paz viene de adentro. No la busques afuera.»', author: '— Buda', reflection: '«Cuando el corazón está en calma, todo alrededor armoniza.»' },
+        { id: 'q7', topic: 'literatura', badge: 'FRASE CÉLEBRE · LIBERTAD CREATIVA', title: 'La llave de tu propio pensamiento', text: '«No hay barrera, cerradura ni cerrojo que puedas imponer a la libertad de mi mente.»', author: '— Virginia Woolf', reflection: '«Un espíritu libre convierte cada lectura en un universo infinito.»' },
+        { id: 'q8', topic: 'amor', badge: 'FRASE CÉLEBRE · LUZ PROPIA', title: 'Dejar entrar la luz', text: '«La herida es el lugar por donde entra la luz.»', author: '— Rumi', reflection: '«Todo aprendizaje sincero hace más luminosa nuestra mirada.»' },
+        { id: 'q9', topic: 'literatura', badge: 'FRASE CÉLEBRE · MEMORIA VIVA', title: 'Los recuerdos del corazón', text: '«La vida no es la que uno vivió, sino la que uno recuerda y cómo la recuerda para contarla.»', author: '— Gabriel García Márquez', reflection: '«Atesorar momentos hermosos es vivirlos dos veces.»' },
+        { id: 'q10', topic: 'naturaleza', badge: 'FRASE CÉLEBRE · PRIMAVERA ETERNA', title: 'Las flores del porvenir', text: '«Podrán cortar todas las flores, pero no podrán detener la primavera.»', author: '— Pablo Neruda', reflection: '«El renacer de la alegría siempre encuentra su camino.»' },
+        { id: 'q11', topic: 'amor', badge: 'FRASE CÉLEBRE · TERNURA', title: 'Defender la alegría', text: '«Defender la alegría como una trinchera, defenderla del caos y de las pesadillas.»', author: '— Mario Benedetti', reflection: '«Tu sonrisa es el tesoro más noble de este jardín, Carla Lorena.»' },
+        { id: 'q12', topic: 'sabiduria', badge: 'FRASE CÉLEBRE · GRATITUD', title: 'La dicha de lo cotidiano', text: '«No es más feliz quien más tiene, sino quien menos necesita y más agradece.»', author: '— Séneca', reflection: '«En los detalles sencillos reside la verdadera fortuna.»' },
+        { id: 'q13', topic: 'literatura', badge: 'FRASE CÉLEBRE · SENSIBILIDAD', title: 'El encanto de las cosas bellas', text: '«No hay encanto igual a la ternura del corazón.»', author: '— Jane Austen', reflection: '«La bondad sincera nunca pasa de moda.»' },
+        { id: 'q14', topic: 'naturaleza', badge: 'FRASE CÉLEBRE · CONTEMPLACIÓN', title: 'El lenguaje secreto de la naturaleza', text: '«Mira profundamente en la naturaleza y entonces comprenderás todo mejor.»', author: '— Albert Einstein', reflection: '«El ritmo de las estaciones nos enseña paciencia y armonía.»' },
+        { id: 'q15', topic: 'amor', badge: 'FRASE CÉLEBRE · ESENCIA', title: 'Brillar sin pedir permiso', text: '«Nada puede empañar la luz que brilla desde el interior.»', author: '— Maya Angelou', reflection: '«Quien camina con nobleza ilumina cada lugar que pisa.»' },
+        { id: 'q16', topic: 'literatura', badge: 'FRASE CÉLEBRE · POESÍA', title: 'Habitar en la posibilidad', text: '«Para siempre está compuesto de muchos ahoras.»', author: '— Emily Dickinson', reflection: '«Cada instante presente es una página dorada por escribir.»' },
+        { id: 'q17', topic: 'sabiduria', badge: 'FRASE CÉLEBRE · PROPÓSITO', title: 'La libertad de elegir nuestra actitud', text: '«Cuando ya no podemos cambiar una situación, tenemos el desafío de cambiarnos a nosotros mismos.»', author: '— Viktor Frankl', reflection: '«La serenidad es el arte de responder con gracia.»' },
+        { id: 'q18', topic: 'amor', badge: 'FRASE CÉLEBRE · CORAZÓN VALIENTE', title: 'La valentía de sentir', text: '«Rara vez nos damos cuenta de que lo más extraordinario de la vida ocurre en la dulzura de un instante.»', author: '— Clarice Lispector', reflection: '«Dedicado a tu sensibilidad única, Carla Lorena.»' },
+        { id: 'q19', topic: 'naturaleza', badge: 'FRASE CÉLEBRE · PERFUME DE ROSAS', title: 'El rastro de la bondad', text: '«Siempre queda un poco de fragancia en las manos que te entregan rosas.»', author: '— Proverbio Oriental', reflection: '«Todo gesto de cariño embellece a quien lo da y a quien lo recibe.»' },
+        { id: 'q20', topic: 'sabiduria', badge: 'FRASE CÉLEBRE · ARMONÍA', title: 'La música del alma', text: '«La felicidad es cuando lo que piensas, lo que dices y lo que haces están en armonía.»', author: '— Mahatma Gandhi', reflection: '«Vivir en coherencia con el corazón trae paz duradera.»' }
     ];
 
-    let currentQuoteIndex = 0;
-    const nextBtn = document.getElementById('next-quote-btn');
-    const quoteText = document.getElementById('quote-text');
-    const quoteAuthor = document.getElementById('quote-author');
+    const classicWisdomGems = [
+        { badge: 'JOYA LITERARIA · EL PRINCIPITO', eyebrow: 'CRÓNICA DE SABIDURÍA & CALMA', title: 'El secreto de las cosas esenciales', body: '«He aquí mi secreto, que no puede ser más simple: solo con el corazón se puede ver bien; lo esencial es invisible a los ojos.»', author: '— Antoine de Saint-Exupéry · El Principito', mini: '«El tiempo que dedicaste a tu rosa es lo que la hace tan importante.»' },
+        { badge: 'JOYA LITERARIA · ORGULLO Y PREJUICIO', eyebrow: 'CLÁSICOS UNIVERSALES', title: 'El refugio de una buena lectura', body: '«Declaro que después de todo no hay placer comparable a la lectura. ¡Cuan pronto se cansa uno de cualquier otra cosa, menos de un libro!»', author: '— Jane Austen · Orgullo y Prejuicio', mini: '«Cada página leída en calma abre un jardín interior.»' },
+        { badge: 'JOYA LITERARIA · EL JARDÍN SECRETO', eyebrow: 'LITERATURA BOTÁNICA', title: 'Donde nacen las rosas', body: '«Si miras de la forma correcta, puedes ver que todo el mundo es un jardín lleno de magia esperando florecer.»', author: '— Frances Hodgson Burnett · El Jardín Secreto', mini: '«Cuidar tus pensamientos es cultivar rosas en el alma.»' },
+        { badge: 'JOYA LITERARIA · CIEN AÑOS DE SOLEDAD', eyebrow: 'REALISMO MÁGICO', title: 'El asombro de las cosas nuevas', body: '«Las cosas tienen vida propia; todo es cuestión de despertarles el ánima con una mirada llena de asombro.»', author: '— Gabriel García Márquez · Crónicas', mini: '«Nunca pierdas la capacidad de maravillarte, Carla Lorena.»' },
+        { badge: 'JOYA LITERARIA · CARTAS A UN JOVEN POETA', eyebrow: 'FILOSOFÍA DE LA PACIENCIA', title: 'Vivir las preguntas con amor', body: '«Ten paciencia con todo lo que aún no está resuelto en tu corazón e intenta amar las preguntas mismas como cuartos cerrados o libros escritos en un idioma muy hermoso.»', author: '— Rainer Maria Rilke · Cartas a un joven poeta', mini: '«Todo florece cuando llega su estación precisa.»' },
+        { badge: 'JOYA LITERARIA · MUJERCITAS', eyebrow: 'VALENTÍA & SUEÑOS', title: 'Aprender a navegar sin miedo', body: '«No tengo miedo de las tormentas, porque estoy aprendiendo a navegar mi propio barco con esperanza y alegría.»', author: '— Louisa May Alcott · Mujercitas', mini: '«Tu determinación tiene la dulzura y la fuerza de las mareas.»' },
+        { badge: 'JOYA LITERARIA · WALDEN', eyebrow: 'VIDA SERENA & NATURALEZA', title: 'Despertar a la belleza del presente', body: '«Debemos aprender a despertar y mantenernos despiertos, no por ayuda mecánica, sino por una infinita expectativa del amanecer.»', author: '— Henry David Thoreau · Walden', mini: '«Cada mañana trae una promesa nueva entre las hojas.»' },
+        { badge: 'JOYA LITERARIA · EL PROFETA', eyebrow: 'POESÍA FILOSÓFICA', title: 'La belleza en el espejo del corazón', body: '«La belleza no está en el rostro; la belleza es una luz que habita en la bondad del corazón.»', author: '— Khalil Gibran · El Profeta', mini: '«Tu nobleza ilumina todo lo que te rodea.»' }
+    ];
 
-    nextBtn?.addEventListener('click', () => {
-        currentQuoteIndex = (currentQuoteIndex + 1) % quotes.length;
-        if (quoteText && quoteAuthor) {
-            quoteText.style.opacity = '0';
-            quoteAuthor.style.opacity = '0';
+    const botanicalNotesPool = [
+        { badge: 'NOTA · DEDICADA', pin: '🌹', title: 'Sobre florecer a tu propio ritmo', body: '«Las flores jamás compiten con la flor vecina; simplemente despliegan su esplendor. Jamás olvides el inmenso valor que guarda tu propio proceso.»', author: 'Para Carla · Con infinita ternura' },
+        { badge: 'NOTA · SERENIDAD', pin: '🌷', title: 'La paz de los instantes lentos', body: '«Una infusión tibia, una mirada al horizonte al atardecer y unos minutos sin urgencias. En la sencillez noble habita la plenitud.»', author: 'Rincón de Lectura · Atelier' },
+        { badge: 'NOTA · LUZ PROPIA', pin: '🌸', title: 'Tu brillo inconfundible', body: '«Hay personas que dejan una estela inolvidable con solo sonreír, por su nobleza pura y su calidez de corazón. Tú iluminas este espacio, Carla.»', author: 'El Jardín Secreto · Carla Lorena' },
+        { badge: 'NOTA · GRATITUD', pin: '🌺', title: 'El arte de agradecer hoy', body: '«Cuando miras el día con gratitud, hasta la brisa más suave se convierte en una caricia inolvidable para el espíritu.»', author: 'Cuaderno Botánico · Edición Viva' },
+        { badge: 'NOTA · CONFIANZA', pin: '🌻', title: 'Siempre mirando hacia el sol', body: '«Como los girasoles en la pradera, orienta tus pensamientos hacia lo que te da alegría, calma y esperanza verdadera.»', author: 'Herbario de Luz · Para Carla' },
+        { badge: 'NOTA · SUEÑOS', pin: '🪷', title: 'La semilla de tus anhelos', body: '«Todo gran sueño comenzó siendo un destello silencioso en el corazón. Cuídalo con paciencia, porque está destinado a florecer.»', author: 'Archivo de Inspiración · Atelier' },
+        { badge: 'NOTA · DULZURA', pin: '🌹', title: 'Ser amable contigo misma', body: '«Háblate siempre con la misma ternura con la que cuidarías la rosa más delicada del jardín. Mereces toda tu propia compasión.»', author: 'Refugio Interior · Carla Lorena' },
+        { badge: 'NOTA · ARMONÍA', pin: '🌿', title: 'Soltar lo que pesa', body: '«Los árboles dejan caer sus hojas en otoño sin temor, sabiendo que la próxima primavera volverán a vestirse de vida.»', author: 'Sabiduría de las Estaciones' },
+        { badge: 'NOTA · ALEGRÍA', pin: '🌷', title: 'Coleccionar momentos dorados', body: '«Al final del día, lo que más abriga el alma son las risas sinceras, los abrazos honestos y la paz de estar en casa.»', author: 'Memoria Viva · El Jardín' }
+    ];
+
+    const poemsPool = [
+        {
+            title: 'Canto al Atardecer',
+            mood: 'Para leer con una taza de té y silencio amable',
+            stanza1: '«Hay jardines que nacen en la tierra,<br>y otros que florecen en la mirada.<br>Tú llevas contigo la primavera eterna,<br>la risa clara y la paz guardada.»',
+            stanza2: '«Que ningún invierno apague tu calidez,<br>que los senderos te sean siempre amables,<br>y que al volver aquí encuentres otra vez,<br>motivos para soñar inagotables.»',
+            signature: 'Escrito con amor para Carla Lorena'
+        },
+        {
+            title: 'Soneto de las Rosas de Abril',
+            mood: 'Versos de luz para comenzar el día con esperanza',
+            stanza1: '«Entre pétalos suaves despierta la mañana,<br>bordando de carmín la brisa del vergel,<br>y cada flor pronuncia tu nombre en la ventana,<br>con tinta de rocío y aromas de laurel.»',
+            stanza2: '«Camina sin premura por tu sendero claro,<br>que el cielo guarda estrellas para tu caminar;<br>en este jardín vivo tendrás siempre un amparo,<br>donde tu corazón pueda siempre brillar.»',
+            signature: 'Pergamino del Jardín · Edición del Día'
+        },
+        {
+            title: 'Balada del Agua Serena',
+            mood: 'Lectura pausada para tardes de lluvia o sosiego',
+            stanza1: '«Como el arroyo manso que besa la pradera,<br>así fluya la calma dentro de tu interior;<br>que nada te apresure, que todo cuanto espera<br>madure al dulce abrigo de tu propio esplendor.»',
+            stanza2: '«Respira hondo el presente, contempla lo vivido,<br>agradece los pasos que te han traído aquí;<br>en cada rincón noble de este jardín querido,<br>florece una alegría pensada para ti.»',
+            signature: 'Caligrafía Botánica · Para Carla Lorena'
+        },
+        {
+            title: 'Nocturno de los Luceros',
+            mood: 'Para leer bajo la calma de las constelaciones',
+            stanza1: '«Cuando la noche tiende su manto de terciopelo,<br>y encienden las estrellas su lámpara inmortal,<br>un murmullo de rosas se eleva hasta el cielo<br>cuidando tus anhelos con celo de cristal.»',
+            stanza2: '«Descansa en la certeza de todo lo que vales,<br>de la bondad sincera que habita en tu mirar;<br>mañana el sol de oro abrirá los rosales<br>para verte de nuevo sonreír y soñar.»',
+            signature: 'Antología Nocturna · El Jardín de Carla'
+        },
+        {
+            title: 'Oda a los Caminos Nuevos',
+            mood: 'Inspiración viva para abrazar nuevos comienzos',
+            stanza1: '«No temas a la senda que aún no has recorrido,<br>pues cada paso firme despierta una canción;<br>el viento va barriendo las hojas del olvido<br>y siembra primaveras en tu imaginación.»',
+            stanza2: '«Avanza con la gracia de quien confía y cree,<br>llevando por bandera tu noble claridad;<br>que todo cuanto sueñes y tu corazón desee<br>encuentre su camino hacia la realidad.»',
+            signature: 'Colección de Autor · Carla Lorena'
+        }
+    ];
+
+    // Semilla diaria basada en la fecha local (cambia automáticamente todos los días)
+    const now = new Date();
+    const dateKey = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')}`;
+    let daySeed = 0;
+    for (let i = 0; i < dateKey.length; i++) {
+        daySeed = (daySeed * 31 + dateKey.charCodeAt(i)) >>> 0;
+    }
+
+    const dailyDateBadge = document.getElementById('library-daily-date-badge');
+    if (dailyDateBadge) {
+        const formattedDate = now.toLocaleDateString('es-ES', { day: 'numeric', month: 'short', year: 'numeric' });
+        dailyDateBadge.textContent = `EDICIÓN DE HOY · ${formattedDate.toUpperCase()}`;
+    }
+
+    const FAV_STORAGE_KEY = 'carla_library_fav_quotes_v1';
+    function getFavIds() {
+        try {
+            return JSON.parse(localStorage.getItem(FAV_STORAGE_KEY) || '[]');
+        } catch (_) {
+            return [];
+        }
+    }
+    function saveFavIds(ids) {
+        try {
+            localStorage.setItem(FAV_STORAGE_KEY, JSON.stringify(ids));
+        } catch (_) {}
+        updateFavCountUI();
+    }
+    function updateFavCountUI() {
+        const favCountEl = document.getElementById('library-fav-count');
+        if (favCountEl) {
+            favCountEl.textContent = `(${getFavIds().length})`;
+        }
+    }
+
+    let currentTopic = 'todas';
+    let currentQuote = famousQuotes[daySeed % famousQuotes.length];
+    let currentWisdomIndex = daySeed % classicWisdomGems.length;
+    let currentNotesOffset = daySeed % botanicalNotesPool.length;
+    let currentPoemIndex = daySeed % poemsPool.length;
+
+    function getFilteredQuotes() {
+        if (currentTopic === 'todas') return famousQuotes;
+        if (currentTopic === 'favoritas') {
+            const favs = getFavIds();
+            const list = famousQuotes.filter(q => favs.includes(q.id));
+            return list.length > 0 ? list : famousQuotes;
+        }
+        return famousQuotes.filter(q => q.topic === currentTopic);
+    }
+
+    function renderQuote(quote, animate = true) {
+        if (!quote) return;
+        currentQuote = quote;
+        const card = document.getElementById('daily-quote-card');
+        const badgeEl = document.getElementById('quote-category-badge');
+        const titleEl = document.getElementById('quote-title');
+        const textEl = document.getElementById('quote-text');
+        const authorEl = document.getElementById('quote-author');
+        const reflectionEl = document.getElementById('quote-reflection');
+        const favBtn = document.getElementById('fav-quote-btn');
+        const favIcon = document.getElementById('fav-quote-icon');
+        const favLabel = document.getElementById('fav-quote-label');
+
+        const applyContent = () => {
+            if (badgeEl) badgeEl.textContent = quote.badge;
+            if (titleEl) titleEl.textContent = quote.title;
+            if (textEl) textEl.textContent = quote.text;
+            if (authorEl) authorEl.textContent = quote.author;
+            if (reflectionEl) reflectionEl.textContent = quote.reflection;
+
+            const isFav = getFavIds().includes(quote.id);
+            if (favBtn) favBtn.setAttribute('aria-pressed', String(isFav));
+            if (favIcon) favIcon.textContent = isFav ? '♥' : '♡';
+            if (favLabel) favLabel.textContent = isFav ? 'Guardada' : 'Guardar';
+        };
+
+        if (animate && card) {
+            card.classList.add('is-transitioning-card');
             setTimeout(() => {
-                quoteText.textContent = quotes[currentQuoteIndex].text;
-                quoteAuthor.textContent = quotes[currentQuoteIndex].author;
-                quoteText.style.opacity = '1';
-                quoteAuthor.style.opacity = '1';
-            }, 180);
-        }
-    });
-
-    // Reproductor de acordes pentatónicos relajantes con Web Audio
-    const melodyBtn = document.getElementById('relax-melody-btn');
-    let melodyAudioCtx = null;
-    let melodyInterval = null;
-    let isPlaying = false;
-
-    melodyBtn?.addEventListener('click', () => {
-        if (window.GardenMasterAudio && window.GardenMasterAudio.isMuted()) {
-            window.GardenMasterAudio.unmuteAll(false);
-        }
-        if (!melodyAudioCtx) {
-            melodyAudioCtx = new (window.AudioContext || window.webkitAudioContext)();
-        }
-        if (melodyAudioCtx.state === 'suspended') {
-            melodyAudioCtx.resume();
-        }
-
-        const icon = melodyBtn.querySelector('.melody-btn-icon');
-        const text = melodyBtn.querySelector('.melody-btn-text');
-
-        if (isPlaying) {
-            isPlaying = false;
-            clearInterval(melodyInterval);
-            melodyBtn.setAttribute('aria-pressed', 'false');
-            if (icon) icon.textContent = '▶';
-            if (text) text.textContent = 'Escuchar sintonía de calma';
-            showToast('Música en pausa');
+                applyContent();
+                card.classList.remove('is-transitioning-card');
+            }, 160);
         } else {
-            isPlaying = true;
-            melodyBtn.setAttribute('aria-pressed', 'true');
-            if (icon) icon.textContent = '⏸';
-            if (text) text.textContent = 'Pausar melodía serena';
-            showToast('♫ Melodía serena del jardín sonando');
-
-            // Frecuencias pentatónicas en Hertz (C Mayor pentatónico cálido: C4, D4, E4, G4, A4, C5)
-            const notes = [261.63, 293.66, 329.63, 392.00, 440.00, 523.25];
-
-            function playChime() {
-                if (window.GardenMasterAudio && window.GardenMasterAudio.isMuted()) return;
-                if (!isPlaying || !melodyAudioCtx) return;
-                const freq = notes[Math.floor(Math.random() * notes.length)];
-                const osc = melodyAudioCtx.createOscillator();
-                const gain = melodyAudioCtx.createGain();
-
-                osc.type = 'sine';
-                osc.frequency.setValueAtTime(freq, melodyAudioCtx.currentTime);
-
-                gain.gain.setValueAtTime(0.0001, melodyAudioCtx.currentTime);
-                gain.gain.exponentialRampToValueAtTime(0.08, melodyAudioCtx.currentTime + 0.1);
-                gain.gain.exponentialRampToValueAtTime(0.0001, melodyAudioCtx.currentTime + 2.8);
-
-                osc.connect(gain);
-                gain.connect(melodyAudioCtx.destination);
-
-                osc.start();
-                osc.stop(melodyAudioCtx.currentTime + 3.0);
-            }
-
-            playChime();
-            melodyInterval = setInterval(playChime, 1800);
+            applyContent();
         }
+    }
+
+    function renderWisdom(index, animate = true) {
+        const gem = classicWisdomGems[index % classicWisdomGems.length];
+        if (!gem) return;
+        const card = document.getElementById('daily-wisdom-card');
+        const applyContent = () => {
+            const badge = document.getElementById('wisdom-badge');
+            const eyebrow = document.getElementById('wisdom-eyebrow');
+            const title = document.getElementById('wisdom-title');
+            const body = document.getElementById('wisdom-body');
+            const author = document.getElementById('wisdom-author');
+            const mini = document.getElementById('wisdom-mini');
+            if (badge) badge.textContent = gem.badge;
+            if (eyebrow) eyebrow.textContent = gem.eyebrow;
+            if (title) title.textContent = gem.title;
+            if (body) body.textContent = gem.body;
+            if (author) author.textContent = gem.author;
+            if (mini) mini.textContent = gem.mini;
+        };
+        if (animate && card) {
+            card.classList.add('is-transitioning-card');
+            setTimeout(() => {
+                applyContent();
+                card.classList.remove('is-transitioning-card');
+            }, 160);
+        } else {
+            applyContent();
+        }
+    }
+
+    function renderNotes(offset, animate = true) {
+        const slots = document.querySelectorAll('[data-note-slot]');
+        slots.forEach((slot, idx) => {
+            const note = botanicalNotesPool[(offset + idx) % botanicalNotesPool.length];
+            if (!note) return;
+            const applyNote = () => {
+                const badge = slot.querySelector('[data-note-badge]');
+                const pin = slot.querySelector('.note-pin');
+                const title = slot.querySelector('[data-note-title]');
+                const body = slot.querySelector('[data-note-body]');
+                const author = slot.querySelector('[data-note-author]');
+                if (badge) badge.textContent = note.badge;
+                if (pin) pin.textContent = note.pin;
+                if (title) title.textContent = note.title;
+                if (body) body.textContent = note.body;
+                if (author) author.textContent = note.author;
+            };
+            if (animate) {
+                slot.classList.add('is-transitioning-card');
+                setTimeout(() => {
+                    applyNote();
+                    slot.classList.remove('is-transitioning-card');
+                }, 160);
+            } else {
+                applyNote();
+            }
+        });
+    }
+
+    function renderPoem(index, animate = true) {
+        const poem = poemsPool[index % poemsPool.length];
+        if (!poem) return;
+        const card = document.getElementById('dynamic-poem-card');
+        const applyPoem = () => {
+            const title = document.getElementById('poem-title');
+            const mood = document.getElementById('poem-mood');
+            const s1 = document.getElementById('poem-stanza-1');
+            const s2 = document.getElementById('poem-stanza-2');
+            const sig = document.getElementById('poem-signature');
+            if (title) title.textContent = poem.title;
+            if (mood) mood.textContent = poem.mood;
+            if (s1) s1.innerHTML = poem.stanza1;
+            if (s2) s2.innerHTML = poem.stanza2;
+            if (sig) sig.textContent = poem.signature;
+        };
+        if (animate && card) {
+            card.classList.add('is-transitioning-card');
+            setTimeout(() => {
+                applyPoem();
+                card.classList.remove('is-transitioning-card');
+            }, 160);
+        } else {
+            applyPoem();
+        }
+    }
+
+    // Inicializar con la Selección del Día automática
+    updateFavCountUI();
+    renderQuote(currentQuote, false);
+    renderWisdom(currentWisdomIndex, false);
+    renderNotes(currentNotesOffset, false);
+    renderPoem(currentPoemIndex, false);
+
+    // Eventos de botones interactivos
+    document.getElementById('next-quote-btn')?.addEventListener('click', () => {
+        const pool = getFilteredQuotes();
+        const others = pool.filter(q => q.id !== currentQuote?.id);
+        const next = others.length > 0
+            ? others[Math.floor(Math.random() * others.length)]
+            : pool[0];
+        renderQuote(next, true);
     });
 
-    window._stopAppRelaxMelody = function() {
-        if (isPlaying) {
-            isPlaying = false;
-            clearInterval(melodyInterval);
-            melodyBtn?.setAttribute('aria-pressed', 'false');
-            const icon = melodyBtn?.querySelector('.melody-btn-icon');
-            const text = melodyBtn?.querySelector('.melody-btn-text');
-            if (icon) icon.textContent = '▶';
-            if (text) text.textContent = 'Escuchar sintonía de calma';
-            if (melodyAudioCtx && melodyAudioCtx.state === 'running') {
-                try { melodyAudioCtx.suspend(); } catch (_) {}
-            }
+    document.getElementById('fav-quote-btn')?.addEventListener('click', () => {
+        if (!currentQuote) return;
+        const favs = getFavIds();
+        const idx = favs.indexOf(currentQuote.id);
+        if (idx >= 0) {
+            favs.splice(idx, 1);
+            showToast('Frase retirada de tus favoritas');
+        } else {
+            favs.push(currentQuote.id);
+            showToast('♥ Frase célebre guardada en tus favoritas');
         }
-    };
+        saveFavIds(favs);
+        renderQuote(currentQuote, false);
+    });
+
+    document.getElementById('copy-quote-btn')?.addEventListener('click', () => {
+        if (!currentQuote) return;
+        const fullText = `${currentQuote.text} ${currentQuote.author}`;
+        navigator.clipboard?.writeText(fullText).then(() => {
+            showToast('📋 Frase célebre copiada al portapapeles');
+        }).catch(() => {
+            showToast('📋 ' + fullText);
+        });
+    });
+
+    document.getElementById('next-wisdom-btn')?.addEventListener('click', () => {
+        let nextIdx = Math.floor(Math.random() * classicWisdomGems.length);
+        if (nextIdx === currentWisdomIndex) {
+            nextIdx = (currentWisdomIndex + 1) % classicWisdomGems.length;
+        }
+        currentWisdomIndex = nextIdx;
+        renderWisdom(currentWisdomIndex, true);
+    });
+
+    document.getElementById('shuffle-notes-btn')?.addEventListener('click', () => {
+        currentNotesOffset = (currentNotesOffset + 1 + Math.floor(Math.random() * (botanicalNotesPool.length - 1))) % botanicalNotesPool.length;
+        renderNotes(currentNotesOffset, true);
+        showToast('🌹 Notas del corazón renovadas al azar');
+    });
+
+    document.getElementById('next-poem-btn')?.addEventListener('click', () => {
+        let nextIdx = Math.floor(Math.random() * poemsPool.length);
+        if (nextIdx === currentPoemIndex) {
+            nextIdx = (currentPoemIndex + 1) % poemsPool.length;
+        }
+        currentPoemIndex = nextIdx;
+        renderPoem(currentPoemIndex, true);
+        showToast('❦ Nuevo poema desplegado en el pergamino');
+    });
+
+    document.getElementById('library-randomize-all-btn')?.addEventListener('click', () => {
+        const pool = getFilteredQuotes();
+        const others = pool.filter(q => q.id !== currentQuote?.id);
+        renderQuote(others.length > 0 ? others[Math.floor(Math.random() * others.length)] : pool[0], true);
+
+        currentWisdomIndex = (currentWisdomIndex + 1 + Math.floor(Math.random() * (classicWisdomGems.length - 1))) % classicWisdomGems.length;
+        renderWisdom(currentWisdomIndex, true);
+
+        currentNotesOffset = (currentNotesOffset + 2 + Math.floor(Math.random() * (botanicalNotesPool.length - 2))) % botanicalNotesPool.length;
+        renderNotes(currentNotesOffset, true);
+
+        currentPoemIndex = (currentPoemIndex + 1 + Math.floor(Math.random() * (poemsPool.length - 1))) % poemsPool.length;
+        renderPoem(currentPoemIndex, true);
+
+        const statusEl = document.getElementById('library-edition-status');
+        if (statusEl) {
+            statusEl.textContent = 'MODO EXPLORACIÓN ALEATORIA ACTIVO · DESCUBRIENDO NUEVAS JOYAS';
+        }
+        showToast('✨ Toda la Biblioteca se ha renovado con una selección aleatoria');
+    });
+
+    document.querySelectorAll('[data-quote-topic]').forEach((chip) => {
+        chip.addEventListener('click', () => {
+            const topic = chip.dataset.quoteTopic || 'todas';
+            if (topic === 'favoritas' && getFavIds().length === 0) {
+                showToast('♡ Aún no tienes frases guardadas. Pulsa "Guardar" en tu frase favorita.');
+                return;
+            }
+            currentTopic = topic;
+            document.querySelectorAll('[data-quote-topic]').forEach((btn) => {
+                const active = btn === chip;
+                btn.classList.toggle('is-selected', active);
+                btn.setAttribute('aria-pressed', String(active));
+            });
+            const pool = getFilteredQuotes();
+            renderQuote(pool[Math.floor(Math.random() * pool.length)], true);
+        });
+    });
+
+    window._stopAppRelaxMelody = function() {};
 }
 
 
@@ -2332,6 +3108,11 @@ function initReadingNook() {
     }
     var rafId, lastTs = 0;
     function loop(ts) {
+        if (window.__gardenVisualEffectsOff) {
+            ctx.clearRect(0,0,gc.width,gc.height);
+            rafId = requestAnimationFrame(loop);
+            return;
+        }
         var dt = Math.min((ts - lastTs) / 16.67, 3); lastTs = ts;
         ctx.clearRect(0,0,gc.width,gc.height);
         petals.forEach(function(p) {
@@ -2365,10 +3146,16 @@ function initReadingNook() {
         if (!splashEl) return;
 
         const SPLASH_SESSION_KEY = 'carla_jardin_splash_seen_v1';
-        if (sessionStorage.getItem(SPLASH_SESSION_KEY)) {
+        const currentHash = (window.location.hash || '').replace(/^#/, '').trim();
+        const isHomeEntry = !currentHash || currentHash === 'inicio';
+        const hasFormToast = Boolean(document.querySelector('.toast.is-visible'));
+
+        if ((!isHomeEntry || hasFormToast) && sessionStorage.getItem(SPLASH_SESSION_KEY)) {
             splashEl.remove();
             return;
         }
+
+        splashEl.style.removeProperty('display');
 
         const cardEl = splashEl.querySelector('.splash-card');
         const canvas = document.getElementById('splash-particle-canvas');
@@ -2493,6 +3280,32 @@ function initReadingNook() {
             }, 1600);
         }
 
+        // Efecto 3D Tilt interactivo al mover el ratón sobre la tarjeta Glassmorphism
+        if (cardEl) {
+            cardEl.addEventListener('mousemove', function(e) {
+                const rect = cardEl.getBoundingClientRect();
+                const x = e.clientX - rect.left - rect.width / 2;
+                const y = e.clientY - rect.top - rect.height / 2;
+                const tiltX = (y / (rect.height / 2)) * -6;
+                const tiltY = (x / (rect.width / 2)) * 6;
+                cardEl.style.transform = `perspective(1000px) rotateX(${tiltX.toFixed(2)}deg) rotateY(${tiltY.toFixed(2)}deg) translateY(-2px)`;
+
+                // Desplazar ligeramente las mariposas para efecto de paralaje vivo
+                const bf1 = cardEl.querySelector('.bf-top-left');
+                const bf2 = cardEl.querySelector('.bf-bottom-right');
+                if (bf1) bf1.style.transform = `translate(${x * 0.04}px, ${y * 0.04}px) rotate(-18deg)`;
+                if (bf2) bf2.style.transform = `translate(${x * -0.04}px, ${y * -0.04}px) rotate(24deg)`;
+            });
+
+            cardEl.addEventListener('mouseleave', function() {
+                cardEl.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) translateY(0)';
+                const bf1 = cardEl.querySelector('.bf-top-left');
+                const bf2 = cardEl.querySelector('.bf-bottom-right');
+                if (bf1) bf1.style.transform = 'rotate(-18deg)';
+                if (bf2) bf2.style.transform = 'rotate(24deg)';
+            });
+        }
+
         const closeBtn = document.getElementById('splash-close');
         const enterBtn = document.getElementById('splash-enter');
 
@@ -2548,11 +3361,16 @@ function initReadingNook() {
             <span class="love-msg-icon" aria-hidden="true">💌</span>
             <span class="dock-tooltip" role="tooltip">Mensaje de amor</span>
         `;
-        const dock = document.getElementById('floating-dock-right');
+        let dock = document.getElementById('floating-dock-right');
+        if (!dock && document.body) {
+            dock = document.createElement('div');
+            dock.id = 'floating-dock-right';
+            dock.className = 'floating-dock-right';
+            dock.setAttribute('aria-label', 'Controles Flotantes del Jardín');
+            document.body.appendChild(dock);
+        }
         if (dock) {
             dock.appendChild(btn);
-        } else {
-            document.body.appendChild(btn);
         }
     }
 
@@ -2771,11 +3589,12 @@ function initGlobalInteractiveGardenBackground() {
 
     let width = 0;
     let height = 0;
+    let flowers = [];
 
     function resize() {
         width = canvas.width = window.innerWidth;
         height = canvas.height = window.innerHeight;
-        if (typeof updateFlowerPositions === 'function') {
+        if (Array.isArray(flowers) && flowers.length > 0) {
             updateFlowerPositions();
         }
     }
@@ -2851,7 +3670,7 @@ function initGlobalInteractiveGardenBackground() {
         }));
     }
 
-    let flowers = createStaticFlowers();
+    flowers = createStaticFlowers();
 
     function updateFlowerPositions() {
         flowers.forEach((fl) => {
@@ -3342,19 +4161,443 @@ function initTiltAndSpringPhysics() {
     });
 }
 
+
+// ── Estados Efímeros 24h Estilo WhatsApp con Autoajuste Inteligente ──────────
+function initGardenStatuses24h() {
+    const section = document.getElementById('home-statuses-section');
+    const strip = document.getElementById('home-statuses-strip');
+    if (!section || !strip) return;
+
+    const isAdmin = section.dataset.isAdmin === '1';
+    const countPill = document.getElementById('home-statuses-count-pill');
+    const csrfToken = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') || '';
+
+    // Elementos del Modal de Subida (Admin)
+    const uploadDialog = document.getElementById('garden-status-upload-dialog');
+    const uploadForm = document.getElementById('garden-status-upload-form');
+    const fileInput = document.getElementById('status-upload-input');
+    const captionInput = document.getElementById('status-upload-caption');
+    const emptyDropzone = document.getElementById('status-dropzone-empty');
+    const previewStage = document.getElementById('status-live-preview-stage');
+    const previewBlurBg = document.getElementById('status-preview-blur-bg');
+    const previewMainImg = document.getElementById('status-preview-main-img');
+    const previewCountBadge = document.getElementById('status-preview-count-badge');
+    const submitBtn = document.getElementById('btn-submit-status-upload');
+
+    // Elementos del Visor estilo WhatsApp
+    const viewerDialog = document.getElementById('garden-status-viewer-dialog');
+    const progressTrack = document.getElementById('status-viewer-progress-track');
+    const viewerTime = document.getElementById('status-viewer-time');
+    const viewerBackdrop = document.getElementById('status-viewer-backdrop-blur');
+    const viewerPhoto = document.getElementById('status-viewer-main-photo');
+    const viewerCaption = document.getElementById('status-viewer-caption');
+    const viewerFooter = document.getElementById('status-viewer-footer');
+    const btnPause = document.getElementById('btn-status-viewer-pause');
+    const btnDeleteInViewer = document.getElementById('btn-status-viewer-delete');
+    const btnCloseViewer = document.getElementById('btn-status-viewer-close');
+    const btnPrev = document.getElementById('btn-status-prev');
+    const btnNext = document.getElementById('btn-status-next');
+
+    const STORY_DURATION_MS = 6000; // 6 segundos por estado
+    let currentIndex = 0;
+    let isPaused = false;
+    let progressPct = 0;
+    let rafId = null;
+    let lastTick = 0;
+
+    const emptyMsg = document.getElementById('home-statuses-empty-msg');
+
+    function getActiveCards() {
+        return Array.from(strip.querySelectorAll('.status-active-item'));
+    }
+
+    function syncSectionVisibility() {
+        const now = Date.now();
+        getActiveCards().forEach((card) => {
+            const exp = Date.parse(card.dataset.expiresAt || '');
+            if (!Number.isNaN(exp) && exp <= now) {
+                card.remove();
+            }
+        });
+
+        const remainingCards = getActiveCards();
+        const count = remainingCards.length;
+        if (countPill) {
+            countPill.textContent = `${count} ${count === 1 ? 'estado activo' : 'estados activos'}`;
+        }
+
+        if (emptyMsg) {
+            emptyMsg.hidden = count > 0;
+        }
+        section.hidden = false;
+    }
+
+    // Construir HTML de una tarjeta de estado recién subida
+    function createStatusCardElement(st) {
+        const article = document.createElement('article');
+        article.className = 'status-story-card status-active-item';
+        article.setAttribute('role', 'button');
+        article.setAttribute('tabindex', '0');
+        article.dataset.statusId = st.id;
+        article.dataset.imageUrl = st.image_url;
+        article.dataset.caption = st.caption || '';
+        article.dataset.timeAgo = st.time_ago || 'Justo ahora';
+        article.dataset.remaining = st.remaining_label || '24h';
+        article.dataset.expiresAt = st.expires_at_iso || '';
+        article.setAttribute('aria-label', `Ver estado de Carla: ${st.caption || 'Instante del jardín'}`);
+
+        const safeCaption = (st.caption || '')
+            .replace(/&/g, '&amp;')
+            .replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;');
+
+        article.innerHTML = `
+            <div class="status-card-bg-blur" style="background-image: url('${st.image_url}');"></div>
+            <img class="status-card-img" src="${st.image_url}" alt="${safeCaption || 'Estado del jardín'}" loading="lazy">
+            <div class="status-card-shade"></div>
+            <div class="status-card-top">
+                <span class="status-ring-avatar" aria-hidden="true">
+                    <span class="status-ring-inner">🌹</span>
+                </span>
+                <span class="status-ttl-badge" title="Desaparece automáticamente a las 24 horas">⏳ ${st.remaining_label || '24h'}</span>
+                ${isAdmin ? `<button type="button" class="status-card-delete-btn" data-delete-status="${st.id}" title="Eliminar este estado" aria-label="Eliminar estado">✕</button>` : ''}
+            </div>
+            <div class="status-card-bottom">
+                ${safeCaption ? `<p class="status-card-caption">${safeCaption}</p>` : ''}
+                <span class="status-card-time">${st.time_ago || 'Justo ahora'}</span>
+            </div>
+        `;
+        return article;
+    }
+
+    // Abrir modal de subida (Admin)
+    function openUploadModal() {
+        if (!uploadDialog) return;
+        uploadForm?.reset();
+        if (emptyDropzone) emptyDropzone.hidden = false;
+        if (previewStage) previewStage.hidden = true;
+        if (typeof uploadDialog.showModal === 'function') {
+            uploadDialog.showModal();
+        } else {
+            uploadDialog.setAttribute('open', '');
+        }
+    }
+
+    function closeUploadModal() {
+        if (!uploadDialog) return;
+        if (typeof uploadDialog.close === 'function') {
+            uploadDialog.close();
+        } else {
+            uploadDialog.removeAttribute('open');
+        }
+    }
+
+    document.getElementById('btn-open-status-uploader')?.addEventListener('click', openUploadModal);
+    document.getElementById('btn-header-add-status')?.addEventListener('click', openUploadModal);
+    document.getElementById('btn-close-status-upload')?.addEventListener('click', closeUploadModal);
+    document.getElementById('btn-cancel-status-upload')?.addEventListener('click', closeUploadModal);
+
+    // Vista previa con Autoajuste Inteligente Dual al elegir imagen
+    fileInput?.addEventListener('change', () => {
+        const files = fileInput.files;
+        if (!files || files.length === 0) {
+            if (emptyDropzone) emptyDropzone.hidden = false;
+            if (previewStage) previewStage.hidden = true;
+            return;
+        }
+        const firstFile = files[0];
+        const objectUrl = URL.createObjectURL(firstFile);
+        if (previewBlurBg) previewBlurBg.style.backgroundImage = `url('${objectUrl}')`;
+        if (previewMainImg) previewMainImg.src = objectUrl;
+        if (previewCountBadge) {
+            previewCountBadge.textContent = files.length === 1
+                ? '✨ Autoajuste inteligente activo · Dura 24h'
+                : `✨ ${files.length} imágenes seleccionadas · Autoajuste activo`;
+        }
+        if (emptyDropzone) emptyDropzone.hidden = true;
+        if (previewStage) previewStage.hidden = false;
+    });
+
+    // Subir estado por AJAX y agregarlo al instante
+    uploadForm?.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        if (!fileInput?.files?.length) return;
+
+        const formData = new FormData();
+        Array.from(fileInput.files).forEach((f) => formData.append('images[]', f));
+        if (captionInput?.value?.trim()) {
+            formData.append('caption', captionInput.value.trim());
+        }
+
+        if (submitBtn) {
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Publicando estado...';
+        }
+
+        try {
+            const res = await fetch('/admin/garden-statuses', {
+                method: 'POST',
+                headers: {
+                    'X-CSRF-TOKEN': csrfToken,
+                    'Accept': 'application/json'
+                },
+                body: formData
+            });
+            const data = await res.json();
+            if (res.ok && Array.isArray(data.statuses)) {
+                data.statuses.forEach((st) => {
+                    const cardEl = createStatusCardElement(st);
+                    strip.appendChild(cardEl);
+                });
+                syncSectionVisibility();
+                closeUploadModal();
+            }
+        } catch (err) {
+            console.error('Error al publicar estado:', err);
+        } finally {
+            if (submitBtn) {
+                submitBtn.disabled = false;
+                submitBtn.textContent = '✨ Publicar por 24 horas';
+            }
+        }
+    });
+
+    // Eliminar un estado
+    async function deleteStatusById(statusId) {
+        if (!statusId) return;
+        try {
+            const res = await fetch(`/admin/garden-statuses/${statusId}`, {
+                method: 'DELETE',
+                headers: {
+                    'X-CSRF-TOKEN': csrfToken,
+                    'Accept': 'application/json'
+                }
+            });
+            if (res.ok) {
+                const targetCard = strip.querySelector(`.status-active-item[data-status-id="${statusId}"]`);
+                targetCard?.remove();
+                syncSectionVisibility();
+
+                if (viewerDialog?.open) {
+                    const cards = getActiveCards();
+                    if (cards.length === 0) {
+                        closeStatusViewer();
+                    } else {
+                        if (currentIndex >= cards.length) currentIndex = cards.length - 1;
+                        renderViewerSlide(currentIndex);
+                    }
+                }
+            }
+        } catch (err) {
+            console.error('Error al eliminar estado:', err);
+        }
+    }
+
+    // ── VISOR DE ESTADOS ESTILO WHATSAPP ──
+    function stopViewerLoop() {
+        if (rafId) {
+            cancelAnimationFrame(rafId);
+            rafId = null;
+        }
+    }
+
+    function updateProgressBarsUI() {
+        if (!progressTrack) return;
+        const fills = progressTrack.querySelectorAll('.status-progress-fill');
+        fills.forEach((fill, idx) => {
+            if (idx < currentIndex) {
+                fill.style.width = '100%';
+            } else if (idx > currentIndex) {
+                fill.style.width = '0%';
+            } else {
+                fill.style.width = `${Math.min(100, Math.max(0, progressPct))}%`;
+            }
+        });
+    }
+
+    function viewerTick(ts) {
+        if (!viewerDialog?.open) {
+            stopViewerLoop();
+            return;
+        }
+        if (!lastTick) lastTick = ts;
+        const dt = ts - lastTick;
+        lastTick = ts;
+
+        if (!isPaused) {
+            progressPct += (dt / STORY_DURATION_MS) * 100;
+            updateProgressBarsUI();
+            if (progressPct >= 100) {
+                goNextSlide();
+                return;
+            }
+        }
+        rafId = requestAnimationFrame(viewerTick);
+    }
+
+    function renderViewerSlide(idx) {
+        const cards = getActiveCards();
+        if (cards.length === 0) {
+            closeStatusViewer();
+            return;
+        }
+        currentIndex = Math.max(0, Math.min(cards.length - 1, idx));
+        const activeCard = cards[currentIndex];
+
+        const imgUrl = activeCard.dataset.imageUrl || '';
+        const caption = activeCard.dataset.caption || '';
+        const timeAgo = activeCard.dataset.timeAgo || 'Justo ahora';
+        const remaining = activeCard.dataset.remaining || '24h';
+
+        // Construir segmentos de progreso estilo WhatsApp
+        if (progressTrack) {
+            progressTrack.innerHTML = cards
+                .map(() => '<div class="status-progress-seg"><div class="status-progress-fill"></div></div>')
+                .join('');
+        }
+
+        if (viewerBackdrop) viewerBackdrop.style.backgroundImage = `url('${imgUrl}')`;
+        if (viewerPhoto) {
+            viewerPhoto.src = imgUrl;
+            viewerPhoto.alt = caption || 'Estado de Carla Lorena';
+        }
+        if (viewerTime) viewerTime.textContent = `${timeAgo} · ⏳ Expira en ${remaining}`;
+        if (viewerCaption) viewerCaption.textContent = caption;
+        if (viewerFooter) viewerFooter.hidden = !caption;
+
+        progressPct = 0;
+        isPaused = false;
+        if (btnPause) btnPause.textContent = '⏸';
+        updateProgressBarsUI();
+
+        stopViewerLoop();
+        lastTick = 0;
+        rafId = requestAnimationFrame(viewerTick);
+    }
+
+    function openStatusViewer(startIndex = 0) {
+        syncSectionVisibility();
+        const cards = getActiveCards();
+        if (!viewerDialog || cards.length === 0) return;
+
+        if (!viewerDialog.open) {
+            if (typeof viewerDialog.showModal === 'function') {
+                viewerDialog.showModal();
+            } else {
+                viewerDialog.setAttribute('open', '');
+            }
+        }
+        renderViewerSlide(startIndex);
+    }
+
+    function closeStatusViewer() {
+        stopViewerLoop();
+        if (!viewerDialog) return;
+        if (typeof viewerDialog.close === 'function') {
+            viewerDialog.close();
+        } else {
+            viewerDialog.removeAttribute('open');
+        }
+    }
+
+    function goNextSlide() {
+        const cards = getActiveCards();
+        if (currentIndex + 1 < cards.length) {
+            renderViewerSlide(currentIndex + 1);
+        } else {
+            closeStatusViewer();
+        }
+    }
+
+    function goPrevSlide() {
+        if (currentIndex > 0) {
+            renderViewerSlide(currentIndex - 1);
+        } else {
+            renderViewerSlide(0);
+        }
+    }
+
+    // Delegación de clics en la franja de estados
+    strip.addEventListener('click', (e) => {
+        const delBtn = e.target.closest('[data-delete-status]');
+        if (delBtn) {
+            e.stopPropagation();
+            e.preventDefault();
+            deleteStatusById(delBtn.dataset.deleteStatus);
+            return;
+        }
+
+        const storyCard = e.target.closest('.status-active-item');
+        if (storyCard) {
+            const cards = getActiveCards();
+            const idx = cards.indexOf(storyCard);
+            if (idx !== -1) {
+                openStatusViewer(idx);
+            }
+        }
+    });
+
+    btnCloseViewer?.addEventListener('click', closeStatusViewer);
+    btnPrev?.addEventListener('click', (e) => { e.stopPropagation(); goPrevSlide(); });
+    btnNext?.addEventListener('click', (e) => { e.stopPropagation(); goNextSlide(); });
+
+    btnPause?.addEventListener('click', () => {
+        isPaused = !isPaused;
+        btnPause.textContent = isPaused ? '▶' : '⏸';
+    });
+
+    btnDeleteInViewer?.addEventListener('click', () => {
+        const cards = getActiveCards();
+        const activeCard = cards[currentIndex];
+        if (activeCard?.dataset.statusId) {
+            deleteStatusById(activeCard.dataset.statusId);
+        }
+    });
+
+    // Mantener presionado sobre la imagen pausa el estado (como en WhatsApp)
+    const viewerStage = document.getElementById('status-viewer-stage');
+    viewerStage?.addEventListener('pointerdown', (e) => {
+        if (e.target.closest('button')) return;
+        isPaused = true;
+        if (btnPause) btnPause.textContent = '▶';
+    });
+    viewerStage?.addEventListener('pointerup', (e) => {
+        if (e.target.closest('button')) return;
+        isPaused = false;
+        if (btnPause) btnPause.textContent = '⏸';
+    });
+
+    // Vigilar cada 30s que los estados cumplidas sus 24h desaparezcan visualmente
+    setInterval(syncSectionVisibility, 30000);
+    syncSectionVisibility();
+}
+
 // ── Inicialización UX: Modo Museo y Pasaporte del Jardín ─────────────
 function initAllModules() {
-    initMuseumLightbox();
-    initGardenPassport();
-    initFloatingSurprises();
-    initFriendDedications();
-    initHomeCardsAdmin();
-    initSeasonalWeather();
-    initSystemGuide();
-    initDailyBloom();
-    initGlobalInteractiveGardenBackground();
-    initButtonRipples();
-    initTiltAndSpringPhysics();
+    const modules = [
+        ['initNavbarAutoHover', initNavbarAutoHover],
+        ['initCardsAutoHover', initCardsAutoHover],
+        ['initMuseumLightbox', initMuseumLightbox],
+        ['initGardenPassport', initGardenPassport],
+        ['initFloatingSurprises', initFloatingSurprises],
+        ['initFriendDedications', initFriendDedications],
+        ['initHomeCardsAdmin', initHomeCardsAdmin],
+        ['initSeasonalWeather', initSeasonalWeather],
+        ['initSystemGuide', initSystemGuide],
+        ['initDailyBloom', initDailyBloom],
+        // ['initGlobalInteractiveGardenBackground', initGlobalInteractiveGardenBackground], // DESACTIVADO: flores de fondo
+        ['initGardenStatuses24h', initGardenStatuses24h],
+        ['initButtonRipples', initButtonRipples],
+        ['initTiltAndSpringPhysics', initTiltAndSpringPhysics]
+    ];
+
+    for (const [name, fn] of modules) {
+        try {
+            if (typeof fn === 'function') fn();
+        } catch (err) {
+            console.error(`Error inicializando módulo ${name}:`, err);
+        }
+    }
 }
 
 if (document.readyState === 'loading') {
@@ -3363,3 +4606,885 @@ if (document.readyState === 'loading') {
     initAllModules();
 }
 
+
+
+function initDiaryAtelier() {
+    const titleInput = document.getElementById('diary-new-title');
+    const categoryInput = document.getElementById('diary-new-category');
+    const excerptInput = document.getElementById('diary-new-excerpt');
+    const bodyInput = document.getElementById('diary-new-body');
+    const wordCounter = document.getElementById('diary-word-counter');
+    const searchInput = document.getElementById('diary-search-input');
+    const searchEmpty = document.getElementById('diary-search-empty');
+
+    function updateWordCounter() {
+        if (!bodyInput || !wordCounter) return;
+        const text = bodyInput.value.trim();
+        const words = text ? text.split(/\s+/).length : 0;
+        wordCounter.textContent = `${words} ${words === 1 ? 'palabra' : 'palabras'} · Privado`;
+    }
+
+    if (bodyInput) {
+        bodyInput.addEventListener('input', updateWordCounter);
+        updateWordCounter();
+    }
+
+    document.querySelectorAll('.diary-seed-chip').forEach((chip) => {
+        chip.addEventListener('click', () => {
+            if (titleInput && !titleInput.value.trim()) {
+                titleInput.value = chip.dataset.diarySeedTitle || '';
+            }
+            if (categoryInput) {
+                categoryInput.value = chip.dataset.diarySeedCategory || '';
+            }
+            if (excerptInput && !excerptInput.value.trim()) {
+                excerptInput.value = chip.dataset.diarySeedExcerpt || '';
+            }
+            if (bodyInput) {
+                const prompt = chip.dataset.diarySeedPrompt || '';
+                if (!bodyInput.value.trim()) {
+                    bodyInput.value = prompt;
+                }
+                bodyInput.focus();
+                updateWordCounter();
+            }
+        });
+    });
+
+    document.querySelectorAll('.diary-mood-tag').forEach((tag) => {
+        tag.addEventListener('click', () => {
+            if (categoryInput) {
+                categoryInput.value = tag.dataset.diaryMood || '';
+            }
+            document.querySelectorAll('.diary-mood-tag').forEach((t) => t.classList.remove('is-active'));
+            tag.classList.add('is-active');
+        });
+    });
+
+    if (searchInput) {
+        searchInput.addEventListener('input', () => {
+            const q = searchInput.value.trim().toLowerCase();
+            const cards = document.querySelectorAll('[data-diary-card]');
+            let visible = 0;
+            cards.forEach((card) => {
+                const haystack = (card.dataset.diarySearch || card.textContent || '').toLowerCase();
+                const match = !q || haystack.includes(q);
+                card.hidden = !match;
+                if (match) visible++;
+            });
+            if (searchEmpty) {
+                searchEmpty.hidden = !(q && visible === 0);
+            }
+        });
+    }
+}
+
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initDiaryAtelier);
+} else {
+    initDiaryAtelier();
+}
+
+
+function initBlogEditorialDesk() {
+    const categoryInput = document.getElementById('blog-new-category');
+    const bodyInput = document.getElementById('blog-new-body');
+    const wordCounter = document.getElementById('blog-word-counter');
+    const manageSearchInput = document.getElementById('blog-manage-search');
+    const filterEmptyMsg = document.getElementById('blog-manage-filter-empty');
+    const statusTabs = document.querySelectorAll('.blog-status-tab');
+    let currentStatusFilter = 'all';
+
+    function updateBlogWordCount() {
+        if (!bodyInput || !wordCounter) return;
+        const text = bodyInput.value.trim();
+        const words = text ? text.split(/\s+/).length : 0;
+        wordCounter.textContent = `${words} ${words === 1 ? 'palabra' : 'palabras'} · Borrador`;
+    }
+
+    if (bodyInput) {
+        bodyInput.addEventListener('input', updateBlogWordCount);
+        updateBlogWordCount();
+    }
+
+    document.querySelectorAll('.blog-quick-cat-chip').forEach((chip) => {
+        chip.addEventListener('click', () => {
+            if (categoryInput) {
+                categoryInput.value = chip.dataset.blogPickCategory || '';
+            }
+            document.querySelectorAll('.blog-quick-cat-chip').forEach((c) => c.classList.remove('is-active'));
+            chip.classList.add('is-active');
+        });
+    });
+
+    function filterManageCards() {
+        const cards = document.querySelectorAll('[data-blog-manage-card]');
+        if (!cards.length) return;
+        const query = (manageSearchInput?.value || '').trim().toLowerCase();
+        let visibleCount = 0;
+
+        cards.forEach((card) => {
+            const status = card.dataset.blogManageStatus || '';
+            const haystack = (card.dataset.blogManageSearch || card.textContent || '').toLowerCase();
+            const matchesStatus = currentStatusFilter === 'all' || status === currentStatusFilter;
+            const matchesQuery = !query || haystack.includes(query);
+            const show = matchesStatus && matchesQuery;
+            card.hidden = !show;
+            if (show) visibleCount++;
+        });
+
+        if (filterEmptyMsg) {
+            filterEmptyMsg.hidden = visibleCount > 0;
+        }
+    }
+
+    statusTabs.forEach((tab) => {
+        tab.addEventListener('click', () => {
+            currentStatusFilter = tab.dataset.blogManageFilter || 'all';
+            statusTabs.forEach((t) => t.classList.remove('is-active'));
+            tab.classList.add('is-active');
+            filterManageCards();
+        });
+    });
+
+    if (manageSearchInput) {
+        manageSearchInput.addEventListener('input', filterManageCards);
+    }
+}
+
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initBlogEditorialDesk);
+} else {
+    initBlogEditorialDesk();
+}
+
+function initFamilySanctuary() {
+    const screenEl = document.getElementById('screen-familia');
+    if (!screenEl) return;
+
+    const jsonEl = document.getElementById('family-initial-json');
+    let initialState = { unlocked: false, members: [], memories: [] };
+    if (jsonEl) {
+        try {
+            initialState = JSON.parse(jsonEl.textContent || '{}');
+        } catch (err) {
+            console.error('Error parseando datos iniciales de Mi Familia:', err);
+        }
+    }
+
+    let isUnlocked = Boolean(initialState.unlocked);
+    let members = Array.isArray(initialState.members) ? initialState.members : [];
+    let memories = Array.isArray(initialState.memories) ? initialState.memories : [];
+    let selectedMemberId = members[0]?.id || null;
+    let activeCategoryFilter = 'todos';
+
+    const vaultGate = document.getElementById('family-vault-gate');
+    const sanctuaryContent = document.getElementById('family-sanctuary-content');
+    const secDot = document.getElementById('family-sec-dot');
+    const secStatusText = document.getElementById('family-sec-status-text');
+
+    const statMembersCount = document.getElementById('family-stat-members-count');
+    const statChildrenCount = document.getElementById('family-stat-children-count');
+    const statMemoriesCount = document.getElementById('family-stat-memories-count');
+
+    const parentsRow = document.getElementById('family-tree-parents-row');
+    const offspringRow = document.getElementById('family-tree-offspring-row');
+    const membersCardsGrid = document.getElementById('family-members-cards-grid');
+    const memoriesGrid = document.getElementById('family-memories-grid');
+    const memoriesEmpty = document.getElementById('family-memories-empty');
+    const searchInput = document.getElementById('family-memories-search');
+
+    // Spotlight Elements
+    const spotlightBlur = document.getElementById('family-spotlight-blur');
+    const spotlightImg = document.getElementById('family-spotlight-img');
+    const spotlightIcon = document.getElementById('family-spotlight-icon');
+    const spotlightRole = document.getElementById('family-spotlight-role');
+    const spotlightName = document.getElementById('family-spotlight-name');
+    const spotlightDate = document.getElementById('family-spotlight-date');
+    const spotlightBio = document.getElementById('family-spotlight-bio');
+    const spotlightQuote = document.getElementById('family-spotlight-quote');
+    const btnSpotlightEdit = document.getElementById('btn-spotlight-edit-member');
+    const btnSpotlightFilter = document.getElementById('btn-spotlight-filter-memories');
+
+    // Dialogs
+    const quickAuthDialog = document.getElementById('family-quick-auth-dialog');
+    const memberEditorDialog = document.getElementById('family-member-editor-dialog');
+    const memoryEditorDialog = document.getElementById('family-memory-editor-dialog');
+    const lightboxDialog = document.getElementById('family-memory-lightbox-dialog');
+
+    function getCsrfToken() {
+        return document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') || '';
+    }
+
+    function setCsrfToken(newToken) {
+        if (!newToken) return;
+        const meta = document.querySelector('meta[name="csrf-token"]');
+        if (meta) meta.setAttribute('content', newToken);
+    }
+
+    function escapeHtml(str) {
+        return String(str || '')
+            .replace(/&/g, '&amp;')
+            .replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;')
+            .replace(/"/g, '&quot;');
+    }
+
+    function openDialog(dlg) {
+        if (!dlg) return;
+        if (typeof dlg.showModal === 'function') {
+            if (!dlg.open) dlg.showModal();
+        } else {
+            dlg.setAttribute('open', '');
+        }
+    }
+
+    function closeDialog(dlg) {
+        if (!dlg) return;
+        if (typeof dlg.close === 'function') {
+            if (dlg.open) dlg.close();
+        } else {
+            dlg.removeAttribute('open');
+        }
+    }
+
+    function updateStatsUI() {
+        if (statMembersCount) statMembersCount.textContent = String(members.length);
+        if (statChildrenCount) {
+            statChildrenCount.textContent = String(members.filter((m) => m.category === 'children').length);
+        }
+        if (statMemoriesCount) statMemoriesCount.textContent = String(memories.length);
+    }
+
+    function renderSpotlight() {
+        const current = members.find((m) => Number(m.id) === Number(selectedMemberId)) || members[0];
+        if (!current) return;
+        selectedMemberId = current.id;
+        const photoUrl = current.photo_url || '/images/carla-hero.jpg';
+        if (spotlightBlur) spotlightBlur.style.backgroundImage = `url('${photoUrl}')`;
+        if (spotlightImg) {
+            spotlightImg.src = photoUrl;
+            spotlightImg.alt = current.name;
+        }
+        if (spotlightIcon) spotlightIcon.textContent = current.avatar_icon || '💎';
+        if (spotlightRole) spotlightRole.textContent = current.role_badge || 'Integrante Familiar';
+        if (spotlightName) spotlightName.textContent = current.name || '';
+        if (spotlightDate) {
+            spotlightDate.textContent = current.special_date ? `✦ ${current.special_date}` : '✦ Tesoro de Mi Familia';
+        }
+        if (spotlightBio) {
+            spotlightBio.textContent = current.bio || 'Parte esencial del corazón y la alegría de nuestro hogar.';
+        }
+        if (spotlightQuote) {
+            spotlightQuote.textContent = current.favorite_quote || '«El amor en familia es nuestra mayor fortuna.»';
+        }
+    }
+
+    function renderConstellationTree() {
+        if (!parentsRow || !offspringRow) return;
+
+        const parents = members.filter((m) => m.category === 'carla' || m.category === 'adrian');
+        const offspring = members.filter((m) => m.category !== 'carla' && m.category !== 'adrian');
+
+        const buildNodeHtml = (m) => {
+            const isSel = Number(m.id) === Number(selectedMemberId);
+            const photoUrl = escapeHtml(m.photo_url || '/images/carla-hero.jpg');
+            return `
+                <button type="button" class="family-tree-node-btn ${isSel ? 'is-selected' : ''}" data-tree-member-id="${m.id}">
+                    <div class="family-tree-node-avatar">
+                        <img src="${photoUrl}" alt="${escapeHtml(m.name)}" loading="lazy">
+                        <span class="family-tree-node-icon">${escapeHtml(m.avatar_icon || '💎')}</span>
+                    </div>
+                    <strong class="family-tree-node-name">${escapeHtml(m.name)}</strong>
+                    <span class="family-tree-node-role">${escapeHtml(m.role_badge)}</span>
+                </button>
+            `;
+        };
+
+        parentsRow.innerHTML = parents.map(buildNodeHtml).join('');
+        offspringRow.innerHTML = offspring.map(buildNodeHtml).join('');
+    }
+
+    function renderMemberCards() {
+        if (!membersCardsGrid) return;
+        const coreSlugs = ['carla-lorena', 'adrian', 'ody'];
+
+        membersCardsGrid.innerHTML = members.map((m) => {
+            const photoUrl = escapeHtml(m.photo_url || '/images/carla-hero.jpg');
+            const canDelete = !coreSlugs.includes(m.slug);
+            return `
+                <article class="family-member-card" data-member-card-id="${m.id}">
+                    <div class="family-member-card-media" data-select-member="${m.id}" style="cursor: pointer;">
+                        <div class="family-member-card-blur" style="background-image: url('${photoUrl}');"></div>
+                        <img class="family-member-card-img" src="${photoUrl}" alt="${escapeHtml(m.name)}" loading="lazy">
+                        <span class="family-member-card-icon">${escapeHtml(m.avatar_icon || '🌟')}</span>
+                    </div>
+                    <div class="family-member-card-body">
+                        <span class="family-member-card-role">${escapeHtml(m.role_badge)}</span>
+                        <h3 class="family-member-card-name">${escapeHtml(m.name)}</h3>
+                        <p class="family-member-card-bio">${escapeHtml(m.bio || '')}</p>
+                        <div class="family-member-card-footer">
+                            <button type="button" class="button button-sm button-outline" data-edit-member="${m.id}">
+                                ✏️ Editar
+                            </button>
+                            <div style="display: flex; gap: 6px;">
+                                <button type="button" class="button button-sm button-outline" data-filter-member-cat="${escapeHtml(m.category)}" title="Ver fotos">
+                                    📸 Fotos
+                                </button>
+                                ${canDelete ? `<button type="button" class="button button-sm button-outline" data-delete-member="${m.id}" title="Eliminar integrante">🗑️</button>` : ''}
+                            </div>
+                        </div>
+                    </div>
+                </article>
+            `;
+        }).join('');
+
+        // Actualizar selector de integrantes en el modal de recuerdos
+        const memberSelect = document.getElementById('family-memory-member-select');
+        if (memberSelect) {
+            memberSelect.innerHTML = '<option value="">— General de la categoría —</option>' +
+                members.map((m) => `<option value="${m.id}">${escapeHtml(m.avatar_icon || '💎')} ${escapeHtml(m.name)}</option>`).join('');
+        }
+    }
+
+    function renderMemoriesAlbum() {
+        if (!memoriesGrid) return;
+        const query = (searchInput?.value || '').trim().toLowerCase();
+
+        const filtered = memories.filter((mem) => {
+            const matchCat = activeCategoryFilter === 'todos' || mem.category === activeCategoryFilter;
+            const haystack = `${mem.title || ''} ${mem.story || ''} ${mem.emotion_tag || ''} ${mem.member_name || ''}`.toLowerCase();
+            const matchQuery = !query || haystack.includes(query);
+            return matchCat && matchQuery;
+        });
+
+        if (memoriesEmpty) {
+            memoriesEmpty.hidden = filtered.length > 0;
+        }
+
+        memoriesGrid.innerHTML = filtered.map((mem) => {
+            const imgUrl = escapeHtml(mem.image_url || '/images/carla-hero.jpg');
+            return `
+                <article class="family-memory-card" data-memory-id="${mem.id}">
+                    <div class="family-memory-stage" data-open-memory-lightbox="${mem.id}">
+                        <div class="family-memory-blur" style="background-image: url('${imgUrl}');"></div>
+                        <img class="family-memory-img" src="${imgUrl}" alt="${escapeHtml(mem.title)}" loading="lazy">
+                        <span class="family-memory-tag-pill">💎 ${escapeHtml(mem.emotion_tag || 'Amor Familiar')}</span>
+                        <div class="family-memory-actions">
+                            <button type="button" class="family-memory-edit-btn" data-edit-memory="${mem.id}" title="Editar esta foto y recuerdo">✏️</button>
+                            <button type="button" class="family-memory-delete-btn" data-delete-memory="${mem.id}" title="Eliminar recuerdo">✕</button>
+                        </div>
+                    </div>
+                    <div class="family-memory-body">
+                        <div class="family-memory-meta">
+                            <span>${escapeHtml(mem.member_name || 'Mi Familia')}</span>
+                            <span>${escapeHtml(mem.memory_date || 'Recuerdo Eterno')}</span>
+                        </div>
+                        <h3 class="family-memory-title">${escapeHtml(mem.title)}</h3>
+                        ${mem.story ? `<p class="family-memory-story">${escapeHtml(mem.story)}</p>` : ''}
+                    </div>
+                    <div class="family-memory-card-edit-bar">
+                        <span style="font-size: 0.74rem; color: #64748b;">📸 Foto editable</span>
+                        <button type="button" class="family-card-edit-photo-btn" data-edit-memory="${mem.id}">
+                            ✏️ Editar Foto / Datos
+                        </button>
+                    </div>
+                </article>
+            `;
+        }).join('');
+    }
+
+    function renderAllFamilyUI() {
+        screenEl.dataset.familyUnlocked = isUnlocked ? '1' : '0';
+        if (vaultGate) vaultGate.hidden = isUnlocked;
+        if (sanctuaryContent) sanctuaryContent.hidden = !isUnlocked;
+
+        if (secDot) {
+            secDot.classList.toggle('is-unlocked', isUnlocked);
+            secDot.classList.toggle('is-locked', !isUnlocked);
+        }
+        if (secStatusText) {
+            secStatusText.textContent = isUnlocked
+                ? '🔒 BÓVEDA FAMILIAR DESBLOQUEADA · MODO ADMINISTRADOR'
+                : '🔐 ACCESO RESTRINGIDO · EXCLUSIVO ADMINISTRADOR';
+        }
+
+        if (!isUnlocked) return;
+
+        if (!selectedMemberId && members.length > 0) {
+            selectedMemberId = members[0].id;
+        }
+        updateStatsUI();
+        renderConstellationTree();
+        renderSpotlight();
+        renderMemberCards();
+        renderMemoriesAlbum();
+    }
+
+    // Interceptar clic en el Pétalo / Zafiro "Mi Familia" del Mapa si aún no está desbloqueado
+    document.querySelectorAll('[data-family-vault-node="1"]').forEach((node) => {
+        node.addEventListener('click', (e) => {
+            if (!isUnlocked) {
+                e.preventDefault();
+                e.stopPropagation();
+                const errBox = document.getElementById('family-modal-error');
+                if (errBox) errBox.hidden = true;
+                openDialog(quickAuthDialog);
+                setTimeout(() => document.getElementById('family-modal-login')?.focus(), 60);
+            }
+        }, true);
+    });
+
+    document.getElementById('btn-close-family-auth-modal')?.addEventListener('click', () => closeDialog(quickAuthDialog));
+    document.getElementById('btn-cancel-family-auth-modal')?.addEventListener('click', () => closeDialog(quickAuthDialog));
+
+    // Función compartida para desbloquear la Bóveda Familiar por AJAX
+    async function handleUnlockSubmit(formEl, errorEl, submitBtnEl, navigateOnSuccess = false) {
+        if (!formEl) return;
+        const formData = new FormData(formEl);
+        const login = String(formData.get('login') || '').trim();
+        const password = String(formData.get('password') || '');
+
+        if (!login || !password) return;
+
+        if (errorEl) errorEl.hidden = true;
+        const originalText = submitBtnEl?.textContent || 'Desbloquear';
+        if (submitBtnEl) {
+            submitBtnEl.disabled = true;
+            submitBtnEl.textContent = 'Verificando credenciales...';
+        }
+
+        try {
+            const res = await fetch('/family-sanctuary/unlock', {
+                method: 'POST',
+                headers: {
+                    'X-CSRF-TOKEN': getCsrfToken(),
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ login, password }),
+            });
+            const data = await res.json();
+
+            if (res.ok && data.unlocked) {
+                if (data.csrf_token) setCsrfToken(data.csrf_token);
+                isUnlocked = true;
+                members = Array.isArray(data.members) ? data.members : [];
+                memories = Array.isArray(data.memories) ? data.memories : [];
+                selectedMemberId = members[0]?.id || null;
+                renderAllFamilyUI();
+                closeDialog(quickAuthDialog);
+
+                if (navigateOnSuccess) {
+                    const goLink = document.createElement('a');
+                    goLink.href = '#familia';
+                    goLink.dataset.go = 'familia';
+                    document.body.appendChild(goLink);
+                    goLink.click();
+                    goLink.remove();
+                    window.location.hash = 'familia';
+                }
+            } else {
+                if (errorEl) {
+                    errorEl.textContent = data.message || 'Credenciales inválidas. Solo el administrador puede ingresar.';
+                    errorEl.hidden = false;
+                }
+            }
+        } catch (err) {
+            if (errorEl) {
+                errorEl.textContent = 'No se pudo verificar el acceso. Inténtalo de nuevo.';
+                errorEl.hidden = false;
+            }
+        } finally {
+            if (submitBtnEl) {
+                submitBtnEl.disabled = false;
+                submitBtnEl.textContent = originalText;
+            }
+        }
+    }
+
+    document.getElementById('family-modal-unlock-form')?.addEventListener('submit', (e) => {
+        e.preventDefault();
+        handleUnlockSubmit(
+            e.currentTarget,
+            document.getElementById('family-modal-error'),
+            document.getElementById('family-modal-submit-btn'),
+            true
+        );
+    });
+
+    document.getElementById('family-inline-unlock-form')?.addEventListener('submit', (e) => {
+        e.preventDefault();
+        handleUnlockSubmit(
+            e.currentTarget,
+            document.getElementById('family-inline-error'),
+            document.getElementById('family-inline-submit-btn'),
+            false
+        );
+    });
+
+    // Interacción con el Árbol / Constelación
+    document.getElementById('family-tree-canvas')?.addEventListener('click', (e) => {
+        const nodeBtn = e.target.closest('[data-tree-member-id]');
+        if (!nodeBtn) return;
+        selectedMemberId = Number(nodeBtn.dataset.treeMemberId);
+        renderConstellationTree();
+        renderSpotlight();
+    });
+
+    // Botones del Spotlight
+    btnSpotlightEdit?.addEventListener('click', () => {
+        const current = members.find((m) => Number(m.id) === Number(selectedMemberId));
+        if (current) openMemberModal(current);
+    });
+
+    btnSpotlightFilter?.addEventListener('click', () => {
+        const current = members.find((m) => Number(m.id) === Number(selectedMemberId));
+        if (!current) return;
+        setActiveFilterPill(current.category || 'todos');
+        document.getElementById('family-album-section')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+
+    // Modal de Crear / Editar Integrante o Hijo
+    const memberForm = document.getElementById('family-member-editor-form');
+    const memberPhotoInput = document.getElementById('family-member-photo-input');
+    const memberDropEmpty = document.getElementById('family-member-dropzone-empty');
+    const memberDropPreview = document.getElementById('family-member-dropzone-preview');
+    const memberPreviewBlur = document.getElementById('family-member-preview-blur');
+    const memberPreviewImg = document.getElementById('family-member-preview-img');
+
+    function openMemberModal(member = null) {
+        if (!memberEditorDialog || !memberForm) return;
+        memberForm.reset();
+        document.getElementById('family-member-id').value = member ? String(member.id) : '';
+        document.getElementById('family-member-modal-title').textContent = member
+            ? `Editar Perfil de ${member.name}`
+            : 'Agregar Nuevo Hijo / Integrante';
+        document.getElementById('family-member-name').value = member?.name || '';
+        document.getElementById('family-member-category').value = member?.category || 'children';
+        document.getElementById('family-member-role').value = member?.role_badge || 'Hijo Amado · Alegría del Hogar';
+        document.getElementById('family-member-icon').value = member?.avatar_icon || '🌟';
+        document.getElementById('family-member-date').value = member?.special_date || '';
+        document.getElementById('family-member-quote').value = member?.favorite_quote || '';
+        document.getElementById('family-member-bio').value = member?.bio || '';
+
+        if (member?.photo_url) {
+            if (memberPreviewBlur) memberPreviewBlur.style.backgroundImage = `url('${member.photo_url}')`;
+            if (memberPreviewImg) memberPreviewImg.src = member.photo_url;
+            if (memberDropEmpty) memberDropEmpty.hidden = true;
+            if (memberDropPreview) memberDropPreview.hidden = false;
+        } else {
+            if (memberDropEmpty) memberDropEmpty.hidden = false;
+            if (memberDropPreview) memberDropPreview.hidden = true;
+        }
+
+        openDialog(memberEditorDialog);
+    }
+
+    memberPhotoInput?.addEventListener('change', () => {
+        const file = memberPhotoInput.files?.[0];
+        if (!file) return;
+        const url = URL.createObjectURL(file);
+        if (memberPreviewBlur) memberPreviewBlur.style.backgroundImage = `url('${url}')`;
+        if (memberPreviewImg) memberPreviewImg.src = url;
+        if (memberDropEmpty) memberDropEmpty.hidden = true;
+        if (memberDropPreview) memberDropPreview.hidden = false;
+    });
+
+    document.getElementById('btn-open-new-member-modal')?.addEventListener('click', () => openMemberModal(null));
+    document.getElementById('btn-Add-Child-Shortcut')?.addEventListener('click', () => openMemberModal(null));
+    document.getElementById('btn-close-member-modal')?.addEventListener('click', () => closeDialog(memberEditorDialog));
+    document.getElementById('btn-cancel-member-modal')?.addEventListener('click', () => closeDialog(memberEditorDialog));
+
+    memberForm?.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const memberId = document.getElementById('family-member-id')?.value;
+        const saveBtn = document.getElementById('btn-save-member-modal');
+        const formData = new FormData(memberForm);
+        const url = memberId ? `/admin/family-members/${memberId}` : '/admin/family-members';
+
+        if (saveBtn) {
+            saveBtn.disabled = true;
+            saveBtn.textContent = 'Guardando...';
+        }
+
+        try {
+            const res = await fetch(url, {
+                method: 'POST',
+                headers: {
+                    'X-CSRF-TOKEN': getCsrfToken(),
+                    'Accept': 'application/json',
+                },
+                body: formData,
+            });
+            const data = await res.json();
+            if (res.ok && data.member) {
+                if (memberId) {
+                    members = members.map((m) => (Number(m.id) === Number(data.member.id) ? data.member : m));
+                } else {
+                    members.push(data.member);
+                }
+                selectedMemberId = data.member.id;
+                renderAllFamilyUI();
+                closeDialog(memberEditorDialog);
+            }
+        } catch (err) {
+            console.error('Error guardando integrante:', err);
+        } finally {
+            if (saveBtn) {
+                saveBtn.disabled = false;
+                saveBtn.textContent = '✨ Guardar Integrante';
+            }
+        }
+    });
+
+    // Delegación en la grilla de tarjetas de integrantes
+    membersCardsGrid?.addEventListener('click', async (e) => {
+        const selectEl = e.target.closest('[data-select-member]');
+        if (selectEl) {
+            selectedMemberId = Number(selectEl.dataset.selectMember);
+            renderConstellationTree();
+            renderSpotlight();
+            return;
+        }
+
+        const editBtn = e.target.closest('[data-edit-member]');
+        if (editBtn) {
+            const target = members.find((m) => Number(m.id) === Number(editBtn.dataset.editMember));
+            if (target) openMemberModal(target);
+            return;
+        }
+
+        const filterBtn = e.target.closest('[data-filter-member-cat]');
+        if (filterBtn) {
+            setActiveFilterPill(filterBtn.dataset.filterMemberCat || 'todos');
+            document.getElementById('family-album-section')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            return;
+        }
+
+        const delBtn = e.target.closest('[data-delete-member]');
+        if (delBtn) {
+            const id = delBtn.dataset.deleteMember;
+            try {
+                const res = await fetch(`/admin/family-members/${id}`, {
+                    method: 'DELETE',
+                    headers: {
+                        'X-CSRF-TOKEN': getCsrfToken(),
+                        'Accept': 'application/json',
+                    },
+                });
+                if (res.ok) {
+                    members = members.filter((m) => Number(m.id) !== Number(id));
+                    if (Number(selectedMemberId) === Number(id)) {
+                        selectedMemberId = members[0]?.id || null;
+                    }
+                    renderAllFamilyUI();
+                }
+            } catch (err) {
+                console.error('Error eliminando integrante:', err);
+            }
+        }
+    });
+
+    // Modal de Subir / Editar Fotografía / Recuerdo Familiar
+    const memoryForm = document.getElementById('family-memory-editor-form');
+    const memoryImageInput = document.getElementById('family-memory-image-input');
+    const memoryDropEmpty = document.getElementById('family-memory-dropzone-empty');
+    const memoryDropPreview = document.getElementById('family-memory-dropzone-preview');
+    const memoryPreviewBlur = document.getElementById('family-memory-preview-blur');
+    const memoryPreviewImg = document.getElementById('family-memory-preview-img');
+
+    function updateMemoryMemberSelect(selectedMemberVal = '') {
+        const sel = document.getElementById('family-memory-member-select');
+        if (!sel) return;
+        sel.innerHTML = '<option value="">— General de la categoría —</option>' + members.map((m) => {
+            return `<option value="${m.id}" ${String(m.id) === String(selectedMemberVal) ? 'selected' : ''}>${escapeHtml(m.name)} (${escapeHtml(m.role_badge || m.category)})</option>`;
+        }).join('');
+    }
+
+    function openMemoryModal(memory = null) {
+        if (!memoryEditorDialog || !memoryForm) return;
+        memoryForm.reset();
+        document.getElementById('family-memory-id').value = memory ? String(memory.id) : '';
+        document.getElementById('family-memory-modal-title').textContent = memory
+            ? `Editar Fotografía / Recuerdo: ${memory.title}`
+            : 'Subir Recuerdo al Álbum Familiar';
+
+        document.getElementById('family-memory-title').value = memory?.title || '';
+        document.getElementById('family-memory-category').value = memory?.category || 'todos';
+        document.getElementById('family-memory-date').value = memory?.memory_date || '';
+        document.getElementById('family-memory-tag').value = memory?.emotion_tag || '';
+        document.getElementById('family-memory-story').value = memory?.story || '';
+
+        updateMemoryMemberSelect(memory?.family_member_id || '');
+
+        const imgUrl = memory?.image_url;
+        if (imgUrl) {
+            if (memoryPreviewBlur) memoryPreviewBlur.style.backgroundImage = `url('${imgUrl}')`;
+            if (memoryPreviewImg) memoryPreviewImg.src = imgUrl;
+            if (memoryDropEmpty) memoryDropEmpty.hidden = true;
+            if (memoryDropPreview) memoryDropPreview.hidden = false;
+        } else {
+            if (memoryDropEmpty) memoryDropEmpty.hidden = false;
+            if (memoryDropPreview) memoryDropPreview.hidden = true;
+        }
+
+        const saveBtn = document.getElementById('btn-save-memory-modal');
+        if (saveBtn) {
+            saveBtn.textContent = memory ? '💎 Guardar Cambios en la Foto' : '💎 Publicar en el Álbum Familiar';
+        }
+
+        openDialog(memoryEditorDialog);
+    }
+
+    memoryImageInput?.addEventListener('change', () => {
+        const file = memoryImageInput.files?.[0];
+        if (!file) return;
+        const url = URL.createObjectURL(file);
+        if (memoryPreviewBlur) memoryPreviewBlur.style.backgroundImage = `url('${url}')`;
+        if (memoryPreviewImg) memoryPreviewImg.src = url;
+        if (memoryDropEmpty) memoryDropEmpty.hidden = true;
+        if (memoryDropPreview) memoryDropPreview.hidden = false;
+    });
+
+    document.getElementById('btn-open-new-memory-modal')?.addEventListener('click', openMemoryModal);
+    document.getElementById('btn-album-add-photo')?.addEventListener('click', openMemoryModal);
+    document.getElementById('btn-close-memory-modal')?.addEventListener('click', () => closeDialog(memoryEditorDialog));
+    document.getElementById('btn-cancel-memory-modal')?.addEventListener('click', () => closeDialog(memoryEditorDialog));
+
+    memoryForm?.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const memoryId = document.getElementById('family-memory-id')?.value;
+        const saveBtn = document.getElementById('btn-save-memory-modal');
+        const formData = new FormData(memoryForm);
+        const url = memoryId ? `/admin/family-memories/${memoryId}` : '/admin/family-memories';
+
+        if (saveBtn) {
+            saveBtn.disabled = true;
+            saveBtn.textContent = memoryId ? 'Guardando foto...' : 'Publicando recuerdo...';
+        }
+
+        try {
+            const res = await fetch(url, {
+                method: 'POST',
+                headers: {
+                    'X-CSRF-TOKEN': getCsrfToken(),
+                    'Accept': 'application/json',
+                },
+                body: formData,
+            });
+            const data = await res.json();
+            if (res.ok && data.memory) {
+                if (memoryId) {
+                    memories = memories.map((m) => (Number(m.id) === Number(data.memory.id) ? data.memory : m));
+                } else {
+                    memories.unshift(data.memory);
+                }
+                updateStatsUI();
+                renderMemoriesAlbum();
+                closeDialog(memoryEditorDialog);
+            }
+        } catch (err) {
+            console.error('Error guardando recuerdo familiar:', err);
+        } finally {
+            if (saveBtn) {
+                saveBtn.disabled = false;
+                saveBtn.textContent = memoryId ? '💎 Guardar Cambios en la Foto' : '💎 Publicar en el Álbum Familiar';
+            }
+        }
+    });
+
+    // Filtros y buscador del álbum familiar
+    function setActiveFilterPill(cat) {
+        activeCategoryFilter = cat || 'todos';
+        document.querySelectorAll('#family-filter-pills .family-filter-pill').forEach((pill) => {
+            pill.classList.toggle('is-active', pill.dataset.familyFilter === activeCategoryFilter);
+        });
+        renderMemoriesAlbum();
+    }
+
+    document.querySelectorAll('#family-filter-pills .family-filter-pill').forEach((pill) => {
+        pill.addEventListener('click', () => setActiveFilterPill(pill.dataset.familyFilter));
+    });
+
+    searchInput?.addEventListener('input', renderMemoriesAlbum);
+
+    // Delegación en la grilla de recuerdos (Lightbox, Editar y Eliminar)
+    memoriesGrid?.addEventListener('click', async (e) => {
+        const editBtn = e.target.closest('[data-edit-memory]');
+        if (editBtn) {
+            e.stopPropagation();
+            const id = editBtn.dataset.editMemory;
+            const target = memories.find((m) => Number(m.id) === Number(id));
+            if (target) openMemoryModal(target);
+            return;
+        }
+
+        const delBtn = e.target.closest('[data-delete-memory]');
+        if (delBtn) {
+            e.stopPropagation();
+            const id = delBtn.dataset.deleteMemory;
+            try {
+                const res = await fetch(`/admin/family-memories/${id}`, {
+                    method: 'DELETE',
+                    headers: {
+                        'X-CSRF-TOKEN': getCsrfToken(),
+                        'Accept': 'application/json',
+                    },
+                });
+                if (res.ok) {
+                    memories = memories.filter((m) => Number(m.id) !== Number(id));
+                    updateStatsUI();
+                    renderMemoriesAlbum();
+                }
+            } catch (err) {
+                console.error('Error eliminando recuerdo:', err);
+            }
+            return;
+        }
+
+        const openStage = e.target.closest('[data-open-memory-lightbox]');
+        if (openStage) {
+            const mem = memories.find((m) => Number(m.id) === Number(openStage.dataset.openMemoryLightbox));
+            if (!mem) return;
+            const imgUrl = mem.image_url || '/images/carla-hero.jpg';
+            const lbBlur = document.getElementById('family-lightbox-blur');
+            const lbImg = document.getElementById('family-lightbox-img');
+            const lbTag = document.getElementById('family-lightbox-tag');
+            const lbDate = document.getElementById('family-lightbox-date');
+            const lbTitle = document.getElementById('family-lightbox-title');
+            const lbStory = document.getElementById('family-lightbox-story');
+
+            if (lbBlur) lbBlur.style.backgroundImage = `url('${imgUrl}')`;
+            if (lbImg) lbImg.src = imgUrl;
+            if (lbTag) lbTag.textContent = mem.emotion_tag || 'Amor Familiar';
+            if (lbDate) lbDate.textContent = `${mem.member_name || 'Mi Familia'} · ${mem.memory_date || 'Recuerdo Eterno'}`;
+            if (lbTitle) lbTitle.textContent = mem.title || '';
+            if (lbStory) lbStory.textContent = mem.story || '';
+
+            const lbEditBtn = document.getElementById('btn-lightbox-edit-photo');
+            if (lbEditBtn) {
+                lbEditBtn.onclick = () => {
+                    closeDialog(lightboxDialog);
+                    openMemoryModal(mem);
+                };
+            }
+
+            openDialog(lightboxDialog);
+        }
+    });
+
+    document.getElementById('btn-close-family-lightbox')?.addEventListener('click', () => closeDialog(lightboxDialog));
+
+    renderAllFamilyUI();
+}
+
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', () => {
+        initFamilySanctuary();
+        initGardenUXInnovations();
+    });
+} else {
+    initFamilySanctuary();
+    initGardenUXInnovations();
+}

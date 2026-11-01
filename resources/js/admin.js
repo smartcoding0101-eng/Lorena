@@ -1084,7 +1084,187 @@ export function initializeAdminSystem() {
         else if (tabName === 'quiz') loadQuizData();
         else if (tabName === 'albums') loadAlbums();
         else if (tabName === 'media') loadMedia();
+        else if (tabName === 'season-audios') loadSeasonAudios();
         else if (tabName === 'settings') loadSettings();
+    }
+
+    // ═══════════════════════════════════════════════════════════════════════
+    //  MÓDULO: SONIDOS DEL CLIMA Y ESTACIONES
+    // ═══════════════════════════════════════════════════════════════════════
+    const seasonAudioForm = document.getElementById('admin-season-audio-form');
+    const seasonAudioTable = document.getElementById('admin-season-audios-table');
+    const seasonAudioTbody = seasonAudioTable?.querySelector('tbody');
+    const seasonAudioFilter = document.getElementById('filter-season-audios');
+    const seasonAudioRefreshBtn = document.getElementById('btn-refresh-season-audios');
+    const seasonAudioUploadStatus = document.getElementById('season-audio-upload-status');
+    const seasonAudioSubmitBtn = document.getElementById('btn-submit-season-audio');
+
+    const seasonNamesMap = {
+        'spring': '🌸 Primavera',
+        'rain': '🌧️ Lluvia',
+        'summer': '☀️ Verano',
+        'autumn': '🍂 Otoño',
+        'winter': '❄️ Invierno',
+        'stars': '🌠 Estrellas',
+        'bubbles': '🫧 Burbujas',
+        'clear': '✨ Calma'
+    };
+
+    let currentPlayingAudio = null;
+
+    async function loadSeasonAudios() {
+        if (!seasonAudioTbody) return;
+        seasonAudioTbody.innerHTML = `
+            <tr>
+                <td colspan="7" style="text-align: center; padding: 24px; color: var(--text-muted);">
+                    Cargando sonidos del clima...
+                </td>
+            </tr>
+        `;
+
+        const filter = seasonAudioFilter?.value || '';
+        const url = `/admin/season-audios${filter ? '?season=' + encodeURIComponent(filter) : ''}`;
+        let data = null;
+        try {
+            data = await apiRequest(url);
+        } catch (_) {
+            seasonAudioTbody.innerHTML = `
+                <tr>
+                    <td colspan="7" style="text-align: center; padding: 24px; color: var(--frambuesa);">
+                        No se pudieron cargar los sonidos. Intenta nuevamente.
+                    </td>
+                </tr>
+            `;
+            return;
+        }
+
+        const audios = data?.audios || [];
+        if (audios.length === 0) {
+            seasonAudioTbody.innerHTML = `
+                <tr>
+                    <td colspan="7" style="text-align: center; padding: 32px; color: var(--text-muted);">
+                        No hay sonidos cargados para esta estación. ¡Sube tus audios arriba!
+                    </td>
+                </tr>
+            `;
+            return;
+        }
+
+        seasonAudioTbody.innerHTML = audios.map(audio => {
+            const seasonLabel = seasonNamesMap[audio.season] || audio.season;
+            const sizeMb = (audio.file_size / (1024 * 1024)).toFixed(2);
+            const statusBadge = audio.is_active
+                ? '<span class="status-badge is-active" style="color: #059669; font-weight: 600;">✓ Activo</span>'
+                : '<span class="status-badge" style="color: var(--text-muted);">Inactivo</span>';
+
+            return `
+                <tr data-audio-id="${audio.id}">
+                    <td><strong>#${audio.id}</strong></td>
+                    <td><span class="season-badge" style="display: inline-block; padding: 4px 10px; border-radius: 9999px; background: rgba(209,77,114,0.08); font-size: 12px; font-weight: 600;">${escapeHtml(seasonLabel)}</span></td>
+                    <td>
+                        <strong style="display: block; color: var(--text-primary); font-size: 13.5px;">${escapeHtml(audio.title || 'Sin título')}</strong>
+                        <small style="color: var(--text-muted); font-size: 11px;">${escapeHtml(audio.original_name || '')}</small>
+                    </td>
+                    <td>
+                        <audio controls preload="none" src="${escapeHtml(audio.url)}" style="height: 32px; width: 180px;"></audio>
+                    </td>
+                    <td><span style="font-size: 12px; color: var(--text-muted);">${sizeMb} MB</span></td>
+                    <td>${statusBadge}</td>
+                    <td>
+                        <div class="row-actions" style="display: flex; gap: 6px; align-items: center;">
+                            <button type="button" class="btn-action-sm btn-toggle-audio" data-id="${audio.id}" title="${audio.is_active ? 'Desactivar audio' : 'Activar audio'}" style="padding: 4px 8px; font-size: 11px; border-radius: 6px; border: 1px solid var(--border-editorial); background: #fff; cursor: pointer;">
+                                ${audio.is_active ? '⏸ Pausar' : '▶ Activar'}
+                            </button>
+                            <button type="button" class="btn-action-sm btn-delete-audio" data-id="${audio.id}" title="Eliminar sonido" style="padding: 4px 8px; font-size: 11px; border-radius: 6px; border: 1px solid #fee2e2; background: #fef2f2; color: #dc2626; cursor: pointer;">
+                                🗑️
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+            `;
+        }).join('');
+
+        // Eventos para botones de activar/desactivar y borrar
+        seasonAudioTbody.querySelectorAll('.btn-toggle-audio').forEach(btn => {
+            btn.addEventListener('click', async () => {
+                const id = btn.getAttribute('data-id');
+                btn.disabled = true;
+                try {
+                    await apiRequest(`/admin/season-audios/${id}/toggle`, 'POST');
+                    notify('Estado del audio actualizado con éxito.');
+                    loadSeasonAudios();
+                    if (window.reloadGardenSeasonAudios) window.reloadGardenSeasonAudios();
+                } catch (_) {
+                    btn.disabled = false;
+                }
+            });
+        });
+
+        seasonAudioTbody.querySelectorAll('.btn-delete-audio').forEach(btn => {
+            btn.addEventListener('click', async () => {
+                const id = btn.getAttribute('data-id');
+                if (!confirm('¿Estás seguro de que deseas eliminar este audio de la estación?')) return;
+                btn.disabled = true;
+                try {
+                    await apiRequest(`/admin/season-audios/${id}`, 'DELETE');
+                    notify('Audio eliminado correctamente.');
+                    loadSeasonAudios();
+                    if (window.reloadGardenSeasonAudios) window.reloadGardenSeasonAudios();
+                } catch (_) {
+                    btn.disabled = false;
+                }
+            });
+        });
+    }
+
+    seasonAudioFilter?.addEventListener('change', () => loadSeasonAudios());
+    seasonAudioRefreshBtn?.addEventListener('click', () => loadSeasonAudios());
+
+    // Subida múltiple o individual de audios
+    if (seasonAudioForm) {
+        seasonAudioForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const formData = new FormData(seasonAudioForm);
+            const fileInput = document.getElementById('season-audio-files');
+
+            if (!fileInput?.files || fileInput.files.length === 0) {
+                notify('Por favor selecciona al menos un archivo de audio.', true);
+                return;
+            }
+
+            if (seasonAudioSubmitBtn) seasonAudioSubmitBtn.disabled = true;
+            if (seasonAudioUploadStatus) {
+                seasonAudioUploadStatus.style.display = 'inline';
+                seasonAudioUploadStatus.textContent = 'Subiendo ' + fileInput.files.length + ' audio(s)... por favor espera.';
+            }
+
+            try {
+                const response = await fetch('/admin/season-audios', {
+                    method: 'POST',
+                    headers: {
+                        'X-CSRF-TOKEN': csrfToken(),
+                        'Accept': 'application/json'
+                    },
+                    body: formData
+                });
+
+                const data = await response.json().catch(() => ({}));
+
+                if (response.ok && data.success) {
+                    notify(data.message || 'Audios cargados con éxito.');
+                    seasonAudioForm.reset();
+                    loadSeasonAudios();
+                    if (window.reloadGardenSeasonAudios) window.reloadGardenSeasonAudios();
+                } else {
+                    notify(data.error || data.message || 'Error al subir los audios. Revisa el tamaño y formato.', true);
+                }
+            } catch (err) {
+                notify('Ocurrió un error en la conexión al subir.', true);
+            } finally {
+                if (seasonAudioSubmitBtn) seasonAudioSubmitBtn.disabled = false;
+                if (seasonAudioUploadStatus) seasonAudioUploadStatus.style.display = 'none';
+            }
+        });
     }
 
     adminTabs.forEach(tab => {
