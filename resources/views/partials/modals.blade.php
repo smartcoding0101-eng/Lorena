@@ -1287,9 +1287,10 @@
     <dialog class="surprise-modal-dialog" id="bottle-wishes-dialog" aria-label="Buzón de Botellas al Viento">
         <div class="surprise-modal-card bottle-card">
             <header class="surprise-modal-header">
-                <div>
-                    <span class="surprise-emblem">🌊 🏺 📜</span>
+                <div class="surprise-header-text">
+                    <span class="surprise-emblem">✦ BRISAS & SECRETOS DEL MAR DE CRISTAL ✦</span>
                     <h2 class="surprise-title">Botellas al Viento & Deseos</h2>
+                    <p class="surprise-header-subtitle">Mensajes depositados en el mar del tiempo que navegan hasta ti, Carla Lorena.</p>
                 </div>
                 <button type="button" class="dialog-close surprise-close-btn" aria-label="Cerrar buzón">✕</button>
             </header>
@@ -1297,17 +1298,27 @@
             <div class="bottle-tabs">
                 <button type="button" class="bottle-tab is-active" id="tab-read-bottle">📜 Mensaje en la Botella</button>
                 <button type="button" class="bottle-tab" id="tab-send-wish">🌸 Lanzar un Deseo</button>
+                <button type="button" class="bottle-tab" id="tab-fav-bottles">⭐️ Favoritos (<span id="fav-bottles-count">0</span>)</button>
             </div>
 
             <!-- Tab 1: Leer mensaje rescatado -->
             <div class="bottle-pane is-active" id="pane-bottle-read">
                 <div class="parchment-scroll-box" id="parchment-scroll-box">
+                    <div class="parchment-header-origin">
+                        <span class="parchment-origin-badge" id="parchment-origin-badge">🌊 Orillas del Lago de Cristal</span>
+                        <button type="button" class="parchment-star-btn" id="parchment-star-btn" title="Guardar mensaje en favoritos">⭐️</button>
+                    </div>
                     <div class="parchment-wax-seal">❦</div>
                     <p class="parchment-text" id="parchment-message-text">«Cargando mensaje del mar del jardín...»</p>
-                    <span class="parchment-author" id="parchment-author">— Con todo mi cariño</span>
+                    <span class="parchment-author" id="parchment-author">— Carta en papel de lino</span>
                 </div>
                 <div class="bottle-actions">
-                    <button type="button" class="button button-outline" id="bottle-fetch-another">Pescar otra botella 🌊</button>
+                    <button type="button" class="button button-primary" id="bottle-fetch-another">
+                        <span>Pescar otra botella</span> <span>🌊</span>
+                    </button>
+                    <button type="button" class="button button-outline" id="btn-copy-bottle-msg" title="Copiar mensaje">
+                        <span id="copy-bottle-text">Copiar Carta</span> <span>📋</span>
+                    </button>
                 </div>
             </div>
 
@@ -1318,11 +1329,18 @@
                     <textarea class="wish-textarea" id="wish-input" rows="3" placeholder="Escribe tu deseo con el corazón..." maxlength="250"></textarea>
                     <div class="wish-form-footer">
                         <small id="wish-char-count">0 / 250</small>
-                        <button type="button" class="button button-primary" id="btn-release-wish">Liberar deseo al jardín ✨</button>
+                        <button type="button" class="button button-primary" id="btn-release-wish">Liberar deseo al jardín 🌸</button>
                     </div>
                 </div>
                 <div class="released-wishes-list" id="released-wishes-list">
                     <!-- Deseos guardados en localStorage -->
+                </div>
+            </div>
+
+            <!-- Tab 3: Favoritos guardados -->
+            <div class="bottle-pane" id="pane-bottle-favs" hidden>
+                <div class="fav-bottles-wrap" id="fav-bottles-list">
+                    <!-- Mensajes favoritos -->
                 </div>
             </div>
         </div>
@@ -1332,25 +1350,36 @@
     <dialog class="surprise-modal-dialog" id="polaroid-camera-dialog" aria-label="Cámara Polaroid Instantánea">
         <div class="surprise-modal-card polaroid-card">
             <header class="surprise-modal-header">
-                <div>
-                    <span class="surprise-emblem">📸 🌸 🎞️</span>
+                <div class="surprise-header-text">
+                    <span class="surprise-emblem">✦ COLECCIÓN LUNABELLA · INSTANTÁNEAS ✦</span>
                     <h2 class="surprise-title">Instantánea de Recuerdos</h2>
+                    <p class="surprise-header-subtitle">Momentos eternos capturados con amor, luz de luna y fragancia a rosas.</p>
                 </div>
                 <button type="button" class="dialog-close surprise-close-btn" aria-label="Cerrar cámara">✕</button>
             </header>
 
+            <!-- Selector de Temas / Filtros de Recuerdos -->
+            <div class="polaroid-filters-bar" role="group" aria-label="Filtrar recuerdos">
+                <button type="button" class="polaroid-filter-pill is-active" data-filter="all">🌸 Todas</button>
+                <button type="button" class="polaroid-filter-pill" data-filter="flores">🌿 Flores</button>
+                <button type="button" class="polaroid-filter-pill" data-filter="atardecer">🌅 Atardecer</button>
+                <button type="button" class="polaroid-filter-pill" data-filter="amor">💖 Amor</button>
+            </div>
+
             <div class="polaroid-photo-stage">
-                <!-- Marco Polaroid clásico con relieve -->
-                <div class="polaroid-frame" id="polaroid-frame-element">
+                <!-- Marco Polaroid Edición Oro Rosa & Luna (Completamente Firme) -->
+                <div class="polaroid-frame polaroid-frame-lunarose" id="polaroid-frame-element">
+                    <div class="polaroid-shimmer-border" aria-hidden="true"></div>
                     <div class="polaroid-img-wrapper">
                         <img id="polaroid-photo-img" src="" alt="Recuerdo Polaroid">
-                        <span class="polaroid-gold-seal">🌸 Carla</span>
+                        <span class="polaroid-gold-seal">🌸 Carla Lorena</span>
+                        <span class="polaroid-luna-badge" id="polaroid-category-badge">✨ Colección Especial</span>
                     </div>
                     <div class="polaroid-caption-band">
                         <h3 class="polaroid-title" id="polaroid-title-text">Flores de domingo</h3>
-                        <p class="polaroid-quote" id="polaroid-quote-text">«Para recordarte lo bonito que es florecer despacio.»</p>
+                        <p class="polaroid-quote" id="polaroid-quote-text">«Para recordarte lo bonito que es florecer despacio y a tu propio ritmo.»</p>
                         <div class="polaroid-meta-row">
-                            <span class="polaroid-date" id="polaroid-date-text">16 de octubre, 2026</span>
+                            <span class="polaroid-date" id="polaroid-date-text">1 de noviembre de 2026</span>
                             <span class="polaroid-stamp">EDICIÓN JARDÍN ❦</span>
                         </div>
                     </div>
@@ -1361,8 +1390,11 @@
                 <button type="button" class="button button-primary" id="polaroid-download-btn">
                     <span>Descargar Postal PNG</span> <span>📥</span>
                 </button>
+                <button type="button" class="button button-outline" id="polaroid-copy-quote-btn" title="Copiar pensamiento al portapapeles">
+                    <span id="copy-quote-text">Copiar Frase</span> <span>📋</span>
+                </button>
                 <button type="button" class="button button-outline" id="polaroid-reroll-btn">
-                    <span>Tomar otra foto</span> <span>↻</span>
+                    <span>Tomar otra foto</span> <span>🔄</span>
                 </button>
             </footer>
         </div>

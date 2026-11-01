@@ -142,13 +142,18 @@ const BOTTLE_MESSAGES = [
 
 // ── Fotografías para la Cámara Polaroid ────────────────────────────────────
 const POLAROID_PHOTOS = [
-    { title: 'Flores de domingo para Carla', quote: '«Para recordarte lo bonito que es florecer despacio y a tu propio ritmo.»', img: 'https://images.unsplash.com/photo-1490750967868-88aa4486c946?auto=format&fit=crop&w=800&q=85' },
-    { title: 'El lago de los reflejos serenos', quote: '«La serenidad no es ausencia de ruido, es paz en el centro del pecho.»', img: 'https://images.unsplash.com/photo-1470770841072-f978cf4d019e?auto=format&fit=crop&w=800&q=85' },
-    { title: 'Una tarde dorada sobre el trigo', quote: '«Los mejores atardeceres son aquellos compartidos en silencio cómplice.»', img: 'https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=800&q=85' },
-    { title: 'Cielo estrellado sobre las montañas', quote: '«Bajo un millón de estrellas, cada suspiro tiene tu nombre grabado.»', img: 'https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=800&q=85' },
-    { title: 'El sendero de los jazmines', quote: '«El camino más hermoso siempre es el que recorremos con el alma liviana.»', img: 'https://images.unsplash.com/photo-1500534623283-312aade485b7?auto=format&fit=crop&w=800&q=85' },
-    { title: 'Luz de atardecer entre las flores', quote: '«Un cálido recordatorio de que siempre hay belleza al final del día.»', img: 'https://images.unsplash.com/photo-1470252649378-9c29740c9fa8?auto=format&fit=crop&w=800&q=85' }
+    { category: 'flores', title: 'Flores de domingo para Carla', quote: '«Para recordarte lo bonito que es florecer despacio y a tu propio ritmo.»', img: 'https://images.unsplash.com/photo-1490750967868-88aa4486c946?auto=format&fit=crop&w=800&q=85' },
+    { category: 'flores', title: 'El sendero de los jazmines', quote: '«El camino más hermoso siempre es el que recorremos con el alma liviana.»', img: 'https://images.unsplash.com/photo-1500534623283-312aade485b7?auto=format&fit=crop&w=800&q=85' },
+    { category: 'flores', title: 'Rosas de seda bajo el rocío', quote: '«En la delicadeza de una rosa reside la fuerza más pura del amor.»', img: 'https://images.unsplash.com/photo-1496062031456-07b8f162a322?auto=format&fit=crop&w=800&q=85' },
+    { category: 'atardecer', title: 'Una tarde dorada sobre el trigo', quote: '«Los mejores atardeceres son aquellos compartidos en silencio cómplice.»', img: 'https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=800&q=85' },
+    { category: 'atardecer', title: 'Luz de atardecer entre las flores', quote: '«Un cálido recordatorio de que siempre hay belleza al final del día.»', img: 'https://images.unsplash.com/photo-1470252649378-9c29740c9fa8?auto=format&fit=crop&w=800&q=85' },
+    { category: 'atardecer', title: 'Horizonte de luz carmesí', quote: '«El cielo se viste de fiesta solo para contemplar tu tranquilidad.»', img: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=800&q=85' },
+    { category: 'amor', title: 'El lago de los reflejos serenos', quote: '«La serenidad no es ausencia de ruido, es paz en el centro del pecho.»', img: 'https://images.unsplash.com/photo-1470770841072-f978cf4d019e?auto=format&fit=crop&w=800&q=85' },
+    { category: 'amor', title: 'Cielo estrellado sobre las cumbres', quote: '«Bajo un millón de estrellas, cada suspiro tiene tu nombre grabado.»', img: 'https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=800&q=85' },
+    { category: 'amor', title: 'Un refugio en tus ojos', quote: '«Todo lo que florece con verdad en este mundo lleva un destello de ti, Carla.»', img: 'https://images.unsplash.com/photo-1518495973542-4542c06a5843?auto=format&fit=crop&w=800&q=85' }
 ];
+
+let activePolaroidFilter = 'all';
 
 let lastChestIndex = -1;
 let lastBottleIndex = -1;
@@ -603,16 +608,25 @@ function fetchRandomBottleMessage(playChime = true) {
     const msg = BOTTLE_MESSAGES[nextIdx];
     const textEl = document.getElementById('parchment-message-text');
     const authorEl = document.getElementById('parchment-author');
+    const badgeEl = document.getElementById('parchment-origin-badge');
+    const starBtn = document.getElementById('parchment-star-btn');
     const scrollBox = document.getElementById('parchment-scroll-box');
 
     if (scrollBox) {
         scrollBox.style.opacity = '0';
-        scrollBox.style.transform = 'translateY(10px) scale(0.97)';
+        scrollBox.style.transform = 'translateY(6px)';
         setTimeout(() => {
             if (textEl) textEl.textContent = msg.text;
             if (authorEl) authorEl.textContent = msg.author;
+            if (badgeEl) badgeEl.textContent = msg.origin || '🌊 Mar del Jardín Secreto';
+            if (starBtn) {
+                try {
+                    const favs = JSON.parse(localStorage.getItem('carla_fav_bottles') || '[]');
+                    starBtn.classList.toggle('is-favorite', favs.some(f => f.text === msg.text));
+                } catch (_) {}
+            }
             scrollBox.style.opacity = '1';
-            scrollBox.style.transform = 'translateY(0) scale(1)';
+            scrollBox.style.transform = 'translateY(0)';
         }, 150);
     }
 
@@ -723,17 +737,28 @@ function openPolaroidCamera() {
 }
 
 function renderRandomPolaroid() {
-    const photo = POLAROID_PHOTOS[Math.floor(Math.random() * POLAROID_PHOTOS.length)];
+    let pool = POLAROID_PHOTOS;
+    if (activePolaroidFilter !== 'all') {
+        pool = POLAROID_PHOTOS.filter(p => p.category === activePolaroidFilter);
+        if (!pool.length) pool = POLAROID_PHOTOS;
+    }
+
+    const photo = pool[Math.floor(Math.random() * pool.length)];
     currentPolaroid = photo;
 
     const img = document.getElementById('polaroid-photo-img');
     const title = document.getElementById('polaroid-title-text');
     const quote = document.getElementById('polaroid-quote-text');
     const date = document.getElementById('polaroid-date-text');
+    const badge = document.getElementById('polaroid-category-badge');
 
     if (img) img.src = photo.img;
     if (title) title.textContent = photo.title;
     if (quote) quote.textContent = photo.quote;
+    if (badge) {
+        const catMap = { flores: '🌿 Jardín & Flores', atardecer: '🌅 Luz Dorada', amor: '💖 Pensamiento Puro' };
+        badge.textContent = catMap[photo.category] || '✨ Colección Especial';
+    }
     if (date) {
         const today = new Date().toLocaleDateString('es-ES', { day: 'numeric', month: 'long', year: 'numeric' });
         date.textContent = today;
@@ -977,4 +1002,137 @@ export function initFloatingSurprises() {
             card.style.display = text.includes(query) ? '' : 'none';
         });
     });
+}
+
+
+
+// ── INTERACTIVIDAD POLAROID & BOTELLAS AL VIENTO ──
+function initEnhancedSurprisesInteractions() {
+    // 1. Filtros de categoría de la Polaroid
+    document.querySelectorAll('.polaroid-filter-pill').forEach(btn => {
+        btn.addEventListener('click', () => {
+            document.querySelectorAll('.polaroid-filter-pill').forEach(b => b.classList.remove('is-active'));
+            btn.classList.add('is-active');
+            activePolaroidFilter = btn.dataset.filter || 'all';
+            renderRandomPolaroid();
+            playChimeNote(659.25, 0.4);
+        });
+    });
+
+    // 2. Copiar frase de la Polaroid
+    const copyQuoteBtn = document.getElementById('polaroid-copy-quote-btn');
+    copyQuoteBtn?.addEventListener('click', () => {
+        if (!currentPolaroid) return;
+        const textToCopy = `${currentPolaroid.title}\n${currentPolaroid.quote}\n— El Jardín de Carla Lorena`;
+        navigator.clipboard?.writeText(textToCopy).then(() => {
+            const txt = document.getElementById('copy-quote-text');
+            if (txt) txt.textContent = '¡Copiado con amor! ✨';
+            playChimeNote(880.0, 0.4);
+            setTimeout(() => {
+                if (txt) txt.textContent = 'Copiar Frase';
+            }, 2000);
+        });
+    });
+
+    // 3. Copiar carta de la Botella
+    const copyBottleBtn = document.getElementById('btn-copy-bottle-msg');
+    copyBottleBtn?.addEventListener('click', () => {
+        const textEl = document.getElementById('parchment-message-text');
+        const authorEl = document.getElementById('parchment-author');
+        if (!textEl) return;
+        const msg = `${textEl.textContent}\n${authorEl?.textContent || ''}\n— Rescatado en El Jardín de Carla Lorena`;
+        navigator.clipboard?.writeText(msg).then(() => {
+            const txt = document.getElementById('copy-bottle-text');
+            if (txt) txt.textContent = '¡Mensaje Copiado! ✨';
+            playChimeNote(880.0, 0.4);
+            setTimeout(() => {
+                if (txt) txt.textContent = 'Copiar Carta';
+            }, 2000);
+        });
+    });
+
+    // 4. Tab de Favoritos de Botellas
+    const tabFavs = document.getElementById('tab-fav-bottles');
+    const tabRead = document.getElementById('tab-read-bottle');
+    const tabSend = document.getElementById('tab-send-wish');
+    const paneRead = document.getElementById('pane-bottle-read');
+    const paneSend = document.getElementById('pane-bottle-write');
+    const paneFavs = document.getElementById('pane-bottle-favs');
+
+    function updateFavsCount() {
+        try {
+            const favs = JSON.parse(localStorage.getItem('carla_fav_bottles') || '[]');
+            const countEl = document.getElementById('fav-bottles-count');
+            if (countEl) countEl.textContent = favs.length;
+        } catch (_) {}
+    }
+
+    function renderFavsList() {
+        const list = document.getElementById('fav-bottles-list');
+        if (!list) return;
+        try {
+            const favs = JSON.parse(localStorage.getItem('carla_fav_bottles') || '[]');
+            if (!favs.length) {
+                list.innerHTML = '<p style="text-align:center; color:#9f1239; font-style:italic; padding:20px;">Aún no has guardado mensajes favoritos. Toca la estrella ⭐️ en cualquier carta para conservarla aquí.</p>';
+                return;
+            }
+            list.innerHTML = favs.map(f => `
+                <div class="fav-bottle-card">
+                    <p class="fav-bottle-text">${f.text}</p>
+                    <div class="fav-bottle-meta">
+                        <span>${f.origin || '🌊 Mar del Jardín'} · ${f.author || ''}</span>
+                        <span>⭐ Favorito</span>
+                    </div>
+                </div>
+            `).join('');
+        } catch (_) {}
+    }
+
+    tabFavs?.addEventListener('click', () => {
+        [tabRead, tabSend, tabFavs].forEach(t => t?.classList.remove('is-active'));
+        tabFavs.classList.add('is-active');
+        if (paneRead) { paneRead.classList.remove('is-active'); paneRead.hidden = true; }
+        if (paneSend) { paneSend.classList.remove('is-active'); paneSend.hidden = true; }
+        if (paneFavs) { paneFavs.classList.add('is-active'); paneFavs.hidden = false; }
+        renderFavsList();
+        playChimeNote(783.99, 0.4);
+    });
+
+    // Actualizar tabs al volver a Leer o Lanzar
+    tabRead?.addEventListener('click', () => {
+        if (paneFavs) { paneFavs.classList.remove('is-active'); paneFavs.hidden = true; }
+    });
+    tabSend?.addEventListener('click', () => {
+        if (paneFavs) { paneFavs.classList.remove('is-active'); paneFavs.hidden = true; }
+    });
+
+    // 5. Botón de Marcar Favorito en la Botella
+    const starBtn = document.getElementById('parchment-star-btn');
+    starBtn?.addEventListener('click', () => {
+        const textEl = document.getElementById('parchment-message-text');
+        const authorEl = document.getElementById('parchment-author');
+        const badgeEl = document.getElementById('parchment-origin-badge');
+        if (!textEl) return;
+        try {
+            let favs = JSON.parse(localStorage.getItem('carla_fav_bottles') || '[]');
+            const currentItem = {
+                text: textEl.textContent,
+                author: authorEl?.textContent || '',
+                origin: badgeEl?.textContent || ''
+            };
+            const existingIdx = favs.findIndex(f => f.text === currentItem.text);
+            if (existingIdx >= 0) {
+                favs.splice(existingIdx, 1);
+                starBtn.classList.remove('is-favorite');
+            } else {
+                favs.push(currentItem);
+                starBtn.classList.add('is-favorite');
+                playChimeNote(1046.50, 0.4);
+            }
+            localStorage.setItem('carla_fav_bottles', JSON.stringify(favs));
+            updateFavsCount();
+        } catch (_) {}
+    });
+
+    updateFavsCount();
 }
