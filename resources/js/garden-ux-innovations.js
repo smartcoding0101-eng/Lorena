@@ -101,6 +101,7 @@ function init3DTiltCards() {
         '.family-memory-item',
         // '.polaroid-card', // Removido: Polaroid completamente estática sin efecto tilt/balanceo
         '.space-card',
+        '.game-card',
         '.corner-note-card',
         '.promenade-card',
         '.wax-letter-card'
@@ -235,6 +236,13 @@ function initCandlelightReadingMode() {
 
     window.activateCandlelight = activateCandlelight;
     window.deactivateCandlelight = deactivateCandlelight;
+    window.toggleGardenCandlelight = () => {
+        if (candlelightOverlay && candlelightOverlay.classList.contains('is-active')) {
+            deactivateCandlelight();
+        } else {
+            activateCandlelight();
+        }
+    };
 }
 
 /**

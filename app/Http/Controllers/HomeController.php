@@ -48,12 +48,18 @@ class HomeController extends Controller
             ? auth()->user()->photos()->where('is_favorite', true)->with('album:id,title')->latest()->get()
             : collect();
 
+        $timeCapsules = auth()->check()
+            ? auth()->user()->timeCapsules()->orderBy('unlock_at', 'asc')->get()
+            : collect();
+
         $personalStats = [
             'albums' => $albums->count(),
             'photos' => $albums->sum(fn ($album) => $album->photos->count()),
             'favorites' => $favoritePhotos->count(),
             'drafts' => $editableBlogPosts->where('status', 'draft')->count(),
             'diary' => $diaryPosts->count(),
+            'capsules' => $timeCapsules->count(),
+            'media' => $gardenMedia->count(),
         ];
 
         $quizActiveCount = GardenQuizQuestion::active()->count();
@@ -70,10 +76,6 @@ class HomeController extends Controller
             'albums' => Album::count(),
             'media' => GardenMedia::count(),
         ];
-
-        $timeCapsules = auth()->check()
-            ? auth()->user()->timeCapsules()->orderBy('unlock_at', 'asc')->get()
-            : collect();
 
         $friendDedications = FriendDedication::query()->latest()->take(60)->get();
         $homeCards = GardenHomeCard::active()->orderBy('sort_order', 'asc')->get();

@@ -15,6 +15,8 @@ import { initializeAdminSystem } from './admin.js';
 import { initializeEntertainmentPlayer } from './entertainment-player.js';
 import { initializeTimeCapsules } from './time-capsules.js';
 import { initGardenUXInnovations } from './garden-ux-innovations.js';
+import { initGamesHub } from './games-hub.js';
+import { initDedicationExperience } from './dedication-experience.js';
 
 const screens = [...document.querySelectorAll('[data-screen]')];
 const validScreens = new Set(screens.map((screen) => screen.dataset.screen));
@@ -2792,6 +2794,20 @@ function initReadingNook() {
             stanza1: '«No temas a la senda que aún no has recorrido,<br>pues cada paso firme despierta una canción;<br>el viento va barriendo las hojas del olvido<br>y siembra primaveras en tu imaginación.»',
             stanza2: '«Avanza con la gracia de quien confía y cree,<br>llevando por bandera tu noble claridad;<br>que todo cuanto sueñes y tu corazón desee<br>encuentre su camino hacia la realidad.»',
             signature: 'Colección de Autor · Carla Lorena'
+        },
+        {
+            title: 'Madrigal del Jazmín Blanco',
+            mood: 'Paz profunda para instantes de desconexión',
+            stanza1: '«En la quietud donde la tarde expira,<br>aroma el aire un jazmín en calma;<br>así tu voz serena siempre inspira<br>la dicha pura que sosiega el alma.»',
+            stanza2: '«Que la belleza abrace tus momentos,<br>que nunca falte luz en tu sendero;<br>aquí se guardan todos tus acentos<br>con el cariño más leal y sincero.»',
+            signature: 'Manuscrito Botánico · Para Carla Lorena'
+        },
+        {
+            title: 'Elegía de la Ternura Infinita',
+            mood: 'Celebración lírica del alma y la bondad',
+            stanza1: '«Hay almas que son música callada,<br>caricia suave que desarma el frío;<br>tu risa en este espacio dibujada<br>es manantial que desemboca en río.»',
+            stanza2: '«Celebro la nobleza de tu historia,<br>la dulce fuerza con la que floreces;<br>grabada queda aquí para memoria<br>la primavera que tú siempre mereces.»',
+            signature: 'Caligrafía Imperial · Carla Lorena'
         }
     ];
 
@@ -2942,6 +2958,7 @@ function initReadingNook() {
     }
 
     function renderPoem(index, animate = true) {
+        currentPoemIndex = index;
         const poem = poemsPool[index % poemsPool.length];
         if (!poem) return;
         const card = document.getElementById('dynamic-poem-card');
@@ -2956,6 +2973,14 @@ function initReadingNook() {
             if (s1) s1.innerHTML = poem.stanza1;
             if (s2) s2.innerHTML = poem.stanza2;
             if (sig) sig.textContent = poem.signature;
+
+            // Actualizar estado de las píldoras de la antología
+            const activeIdx = index % poemsPool.length;
+            document.querySelectorAll('#poetry-anthology-pills [data-poem-jump]').forEach((pill, idx) => {
+                const isActive = (idx === activeIdx);
+                pill.classList.toggle('is-active', isActive);
+                pill.setAttribute('aria-selected', String(isActive));
+            });
         };
         if (animate && card) {
             card.classList.add('is-transitioning-card');
@@ -3008,6 +3033,87 @@ function initReadingNook() {
         }).catch(() => {
             showToast('📋 ' + fullText);
         });
+    });
+
+    // Salto directo a un poema desde la barra de antología
+    document.querySelectorAll('#poetry-anthology-pills [data-poem-jump]').forEach((pill) => {
+        pill.addEventListener('click', () => {
+            const jumpIdx = parseInt(pill.dataset.poemJump, 10);
+            if (!isNaN(jumpIdx)) {
+                renderPoem(jumpIdx, true);
+                showToast(`📜 Desplegando Poema ${jumpIdx + 1} en el pergamino`);
+            }
+        });
+    });
+
+    // Copiar Poema Caligrafiado
+    document.getElementById('copy-poem-btn')?.addEventListener('click', () => {
+        const poem = poemsPool[currentPoemIndex % poemsPool.length];
+        if (!poem) return;
+        const s1Clean = poem.stanza1.replace(/<br\s*\/?>/gi, '\n');
+        const s2Clean = poem.stanza2.replace(/<br\s*\/?>/gi, '\n');
+        const textToCopy = `📜 ${poem.title}\n(${poem.mood})\n\n${s1Clean}\n\n❦\n\n${s2Clean}\n\n✍️ ${poem.signature}\n— El Jardín de Carla`;
+        navigator.clipboard?.writeText(textToCopy).then(() => {
+            showToast('📋 Poema caligrafiado copiado al portapapeles');
+        }).catch(() => {
+            showToast('📋 ' + poem.title);
+        });
+    });
+
+    // Modo Atril / Lectura Inmersiva
+    document.getElementById('toggle-poetry-focus-btn')?.addEventListener('click', () => {
+        const card = document.getElementById('dynamic-poem-card');
+        const label = document.getElementById('focus-btn-label');
+        if (!card) return;
+        const isZen = card.classList.toggle('is-zen-focus');
+        if (label) label.textContent = isZen ? 'Vista normal' : 'Modo atril';
+        showToast(isZen ? '✨ Modo atril activado: tipografía ampliada para lectura serena' : 'Vista normal de pergamino');
+    });
+
+    // Experiencia Sonora de Arpa Poética
+    const playPoeticArpeggio = () => {
+        if (typeof playSoftChime === 'function') {
+            playSoftChime(440.00); // A4
+            setTimeout(() => playSoftChime(554.37), 160); // C#5
+            setTimeout(() => playSoftChime(659.25), 320); // E5
+            setTimeout(() => playSoftChime(880.00), 480); // A5
+        }
+    };
+
+    document.getElementById('poetry-chime-btn')?.addEventListener('click', () => {
+        playPoeticArpeggio();
+        showToast('❦ Versos dedicados con todo el cariño para Carla Lorena');
+    });
+
+    // Botón de Copiar Joya Literaria
+    document.getElementById('copy-wisdom-btn')?.addEventListener('click', () => {
+        const gem = classicWisdomGems[currentWisdomIndex % classicWisdomGems.length];
+        if (!gem) return;
+        const textToCopy = `📖 ${gem.title}\n${gem.body}\n${gem.author}`;
+        navigator.clipboard?.writeText(textToCopy).then(() => {
+            showToast('📋 Joya literaria copiada al portapapeles');
+        }).catch(() => {
+            showToast('📋 ' + gem.title);
+        });
+    });
+
+    // Campanas de Meditación y Melodía Hero
+    document.getElementById('wisdom-chime-btn')?.addEventListener('click', () => {
+        if (typeof playSoftChime === 'function') {
+            playSoftChime(587.33); // D5
+            setTimeout(() => playSoftChime(739.99), 220); // F#5
+        }
+        showToast('🔔 Serenidad y lectura profunda');
+    });
+
+    document.getElementById('library-chime-hero-btn')?.addEventListener('click', () => {
+        if (typeof playSoftChime === 'function') {
+            playSoftChime(523.25); // C5
+            setTimeout(() => playSoftChime(659.25), 180); // E5
+            setTimeout(() => playSoftChime(783.99), 360); // G5
+            setTimeout(() => playSoftChime(1046.50), 540); // C6
+        }
+        showToast('✨ Melodía de paz para el Atelier Literario');
     });
 
     document.getElementById('next-wisdom-btn')?.addEventListener('click', () => {
@@ -5599,8 +5705,10 @@ if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', () => {
         initFamilySanctuary();
         initGardenUXInnovations();
+        initGamesHub();
     });
 } else {
     initFamilySanctuary();
     initGardenUXInnovations();
+    initGamesHub();
 }
