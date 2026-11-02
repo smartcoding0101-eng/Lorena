@@ -21707,7 +21707,7 @@ footer a:hover, .site-footer a:hover {
     position: fixed;
     bottom: 5.5rem;
     right: 1.5rem;
-    width: min(390px, calc(100vw - 2rem));
+    width: min(420px, calc(100vw - 2rem));
     max-height: 94vh;
     z-index: 99998;
     background:
@@ -22176,24 +22176,29 @@ footer a:hover, .site-footer a:hover {
 /* Pestañas de carga */
 .fmp-tabs-bar {
     display: flex;
-    gap: 4px;
-    background: rgba(255, 241, 245, 0.7);
+    gap: 5px;
+    background: rgba(255, 241, 245, 0.75);
     padding: 3px;
-    border-radius: 10px;
-    border: 1px solid rgba(225, 29, 72, 0.1);
+    border-radius: 12px;
+    border: 1px solid rgba(225, 29, 72, 0.12);
+    width: 100% !important;
+    box-sizing: border-box !important;
 }
 
 .fmp-tab-btn {
-    flex: 1;
-    padding: 4px 6px;
-    border-radius: 6px;
+    flex: 1 1 0;
+    min-width: 0;
+    padding: 6px 8px;
+    border-radius: 8px;
     border: none;
     background: transparent;
-    font-size: 10.5px;
-    font-weight: 600;
+    font-size: 11px;
+    font-weight: 700;
     color: #64748b;
     cursor: pointer;
     transition: all 0.2s ease;
+    text-align: center;
+    white-space: nowrap;
 }
 
 .fmp-tab-btn.is-active {
@@ -22202,75 +22207,131 @@ footer a:hover, .site-footer a:hover {
     box-shadow: 0 1px 4px rgba(190, 18, 60, 0.12);
 }
 
-/* Paneles de carga */
+/* Paneles de carga adaptables al 100% del ancho */
+.fmp-tab-panel {
+    width: 100% !important;
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+    display: flex;
+    flex-direction: column !important;
+    align-items: stretch !important;
+}
+
 .fmp-dropzone {
-    border: 1.5px dashed rgba(225, 29, 72, 0.28);
-    border-radius: 12px;
-    padding: 10px 8px;
+    width: 100% !important;
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+    flex: 1 1 100% !important;
+    border: 1.5px dashed rgba(225, 29, 72, 0.35);
+    border-radius: 14px;
+    padding: 14px 16px;
     text-align: center;
-    background: rgba(255, 255, 255, 0.6);
+    background: rgba(255, 255, 255, 0.75);
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 4px;
+    justify-content: center;
+    gap: 6px;
+    transition: all 0.25s ease;
+}
+
+.fmp-dropzone:hover {
+    background: rgba(255, 241, 245, 0.9);
+    border-color: #e11d48;
 }
 
 .fmp-dropzone-icon {
-    font-size: 18px;
+    font-size: 22px;
     line-height: 1;
 }
 
+.fmp-dropzone-text {
+    width: 100%;
+    text-align: center;
+}
+
 .fmp-dropzone-text strong {
-    font-size: 11px;
+    font-size: 12px;
+    font-weight: 700;
     color: #4c0519;
     display: block;
+    margin-bottom: 2px;
 }
 
 .fmp-dropzone-text small {
-    font-size: 9px;
+    font-size: 9.5px;
     color: #64748b;
+    display: block;
 }
 
 .fmp-btn-browse {
-    padding: 3px 10px !important;
-    font-size: 10px !important;
+    display: inline-flex !important;
+    align-items: center;
+    justify-content: center;
+    padding: 5px 18px !important;
+    font-size: 11px !important;
+    font-weight: 700 !important;
     border-radius: 999px !important;
-    margin-top: 2px;
+    margin-top: 4px;
     cursor: pointer;
+    background: #ffffff !important;
+    border: 1.5px solid rgba(225, 29, 72, 0.3) !important;
+    color: #be123c !important;
+    box-shadow: 0 2px 6px rgba(190, 18, 60, 0.08);
+    transition: all 0.2s ease !important;
+}
+
+.fmp-btn-browse:hover {
+    background: #fff1f2 !important;
+    border-color: #e11d48 !important;
+    color: #9f1239 !important;
+    transform: translateY(-1px);
 }
 
 /* Formulario URL */
 .fmp-url-form {
     display: flex;
     flex-direction: column;
-    gap: 6px;
+    gap: 8px;
     padding: 4px 0;
+    width: 100% !important;
+    box-sizing: border-box !important;
+}
+
+.fmp-input-row {
+    width: 100% !important;
+    box-sizing: border-box !important;
 }
 
 .fmp-url-input {
-    width: 100%;
-    padding: 6px 10px;
-    border-radius: 8px;
-    border: 1.5px solid rgba(225, 29, 72, 0.18);
+    width: 100% !important;
+    box-sizing: border-box !important;
+    padding: 7px 12px;
+    border-radius: 10px;
+    border: 1.5px solid rgba(225, 29, 72, 0.2);
     background: #ffffff;
     font-size: 11px;
     outline: none;
+    transition: all 0.2s ease;
 }
 
 .fmp-url-input:focus {
     border-color: #be123c;
-    box-shadow: 0 0 0 2px rgba(190, 18, 60, 0.12);
+    box-shadow: 0 0 0 2.5px rgba(190, 18, 60, 0.14);
 }
 
 .fmp-url-actions {
     display: flex;
     justify-content: flex-end;
-    gap: 6px;
+    gap: 8px;
+    width: 100% !important;
+    box-sizing: border-box !important;
 }
 
 .fmp-url-actions button {
-    padding: 4px 10px !important;
+    padding: 5px 14px !important;
     font-size: 10.5px !important;
+    font-weight: 700 !important;
     border-radius: 999px !important;
 }
 

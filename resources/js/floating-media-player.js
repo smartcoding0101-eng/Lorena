@@ -832,9 +832,21 @@ export class FloatingMediaPlayer {
             btn.classList.toggle('is-active', btn.getAttribute('data-fmp-tab') === tabId);
         });
 
-        if (this.panelLocal) this.panelLocal.style.display = tabId === 'tab-local' ? 'flex' : 'none';
-        if (this.panelUrl) this.panelUrl.style.display = tabId === 'tab-url' ? 'flex' : 'none';
-        if (this.panelPlaylist) this.panelPlaylist.style.display = tabId === 'tab-playlist' ? 'flex' : 'none';
+        if (this.panelLocal) {
+            this.panelLocal.style.display = tabId === 'tab-local' ? 'flex' : 'none';
+            this.panelLocal.style.flexDirection = 'column';
+            this.panelLocal.style.width = '100%';
+        }
+        if (this.panelUrl) {
+            this.panelUrl.style.display = tabId === 'tab-url' ? 'flex' : 'none';
+            this.panelUrl.style.flexDirection = 'column';
+            this.panelUrl.style.width = '100%';
+        }
+        if (this.panelPlaylist) {
+            this.panelPlaylist.style.display = tabId === 'tab-playlist' ? 'flex' : 'none';
+            this.panelPlaylist.style.flexDirection = 'column';
+            this.panelPlaylist.style.width = '100%';
+        }
     }
 
     // ── GESTIÓN DE LA LISTA DE REPRODUCCIÓN ────────────────────────────────────
