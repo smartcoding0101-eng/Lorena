@@ -46,6 +46,9 @@ class GardenStatus extends Model
         if (str_starts_with($path, 'images/')) {
             return asset($path);
         }
+        if (str_starts_with($path, 'storage/')) {
+            return asset($path);
+        }
 
         return asset('storage/' . $path);
     }

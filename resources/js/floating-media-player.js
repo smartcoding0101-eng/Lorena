@@ -238,8 +238,8 @@ export class FloatingMediaPlayer {
         });
 
         // Limpiar Playlist
-        this.btnClearPlaylist?.addEventListener('click', () => {
-            if (confirm('¿Deseas vaciar la lista de reproducción?')) {
+        this.btnClearPlaylist?.addEventListener('click', async () => {
+            if (await window.showConfirm({ title: '¿Vaciar playlist?', message: '¿Deseas vaciar la lista de reproducción?', confirmText: 'Sí, vaciar', type: 'danger' })) {
                 this.clearPlaylist();
             }
         });
@@ -367,7 +367,7 @@ export class FloatingMediaPlayer {
 
         const track = this.parseUrlTrack(rawUrl);
         if (!track) {
-            alert('Por favor introduce un enlace válido de YouTube o un archivo de audio/video en línea (http/https).');
+            window.showAlert({ title: 'Enlace inválido', message: 'Por favor introduce un enlace válido de YouTube o un archivo multimedia en línea (http/https).', type: 'warning' });
             return;
         }
 

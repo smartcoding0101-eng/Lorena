@@ -243,11 +243,11 @@ function handleGlobalCanvasClick(clickX, clickY) {
 
 function triggerWishGrantedEffect(x, y) {
     playHarpChime(784); // G5 suave
-    createSparkleBurst(x, y, 16, ['#52b788', '#ffffff', '#ef4444']);
+    createSparkleBurst(x, y, 16, ['#ff3e9a', '#ffd84d', '#ffffff', '#a78bfa']);
     showToast('✨ ¡Pediste un deseo a la estrella fugaz! Que el universo cumpla todo lo que sueñas, Carla ♡');
 }
 
-function createSparkleBurst(x, y, count = 10, colors = ['#ffffff', '#b7e4c7']) {
+function createSparkleBurst(x, y, count = 10, colors = ['#ffffff', '#ffd2e5', '#ff3e9a']) {
     for (let i = 0; i < count; i++) {
         const angle = Math.random() * Math.PI * 2;
         const spd = 1.5 + Math.random() * 3.5;
@@ -1697,12 +1697,12 @@ export function turnOffAtmosphere() {
 // PILAR 5: CRISTAL EMPAÑADO DE LLUVIA (DESEMPAÑAR CON DEDO / CURSOR)
 // ═══════════════════════════════════════════════════════════════════════════
 const MISTY_QUOTES = [
-    "«Eres la luz serena que ilumina cada rincón de este jardín. Ni la lluvia más intensa puede apagar la calidez y ternura que transmites al mundo, Carla.»",
-    "«Hay personas que convierten un día común en un poema inolvidable. Para este jardín y para quienes te admiran, tú eres esa persona, Carla Lorena.»",
-    "«Que cada gota de lluvia lave las tristezas y cada rayo de sol te recuerde lo valiosa, fuerte y hermosa que eres. ♡»",
-    "«El tiempo pasa, pero las personas nobles y de corazón luminoso florecen con más gracia en cada estación. Feliz presente, Carla.»",
-    "«En este jardín secreto no hay prisa, solo serenidad, música suave y un espacio reservado para tu alegría infinita.»",
-    "«Sonríe hoy con el alma. Te mereces cada estrella del cielo y cada flor que hoy perfuma este camino.»"
+    "«Eres la luz serena que ilumina cada rincón de este jardín. Ni la lluvia más intensa puede apagar el inmenso amor que Adrián siente por ti, Carla mía.»",
+    "«Hay personas que convierten un día común en un poema inolvidable. Para Adrián, tú eres la persona más maravillosa del mundo entero, Carla Lorena.»",
+    "«De Adrián para Carla con mucho amor: Que cada gota de lluvia lave cualquier cansancio y te recuerde lo profundamente amada y cuidada que estás. ♡»",
+    "«El tiempo pasa, pero el amor sincero de Adrián hacia ti florece con más fuerza, nobleza y ternura en cada estación. Feliz presente, Carla.»",
+    "«En este jardín secreto no hay prisa: solo serenidad, música suave y la devoción eterna de Adrián cuidando de tu alegría infinita.»",
+    "«Sonríe hoy con el alma, amada Carla. Adrián te entrega su corazón, cada estrella del cielo y cada flor que hoy perfuma tu camino.»"
 ];
 
 let mistyQuoteIndex = 0;
@@ -1932,7 +1932,7 @@ function initMistyWindow() {
     // Copiar mensaje poético
     copyQuoteBtn?.addEventListener('click', async () => {
         const text = secretText ? secretText.textContent.trim() : '';
-        const postcard = `✦ Cristal Empañado de Lluvia · El Jardín de Carla Lorena ✦\n${text}\n— Con amor desde tu jardín ♡`;
+        const postcard = `✦ Cristal Empañado de Lluvia · De Adrián para Carla con mucho amor ✦\n${text}\n— De Adrián para Carla con mucho amor ♡`;
         try {
             await navigator.clipboard.writeText(postcard);
             copyQuoteBtn.innerHTML = '<span>✓ ¡Copiado!</span>';

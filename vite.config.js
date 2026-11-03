@@ -15,4 +15,22 @@ export default defineConfig({
             ignored: ['**/storage/framework/views/**'],
         },
     },
+    build: {
+        chunkSizeWarningLimit: 1000,
+        rollupOptions: {
+            output: {
+                manualChunks(id) {
+                    if (id.includes('node_modules/three')) {
+                        return 'vendor-three';
+                    }
+                    if (id.includes('node_modules/axios')) {
+                        return 'vendor-axios';
+                    }
+                    if (id.includes('node_modules/gsap')) {
+                        return 'vendor-gsap';
+                    }
+                },
+            },
+        },
+    },
 });

@@ -316,7 +316,7 @@ export function initializeCornerNotes() {
     // Editar nota
     function editNote(note) {
         if (!noteForm) {
-            alert('Debes iniciar sesión para editar notas.');
+            window.showAlert({ title: 'Acceso privado', message: 'Debes iniciar sesión para editar notas.', type: 'warning' });
             return;
         }
         formIdInput.value = String(note.id);
@@ -342,7 +342,7 @@ export function initializeCornerNotes() {
 
     // Eliminar nota
     async function deleteNote(id) {
-        if (!confirm('¿Segura que deseas eliminar este recuerdo de este rincón?')) return;
+        if (!await window.showConfirm({ title: '¿Eliminar recuerdo?', message: '¿Segura que deseas eliminar este recuerdo de este rincón?', confirmText: 'Sí, eliminar', type: 'danger' })) return;
         try {
             const token = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content');
             const res = await fetch(`/garden-notes/${id}`, {
@@ -357,7 +357,7 @@ export function initializeCornerNotes() {
                 currentNotes = currentNotes.filter(n => n.id !== id);
                 renderNotes(currentNotes);
             } else {
-                alert(data.message || 'No se pudo eliminar la nota.');
+                window.showAlert({ title: 'Error', message: data.message || 'No se pudo eliminar la nota.', type: 'error' });
             }
         } catch (error) {
             console.error('Error al eliminar nota:', error);
@@ -397,11 +397,11 @@ export function initializeCornerNotes() {
                     fetchNotesForCurrentScreen();
                     playSoftChime(783.99); // Chime de éxito
                 } else {
-                    alert(data.message || 'Hubo un error al guardar tu nota.');
+                    window.showAlert({ title: 'Error', message: data.message || 'Hubo un error al guardar tu nota.', type: 'error' });
                 }
             } catch (error) {
                 console.error('Error al guardar nota:', error);
-                alert('No se pudo guardar la nota.');
+                window.showAlert({ title: 'Error', message: 'No se pudo guardar la nota.', type: 'error' });
             } finally {
                 if (submitBtn) submitBtn.disabled = false;
             }

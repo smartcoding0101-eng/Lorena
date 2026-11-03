@@ -20,6 +20,7 @@ export function initializeAdminSystem() {
         }
         toastEl.textContent = message;
         toastEl.className = `admin-toast show ${isError ? 'is-error' : 'is-success'}`;
+        if (window.showAlert) window.showAlert({ title: isError ? 'Atención' : '¡Listo!', message, type: isError ? 'error' : 'success' });
         clearTimeout(toastEl._timer);
         toastEl._timer = setTimeout(() => {
             toastEl.className = 'admin-toast';
@@ -140,7 +141,7 @@ export function initializeAdminSystem() {
         document.querySelectorAll('[data-delete-user]').forEach(btn => {
             btn.onclick = async () => {
                 const id = btn.dataset.deleteUser;
-                if (!confirm('¿Segura que deseas eliminar este usuario del jardín?')) return;
+                if (!await window.showConfirm({ title: '¿Eliminar usuario?', message: '¿Segura que deseas eliminar este usuario del jardín?', confirmText: 'Sí, eliminar', type: 'danger' })) return;
                 try {
                     await apiRequest(`/admin/users/${id}`, 'DELETE');
                     notify('Usuario eliminado del jardín');
@@ -298,7 +299,7 @@ export function initializeAdminSystem() {
         });
 
         document.getElementById('admin-profile-delete-photo')?.addEventListener('click', async () => {
-            if (!confirm('¿Deseas quitar la fotografía destacada?')) return;
+            if (!await window.showConfirm({ title: '¿Quitar fotografía?', message: '¿Deseas quitar la fotografía destacada?', confirmText: 'Quitar', type: 'danger' })) return;
             try {
                 await apiRequest('/admin/profile/photo', 'DELETE');
                 notify('Fotografía retirada');
@@ -374,7 +375,7 @@ export function initializeAdminSystem() {
         document.querySelectorAll('[data-delete-post]').forEach(btn => {
             btn.onclick = async () => {
                 const id = btn.dataset.deletePost;
-                if (!confirm('¿Segura que deseas eliminar esta publicación?')) return;
+                if (!await window.showConfirm({ title: '¿Eliminar publicación?', message: '¿Segura que deseas eliminar esta publicación?', confirmText: 'Sí, eliminar', type: 'danger' })) return;
                 try {
                     await apiRequest(`/admin/posts/${id}`, 'DELETE');
                     notify('Publicación eliminada');
@@ -541,7 +542,7 @@ export function initializeAdminSystem() {
         document.querySelectorAll('[data-delete-quiz-q]').forEach(btn => {
             btn.onclick = async () => {
                 const id = btn.dataset.deleteQuizQ;
-                if (!confirm('¿Segura que deseas eliminar esta pregunta del quiz?')) return;
+                if (!await window.showConfirm({ title: '¿Eliminar pregunta?', message: '¿Segura que deseas eliminar esta pregunta del quiz?', confirmText: 'Sí, eliminar', type: 'danger' })) return;
                 try {
                     await apiRequest(`/admin/quiz-questions/${id}`, 'DELETE');
                     notify('Pregunta eliminada');
@@ -650,7 +651,7 @@ export function initializeAdminSystem() {
         };
 
         document.getElementById('admin-quiz-reward-delete')?.addEventListener('click', async () => {
-            if (!confirm('¿Deseas retirar la fotografía de recompensa del quiz?')) return;
+            if (!await window.showConfirm({ title: '¿Retirar recompensa?', message: '¿Deseas retirar la fotografía de recompensa del quiz?', confirmText: 'Retirar', type: 'danger' })) return;
             try {
                 await apiRequest('/admin/quiz-reward', 'DELETE');
                 notify('Foto de recompensa retirada');
@@ -709,7 +710,7 @@ export function initializeAdminSystem() {
         document.querySelectorAll('[data-delete-album]').forEach(btn => {
             btn.onclick = async () => {
                 const id = btn.dataset.deleteAlbum;
-                if (!confirm('¿Segura que deseas eliminar este álbum y todas sus fotos?')) return;
+                if (!await window.showConfirm({ title: '¿Eliminar álbum?', message: '¿Segura que deseas eliminar este álbum y todas sus fotos?', confirmText: 'Sí, eliminar todo', type: 'danger' })) return;
                 try {
                     await apiRequest(`/admin/albums/${id}`, 'DELETE');
                     notify('Álbum eliminado');
@@ -830,7 +831,7 @@ export function initializeAdminSystem() {
 
                 grid.querySelectorAll('[data-del-photo]').forEach(b => {
                     b.onclick = async () => {
-                        if (!confirm('¿Eliminar esta foto del álbum?')) return;
+                        if (!await window.showConfirm({ title: '¿Eliminar fotografía?', message: '¿Eliminar esta foto del álbum?', confirmText: 'Sí, eliminar', type: 'danger' })) return;
                         await apiRequest(`/admin/albums/${albumId}/photos/${b.dataset.delPhoto}`, 'DELETE');
                         notify('Foto eliminada');
                         loadPhotos();
@@ -907,7 +908,7 @@ export function initializeAdminSystem() {
         document.querySelectorAll('[data-delete-media]').forEach(btn => {
             btn.onclick = async () => {
                 const id = btn.dataset.deleteMedia;
-                if (!confirm('¿Segura que deseas eliminar este archivo multimedia?')) return;
+                if (!await window.showConfirm({ title: '¿Eliminar archivo?', message: '¿Segura que deseas eliminar este archivo multimedia?', confirmText: 'Sí, eliminar', type: 'danger' })) return;
                 try {
                     await apiRequest(`/admin/media/${id}`, 'DELETE');
                     notify('Archivo multimedia eliminado');
@@ -1078,7 +1079,8 @@ export function initializeAdminSystem() {
             }
         });
 
-        if (tabName === 'users') loadUsers();
+        if (tabName === 'gallery') initGalleryManager();
+        else if (tabName === 'users') loadUsers();
         else if (tabName === 'profile') loadProfile();
         else if (tabName === 'posts') loadPosts();
         else if (tabName === 'quiz') loadQuizData();
@@ -1203,7 +1205,7 @@ export function initializeAdminSystem() {
         seasonAudioTbody.querySelectorAll('.btn-delete-audio').forEach(btn => {
             btn.addEventListener('click', async () => {
                 const id = btn.getAttribute('data-id');
-                if (!confirm('¿Estás seguro de que deseas eliminar este audio de la estación?')) return;
+                if (!await window.showConfirm({ title: '¿Eliminar audio?', message: '¿Estás seguro de que deseas eliminar este audio de la estación?', confirmText: 'Sí, eliminar', type: 'danger' })) return;
                 btn.disabled = true;
                 try {
                     await apiRequest(`/admin/season-audios/${id}`, 'DELETE');
@@ -1330,4 +1332,617 @@ export function initializeAdminSystem() {
             b.onclick = () => loadFn(Number(b.dataset.page));
         });
     }
+
+    // =========================================================================
+    // GESTIÓN DINÁMICA DE GALERÍA, DESTINOS Y POEMAS
+    // =========================================================================
+    let galleryItemsCache = [];
+    let destinationsCache = [];
+    let poemsCache = [];
+
+    function initGalleryManager() {
+        initGallerySubtabs();
+        loadAdminGalleryItems();
+        loadAdminDestinations();
+        loadAdminPoems();
+        setupGalleryForms();
+    }
+
+    function initGallerySubtabs() {
+        const subtabs = document.querySelectorAll('.admin-subtab');
+        subtabs.forEach(btn => {
+            btn.onclick = () => {
+                const target = btn.dataset.subtab;
+                subtabs.forEach(b => {
+                    b.classList.remove('is-active', 'button-primary');
+                    b.classList.add('button-outline');
+                });
+                btn.classList.add('is-active', 'button-primary');
+                btn.classList.remove('button-outline');
+
+                ['art', 'dest', 'poem'].forEach(sub => {
+                    const el = document.getElementById('subpanel-' + sub);
+                    if (el) el.style.display = (sub === target) ? 'block' : 'none';
+                });
+            };
+        });
+    }
+
+    function bindImagePreview(fileInputId, urlInputId, previewImgId, placeholderId, dropzoneLabelId) {
+        const fileInput = document.getElementById(fileInputId);
+        const urlInput = document.getElementById(urlInputId);
+        const previewImg = document.getElementById(previewImgId);
+        const placeholder = document.getElementById(placeholderId);
+        const dropzoneLabel = document.getElementById(dropzoneLabelId);
+
+        if (fileInput) {
+            fileInput.addEventListener('change', () => {
+                if (fileInput.files && fileInput.files[0]) {
+                    const file = fileInput.files[0];
+                    if (dropzoneLabel) {
+                        dropzoneLabel.textContent = file.name + ' (' + (file.size / 1024).toFixed(0) + ' KB)';
+                    }
+                    const reader = new FileReader();
+                    reader.onload = (e) => {
+                        if (previewImg) {
+                            previewImg.src = e.target.result;
+                            previewImg.style.display = 'block';
+                        }
+                        if (placeholder) placeholder.style.display = 'none';
+                    };
+                    reader.readAsDataURL(file);
+                }
+            });
+        }
+
+        if (urlInput) {
+            const handleUrl = () => {
+                const val = urlInput.value.trim();
+                if (val && (val.startsWith('http://') || val.startsWith('https://') || val.startsWith('/'))) {
+                    if (previewImg) {
+                        previewImg.src = val;
+                        previewImg.style.display = 'block';
+                    }
+                    if (placeholder) placeholder.style.display = 'none';
+                } else if (!fileInput?.files?.length) {
+                    if (previewImg) {
+                        previewImg.src = '';
+                        previewImg.style.display = 'none';
+                    }
+                    if (placeholder) placeholder.style.display = 'flex';
+                }
+            };
+            urlInput.addEventListener('input', handleUrl);
+            urlInput.addEventListener('change', handleUrl);
+        }
+    }
+
+    function resetImagePreview(previewImgId, placeholderId, dropzoneLabelId, defaultLabel) {
+        const previewImg = document.getElementById(previewImgId);
+        const placeholder = document.getElementById(placeholderId);
+        const dropzoneLabel = document.getElementById(dropzoneLabelId);
+        if (previewImg) {
+            previewImg.src = '';
+            previewImg.style.display = 'none';
+        }
+        if (placeholder) placeholder.style.display = 'flex';
+        if (dropzoneLabel) dropzoneLabel.textContent = defaultLabel || 'Seleccionar archivo del dispositivo';
+    }
+
+    async function loadAdminGalleryItems() {
+        const grid = document.getElementById('admin-gallery-grid');
+        if (!grid) return;
+        grid.innerHTML = '<p style="color:#64748b; font-size:13px;">Cargando obras de la galería...</p>';
+        try {
+            const res = await fetch('/admin/gallery', {
+                headers: { 'Accept': 'application/json', 'X-Requested-With': 'XMLHttpRequest' }
+            });
+            const data = await res.json();
+            galleryItemsCache = data.items || [];
+            renderAdminGalleryGrid(galleryItemsCache);
+        } catch (e) {
+            grid.innerHTML = '<p style="color:#e11d48; font-size:13px;">Error al cargar la galería.</p>';
+        }
+    }
+
+    function renderAdminGalleryGrid(items) {
+        const grid = document.getElementById('admin-gallery-grid');
+        if (!grid) return;
+        if (!items || items.length === 0) {
+            grid.innerHTML = '<p style="color:#64748b; font-size:13px; grid-column:1/-1;">No hay obras registradas aún.</p>';
+            return;
+        }
+
+        grid.innerHTML = items.map(item => `
+            <div class="curation-grid-item-card">
+                <div class="curation-item-thumb">
+                    <img src="${item.image_url || ('/storage/' + item.image_path)}" alt="${item.title}" loading="lazy" onerror="this.onerror=null;this.src='/images/mockups/propuesta_b_natural_light.png';">
+                    <span class="curation-item-category-badge">${item.category}</span>
+                </div>
+                <div class="curation-item-body">
+                    <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:8px;">
+                        <h5 class="curation-item-title">${item.title}</h5>
+                        ${item.pill ? `<span class="curation-item-pill">🌸 ${item.pill}</span>` : ''}
+                    </div>
+                    ${item.tag_label ? `<small style="font-size:10px; color:#94a3b8; font-weight:600; letter-spacing:0.06em;">${item.tag_label}</small>` : ''}
+                    ${item.quote ? `<p class="curation-item-quote">«${item.quote.replace(/[«»]/g, '')}»</p>` : ''}
+                </div>
+                <div class="curation-item-footer">
+                    <button type="button" class="button button-sm button-outline" onclick="editGalleryItem(${item.id})" style="flex:1; font-size:11.5px; padding:6px 10px; border-radius:50px;">✏️ Editar</button>
+                    <button type="button" class="button button-sm button-outline" onclick="deleteGalleryItem(${item.id})" style="flex:1; font-size:11.5px; padding:6px 10px; border-radius:50px; color:#e11d48; border-color:rgba(225,29,72,0.3);">🗑️ Eliminar</button>
+                </div>
+            </div>
+        `).join('');
+    }
+
+    window.editGalleryItem = function(id) {
+        const item = galleryItemsCache.find(i => i.id === id);
+        if (!item) return;
+
+        document.getElementById('gallery-item-id').value = item.id;
+        document.getElementById('gallery-input-title').value = item.title;
+        document.getElementById('gallery-input-category').value = item.category;
+        document.getElementById('gallery-input-pill').value = item.pill || '';
+        document.getElementById('gallery-input-tag').value = item.tag_label || '';
+        document.getElementById('gallery-input-quote').value = item.quote || '';
+        document.getElementById('gallery-input-url').value = (item.image_path && item.image_path.startsWith('http')) ? item.image_path : '';
+        document.getElementById('gallery-input-file').value = '';
+
+        document.getElementById('gallery-form-title-text').textContent = 'Editar Obra: ' + item.title;
+        document.getElementById('gallery-submit-btn-text').textContent = 'Actualizar Obra';
+        document.getElementById('gallery-cancel-edit-btn').style.display = 'inline-flex';
+
+        const modeBadge = document.getElementById('gallery-mode-badge');
+        if (modeBadge) {
+            modeBadge.textContent = 'Modo Edición #' + item.id;
+            modeBadge.classList.add('is-editing');
+        }
+
+        // Live preview of existing image
+        if (item.image_url) {
+            const img = document.getElementById('gallery-preview-img');
+            const placeholder = document.getElementById('gallery-preview-placeholder');
+            if (img) {
+                img.src = item.image_url;
+                img.style.display = 'block';
+            }
+            if (placeholder) placeholder.style.display = 'none';
+        }
+
+        const dropLabel = document.getElementById('gallery-dropzone-label');
+        if (dropLabel) dropLabel.textContent = 'Cambiar archivo de imagen (opcional)';
+
+        const form = document.getElementById('admin-gallery-form');
+        form.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    };
+
+    window.deleteGalleryItem = async function(id) {
+        if (!await window.showConfirm({ title: '¿Eliminar obra?', message: '¿Estás seguro de que deseas eliminar esta obra de la galería?', confirmText: 'Sí, eliminar', type: 'danger' })) return;
+        try {
+            const res = await fetch(`/admin/gallery/${id}`, {
+                method: 'DELETE',
+                headers: {
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') || '',
+                    'Accept': 'application/json',
+                    'X-Requested-With': 'XMLHttpRequest'
+                }
+            });
+            if (res.ok) {
+                notify('Obra eliminada de la galería');
+                loadAdminGalleryItems();
+            } else {
+                notify('Error al eliminar la obra', 'error');
+            }
+        } catch (e) {
+            notify('Error de conexión', 'error');
+        }
+    };
+
+    async function loadAdminDestinations() {
+        const grid = document.getElementById('admin-dest-grid');
+        if (!grid) return;
+        grid.innerHTML = '<p style="color:#64748b; font-size:13px;">Cargando destinos...</p>';
+        try {
+            const res = await fetch('/admin/destinations', {
+                headers: { 'Accept': 'application/json', 'X-Requested-With': 'XMLHttpRequest' }
+            });
+            const data = await res.json();
+            destinationsCache = data.destinations || [];
+            renderAdminDestinationsGrid(destinationsCache);
+        } catch (e) {
+            grid.innerHTML = '<p style="color:#e11d48; font-size:13px;">Error al cargar los destinos.</p>';
+        }
+    }
+
+    function renderAdminDestinationsGrid(destinations) {
+        const grid = document.getElementById('admin-dest-grid');
+        if (!grid) return;
+        if (!destinations || destinations.length === 0) {
+            grid.innerHTML = '<p style="color:#64748b; font-size:13px; grid-column:1/-1;">No hay destinos registrados aún.</p>';
+            return;
+        }
+
+        grid.innerHTML = destinations.map(d => `
+            <div class="curation-grid-item-card">
+                <div class="curation-item-thumb">
+                    <img src="${d.image_url || ('/storage/' + d.image_path)}" alt="${d.title}" loading="lazy" onerror="this.onerror=null;this.src='/images/mockups/propuesta_b_natural_light.png';">
+                    <span class="curation-item-category-badge">✈️ ${d.location_tag}</span>
+                </div>
+                <div class="curation-item-body">
+                    <h5 class="curation-item-title">${d.title}</h5>
+                    <p class="curation-item-quote" style="color:#475569;">${d.description}</p>
+                </div>
+                <div class="curation-item-footer">
+                    <button type="button" class="button button-sm button-outline" onclick="editDestination(${d.id})" style="flex:1; font-size:11.5px; padding:6px 10px; border-radius:50px;">✏️ Editar</button>
+                    <button type="button" class="button button-sm button-outline" onclick="deleteDestination(${d.id})" style="flex:1; font-size:11.5px; padding:6px 10px; border-radius:50px; color:#e11d48; border-color:rgba(225,29,72,0.3);">🗑️ Eliminar</button>
+                </div>
+            </div>
+        `).join('');
+    }
+
+    window.editDestination = function(id) {
+        const dest = destinationsCache.find(d => d.id === id);
+        if (!dest) return;
+
+        document.getElementById('dest-item-id').value = dest.id;
+        document.getElementById('dest-input-title').value = dest.title;
+        document.getElementById('dest-input-tag').value = dest.location_tag;
+        document.getElementById('dest-input-desc').value = dest.description;
+        document.getElementById('dest-input-url').value = (dest.image_path && dest.image_path.startsWith('http')) ? dest.image_path : '';
+        document.getElementById('dest-input-file').value = '';
+
+        document.getElementById('dest-form-title-text').textContent = 'Editar Destino: ' + dest.title;
+        document.getElementById('dest-submit-btn-text').textContent = 'Actualizar Destino';
+        document.getElementById('dest-cancel-edit-btn').style.display = 'inline-flex';
+
+        const modeBadge = document.getElementById('dest-mode-badge');
+        if (modeBadge) {
+            modeBadge.textContent = 'Modo Edición #' + dest.id;
+            modeBadge.classList.add('is-editing');
+        }
+
+        if (dest.image_url) {
+            const img = document.getElementById('dest-preview-img');
+            const placeholder = document.getElementById('dest-preview-placeholder');
+            if (img) {
+                img.src = dest.image_url;
+                img.style.display = 'block';
+            }
+            if (placeholder) placeholder.style.display = 'none';
+        }
+
+        const dropLabel = document.getElementById('dest-dropzone-label');
+        if (dropLabel) dropLabel.textContent = 'Cambiar archivo de imagen (opcional)';
+
+        document.getElementById('admin-dest-form').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    };
+
+    window.deleteDestination = async function(id) {
+        if (!await window.showConfirm({ title: '¿Eliminar destino?', message: '¿Eliminar este destino del mapa de sueños?', confirmText: 'Sí, eliminar', type: 'danger' })) return;
+        try {
+            const res = await fetch(`/admin/destinations/${id}`, {
+                method: 'DELETE',
+                headers: {
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') || '',
+                    'Accept': 'application/json',
+                    'X-Requested-With': 'XMLHttpRequest'
+                }
+            });
+            if (res.ok) {
+                notify('Destino eliminado');
+                loadAdminDestinations();
+            } else {
+                notify('Error al eliminar el destino', 'error');
+            }
+        } catch (e) {
+            notify('Error de conexión', 'error');
+        }
+    };
+
+    async function loadAdminPoems() {
+        const grid = document.getElementById('admin-poem-grid');
+        if (!grid) return;
+        grid.innerHTML = '<p style="color:#64748b; font-size:13px;">Cargando antología...</p>';
+        try {
+            const res = await fetch('/admin/poems', {
+                headers: { 'Accept': 'application/json', 'X-Requested-With': 'XMLHttpRequest' }
+            });
+            const data = await res.json();
+            poemsCache = data.poems || [];
+            renderAdminPoemsGrid(poemsCache);
+        } catch (e) {
+            grid.innerHTML = '<p style="color:#e11d48; font-size:13px;">Error al cargar poemas.</p>';
+        }
+    }
+
+    function renderAdminPoemsGrid(poems) {
+        const grid = document.getElementById('admin-poem-grid');
+        if (!grid) return;
+        if (!poems || poems.length === 0) {
+            grid.innerHTML = '<p style="color:#64748b; font-size:13px; grid-column:1/-1;">No hay poemas registrados aún.</p>';
+            return;
+        }
+
+        grid.innerHTML = poems.map(p => `
+            <div class="curation-grid-item-card" style="padding:18px 20px;">
+                <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:10px;">
+                    <strong style="font-size:1.05rem; color:#881337; font-family:var(--serif-editorial), Georgia, serif;">📜 ${p.title}</strong>
+                    ${p.mood ? `<span style="font-size:11px; color:#9d174d; background:#fdf2f8; padding:3px 10px; border-radius:999px; font-weight:600;">${p.mood}</span>` : ''}
+                </div>
+                <div style="font-size:12px; color:#334155; line-height:1.6; background:linear-gradient(135deg, #fff7f9 0%, #ffffff 100%); padding:12px 14px; border-radius:12px; font-style:italic; border:1px solid rgba(244,114,182,0.2); white-space:pre-line; margin-bottom:10px;">
+                    ${p.stanza1 ? p.stanza1.replace(/<br>/g, '\n') : ''}
+                    ${p.stanza2 ? '\n\n' + p.stanza2.replace(/<br>/g, '\n') : ''}
+                </div>
+                ${p.signature ? `<div style="font-size:11px; color:#64748b; font-style:italic; margin-bottom:12px;">✍️ ${p.signature}</div>` : ''}
+                <div style="display:flex; gap:8px; border-top:1px solid rgba(241,245,249,0.9); padding-top:12px;">
+                    <button type="button" class="button button-sm button-outline" onclick="editPoem(${p.id})" style="flex:1; font-size:11.5px; padding:6px 10px; border-radius:50px;">✏️ Editar</button>
+                    <button type="button" class="button button-sm button-outline" onclick="deletePoem(${p.id})" style="flex:1; font-size:11.5px; padding:6px 10px; border-radius:50px; color:#e11d48; border-color:rgba(225,29,72,0.3);">🗑️ Eliminar</button>
+                </div>
+            </div>
+        `).join('');
+    }
+
+    window.editPoem = function(id) {
+        const poem = poemsCache.find(p => p.id === id);
+        if (!poem) return;
+
+        document.getElementById('poem-item-id').value = poem.id;
+        document.getElementById('poem-input-title').value = poem.title;
+        document.getElementById('poem-input-mood').value = poem.mood || '';
+        document.getElementById('poem-input-s1').value = poem.stanza1 ? poem.stanza1.split('<br>').join('\n') : '';
+        document.getElementById('poem-input-s2').value = poem.stanza2 ? poem.stanza2.split('<br>').join('\n') : '';
+        document.getElementById('poem-input-sig').value = poem.signature || '';
+
+        document.getElementById('poem-form-title-text').textContent = 'Editar Poema: ' + poem.title;
+        document.getElementById('poem-submit-btn-text').textContent = 'Actualizar Poema';
+        document.getElementById('poem-cancel-edit-btn').style.display = 'inline-flex';
+
+        const modeBadge = document.getElementById('poem-mode-badge');
+        if (modeBadge) {
+            modeBadge.textContent = 'Modo Edición #' + poem.id;
+            modeBadge.classList.add('is-editing');
+        }
+
+        document.getElementById('admin-poem-form').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    };
+
+    window.deletePoem = async function(id) {
+        if (!await window.showConfirm({ title: '¿Eliminar poema?', message: '¿Eliminar este poema de la antología?', confirmText: 'Sí, eliminar', type: 'danger' })) return;
+        try {
+            const res = await fetch(`/admin/poems/${id}`, {
+                method: 'DELETE',
+                headers: {
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') || '',
+                    'Accept': 'application/json',
+                    'X-Requested-With': 'XMLHttpRequest'
+                }
+            });
+            if (res.ok) {
+                notify('Poema eliminado');
+                loadAdminPoems();
+            } else {
+                notify('Error al eliminar el poema', 'error');
+            }
+        } catch (e) {
+            notify('Error de conexión', 'error');
+        }
+    };
+
+    function setupGalleryForms() {
+        // Wire live image preview handlers
+        bindImagePreview('gallery-input-file', 'gallery-input-url', 'gallery-preview-img', 'gallery-preview-placeholder', 'gallery-dropzone-label');
+        bindImagePreview('dest-input-file', 'dest-input-url', 'dest-preview-img', 'dest-preview-placeholder', 'dest-dropzone-label');
+
+        // Form Galería
+        const galleryForm = document.getElementById('admin-gallery-form');
+        const cancelGalleryBtn = document.getElementById('gallery-cancel-edit-btn');
+        if (galleryForm) {
+            galleryForm.onsubmit = async (e) => {
+                e.preventDefault();
+                const itemId = document.getElementById('gallery-item-id').value;
+                const fd = new FormData(galleryForm);
+                const isUpdate = Boolean(itemId);
+                const url = isUpdate ? `/admin/gallery/${itemId}` : '/admin/gallery';
+                if (isUpdate) fd.append('_method', 'PUT');
+
+                const statusEl = document.getElementById('gallery-form-status');
+                statusEl.textContent = 'Guardando...';
+
+                try {
+                    const res = await fetch(url, {
+                        method: 'POST',
+                        headers: {
+                            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') || '',
+                            'Accept': 'application/json',
+                            'X-Requested-With': 'XMLHttpRequest'
+                        },
+                        body: fd
+                    });
+                    const data = await res.json();
+                    if (res.ok) {
+                        notify(data.message || 'Obra guardada');
+                        statusEl.textContent = '';
+                        galleryForm.reset();
+                        document.getElementById('gallery-item-id').value = '';
+                        document.getElementById('gallery-form-title-text').textContent = 'Añadir Nueva Obra a la Galería';
+                        document.getElementById('gallery-submit-btn-text').textContent = 'Guardar en Galería';
+                        cancelGalleryBtn.style.display = 'none';
+
+                        const modeBadge = document.getElementById('gallery-mode-badge');
+                        if (modeBadge) {
+                            modeBadge.textContent = 'Modo Creación';
+                            modeBadge.classList.remove('is-editing');
+                        }
+                        resetImagePreview('gallery-preview-img', 'gallery-preview-placeholder', 'gallery-dropzone-label');
+
+                        loadAdminGalleryItems();
+                    } else {
+                        statusEl.textContent = data.message || 'Error al guardar';
+                        notify(data.message || 'Error', 'error');
+                    }
+                } catch (err) {
+                    statusEl.textContent = 'Error de conexión';
+                }
+            };
+        }
+
+        if (cancelGalleryBtn) {
+            cancelGalleryBtn.onclick = () => {
+                galleryForm.reset();
+                document.getElementById('gallery-item-id').value = '';
+                document.getElementById('gallery-form-title-text').textContent = 'Añadir Nueva Obra a la Galería';
+                document.getElementById('gallery-submit-btn-text').textContent = 'Guardar en Galería';
+                cancelGalleryBtn.style.display = 'none';
+                document.getElementById('gallery-form-status').textContent = '';
+
+                const modeBadge = document.getElementById('gallery-mode-badge');
+                if (modeBadge) {
+                    modeBadge.textContent = 'Modo Creación';
+                    modeBadge.classList.remove('is-editing');
+                }
+                resetImagePreview('gallery-preview-img', 'gallery-preview-placeholder', 'gallery-dropzone-label');
+            };
+        }
+
+        // Form Destinos
+        const destForm = document.getElementById('admin-dest-form');
+        const cancelDestBtn = document.getElementById('dest-cancel-edit-btn');
+        if (destForm) {
+            destForm.onsubmit = async (e) => {
+                e.preventDefault();
+                const destId = document.getElementById('dest-item-id').value;
+                const fd = new FormData(destForm);
+                const isUpdate = Boolean(destId);
+                const url = isUpdate ? `/admin/destinations/${destId}` : '/admin/destinations';
+                if (isUpdate) fd.append('_method', 'PUT');
+
+                const statusEl = document.getElementById('dest-form-status');
+                statusEl.textContent = 'Guardando...';
+
+                try {
+                    const res = await fetch(url, {
+                        method: 'POST',
+                        headers: {
+                            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') || '',
+                            'Accept': 'application/json',
+                            'X-Requested-With': 'XMLHttpRequest'
+                        },
+                        body: fd
+                    });
+                    const data = await res.json();
+                    if (res.ok) {
+                        notify(data.message || 'Destino guardado');
+                        statusEl.textContent = '';
+                        destForm.reset();
+                        document.getElementById('dest-item-id').value = '';
+                        document.getElementById('dest-form-title-text').textContent = 'Añadir Destino al Mapa de Sueños';
+                        document.getElementById('dest-submit-btn-text').textContent = 'Guardar Destino';
+                        cancelDestBtn.style.display = 'none';
+
+                        const modeBadge = document.getElementById('dest-mode-badge');
+                        if (modeBadge) {
+                            modeBadge.textContent = 'Modo Creación';
+                            modeBadge.classList.remove('is-editing');
+                        }
+                        resetImagePreview('dest-preview-img', 'dest-preview-placeholder', 'dest-dropzone-label');
+
+                        loadAdminDestinations();
+                    } else {
+                        statusEl.textContent = data.message || 'Error';
+                        notify(data.message || 'Error', 'error');
+                    }
+                } catch (err) {
+                    statusEl.textContent = 'Error de conexión';
+                }
+            };
+        }
+
+        if (cancelDestBtn) {
+            cancelDestBtn.onclick = () => {
+                destForm.reset();
+                document.getElementById('dest-item-id').value = '';
+                document.getElementById('dest-form-title-text').textContent = 'Añadir Destino al Mapa de Sueños';
+                document.getElementById('dest-submit-btn-text').textContent = 'Guardar Destino';
+                cancelDestBtn.style.display = 'none';
+                document.getElementById('dest-form-status').textContent = '';
+
+                const modeBadge = document.getElementById('dest-mode-badge');
+                if (modeBadge) {
+                    modeBadge.textContent = 'Modo Creación';
+                    modeBadge.classList.remove('is-editing');
+                }
+                resetImagePreview('dest-preview-img', 'dest-preview-placeholder', 'dest-dropzone-label');
+            };
+        }
+
+        // Form Poemas
+        const poemForm = document.getElementById('admin-poem-form');
+        const cancelPoemBtn = document.getElementById('poem-cancel-edit-btn');
+        if (poemForm) {
+            poemForm.onsubmit = async (e) => {
+                e.preventDefault();
+                const poemId = document.getElementById('poem-item-id').value;
+                const isUpdate = Boolean(poemId);
+                const url = isUpdate ? `/admin/poems/${poemId}` : '/admin/poems';
+
+                const s1 = document.getElementById('poem-input-s1').value.trim().split('\n').join('<br>');
+                const s2 = document.getElementById('poem-input-s2').value.trim().split('\n').join('<br>');
+
+                const payload = {
+                    title: document.getElementById('poem-input-title').value.trim(),
+                    mood: document.getElementById('poem-input-mood').value.trim(),
+                    stanza1: s1,
+                    stanza2: s2,
+                    signature: document.getElementById('poem-input-sig').value.trim(),
+                };
+
+                const statusEl = document.getElementById('poem-form-status');
+                statusEl.textContent = 'Guardando...';
+
+                try {
+                    const res = await fetch(url, {
+                        method: isUpdate ? 'PUT' : 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') || '',
+                            'Accept': 'application/json',
+                            'X-Requested-With': 'XMLHttpRequest'
+                        },
+                        body: JSON.stringify(payload)
+                    });
+                    const data = await res.json();
+                    if (res.ok) {
+                        notify(data.message || 'Poema guardado');
+                        statusEl.textContent = '';
+                        poemForm.reset();
+                        document.getElementById('poem-item-id').value = '';
+                        document.getElementById('poem-form-title-text').textContent = 'Añadir Poema a la Antología';
+                        document.getElementById('poem-submit-btn-text').textContent = 'Guardar Poema';
+                        const pMode = document.getElementById('poem-mode-badge'); if (pMode) { pMode.textContent = 'Modo Creación'; pMode.classList.remove('is-editing'); }
+                        cancelPoemBtn.style.display = 'none';
+                        loadAdminPoems();
+                    } else {
+                        statusEl.textContent = data.message || 'Error';
+                        notify(data.message || 'Error', 'error');
+                    }
+                } catch (err) {
+                    statusEl.textContent = 'Error de conexión';
+                }
+            };
+        }
+
+        if (cancelPoemBtn) {
+            cancelPoemBtn.onclick = () => {
+                poemForm.reset();
+                document.getElementById('poem-item-id').value = '';
+                document.getElementById('poem-form-title-text').textContent = 'Añadir Poema a la Antología';
+                document.getElementById('poem-submit-btn-text').textContent = 'Guardar Poema';
+                        const pMode = document.getElementById('poem-mode-badge'); if (pMode) { pMode.textContent = 'Modo Creación'; pMode.classList.remove('is-editing'); }
+                cancelPoemBtn.style.display = 'none';
+                document.getElementById('poem-form-status').textContent = '';
+            };
+        }
+    }
+
+
 }

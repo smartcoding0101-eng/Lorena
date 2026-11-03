@@ -209,7 +209,7 @@
                                                 @endif
                                             </div>
                                             <div class="ep-track-row-actions">
-                                                <form method="POST" action="{{ route('garden-media.destroy', $media) }}" onsubmit="return confirm('¿Quitar de la lista?');">
+                                                <form method="POST" action="{{ route('garden-media.destroy', $media) }}" data-confirm="¿Quitar este archivo de tu colección de entretenimiento?">
                                                     @csrf
                                                     @method('DELETE')
                                                     <button type="submit" class="ep-delete-track-btn" title="Eliminar">🗑️</button>

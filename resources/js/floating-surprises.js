@@ -56,7 +56,7 @@ const SURPRISE_ITEMS = [
         title: 'El susurro de la lluvia y jazmines',
         img: 'https://images.unsplash.com/photo-1509316975850-ff9c5deb0cd9?auto=format&fit=crop&w=700&q=85',
         frontText: 'Jazmines frescos al despertar',
-        backText: '«La lluvia puede caer afuera, pero en tu corazón siempre existirá una primavera encendida.» — Para Carla Lorena',
+        backText: '«La lluvia puede caer afuera, pero en tu corazón siempre existirá una primavera encendida.» — De Adrián para Carla con mucho amor ♡',
         date: 'Tiempo de lluvia y flores'
     },
     {
@@ -112,7 +112,7 @@ const SURPRISE_ITEMS = [
         title: 'Noche de constelaciones tranquilas',
         img: 'https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=700&q=85',
         frontText: 'Un cielo entero cuidando tus sueños',
-        backText: '«Nunca caminas sola; hay un universo de cariño acompañando cada uno de tus pasos, Carla Lorena.»',
+        backText: '«Nunca caminas sola; el amor inmenso de Adrián acompaña y cuida cada uno de tus pasos, mi amada Carla.» — De Adrián para Carla con mucho amor',
         date: 'Medianoche estrellada'
     },
     {
@@ -120,7 +120,7 @@ const SURPRISE_ITEMS = [
         type: 'secret',
         badge: 'PROMESA ETERNA',
         title: 'Un refugio que no caduca',
-        content: 'Pasen los meses o los años, este rincón digital siempre estará abierto para recordarte lo admirada, respetada y profundamente querida que eres.'
+        content: 'Pasen los meses o los años, este rincón digital siempre estará abierto para recordarte lo admirada, respetada y profundamente amada que eres por Adrián. De Adrián para Carla con mucho amor.'
     }
 ];
 
@@ -130,7 +130,7 @@ const BOTTLE_MESSAGES = [
     {
         category: 'amor',
         text: '«Hay personas que son refugio y hogar. Para este jardín y para mi corazón, esa persona eres tú, Carla Lorena.»',
-        author: '- Carta en papel de lino',
+        author: '- De Adrián para Carla con mucho amor',
         origin: '🌸 Orillas del Lago de Cristal'
     },
     {
@@ -142,25 +142,25 @@ const BOTTLE_MESSAGES = [
     {
         category: 'amor',
         text: '«Eres la melodía que calma mis tormentas y el verso más dulce que la vida se atrevió a componer en mi camino.»',
-        author: '- Dedicatoria de amor eterno',
-        origin: '🌊 Mareas del Atardecer'
+        author: '- De Adrián para Carla con mucho amor',
+        origin: '🌹 Santuario de Adrián'
     },
     {
         category: 'amor',
         text: '«Si el universo entero fuera una biblioteca de estrellas, cada una de mis páginas favoritas llevaría tu nombre, Carla.»',
-        author: '- El Guardián del Faro',
+        author: '- De Adrián para Carla con mucho amor',
         origin: '✨ Bahía de las Estrellas'
     },
     {
         category: 'amor',
         text: '«Tus sonrisas son como pétalos de sol abriéndose al alba: iluminan con calidez incluso mis días más grises.»',
-        author: '- Diario secreto del Jardín',
+        author: '- De Adrián para Carla con mucho amor',
         origin: '🌸 Pabellón de Seda'
     },
     {
         category: 'amor',
         text: '«Amarte no es una casualidad del tiempo, es la certeza más bonita y luminosa que florece en mi alma.»',
-        author: '- Carta sellada con cera carmín',
+        author: '- De Adrián para Carla con mucho amor',
         origin: '💖 Santuario del Lirio'
     },
 
@@ -1205,7 +1205,7 @@ function initEnhancedSurprisesInteractions() {
         try {
             const favs = JSON.parse(localStorage.getItem('carla_fav_bottles') || '[]');
             if (!favs.length) {
-                list.innerHTML = '<p style="text-align:center; color:#9f1239; font-style:italic; padding:20px;">Aún no has guardado mensajes favoritos. Toca la estrella ⭐️ en cualquier carta para conservarla aquí.</p>';
+                list.innerHTML = '<p style="text-align:center; color:#b8126c; font-style:italic; padding:20px;">Aún no has guardado mensajes favoritos. Toca la estrella ⭐️ en cualquier carta para conservarla aquí.</p>';
                 return;
             }
             list.innerHTML = favs.map(f => `

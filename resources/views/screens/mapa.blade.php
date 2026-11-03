@@ -80,7 +80,7 @@
                                 <!-- Gradiente Enredadera Oro-Rosa y Seda Carmesí -->
                                 <linearGradient id="roseGoldVineGrad" x1="0%" y1="0%" x2="100%" y2="100%">
                                     <stop offset="0%" stop-color="#c93b61" stop-opacity="0.72"/>
-                                    <stop offset="50%" stop-color="#d4af37" stop-opacity="0.82"/>
+                                    <stop offset="50%" stop-color="#e0ab00" stop-opacity="0.82"/>
                                     <stop offset="100%" stop-color="#e27a96" stop-opacity="0.75"/>
                                 </linearGradient>
 
@@ -88,15 +88,15 @@
                                 <linearGradient id="roseGoldVineLitGrad" x1="0%" y1="0%" x2="100%" y2="100%">
                                     <stop offset="0%" stop-color="#9e2a47" stop-opacity="1"/>
                                     <stop offset="50%" stop-color="#f59e0b" stop-opacity="1"/>
-                                    <stop offset="100%" stop-color="#e11d48" stop-opacity="1"/>
+                                    <stop offset="100%" stop-color="#ff3e9a" stop-opacity="1"/>
                                 </linearGradient>
 
                                 <!-- Fotón de Rocío Floral -->
                                 <radialGradient id="diamondPhoton" cx="50%" cy="50%" r="50%">
                                     <stop offset="0%" stop-color="#ffffff"/>
                                     <stop offset="40%" stop-color="#fde68a"/>
-                                    <stop offset="75%" stop-color="#f43f5e"/>
-                                    <stop offset="100%" stop-color="#be123c" stop-opacity="0"/>
+                                    <stop offset="75%" stop-color="#ff3e9a"/>
+                                    <stop offset="100%" stop-color="#b8126c" stop-opacity="0"/>
                                 </radialGradient>
 
                                 <!-- Gradientes de Fauna: Mariposas & Mariquitas -->
@@ -106,16 +106,16 @@
                                     <stop offset="100%" stop-color="#fde047"/>
                                 </linearGradient>
                                 <linearGradient id="monarchHindwingGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-                                    <stop offset="0%" stop-color="#be123c"/>
+                                    <stop offset="0%" stop-color="#b8126c"/>
                                     <stop offset="100%" stop-color="#fb7185"/>
                                 </linearGradient>
                                 <linearGradient id="azureForewingGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-                                    <stop offset="0%" stop-color="#0284c7"/>
+                                    <stop offset="0%" stop-color="#825ec7"/>
                                     <stop offset="50%" stop-color="#38bdf8"/>
                                     <stop offset="100%" stop-color="#c084fc"/>
                                 </linearGradient>
                                 <linearGradient id="azureHindwingGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-                                    <stop offset="0%" stop-color="#0369a1"/>
+                                    <stop offset="0%" stop-color="#6241a8"/>
                                     <stop offset="100%" stop-color="#818cf8"/>
                                 </linearGradient>
                                 <linearGradient id="goldForewingGrad" x1="0%" y1="0%" x2="100%" y2="100%">
@@ -129,9 +129,9 @@
                                 </linearGradient>
                                 <radialGradient id="ladybugShellGrad" cx="35%" cy="30%" r="65%">
                                     <stop offset="0%" stop-color="#ff4d6d"/>
-                                    <stop offset="45%" stop-color="#e11d48"/>
-                                    <stop offset="85%" stop-color="#9f1239"/>
-                                    <stop offset="100%" stop-color="#4c0519"/>
+                                    <stop offset="45%" stop-color="#ff3e9a"/>
+                                    <stop offset="85%" stop-color="#b8126c"/>
+                                    <stop offset="100%" stop-color="#3b0a2a"/>
                                 </radialGradient>
                                 <radialGradient id="ladybugShine" cx="30%" cy="25%" r="40%">
                                     <stop offset="0%" stop-color="#ffffff" stop-opacity="0.85"/>
@@ -146,8 +146,25 @@
 
                                 <!-- Símbolo de Capullo Decorativo en las Ramas -->
                                 <g id="vine-rosebud-node">
-                                    <circle cx="0" cy="0" r="5" fill="#fff5f7" stroke="#d4af37" stroke-width="1.3"/>
-                                    <circle cx="0" cy="0" r="2.3" fill="#d4607a"/>
+                                    <circle cx="0" cy="0" r="5.5" fill="#fff5f7" stroke="#e0ab00" stroke-width="1.4"/>
+                                    <circle cx="0" cy="0" r="2.6" fill="#f59e0b"/>
+                                    <circle cx="0" cy="0" r="1.1" fill="#ffffff"/>
+                                </g>
+
+                                <!-- Fotón Solar Dorado de Alta Luminosidad -->
+                                <radialGradient id="goldenSolarPhoton" cx="50%" cy="50%" r="50%">
+                                    <stop offset="0%" stop-color="#ffffff"/>
+                                    <stop offset="25%" stop-color="#fef08a"/>
+                                    <stop offset="60%" stop-color="#f59e0b"/>
+                                    <stop offset="85%" stop-color="#e0ab00"/>
+                                    <stop offset="100%" stop-color="#b45309" stop-opacity="0"/>
+                                </radialGradient>
+
+                                <!-- Símbolo de Chispa Amarilla de la Red -->
+                                <g id="golden-spark-node">
+                                    <circle cx="0" cy="0" r="6" fill="url(#goldenSolarPhoton)"/>
+                                    <circle cx="0" cy="0" r="3.2" fill="#ffffff" stroke="#f59e0b" stroke-width="1.1"/>
+                                    <circle cx="0" cy="0" r="1.4" fill="#ffd700"/>
                                 </g>
 
                                 <!-- Senderos Curvos Orgánicos Bézier desde el Corazón (500,390) a los 12 Nodos -->
@@ -164,30 +181,42 @@
                                 <path id="path-stories"       d="M 500,390 C 350,335 220,290 100,250"  fill="none"/>
                                 <path id="path-family"        d="M 500,390 C 340,395 210,410 95,410"   fill="none"/>
 
-                                <!-- Órbita Floral Elíptica -->
+                                <!-- Órbita Floral Elíptica Principal -->
                                 <path id="path-ring-orbit" d="M 500, 100 a 410,290 0 1,0 0.1,0 Z" fill="none"/>
+
+                                <!-- Red Perimetral de Conexión entre los 12 Nodos -->
+                                <path id="path-perimeter-web" d="M 500,85 C 580,85 660,95 730,105 C 800,140 850,180 885,235 C 905,290 910,350 905,405 C 905,465 900,520 885,575 C 845,630 795,660 740,670 C 580,695 420,695 260,670 C 190,640 140,610 115,575 C 95,520 90,465 95,410 C 90,350 95,295 100,250 C 105,190 110,150 120,120 C 165,105 215,100 270,105 C 350,95 425,85 500,85 Z" fill="none"/>
+
+                                <!-- Red Interna Circular entre Nodos Intermedios -->
+                                <path id="path-inner-web" d="M 500,235 C 530,230 560,230 590,230 C 630,235 660,240 690,250 C 710,270 720,295 720,320 C 720,370 715,430 710,480 C 680,510 650,525 620,535 C 500,555 500,555 380,535 C 350,525 320,510 290,480 C 280,430 275,370 280,320 C 285,295 295,270 310,250 C 340,240 370,235 410,230 C 440,230 470,230 500,235 Z" fill="none"/>
                             </defs>
 
-                            <!-- Halo y Anillos Orbitales de Seda Oro-Rosa -->
-                            <ellipse cx="500" cy="390" rx="410" ry="290" fill="none" stroke="rgba(212, 96, 122, 0.18)" stroke-width="1.3" stroke-dasharray="6,8" class="prism-orbit-ellipse"/>
-                            <ellipse cx="500" cy="390" rx="260" ry="190" fill="none" stroke="rgba(212, 175, 55, 0.24)" stroke-width="1.1" stroke-dasharray="3,6" class="prism-orbit-inner"/>
-                            <circle  cx="500" cy="390" r="95"  fill="none" stroke="rgba(201, 59, 97, 0.20)" stroke-width="1" stroke-dasharray="2,5"/>
+                            <!-- Halo y Anillos Orbitales Dinámicos -->
+                            <ellipse cx="500" cy="390" rx="410" ry="290" fill="none" class="prism-orbit-ellipse"/>
+                            <ellipse cx="500" cy="390" rx="260" ry="190" fill="none" class="prism-orbit-inner"/>
+                            <circle  cx="500" cy="390" r="95"  fill="none" stroke="rgba(224, 171, 0, 0.35)" stroke-width="1.2" stroke-dasharray="3,6" class="prism-orbit-center-ring"/>
+
+                            <!-- Red Perimetral de Constelación (Une los 12 Talismanes) -->
+                            <path d="M 500,85 C 580,85 660,95 730,105 C 800,140 850,180 885,235 C 905,290 910,350 905,405 C 905,465 900,520 885,575 C 845,630 795,660 740,670 C 580,695 420,695 260,670 C 190,640 140,610 115,575 C 95,520 90,465 95,410 C 90,350 95,295 100,250 C 105,190 110,150 120,120 C 165,105 215,100 270,105 C 350,95 425,85 500,85 Z" class="living-botanical-trail perimeter-constellation-net"/>
+
+                            <!-- Red Interna entre Nodos Intermedios -->
+                            <path d="M 500,235 C 530,230 560,230 590,230 C 630,235 660,240 690,250 C 710,270 720,295 720,320 C 720,370 715,430 710,480 C 680,510 650,525 620,535 C 500,555 500,555 380,535 C 350,525 320,510 290,480 C 280,430 275,370 280,320 C 285,295 295,270 310,250 C 340,240 370,235 410,230 C 440,230 470,230 500,235 Z" class="living-botanical-trail inner-constellation-net"/>
 
                             <!-- Enredaderas Curvas de Luz Oro-Rosa y Seda Carmesí hacia los 12 Rincones -->
-                            <path d="M 500,390 C 370,300 240,210 120,120"  class="living-botanical-trail radial-branch prism-light-beam" data-branch="galeria"/>
-                            <path d="M 500,390 C 430,270 350,170 270,105"  class="living-botanical-trail radial-branch prism-light-beam" data-branch="capsula"/>
-                            <path d="M 500,390 C 496,280 504,180 500,85"   class="living-botanical-trail radial-branch prism-light-beam" data-branch="biblioteca"/>
-                            <path d="M 500,390 C 570,270 650,170 730,105"  class="living-botanical-trail radial-branch prism-light-beam" data-branch="amigos"/>
-                            <path d="M 500,390 C 650,330 780,270 885,235"  class="living-botanical-trail radial-branch prism-light-beam" data-branch="dedicatoria"/>
-                            <path d="M 500,390 C 660,395 790,405 905,405"  class="living-botanical-trail radial-branch prism-light-beam" data-branch="jardin"/>
-                            <path d="M 500,390 C 640,470 770,530 885,575"  class="living-botanical-trail radial-branch prism-light-beam" data-branch="entretenimiento"/>
-                            <path d="M 500,390 C 560,500 650,600 740,670"  class="living-botanical-trail radial-branch prism-light-beam" data-branch="juegos"/>
-                            <path d="M 500,390 C 440,500 350,600 260,670"  class="living-botanical-trail radial-branch prism-light-beam" data-branch="destinos"/>
-                            <path d="M 500,390 C 360,470 230,530 115,575"  class="living-botanical-trail radial-branch prism-light-beam" data-branch="blog"/>
-                            <path d="M 500,390 C 350,335 220,290 100,250"  class="living-botanical-trail radial-branch prism-light-beam" data-branch="historias"/>
-                            <path d="M 500,390 C 340,395 210,410 95,410"   class="living-botanical-trail radial-branch prism-light-beam" data-branch="familia"/>
+                            <path d="M 500,390 C 370,300 240,210 120,120"  class="living-botanical-trail radial-branch prism-light-beam branch-galeria" data-branch="galeria"/>
+                            <path d="M 500,390 C 430,270 350,170 270,105"  class="living-botanical-trail radial-branch prism-light-beam branch-capsula" data-branch="capsula"/>
+                            <path d="M 500,390 C 496,280 504,180 500,85"   class="living-botanical-trail radial-branch prism-light-beam branch-biblioteca" data-branch="biblioteca"/>
+                            <path d="M 500,390 C 570,270 650,170 730,105"  class="living-botanical-trail radial-branch prism-light-beam branch-amigos" data-branch="amigos"/>
+                            <path d="M 500,390 C 650,330 780,270 885,235"  class="living-botanical-trail radial-branch prism-light-beam branch-dedicatoria" data-branch="dedicatoria"/>
+                            <path d="M 500,390 C 660,395 790,405 905,405"  class="living-botanical-trail radial-branch prism-light-beam branch-jardin" data-branch="jardin"/>
+                            <path d="M 500,390 C 640,470 770,530 885,575"  class="living-botanical-trail radial-branch prism-light-beam branch-entretenimiento" data-branch="entretenimiento"/>
+                            <path d="M 500,390 C 560,500 650,600 740,670"  class="living-botanical-trail radial-branch prism-light-beam branch-juegos" data-branch="juegos"/>
+                            <path d="M 500,390 C 440,500 350,600 260,670"  class="living-botanical-trail radial-branch prism-light-beam branch-destinos" data-branch="destinos"/>
+                            <path d="M 500,390 C 360,470 230,530 115,575"  class="living-botanical-trail radial-branch prism-light-beam branch-blog" data-branch="blog"/>
+                            <path d="M 500,390 C 350,335 220,290 100,250"  class="living-botanical-trail radial-branch prism-light-beam branch-historias" data-branch="historias"/>
+                            <path d="M 500,390 C 340,395 210,410 95,410"   class="living-botanical-trail radial-branch prism-light-beam branch-familia" data-branch="familia"/>
 
-                            <!-- Capullos Luminosos Intermedios en las Enredaderas -->
+                            <!-- Capullos Luminosos Intermedios Pulsantes en las Enredaderas -->
                             <use href="#vine-rosebud-node" x="310" y="250" class="branch-node-flower prism-vertex-dot"/>
                             <use href="#vine-rosebud-node" x="410" y="230" class="branch-node-flower prism-vertex-dot"/>
                             <use href="#vine-rosebud-node" x="500" y="235" class="branch-node-flower prism-vertex-dot"/>
@@ -200,35 +229,128 @@
                             <use href="#vine-rosebud-node" x="290" y="480" class="branch-node-flower prism-vertex-dot"/>
                             <use href="#vine-rosebud-node" x="280" y="320" class="branch-node-flower prism-vertex-dot"/>
 
-                            <!-- Rocío de Luz Viajero en Movimiento Continuo -->
+                            <!-- ═══════════════════════════════════════════════════════════ -->
+                            <!--  PUNTOS AMARILLOS VIAJEROS EN MOVIMIENTO CONTINUO (12 RAMAS) -->
+                            <!-- ═══════════════════════════════════════════════════════════ -->
+                            <!-- 1. Galería -->
                             <g class="moving-nectar-pulse prism-photon-pulse">
-                                <circle cx="0" cy="0" r="3.5" fill="url(#diamondPhoton)"/>
-                                <animateMotion dur="16s" repeatCount="indefinite" rotate="auto">
-                                    <mpath href="#path-ring-orbit"/>
-                                </animateMotion>
-                            </g>
-                            <g class="moving-nectar-pulse prism-photon-pulse">
-                                <use href="#diamond-spark-symbol"/>
-                                <animateMotion dur="9s" repeatCount="indefinite" rotate="auto" keyPoints="0;1;0" keyTimes="0;0.5;1" calcMode="spline" keySplines="0.4 0 0.6 1; 0.4 0 0.6 1">
+                                <use href="#golden-spark-node"/>
+                                <animateMotion dur="8.5s" repeatCount="indefinite" rotate="auto" keyPoints="0;1;0" keyTimes="0;0.5;1" calcMode="spline" keySplines="0.4 0 0.6 1; 0.4 0 0.6 1">
                                     <mpath href="#path-gallery"/>
                                 </animateMotion>
                             </g>
+                            <!-- 2. Cápsula -->
                             <g class="moving-nectar-pulse prism-photon-pulse">
-                                <use href="#diamond-spark-symbol"/>
-                                <animateMotion dur="8s" begin="-2s" repeatCount="indefinite" rotate="auto" keyPoints="0;1;0" keyTimes="0;0.5;1" calcMode="spline" keySplines="0.4 0 0.6 1; 0.4 0 0.6 1">
+                                <use href="#golden-spark-node"/>
+                                <animateMotion dur="7.8s" begin="-1.2s" repeatCount="indefinite" rotate="auto" keyPoints="0;1;0" keyTimes="0;0.5;1" calcMode="spline" keySplines="0.4 0 0.6 1; 0.4 0 0.6 1">
+                                    <mpath href="#path-capsule"/>
+                                </animateMotion>
+                            </g>
+                            <!-- 3. Biblioteca -->
+                            <g class="moving-nectar-pulse prism-photon-pulse">
+                                <use href="#golden-spark-node"/>
+                                <animateMotion dur="8s" begin="-2.5s" repeatCount="indefinite" rotate="auto" keyPoints="0;1;0" keyTimes="0;0.5;1" calcMode="spline" keySplines="0.4 0 0.6 1; 0.4 0 0.6 1">
                                     <mpath href="#path-library"/>
                                 </animateMotion>
                             </g>
+                            <!-- 4. Amigos -->
                             <g class="moving-nectar-pulse prism-photon-pulse">
-                                <use href="#diamond-spark-symbol"/>
-                                <animateMotion dur="8.5s" begin="-3.5s" repeatCount="indefinite" rotate="auto" keyPoints="0;1;0" keyTimes="0;0.5;1" calcMode="spline" keySplines="0.4 0 0.6 1; 0.4 0 0.6 1">
+                                <use href="#golden-spark-node"/>
+                                <animateMotion dur="7.5s" begin="-3.8s" repeatCount="indefinite" rotate="auto" keyPoints="0;1;0" keyTimes="0;0.5;1" calcMode="spline" keySplines="0.4 0 0.6 1; 0.4 0 0.6 1">
+                                    <mpath href="#path-amigos"/>
+                                </animateMotion>
+                            </g>
+                            <!-- 5. Dedicatoria -->
+                            <g class="moving-nectar-pulse prism-photon-pulse">
+                                <use href="#golden-spark-node"/>
+                                <animateMotion dur="8.2s" begin="-0.8s" repeatCount="indefinite" rotate="auto" keyPoints="0;1;0" keyTimes="0;0.5;1" calcMode="spline" keySplines="0.4 0 0.6 1; 0.4 0 0.6 1">
                                     <mpath href="#path-dedicatoria"/>
                                 </animateMotion>
                             </g>
+                            <!-- 6. Jardín -->
                             <g class="moving-nectar-pulse prism-photon-pulse">
-                                <use href="#diamond-spark-symbol"/>
-                                <animateMotion dur="10s" begin="-5s" repeatCount="indefinite" rotate="auto" keyPoints="0;1;0" keyTimes="0;0.5;1" calcMode="spline" keySplines="0.4 0 0.6 1; 0.4 0 0.6 1">
+                                <use href="#golden-spark-node"/>
+                                <animateMotion dur="8.6s" begin="-4.2s" repeatCount="indefinite" rotate="auto" keyPoints="0;1;0" keyTimes="0;0.5;1" calcMode="spline" keySplines="0.4 0 0.6 1; 0.4 0 0.6 1">
+                                    <mpath href="#path-garden"/>
+                                </animateMotion>
+                            </g>
+                            <!-- 7. Melodías / Entretenimiento -->
+                            <g class="moving-nectar-pulse prism-photon-pulse">
+                                <use href="#golden-spark-node"/>
+                                <animateMotion dur="7.9s" begin="-1.9s" repeatCount="indefinite" rotate="auto" keyPoints="0;1;0" keyTimes="0;0.5;1" calcMode="spline" keySplines="0.4 0 0.6 1; 0.4 0 0.6 1">
+                                    <mpath href="#path-entertainment"/>
+                                </animateMotion>
+                            </g>
+                            <!-- 8. Juegos -->
+                            <g class="moving-nectar-pulse prism-photon-pulse">
+                                <use href="#golden-spark-node"/>
+                                <animateMotion dur="9s" begin="-5.1s" repeatCount="indefinite" rotate="auto" keyPoints="0;1;0" keyTimes="0;0.5;1" calcMode="spline" keySplines="0.4 0 0.6 1; 0.4 0 0.6 1">
                                     <mpath href="#path-games"/>
+                                </animateMotion>
+                            </g>
+                            <!-- 9. Destinos / Sueños -->
+                            <g class="moving-nectar-pulse prism-photon-pulse">
+                                <use href="#golden-spark-node"/>
+                                <animateMotion dur="8.4s" begin="-3.1s" repeatCount="indefinite" rotate="auto" keyPoints="0;1;0" keyTimes="0;0.5;1" calcMode="spline" keySplines="0.4 0 0.6 1; 0.4 0 0.6 1">
+                                    <mpath href="#path-dreams"/>
+                                </animateMotion>
+                            </g>
+                            <!-- 10. Blog -->
+                            <g class="moving-nectar-pulse prism-photon-pulse">
+                                <use href="#golden-spark-node"/>
+                                <animateMotion dur="7.6s" begin="-2.2s" repeatCount="indefinite" rotate="auto" keyPoints="0;1;0" keyTimes="0;0.5;1" calcMode="spline" keySplines="0.4 0 0.6 1; 0.4 0 0.6 1">
+                                    <mpath href="#path-blog"/>
+                                </animateMotion>
+                            </g>
+                            <!-- 11. Historias -->
+                            <g class="moving-nectar-pulse prism-photon-pulse">
+                                <use href="#golden-spark-node"/>
+                                <animateMotion dur="8.1s" begin="-4.6s" repeatCount="indefinite" rotate="auto" keyPoints="0;1;0" keyTimes="0;0.5;1" calcMode="spline" keySplines="0.4 0 0.6 1; 0.4 0 0.6 1">
+                                    <mpath href="#path-stories"/>
+                                </animateMotion>
+                            </g>
+                            <!-- 12. Mi Familia -->
+                            <g class="moving-nectar-pulse prism-photon-pulse">
+                                <use href="#golden-spark-node"/>
+                                <animateMotion dur="8.3s" begin="-1.5s" repeatCount="indefinite" rotate="auto" keyPoints="0;1;0" keyTimes="0;0.5;1" calcMode="spline" keySplines="0.4 0 0.6 1; 0.4 0 0.6 1">
+                                    <mpath href="#path-family"/>
+                                </animateMotion>
+                            </g>
+
+                            <!-- Puntos Amarillos Viajeros en Órbita y Redes Circulares -->
+                            <!-- Órbita Principal en Sentido Horario -->
+                            <g class="moving-nectar-pulse prism-photon-pulse">
+                                <use href="#golden-spark-node"/>
+                                <animateMotion dur="20s" repeatCount="indefinite" rotate="auto">
+                                    <mpath href="#path-ring-orbit"/>
+                                </animateMotion>
+                            </g>
+                            <!-- Órbita Principal en Sentido Anti-Horario -->
+                            <g class="moving-nectar-pulse prism-photon-pulse">
+                                <use href="#golden-spark-node"/>
+                                <animateMotion dur="26s" begin="-10s" repeatCount="indefinite" rotate="auto" keyPoints="1;0" keyTimes="0;1">
+                                    <mpath href="#path-ring-orbit"/>
+                                </animateMotion>
+                            </g>
+                            <!-- Red Perimetral Constelación Horario -->
+                            <g class="moving-nectar-pulse prism-photon-pulse">
+                                <use href="#golden-spark-node"/>
+                                <animateMotion dur="24s" begin="-4s" repeatCount="indefinite" rotate="auto">
+                                    <mpath href="#path-perimeter-web"/>
+                                </animateMotion>
+                            </g>
+                            <!-- Red Perimetral Constelación Anti-Horario -->
+                            <g class="moving-nectar-pulse prism-photon-pulse">
+                                <use href="#golden-spark-node"/>
+                                <animateMotion dur="28s" begin="-14s" repeatCount="indefinite" rotate="auto" keyPoints="1;0" keyTimes="0;1">
+                                    <mpath href="#path-perimeter-web"/>
+                                </animateMotion>
+                            </g>
+                            <!-- Red Interna entre Capullos -->
+                            <g class="moving-nectar-pulse prism-photon-pulse">
+                                <use href="#golden-spark-node"/>
+                                <animateMotion dur="18s" begin="-6s" repeatCount="indefinite" rotate="auto">
+                                    <mpath href="#path-inner-web"/>
                                 </animateMotion>
                             </g>
                         </svg>
@@ -257,16 +379,16 @@
                                  aria-label="Mariposa Monarca de Carla">
                                 <div class="butterfly-wing-wrap">
                                     <svg class="butterfly-svg butterfly-wing-left" viewBox="0 0 24 32" aria-hidden="true">
-                                        <path d="M22,16 C20,5 12,0 2,1 C-1,9 5,20 22,16 Z" fill="url(#monarchForewingGrad)" stroke="#9f1239" stroke-width="0.8"/>
-                                        <path d="M22,16 C17,18 8,21 4,30 C11,32 18,26 22,16 Z" fill="url(#monarchHindwingGrad)" stroke="#9f1239" stroke-width="0.8"/>
+                                        <path d="M22,16 C20,5 12,0 2,1 C-1,9 5,20 22,16 Z" fill="url(#monarchForewingGrad)" stroke="#b8126c" stroke-width="0.8"/>
+                                        <path d="M22,16 C17,18 8,21 4,30 C11,32 18,26 22,16 Z" fill="url(#monarchHindwingGrad)" stroke="#b8126c" stroke-width="0.8"/>
                                         <circle cx="8" cy="8" r="1.2" fill="#fff" opacity="0.9"/>
                                         <circle cx="15" cy="6" r="1.1" fill="#fef08a" opacity="0.9"/>
                                         <circle cx="9" cy="25" r="1" fill="#fff" opacity="0.9"/>
                                     </svg>
                                     <div class="butterfly-body-core"></div>
                                     <svg class="butterfly-svg butterfly-wing-right" viewBox="0 0 24 32" aria-hidden="true">
-                                        <path d="M2,16 C4,5 12,0 22,1 C25,9 19,20 2,16 Z" fill="url(#monarchForewingGrad)" stroke="#9f1239" stroke-width="0.8"/>
-                                        <path d="M2,16 C7,18 16,21 20,30 C13,32 6,26 2,16 Z" fill="url(#monarchHindwingGrad)" stroke="#9f1239" stroke-width="0.8"/>
+                                        <path d="M2,16 C4,5 12,0 22,1 C25,9 19,20 2,16 Z" fill="url(#monarchForewingGrad)" stroke="#b8126c" stroke-width="0.8"/>
+                                        <path d="M2,16 C7,18 16,21 20,30 C13,32 6,26 2,16 Z" fill="url(#monarchHindwingGrad)" stroke="#b8126c" stroke-width="0.8"/>
                                         <circle cx="16" cy="8" r="1.2" fill="#fff" opacity="0.9"/>
                                         <circle cx="9" cy="6" r="1.1" fill="#fef08a" opacity="0.9"/>
                                         <circle cx="15" cy="25" r="1" fill="#fff" opacity="0.9"/>
@@ -285,16 +407,16 @@
                                  aria-label="Mariposa Aguamarina de Ensueño">
                                 <div class="butterfly-wing-wrap">
                                     <svg class="butterfly-svg butterfly-wing-left" viewBox="0 0 24 32" aria-hidden="true">
-                                        <path d="M22,16 C20,5 12,0 2,1 C-1,9 5,20 22,16 Z" fill="url(#azureForewingGrad)" stroke="#0369a1" stroke-width="0.8"/>
-                                        <path d="M22,16 C17,18 8,21 4,30 C11,32 18,26 22,16 Z" fill="url(#azureHindwingGrad)" stroke="#0369a1" stroke-width="0.8"/>
+                                        <path d="M22,16 C20,5 12,0 2,1 C-1,9 5,20 22,16 Z" fill="url(#azureForewingGrad)" stroke="#6241a8" stroke-width="0.8"/>
+                                        <path d="M22,16 C17,18 8,21 4,30 C11,32 18,26 22,16 Z" fill="url(#azureHindwingGrad)" stroke="#6241a8" stroke-width="0.8"/>
                                         <circle cx="8" cy="8" r="1.2" fill="#e0f2fe" opacity="0.95"/>
                                         <circle cx="15" cy="6" r="1.1" fill="#fff" opacity="0.95"/>
                                         <circle cx="9" cy="25" r="1" fill="#e0f2fe" opacity="0.95"/>
                                     </svg>
                                     <div class="butterfly-body-core"></div>
                                     <svg class="butterfly-svg butterfly-wing-right" viewBox="0 0 24 32" aria-hidden="true">
-                                        <path d="M2,16 C4,5 12,0 22,1 C25,9 19,20 2,16 Z" fill="url(#azureForewingGrad)" stroke="#0369a1" stroke-width="0.8"/>
-                                        <path d="M2,16 C7,18 16,21 20,30 C13,32 6,26 2,16 Z" fill="url(#azureHindwingGrad)" stroke="#0369a1" stroke-width="0.8"/>
+                                        <path d="M2,16 C4,5 12,0 22,1 C25,9 19,20 2,16 Z" fill="url(#azureForewingGrad)" stroke="#6241a8" stroke-width="0.8"/>
+                                        <path d="M2,16 C7,18 16,21 20,30 C13,32 6,26 2,16 Z" fill="url(#azureHindwingGrad)" stroke="#6241a8" stroke-width="0.8"/>
                                         <circle cx="16" cy="8" r="1.2" fill="#e0f2fe" opacity="0.95"/>
                                         <circle cx="9" cy="6" r="1.1" fill="#fff" opacity="0.95"/>
                                         <circle cx="15" cy="25" r="1" fill="#e0f2fe" opacity="0.95"/>
@@ -340,7 +462,7 @@
                                  title="Mariquita del Sendero 🐞 · Toca para verla explorar" 
                                  aria-label="Mariquita Caminante hacia Rincón de Paz">
                                 <svg class="ladybug-svg" viewBox="0 0 32 36" aria-hidden="true">
-                                    <g stroke="#1e1b18" stroke-width="1.3" stroke-linecap="round" fill="none" class="ladybug-legs">
+                                    <g stroke="#260419" stroke-width="1.3" stroke-linecap="round" fill="none" class="ladybug-legs">
                                         <path d="M12,12 Q6,9 4,7"/>
                                         <path d="M11,18 Q4,18 2,20"/>
                                         <path d="M12,24 Q5,27 3,31"/>
@@ -348,26 +470,26 @@
                                         <path d="M21,18 Q28,18 30,20"/>
                                         <path d="M20,24 Q27,27 29,31"/>
                                     </g>
-                                    <g stroke="#1c1917" stroke-width="1.2" stroke-linecap="round" fill="none" class="ladybug-antennae">
+                                    <g stroke="#260419" stroke-width="1.2" stroke-linecap="round" fill="none" class="ladybug-antennae">
                                         <path d="M14,6 Q11,2 8,2"/>
                                         <path d="M18,6 Q21,2 24,2"/>
-                                        <circle cx="8" cy="2" r="1" fill="#1c1917"/>
-                                        <circle cx="24" cy="2" r="1" fill="#1c1917"/>
+                                        <circle cx="8" cy="2" r="1" fill="#260419"/>
+                                        <circle cx="24" cy="2" r="1" fill="#260419"/>
                                     </g>
-                                    <ellipse cx="16" cy="8" rx="5.5" ry="4" fill="#1c1917"/>
+                                    <ellipse cx="16" cy="8" rx="5.5" ry="4" fill="#260419"/>
                                     <circle cx="13" cy="7" r="1" fill="#fff"/>
                                     <circle cx="19" cy="7" r="1" fill="#fff"/>
                                     <circle cx="13.3" cy="7" r="0.5" fill="#000"/>
                                     <circle cx="18.7" cy="7" r="0.5" fill="#000"/>
                                     <ellipse cx="16" cy="20" rx="11" ry="12.5" fill="url(#ladybugShellGrad)" filter="drop-shadow(0 2px 5px rgba(0,0,0,0.25))"/>
-                                    <line x1="16" y1="8" x2="16" y2="32.5" stroke="#1c1917" stroke-width="1.2"/>
-                                    <circle cx="12" cy="14" r="2.1" fill="#1c1917"/>
-                                    <circle cx="20" cy="14" r="2.1" fill="#1c1917"/>
-                                    <circle cx="10" cy="21" r="2" fill="#1c1917"/>
-                                    <circle cx="22" cy="21" r="2" fill="#1c1917"/>
-                                    <circle cx="12.5" cy="27" r="1.8" fill="#1c1917"/>
-                                    <circle cx="19.5" cy="27" r="1.8" fill="#1c1917"/>
-                                    <circle cx="16" cy="17" r="1.6" fill="#1c1917"/>
+                                    <line x1="16" y1="8" x2="16" y2="32.5" stroke="#260419" stroke-width="1.2"/>
+                                    <circle cx="12" cy="14" r="2.1" fill="#260419"/>
+                                    <circle cx="20" cy="14" r="2.1" fill="#260419"/>
+                                    <circle cx="10" cy="21" r="2" fill="#260419"/>
+                                    <circle cx="22" cy="21" r="2" fill="#260419"/>
+                                    <circle cx="12.5" cy="27" r="1.8" fill="#260419"/>
+                                    <circle cx="19.5" cy="27" r="1.8" fill="#260419"/>
+                                    <circle cx="16" cy="17" r="1.6" fill="#260419"/>
                                     <ellipse cx="12.5" cy="15" rx="5" ry="3.5" fill="url(#ladybugShine)"/>
                                 </svg>
                             </div>
@@ -382,7 +504,7 @@
                                  title="Mariquita del Santuario 🐞 · Toca para recibir su calma" 
                                  aria-label="Mariquita del Santuario de Flores">
                                 <svg class="ladybug-svg" viewBox="0 0 32 36" aria-hidden="true">
-                                    <g stroke="#1e1b18" stroke-width="1.3" stroke-linecap="round" fill="none" class="ladybug-legs">
+                                    <g stroke="#260419" stroke-width="1.3" stroke-linecap="round" fill="none" class="ladybug-legs">
                                         <path d="M12,12 Q6,9 4,7"/>
                                         <path d="M11,18 Q4,18 2,20"/>
                                         <path d="M12,24 Q5,27 3,31"/>
@@ -390,26 +512,26 @@
                                         <path d="M21,18 Q28,18 30,20"/>
                                         <path d="M20,24 Q27,27 29,31"/>
                                     </g>
-                                    <g stroke="#1c1917" stroke-width="1.2" stroke-linecap="round" fill="none" class="ladybug-antennae">
+                                    <g stroke="#260419" stroke-width="1.2" stroke-linecap="round" fill="none" class="ladybug-antennae">
                                         <path d="M14,6 Q11,2 8,2"/>
                                         <path d="M18,6 Q21,2 24,2"/>
-                                        <circle cx="8" cy="2" r="1" fill="#1c1917"/>
-                                        <circle cx="24" cy="2" r="1" fill="#1c1917"/>
+                                        <circle cx="8" cy="2" r="1" fill="#260419"/>
+                                        <circle cx="24" cy="2" r="1" fill="#260419"/>
                                     </g>
-                                    <ellipse cx="16" cy="8" rx="5.5" ry="4" fill="#1c1917"/>
+                                    <ellipse cx="16" cy="8" rx="5.5" ry="4" fill="#260419"/>
                                     <circle cx="13" cy="7" r="1" fill="#fff"/>
                                     <circle cx="19" cy="7" r="1" fill="#fff"/>
                                     <circle cx="13.3" cy="7" r="0.5" fill="#000"/>
                                     <circle cx="18.7" cy="7" r="0.5" fill="#000"/>
                                     <ellipse cx="16" cy="20" rx="11" ry="12.5" fill="url(#ladybugShellGrad)" filter="drop-shadow(0 2px 5px rgba(0,0,0,0.25))"/>
-                                    <line x1="16" y1="8" x2="16" y2="32.5" stroke="#1c1917" stroke-width="1.2"/>
-                                    <circle cx="12" cy="14" r="2.1" fill="#1c1917"/>
-                                    <circle cx="20" cy="14" r="2.1" fill="#1c1917"/>
-                                    <circle cx="10" cy="21" r="2" fill="#1c1917"/>
-                                    <circle cx="22" cy="21" r="2" fill="#1c1917"/>
-                                    <circle cx="12.5" cy="27" r="1.8" fill="#1c1917"/>
-                                    <circle cx="19.5" cy="27" r="1.8" fill="#1c1917"/>
-                                    <circle cx="16" cy="17" r="1.6" fill="#1c1917"/>
+                                    <line x1="16" y1="8" x2="16" y2="32.5" stroke="#260419" stroke-width="1.2"/>
+                                    <circle cx="12" cy="14" r="2.1" fill="#260419"/>
+                                    <circle cx="20" cy="14" r="2.1" fill="#260419"/>
+                                    <circle cx="10" cy="21" r="2" fill="#260419"/>
+                                    <circle cx="22" cy="21" r="2" fill="#260419"/>
+                                    <circle cx="12.5" cy="27" r="1.8" fill="#260419"/>
+                                    <circle cx="19.5" cy="27" r="1.8" fill="#260419"/>
+                                    <circle cx="16" cy="17" r="1.6" fill="#260419"/>
                                     <ellipse cx="12.5" cy="15" rx="5" ry="3.5" fill="url(#ladybugShine)"/>
                                 </svg>
                             </div>
@@ -675,7 +797,19 @@
                              title="Toca para desplegar la Floración Radiante de Carla Lorena">
 
                             <!-- Único Medallón Floral de la Gran Rosa Imperial (Sin doble fondo ni diamante) -->
-                            <svg class="grand-rose-imperial-svg" viewBox="0 0 140 140" aria-hidden="true">
+                                                        <!-- ═══════════════════════════════════════════════════════════ -->
+                            <!--  RESPLANDOR Y BRILLO DE SOL DORADO (SOLAR SUNBURST DE LA RED) -->
+                            <!-- ═══════════════════════════════════════════════════════════ -->
+                            <div class="map-solar-sunburst" aria-hidden="true">
+                                <div class="solar-corona-glow"></div>
+                                <div class="solar-pulsing-aura"></div>
+                                <span class="solar-sparkle-star s-star-1">✦</span>
+                                <span class="solar-sparkle-star s-star-2">✦</span>
+                                <span class="solar-sparkle-star s-star-3">✦</span>
+                                <span class="solar-sparkle-star s-star-4">✦</span>
+                            </div>
+
+<svg class="grand-rose-imperial-svg" viewBox="0 0 140 140" aria-hidden="true">
                                 <defs>
                                     <radialGradient id="imperialOuterRim" cx="50%" cy="38%" r="62%">
                                         <stop offset="0%" stop-color="#fffdf9"/>
@@ -684,18 +818,18 @@
                                     </radialGradient>
                                     <linearGradient id="imperialGoldRing" x1="0%" y1="0%" x2="100%" y2="100%">
                                         <stop offset="0%" stop-color="#fef08a"/>
-                                        <stop offset="50%" stop-color="#d4af37"/>
+                                        <stop offset="50%" stop-color="#e0ab00"/>
                                         <stop offset="100%" stop-color="#9a6b32"/>
                                     </linearGradient>
                                     <radialGradient id="imperialRosePetalOuter" cx="50%" cy="30%" r="70%">
                                         <stop offset="0%" stop-color="#fb7185"/>
-                                        <stop offset="65%" stop-color="#e11d48"/>
-                                        <stop offset="100%" stop-color="#881337"/>
+                                        <stop offset="65%" stop-color="#ff3e9a"/>
+                                        <stop offset="100%" stop-color="#3b0a2a"/>
                                     </radialGradient>
                                     <radialGradient id="imperialRosePetalInner" cx="45%" cy="35%" r="65%">
-                                        <stop offset="0%" stop-color="#ffe4e6"/>
-                                        <stop offset="50%" stop-color="#f43f5e"/>
-                                        <stop offset="100%" stop-color="#9f1239"/>
+                                        <stop offset="0%" stop-color="#ffeaf3"/>
+                                        <stop offset="50%" stop-color="#ff3e9a"/>
+                                        <stop offset="100%" stop-color="#b8126c"/>
                                     </radialGradient>
                                 </defs>
 
@@ -704,7 +838,7 @@
                                 <circle cx="70" cy="70" r="57" fill="none" stroke="rgba(201, 59, 97, 0.26)" stroke-width="1.2" stroke-dasharray="3,3"/>
 
                                 <!-- Corona de 8 pétalos exteriores de seda carmesí -->
-                                <g class="imperial-petals-ring" transform="translate(70, 58)">
+                                <g class="imperial-petals-ring" transform="translate(70, 70)">
                                     <path d="M0,-33 C10,-26 14,-12 0,-4 C-14,-12 -10,-26 0,-33 Z" fill="url(#imperialRosePetalOuter)" opacity="0.94"/>
                                     <path d="M0,-33 C10,-26 14,-12 0,-4 C-14,-12 -10,-26 0,-33 Z" fill="url(#imperialRosePetalOuter)" opacity="0.94" transform="rotate(45)"/>
                                     <path d="M0,-33 C10,-26 14,-12 0,-4 C-14,-12 -10,-26 0,-33 Z" fill="url(#imperialRosePetalOuter)" opacity="0.94" transform="rotate(90)"/>
@@ -725,8 +859,8 @@
                                     <path d="M0,-24 C8,-18 11,-8 0,-2 C-11,-8 -8,-18 0,-24 Z" fill="url(#imperialRosePetalInner)" transform="rotate(337.5)"/>
 
                                     <!-- Corazón espiral de la rosa y perla central dorada -->
-                                    <circle cx="0" cy="0" r="11" fill="#881337" stroke="#fde68a" stroke-width="1.3"/>
-                                    <path d="M-5,-2 C-2,-7 5,-6 6,0 C6,5 0,7 -4,4 C-7,1 -3,-3 1,-2" fill="none" stroke="#ffe4e6" stroke-width="1.6" stroke-linecap="round"/>
+                                    <circle cx="0" cy="0" r="11" fill="#3b0a2a" stroke="#fde68a" stroke-width="1.3"/>
+                                    <path d="M-5,-2 C-2,-7 5,-6 6,0 C6,5 0,7 -4,4 C-7,1 -3,-3 1,-2" fill="none" stroke="#ffeaf3" stroke-width="1.6" stroke-linecap="round"/>
                                     <circle cx="0" cy="0" r="2.8" fill="#fef08a"/>
                                 </g>
                             </svg>
@@ -747,7 +881,7 @@
                                      title="Mariquita de la Suerte 🐞 · Toca para recibir bendiciones" 
                                      aria-label="Mariquita de la Suerte de Carla">
                                     <svg class="ladybug-svg" viewBox="0 0 32 36" aria-hidden="true">
-                                        <g stroke="#1e1b18" stroke-width="1.3" stroke-linecap="round" fill="none" class="ladybug-legs">
+                                        <g stroke="#260419" stroke-width="1.3" stroke-linecap="round" fill="none" class="ladybug-legs">
                                             <path d="M12,12 Q6,9 4,7"/>
                                             <path d="M11,18 Q4,18 2,20"/>
                                             <path d="M12,24 Q5,27 3,31"/>
@@ -755,26 +889,26 @@
                                             <path d="M21,18 Q28,18 30,20"/>
                                             <path d="M20,24 Q27,27 29,31"/>
                                         </g>
-                                        <g stroke="#1c1917" stroke-width="1.2" stroke-linecap="round" fill="none" class="ladybug-antennae">
+                                        <g stroke="#260419" stroke-width="1.2" stroke-linecap="round" fill="none" class="ladybug-antennae">
                                             <path d="M14,6 Q11,2 8,2"/>
                                             <path d="M18,6 Q21,2 24,2"/>
-                                            <circle cx="8" cy="2" r="1" fill="#1c1917"/>
-                                            <circle cx="24" cy="2" r="1" fill="#1c1917"/>
+                                            <circle cx="8" cy="2" r="1" fill="#260419"/>
+                                            <circle cx="24" cy="2" r="1" fill="#260419"/>
                                         </g>
-                                        <ellipse cx="16" cy="8" rx="5.5" ry="4" fill="#1c1917"/>
+                                        <ellipse cx="16" cy="8" rx="5.5" ry="4" fill="#260419"/>
                                         <circle cx="13" cy="7" r="1" fill="#fff"/>
                                         <circle cx="19" cy="7" r="1" fill="#fff"/>
                                         <circle cx="13.3" cy="7" r="0.5" fill="#000"/>
                                         <circle cx="18.7" cy="7" r="0.5" fill="#000"/>
                                         <ellipse cx="16" cy="20" rx="11" ry="12.5" fill="url(#ladybugShellGrad)" filter="drop-shadow(0 2px 5px rgba(0,0,0,0.25))"/>
-                                        <line x1="16" y1="8" x2="16" y2="32.5" stroke="#1c1917" stroke-width="1.2"/>
-                                        <circle cx="12" cy="14" r="2.1" fill="#1c1917"/>
-                                        <circle cx="20" cy="14" r="2.1" fill="#1c1917"/>
-                                        <circle cx="10" cy="21" r="2" fill="#1c1917"/>
-                                        <circle cx="22" cy="21" r="2" fill="#1c1917"/>
-                                        <circle cx="12.5" cy="27" r="1.8" fill="#1c1917"/>
-                                        <circle cx="19.5" cy="27" r="1.8" fill="#1c1917"/>
-                                        <circle cx="16" cy="17" r="1.6" fill="#1c1917"/>
+                                        <line x1="16" y1="8" x2="16" y2="32.5" stroke="#260419" stroke-width="1.2"/>
+                                        <circle cx="12" cy="14" r="2.1" fill="#260419"/>
+                                        <circle cx="20" cy="14" r="2.1" fill="#260419"/>
+                                        <circle cx="10" cy="21" r="2" fill="#260419"/>
+                                        <circle cx="22" cy="21" r="2" fill="#260419"/>
+                                        <circle cx="12.5" cy="27" r="1.8" fill="#260419"/>
+                                        <circle cx="19.5" cy="27" r="1.8" fill="#260419"/>
+                                        <circle cx="16" cy="17" r="1.6" fill="#260419"/>
                                         <ellipse cx="12.5" cy="15" rx="5" ry="3.5" fill="url(#ladybugShine)"/>
                                     </svg>
                                 </div>
@@ -815,7 +949,7 @@
                     <div class="section-heading">
                         <div>
                             <p class="eyebrow">NOTAS CON SELLO DE LACRE</p>
-                            <h2>Cartas secretas para Carla Lorena</h2>
+                            <h2>Cartas secretas de Adrián para Carla Lorena</h2>
                         </div>
                         <span class="letters-subtitle">Toca el sello para abrir el mensaje</span>
                     </div>
@@ -825,11 +959,11 @@
                             <div class="wax-seal-btn" role="button" tabindex="0" aria-label="Romper sello de lacre de la carta 1">
                                 <span class="seal-stamp">C</span>
                             </div>
-                            <span class="letter-tag">Carta 01 · Para ti</span>
+                            <span class="letter-tag">Carta 01 · De Adrián para Carla</span>
                             <h3>Un pensamiento en el camino</h3>
                             <div class="letter-inner-content">
                                 <p>«Si tuviera que elegir un solo motivo para sonreír hoy, elegiría la fortuna de ver florecer tu mundo. Este jardín es solo un reflejo de toda la luz que llevas dentro.»</p>
-                                <span class="letter-signature">— Con cariño infinito ♡</span>
+                                <span class="letter-signature">— De Adrián para Carla con mucho amor ♡</span>
                             </div>
                         </article>
 
@@ -837,11 +971,11 @@
                             <div class="wax-seal-btn" role="button" tabindex="0" aria-label="Romper sello de lacre de la carta 2">
                                 <span class="seal-stamp">C</span>
                             </div>
-                            <span class="letter-tag">Carta 02 · En calma</span>
+                            <span class="letter-tag">Carta 02 · De Adrián para Carla</span>
                             <h3>La serenidad de tu presencia</h3>
                             <div class="letter-inner-content">
                                 <p>«Hay personas que son como un refugio cálido en medio de cualquier tormenta. Gracias por ser esa calma bonita que transforma los días ordinarios en instantes extraordinarios.»</p>
-                                <span class="letter-signature">— Siempre para ti ❀</span>
+                                <span class="letter-signature">— De tu amor Adrián para ti con mucho amor ❀</span>
                             </div>
                         </article>
 
@@ -849,11 +983,11 @@
                             <div class="wax-seal-btn" role="button" tabindex="0" aria-label="Romper sello de lacre de la carta 3">
                                 <span class="seal-stamp">C</span>
                             </div>
-                            <span class="letter-tag">Carta 03 · Promesa</span>
+                            <span class="letter-tag">Carta 03 · Promesa de Adrián</span>
                             <h3>Lo mejor siempre está por venir</h3>
                             <div class="letter-inner-content">
                                 <p>«Que cada pétalo de este jardín te recuerde lo especial que eres, los sueños que esperan cumplirse y que nunca faltarán motivos para celebrar tu sonrisa.»</p>
-                                <span class="letter-signature">— Por un sinfín de sonrisas ✨</span>
+                                <span class="letter-signature">— De Adrián para Carla con mucho amor ✨</span>
                             </div>
                         </article>
                     </div>
@@ -879,7 +1013,7 @@
                             <p class="bud-folded-hint">Toca para abrir ✦</p>
                             <div class="bud-unfolded-msg" hidden>
                                 <p>«Que nunca se apague esa luz tan bonita y contagiosa que tienes. El mundo es más amable y cálido desde que estás en él.»</p>
-                                <small>Con admiración sincera</small>
+                                <small>De Adrián para Carla con mucho amor</small>
                             </div>
                         </button>
 
@@ -892,7 +1026,7 @@
                             <p class="bud-folded-hint">Toca para abrir ✦</p>
                             <div class="bud-unfolded-msg" hidden>
                                 <p>«Incluso en los días difíciles, recuerda la inmensa gracia y valentía con la que caminas. Siempre serás inspiración.»</p>
-                                <small>Un abrazo al alma</small>
+                                <small>El abrazo de Adrián para Carla con mucho amor</small>
                             </div>
                         </button>
 
@@ -905,7 +1039,7 @@
                             <p class="bud-folded-hint">Toca para abrir ✦</p>
                             <div class="bud-unfolded-msg" hidden>
                                 <p>«Deseo que los días que vienen te regalen instantes de paz infinita, risas espontáneas y flores en cada esquina del camino.»</p>
-                                <small>Promesa del jardín</small>
+                                <small>La promesa de amor de Adrián para Carla</small>
                             </div>
                         </button>
 
@@ -918,7 +1052,7 @@
                             <p class="bud-folded-hint">Toca para abrir ✦</p>
                             <div class="bud-unfolded-msg" hidden>
                                 <p>«Por cada sueño que anheles cumplir, aquí habrá un lugar donde celebrar cada logro y recordarte lo valiosa y especial que eres.»</p>
-                                <small>Siempre contigo</small>
+                                <small>De Adrián para Carla con mucho amor ♡</small>
                             </div>
                         </button>
                     </div>

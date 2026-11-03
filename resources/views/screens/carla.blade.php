@@ -41,7 +41,7 @@
                         </div>
                         <p class="eyebrow">MI ESPACIO · UN LUGAR SOLO PARA MÍ · EL JARDÍN DE CARLA</p>
                         <h1 id="personal-title" class="shimmer-title">Mi Espacio · <em>Un santuario solo para mí</em></h1>
-                        <p>Tu refugio privado para atesorar recuerdos, pensamientos íntimos, cápsulas selladas y melodías queridas. Un rincón protegido donde florecen tus momentos más especiales.</p>
+                        <p class="carla-page-heading-desc">Tu refugio privado para atesorar recuerdos, pensamientos íntimos, cápsulas selladas y melodías queridas. Un rincón protegido donde florecen tus momentos más especiales.</p>
                     </div>
                     <span class="heading-mark romantic-spin" aria-hidden="true">
                         <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
@@ -116,7 +116,7 @@
                                 </svg>
                             </div>
                             <div class="metric-data">
-                                <strong>{{ $personalStats['albums'] }}</strong>
+                                <strong data-metric-count="albums">{{ $personalStats['albums'] }}</strong>
                                 <span>Álbumes</span>
                                 <small>Colecciones de fotos</small>
                             </div>
@@ -131,7 +131,7 @@
                                 </svg>
                             </div>
                             <div class="metric-data">
-                                <strong>{{ $personalStats['photos'] }}</strong>
+                                <strong data-metric-count="photos">{{ $personalStats['photos'] }}</strong>
                                 <span>Fotografías</span>
                                 <small>Momentos guardados</small>
                             </div>
@@ -145,7 +145,7 @@
                                 </svg>
                             </div>
                             <div class="metric-data">
-                                <strong>{{ $personalStats['favorites'] }}</strong>
+                                <strong data-metric-count="favorites">{{ $personalStats['favorites'] }}</strong>
                                 <span>Favoritos</span>
                                 <small>Tus preferidas</small>
                             </div>
@@ -160,7 +160,7 @@
                                 </svg>
                             </div>
                             <div class="metric-data">
-                                <strong>{{ $personalStats['diary'] }}</strong>
+                                <strong data-metric-count="diary">{{ $personalStats['diary'] }}</strong>
                                 <span>Entradas</span>
                                 <small>Diario personal</small>
                             </div>
@@ -175,7 +175,7 @@
                                 </svg>
                             </div>
                             <div class="metric-data">
-                                <strong>{{ $personalStats['capsules'] }}</strong>
+                                <strong data-metric-count="capsules">{{ $personalStats['capsules'] }}</strong>
                                 <span>Cápsulas</span>
                                 <small>Cartas selladas</small>
                             </div>
@@ -190,7 +190,7 @@
                                 </svg>
                             </div>
                             <div class="metric-data">
-                                <strong>{{ $personalStats['drafts'] }}</strong>
+                                <strong data-metric-count="drafts">{{ $personalStats['drafts'] }}</strong>
                                 <span>Borradores</span>
                                 <small>Notas en pausa</small>
                             </div>
@@ -253,7 +253,7 @@
                                     <div class="card-text">
                                         <div class="card-title-row">
                                             <strong>Mis Álbumes</strong>
-                                            <span class="card-count-badge">{{ $personalStats['albums'] }}</span>
+                                            <span class="card-count-badge" data-metric-count="albums">{{ $personalStats['albums'] }}</span>
                                         </div>
                                         <p>Colecciones de fotos ordenadas con delicadeza para revivir tus mejores instantes.</p>
                                     </div>
@@ -270,7 +270,7 @@
                                     <div class="card-text">
                                         <div class="card-title-row">
                                             <strong>Mis favoritos</strong>
-                                            <span class="card-count-badge">{{ $personalStats['favorites'] }}</span>
+                                            <span class="card-count-badge" data-metric-count="favorites">{{ $personalStats['favorites'] }}</span>
                                         </div>
                                         <p>Tus fotografías y momentos más entrañables para encontrarlos con un solo toque.</p>
                                     </div>
@@ -288,7 +288,7 @@
                                     <div class="card-text">
                                         <div class="card-title-row">
                                             <strong>Mi Diario Íntimo</strong>
-                                            <span class="card-count-badge">{{ $personalStats['diary'] }}</span>
+                                            <span class="card-count-badge" data-metric-count="diary">{{ $personalStats['diary'] }}</span>
                                         </div>
                                         <p>Un espacio confidencial para tus reflexiones, confidencias y memorias del corazón.</p>
                                     </div>
@@ -306,7 +306,7 @@
                                     <div class="card-text">
                                         <div class="card-title-row">
                                             <strong>Cápsulas del Tiempo</strong>
-                                            <span class="card-count-badge">{{ $personalStats['capsules'] }}</span>
+                                            <span class="card-count-badge" data-metric-count="capsules">{{ $personalStats['capsules'] }}</span>
                                         </div>
                                         <p>Cartas selladas con fecha y candado que solo se revelan en su momento señalado.</p>
                                     </div>
@@ -339,7 +339,7 @@
                                     <div class="card-text">
                                         <div class="card-title-row">
                                             <strong>Entretenimiento &amp; Música</strong>
-                                            <span class="card-count-badge">{{ $personalStats['media'] }}</span>
+                                            <span class="card-count-badge" data-metric-count="media">{{ $personalStats['media'] }}</span>
                                         </div>
                                         <p>Colección de piezas sonoras y videos que acompañan tus horas con serenidad y dulzura.</p>
                                     </div>
@@ -398,7 +398,7 @@
                                     <div class="card-text">
                                         <div class="card-title-row">
                                             <strong>El Blog del Jardín</strong>
-                                            <span class="card-count-badge">{{ $personalStats['drafts'] }}</span>
+                                            <span class="card-count-badge" data-metric-count="drafts">{{ $personalStats['drafts'] }}</span>
                                         </div>
                                         <p>Revisa publicaciones, edita artículos o redacta nuevos textos compartibles.</p>
                                     </div>

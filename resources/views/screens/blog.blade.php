@@ -129,7 +129,7 @@
                                         <circle cx="18" cy="18" r="16" fill="#fff0f4" stroke="#9e2a47" stroke-width="1.8"/>
                                         <circle cx="18" cy="14" r="4.5" stroke="#9e2a47" stroke-width="1.8"/>
                                         <path d="M10.5 26.5C11.8 22.8 14.6 21 18 21C21.4 21 24.2 22.8 25.5 26.5" stroke="#9e2a47" stroke-width="1.8" stroke-linecap="round"/>
-                                        <circle cx="26.5" cy="10.5" r="2.5" fill="#d4af37"/>
+                                        <circle cx="26.5" cy="10.5" r="2.5" fill="#e0ab00"/>
                                     </svg>
                                 </div>
                                 <div class="editor-section-heading blog-studio-heading-copy">
@@ -255,7 +255,7 @@
                                     <button class="button button-outline blog-draft-btn" type="submit" name="status" value="draft">
                                         🔒 Guardar como borrador privado
                                     </button>
-                                    <button class="button button-primary blog-publish-btn" type="submit" name="status" value="published" onclick="return confirm('¿Publicar el perfil y hacer visibles estos datos y la fotografía destacada en el blog?')">
+                                    <button class="button button-primary blog-publish-btn" type="submit" name="status" value="published" data-confirm="¿Publicar el perfil y hacer visibles estos datos y la fotografía destacada en el blog?">
                                         🌸 Publicar perfil en el blog
                                     </button>
                                 </div>
@@ -279,7 +279,7 @@
                                     <svg width="28" height="28" viewBox="0 0 36 36" fill="none">
                                         <rect x="7" y="6" width="22" height="24" rx="5" fill="#fff0f4" stroke="#9e2a47" stroke-width="1.8"/>
                                         <path d="M12 13H24M12 18H22M12 23H18" stroke="#9e2a47" stroke-width="1.8" stroke-linecap="round"/>
-                                        <circle cx="24" cy="24" r="4" fill="#d4af37"/>
+                                        <circle cx="24" cy="24" r="4" fill="#e0ab00"/>
                                     </svg>
                                 </div>
                                 <div class="editor-section-heading blog-studio-heading-copy">

@@ -152,7 +152,7 @@ export function initFriendDedications() {
 
         if (!dedicationId || !card) return;
 
-        if (!confirm('¿Deseas eliminar permanentemente esta dedicatoria del jardín de Carla?')) {
+        if (!await window.showConfirm({ title: '¿Eliminar dedicatoria?', message: '¿Deseas eliminar permanentemente esta dedicatoria del jardín de Carla?', confirmText: 'Sí, eliminar', type: 'danger' })) {
             return;
         }
 

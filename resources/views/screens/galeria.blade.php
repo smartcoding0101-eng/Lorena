@@ -79,243 +79,102 @@
                                 <span>Compacta</span>
                             </button>
                         </div>
-                        <span class="gallery-caption">IMÁGENES DE DEMOSTRACIÓN · COLECCIÓN PRIVADA · EDICIÓN ATELIER</span>
+                        <span class="gallery-caption">IMÁGENES DE DEMOSTRACIÓN · COLECCIÓN PRIVADA VIVA · EDICIÓN ATELIER</span>
                     </div>
                 </div>
 
                 <div class="gallery-grid luxury-gallery-grid" data-grid-size="standard">
-                    <!-- Obra 1: Flores de domingo -->
-                    <button class="gallery-item gallery-museo-card" type="button" data-kind="foto" data-image="https://images.unsplash.com/photo-1490750967868-88aa4486c946?auto=format&fit=crop&w=1400&q=90" data-title="Flores de domingo para Carla" aria-label="Abrir imagen: Flores de domingo">
-                        <div class="card-top-bar">
-                            <span class="card-icon-emblem">
-                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-                                    <circle cx="12" cy="12" r="3"></circle>
-                                    <path d="M12 2a4 4 0 0 0-4 4v1a4 4 0 0 0 8 0V6a4 4 0 0 0-4-4z"></path>
-                                    <path d="M22 12a4 4 0 0 0-4-4h-1a4 4 0 0 0 0 8h1a4 4 0 0 0 4-4z"></path>
-                                    <path d="M12 22a4 4 0 0 0 4-4v-1a4 4 0 0 0-8 0v1a4 4 0 0 0 4 4z"></path>
-                                    <path d="M2 12a4 4 0 0 0 4 4h1a4 4 0 0 0 0-8H6a4 4 0 0 0-4 4z"></path>
-                                </svg>
-                            </span>
-                            <span class="card-number">FOTOGRAFÍA BOTÁNICA</span>
-                        </div>
-                        <div class="gallery-photo-frame">
-                            <img src="https://images.unsplash.com/photo-1490750967868-88aa4486c946?auto=format&fit=crop&w=900&q=85" alt="Flores silvestres de distintos colores iluminadas por el sol">
-                            <span class="gallery-zoom-badge" aria-hidden="true">
-                                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                    <circle cx="11" cy="11" r="8"></circle>
-                                    <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-                                    <line x1="11" y1="8" x2="11" y2="14"></line>
-                                    <line x1="8" y1="11" x2="14" y2="11"></line>
-                                </svg>
-                                <span>Ver obra</span>
-                            </span>
-                        </div>
-                        <div class="gallery-card-caption">
-                            <div class="gallery-caption-header">
-                                <strong>Flores de domingo</strong>
-                                <span class="gallery-pill">Colección Carla</span>
+                    @forelse($galleryItems as $idx => $item)
+                        <button class="gallery-item gallery-museo-card" type="button" data-kind="{{ $item->category }}" data-image="{{ $item->image_url }}" data-title="{{ $item->title }}" aria-label="Abrir imagen: {{ $item->title }}">
+                            <div class="card-top-bar">
+                                <span class="card-icon-emblem">
+                                    @if($item->category === 'video')
+                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                                            <polygon points="5 3 19 12 5 21 5 3"></polygon>
+                                        </svg>
+                                    @elseif($item->category === 'familia')
+                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                                            <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+                                        </svg>
+                                    @elseif($item->category === 'amigos')
+                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                                            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                                            <circle cx="9" cy="7" r="4"></circle>
+                                            <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+                                            <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                                        </svg>
+                                    @elseif($item->category === 'especiales')
+                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                                            <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+                                        </svg>
+                                    @else
+                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                                            <circle cx="12" cy="12" r="3"></circle>
+                                            <path d="M12 2a4 4 0 0 0-4 4v1a4 4 0 0 0 8 0V6a4 4 0 0 0-4-4z"></path>
+                                            <path d="M22 12a4 4 0 0 0-4-4h-1a4 4 0 0 0 0 8h1a4 4 0 0 0 4-4z"></path>
+                                            <path d="M12 22a4 4 0 0 0 4-4v-1a4 4 0 0 0-8 0v1a4 4 0 0 0 4 4z"></path>
+                                            <path d="M2 12a4 4 0 0 0 4 4h1a4 4 0 0 0 0-8H6a4 4 0 0 0-4 4z"></path>
+                                        </svg>
+                                    @endif
+                                </span>
+                                <span class="card-number">{{ $item->tag_label ?: 'FOTOGRAFÍA BOTÁNICA' }}</span>
+                                @auth
+                                    @if(auth()->user()->is_admin || in_array(auth()->id(), [1, 2], true))
+                                        <a href="#admin" data-go="admin" class="gallery-card-edit-badge" title="Editar en Centro de Control" style="margin-left: auto; font-size: 10px; color: #b8126c; background: rgba(255, 62, 154, 0.12); padding: 2px 7px; border-radius: 999px; text-decoration: none; border: 1px solid rgba(255, 62, 154, 0.25);">✏️ Editar</a>
+                                    @endif
+                                @endauth
                             </div>
-                            <div class="blog-card-divider" aria-hidden="true">
-                                <span class="divider-line"></span>
-                                <span class="divider-rose">❦</span>
-                                <span class="divider-line"></span>
+                            <div class="gallery-photo-frame">
+                                <img src="{{ $item->image_url }}" alt="{{ $item->title }}" loading="{{ $idx < 4 ? 'eager' : 'lazy' }}" onerror="this.onerror=null;this.src='{{ asset('images/mockups/propuesta_b_natural_light.png') }}';">
+                                @if($item->category === 'video')
+                                    <span class="video-badge">
+                                        <svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor">
+                                            <polygon points="5 3 19 12 5 21 5 3"></polygon>
+                                        </svg>
+                                        <span>POSTAL DORADA</span>
+                                    </span>
+                                    <span class="gallery-zoom-badge" aria-hidden="true">
+                                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                            <polygon points="5 3 19 12 5 21 5 3"></polygon>
+                                        </svg>
+                                        <span>Reproducir</span>
+                                    </span>
+                                @else
+                                    <span class="gallery-zoom-badge" aria-hidden="true">
+                                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                            <circle cx="11" cy="11" r="8"></circle>
+                                            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                                            <line x1="11" y1="8" x2="11" y2="14"></line>
+                                            <line x1="8" y1="11" x2="14" y2="11"></line>
+                                        </svg>
+                                        <span>Ver obra</span>
+                                    </span>
+                                @endif
                             </div>
-                            <p class="gallery-caption-quote">«Para recordarte lo bonito que es florecer despacio y a tu propio ritmo.»</p>
-                        </div>
-                    </button>
-
-                    <!-- Obra 2: El lago de los reflejos serenos -->
-                    <button class="gallery-item gallery-museo-card" type="button" data-kind="foto" data-image="https://images.unsplash.com/photo-1470770841072-f978cf4d019e?auto=format&fit=crop&w=1400&q=90" data-title="El lago de los reflejos serenos" aria-label="Abrir imagen: Aire de montaña">
-                        <div class="card-top-bar">
-                            <span class="card-icon-emblem">
-                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-                                    <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8"></path>
-                                    <path d="m3 16 7-7 4 4 5-6"></path>
-                                </svg>
-                            </span>
-                            <span class="card-number">PAISAJE DE CALMA</span>
-                        </div>
-                        <div class="gallery-photo-frame">
-                            <img src="https://images.unsplash.com/photo-1470770841072-f978cf4d019e?auto=format&fit=crop&w=900&q=85" alt="Lago sereno rodeado de montañas">
-                            <span class="gallery-zoom-badge" aria-hidden="true">
-                                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                    <circle cx="11" cy="11" r="8"></circle>
-                                    <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-                                    <line x1="11" y1="8" x2="11" y2="14"></line>
-                                    <line x1="8" y1="11" x2="14" y2="11"></line>
-                                </svg>
-                                <span>Ver obra</span>
-                            </span>
-                        </div>
-                        <div class="gallery-card-caption">
-                            <div class="gallery-caption-header">
-                                <strong>Aire de montaña</strong>
-                                <span class="gallery-pill">Serenidad</span>
+                            <div class="gallery-card-caption">
+                                <div class="gallery-caption-header">
+                                    <strong>{{ $item->title }}</strong>
+                                    <span class="gallery-pill">{{ $item->pill ?: 'Colección Carla' }}</span>
+                                </div>
+                                <div class="blog-card-divider" aria-hidden="true">
+                                    <span class="divider-line"></span>
+                                    <span class="divider-rose">❦</span>
+                                    <span class="divider-line"></span>
+                                </div>
+                                @if($item->quote)
+                                    <p class="gallery-caption-quote">{{ $item->quote }}</p>
+                                @endif
                             </div>
-                            <div class="blog-card-divider" aria-hidden="true">
-                                <span class="divider-line"></span>
-                                <span class="divider-rose">❦</span>
-                                <span class="divider-line"></span>
-                            </div>
-                            <p class="gallery-caption-quote">«Un lugar de paz que guarda tu nombre entre sus reflejos.»</p>
+                        </button>
+                    @empty
+                        <div class="gallery-empty-state" style="grid-column: 1 / -1; text-align: center; padding: 3rem 1rem;">
+                            <span class="note-flower" aria-hidden="true" style="font-size: 2.5rem; display: block; margin-bottom: 0.5rem;">✿</span>
+                            <p style="font-size: 1.1rem; color: #64748b;">Aún no hay obras registradas en la galería.</p>
+                            @auth
+                                <a href="#admin" data-go="admin" class="button button-primary button-sm" style="margin-top: 1rem;">+ Gestionar en Panel de Control</a>
+                            @endauth
                         </div>
-                    </button>
-
-                    <!-- Obra 3: Una tarde dorada -->
-                    <button class="gallery-item gallery-museo-card" type="button" data-kind="video" data-image="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1400&q=90" data-title="Una tarde dorada" aria-label="Abrir muestra visual: Una tarde dorada">
-                        <div class="card-top-bar">
-                            <span class="card-icon-emblem">
-                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-                                    <polygon points="5 3 19 12 5 21 5 3"></polygon>
-                                </svg>
-                            </span>
-                            <span class="card-number">POSTAL EN MOVIMIENTO</span>
-                        </div>
-                        <div class="gallery-photo-frame">
-                            <img src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=900&q=85" alt="Paisaje de campo al final de la tarde">
-                            <span class="video-badge">
-                                <svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor">
-                                    <polygon points="5 3 19 12 5 21 5 3"></polygon>
-                                </svg>
-                                <span>POSTAL DORADA</span>
-                            </span>
-                            <span class="gallery-zoom-badge" aria-hidden="true">
-                                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                    <polygon points="5 3 19 12 5 21 5 3"></polygon>
-                                </svg>
-                                <span>Reproducir</span>
-                            </span>
-                        </div>
-                        <div class="gallery-card-caption">
-                            <div class="gallery-caption-header">
-                                <strong>Una tarde dorada</strong>
-                                <span class="gallery-pill">Luz Cálida</span>
-                            </div>
-                            <div class="blog-card-divider" aria-hidden="true">
-                                <span class="divider-line"></span>
-                                <span class="divider-rose">❦</span>
-                                <span class="divider-line"></span>
-                            </div>
-                            <p class="gallery-caption-quote">«La hora mágica cuando el sol abraza la pradera en silencio.»</p>
-                        </div>
-                    </button>
-
-                    <!-- Obra 4: Cielo estrellado sobre el jardín -->
-                    <button class="gallery-item gallery-museo-card" type="button" data-kind="foto" data-image="https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=1400&q=90" data-title="Cielo estrellado sobre el jardín" aria-label="Abrir imagen: Bajo las estrellas">
-                        <div class="card-top-bar">
-                            <span class="card-icon-emblem">
-                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-                                    <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
-                                </svg>
-                            </span>
-                            <span class="card-number">NOCHE CELESTIAL</span>
-                        </div>
-                        <div class="gallery-photo-frame">
-                            <img src="https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=900&q=85" alt="Cielo estrellado sobre montañas">
-                            <span class="gallery-zoom-badge" aria-hidden="true">
-                                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                    <circle cx="11" cy="11" r="8"></circle>
-                                    <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-                                    <line x1="11" y1="8" x2="11" y2="14"></line>
-                                    <line x1="8" y1="11" x2="14" y2="11"></line>
-                                </svg>
-                                <span>Ver obra</span>
-                            </span>
-                        </div>
-                        <div class="gallery-card-caption">
-                            <div class="gallery-caption-header">
-                                <strong>Bajo las estrellas</strong>
-                                <span class="gallery-pill">Infinito</span>
-                            </div>
-                            <div class="blog-card-divider" aria-hidden="true">
-                                <span class="divider-line"></span>
-                                <span class="divider-rose">❦</span>
-                                <span class="divider-line"></span>
-                            </div>
-                            <p class="gallery-caption-quote">«En cada estrella un deseo sincero guardado para ti.»</p>
-                        </div>
-                    </button>
-
-                    <!-- Obra 5: El sendero de los jazmines -->
-                    <button class="gallery-item gallery-museo-card" type="button" data-kind="foto" data-image="https://images.unsplash.com/photo-1500534623283-312aade485b7?auto=format&fit=crop&w=1400&q=90" data-title="El sendero de los jazmines" aria-label="Abrir imagen: El camino más bonito">
-                        <div class="card-top-bar">
-                            <span class="card-icon-emblem">
-                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-                                    <path d="M12 2L2 7l10 5 10-5-10-5z"></path>
-                                    <path d="M2 17l10 5 10-5"></path>
-                                    <path d="M2 12l10 5 10-5"></path>
-                                </svg>
-                            </span>
-                            <span class="card-number">SENDERO VERDE · PASEO</span>
-                        </div>
-                        <div class="gallery-photo-frame">
-                            <img src="https://images.unsplash.com/photo-1500534623283-312aade485b7?auto=format&fit=crop&w=1200&q=85" alt="Camino entre vegetación frondosa">
-                            <span class="gallery-zoom-badge" aria-hidden="true">
-                                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                    <circle cx="11" cy="11" r="8"></circle>
-                                    <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-                                    <line x1="11" y1="8" x2="11" y2="14"></line>
-                                    <line x1="8" y1="11" x2="14" y2="11"></line>
-                                </svg>
-                                <span>Ver obra</span>
-                            </span>
-                        </div>
-                        <div class="gallery-card-caption">
-                            <div class="gallery-caption-header">
-                                <strong>El camino más bonito</strong>
-                                <span class="gallery-pill">Caminos Juntos</span>
-                            </div>
-                            <div class="blog-card-divider" aria-hidden="true">
-                                <span class="divider-line"></span>
-                                <span class="divider-rose">❦</span>
-                                <span class="divider-line"></span>
-                            </div>
-                            <p class="gallery-caption-quote">«Cualquier camino se vuelve hermoso si nos lleva a sonreír y soñar.»</p>
-                        </div>
-                    </button>
-
-                    <!-- Obra 6: Luz de atardecer entre las flores -->
-                    <button class="gallery-item gallery-museo-card" type="button" data-kind="video" data-image="https://images.unsplash.com/photo-1470252649378-9c29740c9fa8?auto=format&fit=crop&w=1400&q=90" data-title="Luz de atardecer entre las flores" aria-label="Abrir muestra visual: Luz de atardecer">
-                        <div class="card-top-bar">
-                            <span class="card-icon-emblem">
-                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-                                    <circle cx="12" cy="12" r="5"></circle>
-                                    <line x1="12" y1="1" x2="12" y2="3"></line>
-                                    <line x1="12" y1="21" x2="12" y2="23"></line>
-                                    <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
-                                    <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
-                                </svg>
-                            </span>
-                            <span class="card-number">POSTAL EN MOVIMIENTO</span>
-                        </div>
-                        <div class="gallery-photo-frame">
-                            <img src="https://images.unsplash.com/photo-1470252649378-9c29740c9fa8?auto=format&fit=crop&w=900&q=85" alt="Pradera iluminada por el atardecer">
-                            <span class="video-badge">
-                                <svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor">
-                                    <polygon points="5 3 19 12 5 21 5 3"></polygon>
-                                </svg>
-                                <span>POSTAL DORADA</span>
-                            </span>
-                            <span class="gallery-zoom-badge" aria-hidden="true">
-                                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                    <polygon points="5 3 19 12 5 21 5 3"></polygon>
-                                </svg>
-                                <span>Reproducir</span>
-                            </span>
-                        </div>
-                        <div class="gallery-card-caption">
-                            <div class="gallery-caption-header">
-                                <strong>Luz de atardecer</strong>
-                                <span class="gallery-pill">Ocaso Suave</span>
-                            </div>
-                            <div class="blog-card-divider" aria-hidden="true">
-                                <span class="divider-line"></span>
-                                <span class="divider-rose">❦</span>
-                                <span class="divider-line"></span>
-                            </div>
-                            <p class="gallery-caption-quote">«Un destello dorado para calmar los pensamientos y abrazar el alma.»</p>
-                        </div>
-                    </button>
+                    @endforelse
                 </div>
 
                 <div class="gallery-empty-state" data-gallery-empty hidden>

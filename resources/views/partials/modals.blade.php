@@ -107,7 +107,7 @@
 
         {{-- Franja inferior de copyright y version --}}
         <div class="sf-bottom">
-            <span class="sf-copy">© {{ date('Y') }} El Jardín de Carla Lorena · Todos los derechos reservados</span>
+            <span class="sf-copy">© 2026 El Jardín de Carla Lorena · Todos los derecho de Julio Adrian Valdez Lopez para el amor de su vida, Carla Lorena Hernandez Vargas, Mi Beiby.</span>
             <div class="sf-bottom-links">
                 <a class="sf-legal" href="#preferencias" data-go="preferencias">Privacidad y Preferencias</a>
                 <span class="sf-sep" aria-hidden="true">✦</span>
@@ -235,9 +235,9 @@
                     <span class="rose-emblem-heart">♡</span>
                 </div>
                 <div class="map-rose-header-text">
-                    <span class="map-rose-eyebrow">EL CORAZÓN LATIENTE DEL JARDÍN SECRETO</span>
-                    <h2 class="map-rose-title">Para Mi Amada Carla Lorena</h2>
-                    <p class="map-rose-subtitle">El centro de todas las constelaciones florecientes siempre serás tú.</p>
+                    <span class="map-rose-eyebrow">EL CORAZÓN LATIENTE DEL JARDÍN SECRETO · DE ADRIÁN PARA CARLA</span>
+                    <h2 class="map-rose-title">De Adrián para mi Amada Carla Lorena</h2>
+                    <p class="map-rose-subtitle">De Adrián para Carla con mucho amor: el centro de todas las constelaciones florecientes siempre serás tú.</p>
                 </div>
             </header>
 
@@ -259,16 +259,16 @@
                 <div class="map-rose-tab-content is-active" id="rose-tab-carta" role="tabpanel">
                     <div class="rose-parchment-letter">
                         <div class="rose-watermark" aria-hidden="true">❦</div>
-                        <p class="letter-greeting">Mi amada princesa Lorena,</p>
+                        <p class="letter-greeting">Mi amada princesa Carla Lorena,</p>
                         <p class="letter-paragraph">
-                            Si este mapa secreto tiene senderos de rosas, cielos estrellados y santuarios de paz, es únicamente porque cada uno de ellos nació de un latido pensando en ti. En medio de un mundo ruidoso y apresurado, quise construir este universo donde el tiempo se detenga y donde tu sonrisa sea la única brújula que guíe mis días.
+                            Si este mapa secreto tiene senderos de rosas, cielos estrellados y santuarios de paz, es únicamente porque cada uno de ellos nació de un latido de Adrián pensando en ti. En medio de un mundo ruidoso y apresurado, quise construir este universo donde el tiempo se detenga y donde tu sonrisa sea la única brújula que guíe mis días.
                         </p>
                         <p class="letter-paragraph">
                             Tú eres la raíz de toda la belleza que aquí respira. No hay rincón en este jardín que no guarde tu ternura, ni flor que no busque emular tu delicadeza. Gracias por ser mi calma en la tormenta, por iluminar mis amaneceres con la nobleza de tu alma y por enseñarme que el amor más grande se cultiva en los pequeños detalles de cada día.
                         </p>
                         <p class="letter-signature">
                             Eternamente tuyo y a tu lado,<br>
-                            <strong>Con todo el amor de mi corazón 🌹</strong>
+                            <strong>De Adrián para Carla con mucho amor 🌹</strong>
                         </p>
                     </div>
                 </div>
@@ -298,7 +298,7 @@
                                 habita el alma de la más hermosa estrella.
                             </p>
                         </div>
-                        <span class="poem-author">— Escrito con devoción infinita para Carla Lorena ♡</span>
+                        <span class="poem-author">— De Adrián para Carla con devoción infinita y mucho amor ♡</span>
                     </div>
                 </div>
 
@@ -308,27 +308,27 @@
                         <div class="sentiment-glow-icon">💖</div>
                         <h3 class="sentiment-title">Lo que significa tenerte en mi vida</h3>
                         <p class="sentiment-lead">
-                            «Un amor sereno, incondicional y eterno.»
+                            «Un amor sereno, incondicional y eterno — De Adrián para Carla con mucho amor.»
                         </p>
                         <div class="sentiment-cards-row">
                             <div class="sentiment-mini-card">
                                 <span class="sc-icon">✨</span>
                                 <strong>Mi Refugio</strong>
-                                <small>Contigo no necesito fingir nada; en tus brazos todo encuentra su paz.</small>
+                                <small>Contigo no necesito fingir nada; en tus brazos Adrián siempre encuentra su paz, su calma y su hogar.</small>
                             </div>
                             <div class="sentiment-mini-card">
                                 <span class="sc-icon">🌷</span>
                                 <strong>Mi Certeza</strong>
-                                <small>Cada mañana al despertar sé que mi mayor fortuna es poder amarte.</small>
+                                <small>Cada mañana al despertar sé que la mayor fortuna de mi vida es poder amarte, cuidarte y hacerte feliz.</small>
                             </div>
                             <div class="sentiment-mini-card">
                                 <span class="sc-icon">💎</span>
                                 <strong>Mi Mayor Tesoro</strong>
-                                <small>Tu alegría sincera y el brillo bondadoso de tus ojos valen el universo entero.</small>
+                                <small>Tu alegría sincera y el brillo bondadoso de tus ojos valen el universo entero para mí.</small>
                             </div>
                         </div>
                         <div class="sentiment-affirmation">
-                            «Este jardín nunca marchitará, porque está alimentado por la promesa indestructible de cuidarte, respetarte y amarte en cada segundo de la eternidad.»
+                            «Este jardín nunca marchitará, porque está alimentado por la promesa indestructible de Adrián de cuidarte, respetarte y amarte en cada segundo de la eternidad. De Adrián para Carla con mucho amor.»
                         </div>
                     </div>
                 </div>
@@ -400,7 +400,7 @@
                         <div class="guide-item-card" data-keywords="mapa constelaciones rincones carla rosa centro">
                             <span class="gic-icon">🌹</span>
                             <h4>El Corazón del Mapa</h4>
-                            <p>Toca la rosa central de Carla en <code>#mapa</code> para revelar la <strong>Carta de Amor</strong>, el <strong>Poema exclusivo</strong> y los <strong>3 Sentimientos puros</strong>.</p>
+                            <p>Toca la rosa central de Carla en <code>#mapa</code> para revelar la <strong>Carta de Amor de Adrián</strong>, el <strong>Poema exclusivo</strong> y los <strong>3 Sentimientos puros</strong> entregados de Adrián para Carla con mucho amor.</p>
                         </div>
                         <div class="guide-item-card" data-keywords="inicio bienvenida rosa encantada">
                             <span class="gic-icon">🏡</span>
@@ -415,7 +415,7 @@
                         <div class="guide-item-card" data-keywords="dedicatoria amor carta pergamino">
                             <span class="gic-icon">💌</span>
                             <h4>Carta del Corazón</h4>
-                            <p>Tu santuario de palabras sinceras, con música de arpa sintetizada y versos dedicados a tu sonrisa.</p>
+                            <p>Tu santuario de palabras sinceras de Adrián para ti, con música de arpa sintetizada y versos dedicados a tu sonrisa con todo su amor.</p>
                         </div>
                     </div>
                 </div>
@@ -1438,97 +1438,101 @@
 
     @auth
     <!-- Modal para Agregar / Editar Tarjetas del Inicio -->
-    <dialog class="surprise-modal-dialog" id="admin-home-card-modal" aria-label="Gestionar Tarjetas de Inicio">
-        <div class="surprise-modal-card" style="max-width: 580px; width: 92%;">
-            <header class="surprise-modal-header">
-                <div>
-                    <span class="surprise-emblem">✨ 🗂️ 🌸</span>
+    <dialog class="surprise-modal-dialog admin-home-card-dialog" id="admin-home-card-modal" aria-label="Gestionar Tarjetas de Inicio">
+        <div class="surprise-modal-card admin-home-card-card">
+            <header class="surprise-modal-header admin-home-card-header">
+                <div class="admin-home-card-header-info">
+                    <span class="surprise-emblem">✨ 🗂️ 🌸 GESTIÓN DE ESPACIOS</span>
                     <h2 class="surprise-title" id="admin-home-card-modal-title">Nueva Tarjeta para el Inicio</h2>
                 </div>
                 <button type="button" class="dialog-close surprise-close-btn" id="btn-close-home-card-modal" aria-label="Cerrar modal">✕</button>
             </header>
 
-            <form id="admin-home-card-form" style="display: flex; flex-direction: column; gap: 14px; margin-top: 14px;">
+            <form id="admin-home-card-form" class="admin-home-card-form">
                 <input type="hidden" name="card_id" id="home-card-id" value="">
                 
-                <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 12px;">
-                    <label style="display: flex; flex-direction: column; gap: 4px; font-size: 12px; font-weight: 600; color: #4a3b32;">
-                        Título de la Tarjeta *
-                        <input type="text" name="title" id="home-card-title" required placeholder="Ej. Rincón de Paz, Galería..." style="padding: 9px 12px; border-radius: 10px; border: 1px solid #d4c2b5; font-family: inherit; font-size: 13px;">
+                <div class="admin-card-row admin-card-row-2-1">
+                    <label class="admin-card-label">
+                        <span>Título de la Tarjeta <span class="required-mark">*</span></span>
+                        <input type="text" name="title" id="home-card-title" required placeholder="Ej. Rincón de Paz, Galería..." class="admin-card-input">
                     </label>
-                    <label style="display: flex; flex-direction: column; gap: 4px; font-size: 12px; font-weight: 600; color: #4a3b32;">
-                        Ícono / Emblema
-                        <input type="text" name="emblem_icon" id="home-card-emblem" placeholder="Ej. ▧ 🌸 o 🕊️" style="padding: 9px 12px; border-radius: 10px; border: 1px solid #d4c2b5; font-family: inherit; font-size: 13px;">
-                    </label>
-                </div>
-
-                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
-                    <label style="display: flex; flex-direction: column; gap: 4px; font-size: 12px; font-weight: 600; color: #4a3b32;">
-                        Subtítulo / Etiqueta superior
-                        <input type="text" name="subtitle" id="home-card-subtitle" placeholder="Ej. SERENIDAD, RECUERDOS..." style="padding: 9px 12px; border-radius: 10px; border: 1px solid #d4c2b5; font-family: inherit; font-size: 13px;">
-                    </label>
-                    <label style="display: flex; flex-direction: column; gap: 4px; font-size: 12px; font-weight: 600; color: #4a3b32;">
-                        Orden de aparición
-                        <input type="number" name="sort_order" id="home-card-order" value="1" min="1" style="padding: 9px 12px; border-radius: 10px; border: 1px solid #d4c2b5; font-family: inherit; font-size: 13px;">
+                    <label class="admin-card-label">
+                        <span>Ícono / Emblema</span>
+                        <input type="text" name="emblem_icon" id="home-card-emblem" placeholder="Ej. ▧ 🌸 o 🕊️" class="admin-card-input">
                     </label>
                 </div>
 
-                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
-                    <label style="display: flex; flex-direction: column; gap: 4px; font-size: 12px; font-weight: 600; color: #4a3b32;">
-                        Pantalla de Destino *
-                        <select name="target_screen" id="home-card-screen" required style="padding: 9px 12px; border-radius: 10px; border: 1px solid #d4c2b5; font-family: inherit; font-size: 13px; background: #fff;">
-                            <option value="galeria">La Galería (#galeria)</option>
-                            <option value="biblioteca">Rincón de Paz / Biblioteca (#biblioteca)</option>
-                            <option value="amigos">Dedicatorias de Amigos (#amigos)</option>
-                            <option value="entretenimiento">Música & Video (#entretenimiento)</option>
-                            <option value="destinos">Mapa de Sueños (#destinos)</option>
-                            <option value="jardin">Santuario Floral (#jardin)</option>
-                            <option value="tesoro">Cofre del Tesoro (#tesoro)</option>
-                            <option value="historias">Historias & Recuerdos (#historias)</option>
-                            <option value="dedicatoria">Dedicatoria Principal (#dedicatoria)</option>
-                            <option value="albumes">Álbumes de Fotos (#albumes)</option>
-                            <option value="favoritos">Momentos Favoritos (#favoritos)</option>
-                            <option value="capsula">Cápsula del Tiempo (#capsula)</option>
-                            <option value="diario">Diario Íntimo (#diario)</option>
-                            <option value="blog">Crónicas & Blog (#blog)</option>
-                            <option value="juegos">Sala de Juegos (#juegos)</option>
-                            <option value="conociendo-carla">Quiz Conociendo a Carla (#conociendo-carla)</option>
-                            <option value="aventura-sultana">Aventura con Sultana (#aventura-sultana)</option>
-                            <option value="sultana-plataformas">Juego de Plataformas (#sultana-plataformas)</option>
-                            <option value="rompecabezas">Rompecabezas (#rompecabezas)</option>
-                            <option value="bingo-amable">Bingo de Recuerdos (#bingo-amable)</option>
-                            <option value="adivina-escena">Adivina la Escena (#adivina-escena)</option>
-                            <option value="jardines-liria">Jardines de Liria (#jardines-liria)</option>
-                            <option value="carla">Perfil de Carla (#carla)</option>
-                            <option value="mapa">Mapa Completo (#mapa)</option>
-                        </select>
+                <div class="admin-card-row admin-card-row-equal">
+                    <label class="admin-card-label">
+                        <span>Subtítulo / Etiqueta superior</span>
+                        <input type="text" name="subtitle" id="home-card-subtitle" placeholder="Ej. SERENIDAD, RECUERDOS..." class="admin-card-input">
                     </label>
-                    <label style="display: flex; flex-direction: column; gap: 4px; font-size: 12px; font-weight: 600; color: #4a3b32;">
-                        Diseño / Estilo Visual *
-                        <select name="style_variant" id="home-card-variant" required style="padding: 9px 12px; border-radius: 10px; border: 1px solid #d4c2b5; font-family: inherit; font-size: 13px; background: #fff;">
-                            <option value="space-card-large">🌸 Rosa Romántico (Destacado)</option>
-                            <option value="space-card-reading">📖 Pergamino Cálido (Serenidad)</option>
-                            <option value="space-card-entertainment">🎶 Lavanda Silvestre (Melodía)</option>
-                            <option value="space-card-dreams">✈️ Menta Esmeralda (Horizontes)</option>
-                            <option value="space-card-treasure">✨ Ámbar Dorado (Tesoro)</option>
-                            <option value="space-card-personal">💜 Lila Floral (Intimidad)</option>
-                        </select>
+                    <label class="admin-card-label">
+                        <span>Orden de aparición</span>
+                        <input type="number" name="sort_order" id="home-card-order" value="1" min="1" class="admin-card-input">
                     </label>
                 </div>
 
-                <label style="display: flex; flex-direction: column; gap: 4px; font-size: 12px; font-weight: 600; color: #4a3b32;">
-                    Descripción breve *
-                    <textarea name="description" id="home-card-desc" rows="2" required placeholder="Instantes y vivencias que iluminan el tiempo..." style="padding: 9px 12px; border-radius: 10px; border: 1px solid #d4c2b5; font-family: inherit; font-size: 13px; resize: vertical;"></textarea>
+                <div class="admin-card-row admin-card-row-equal">
+                    <label class="admin-card-label">
+                        <span>Pantalla de Destino <span class="required-mark">*</span></span>
+                        <div class="admin-card-select-wrap">
+                            <select name="target_screen" id="home-card-screen" required class="admin-card-select">
+                                <option value="galeria">La Galería (#galeria)</option>
+                                <option value="biblioteca">Rincón de Paz / Biblioteca (#biblioteca)</option>
+                                <option value="amigos">Dedicatorias de Amigos (#amigos)</option>
+                                <option value="entretenimiento">Música & Video (#entretenimiento)</option>
+                                <option value="destinos">Mapa de Sueños (#destinos)</option>
+                                <option value="jardin">Santuario Floral (#jardin)</option>
+                                <option value="tesoro">Cofre del Tesoro (#tesoro)</option>
+                                <option value="historias">Historias & Recuerdos (#historias)</option>
+                                <option value="dedicatoria">Dedicatoria Principal (#dedicatoria)</option>
+                                <option value="albumes">Álbumes de Fotos (#albumes)</option>
+                                <option value="favoritos">Momentos Favoritos (#favoritos)</option>
+                                <option value="capsula">Cápsula del Tiempo (#capsula)</option>
+                                <option value="diario">Diario Íntimo (#diario)</option>
+                                <option value="blog">Crónicas & Blog (#blog)</option>
+                                <option value="juegos">Sala de Juegos (#juegos)</option>
+                                <option value="conociendo-carla">Quiz Conociendo a Carla (#conociendo-carla)</option>
+                                <option value="aventura-sultana">Aventura con Sultana (#aventura-sultana)</option>
+                                <option value="sultana-plataformas">Juego de Plataformas (#sultana-plataformas)</option>
+                                <option value="rompecabezas">Rompecabezas (#rompecabezas)</option>
+                                <option value="bingo-amable">Bingo de Recuerdos (#bingo-amable)</option>
+                                <option value="adivina-escena">Adivina la Escena (#adivina-escena)</option>
+                                <option value="jardines-liria">Jardines de Liria (#jardines-liria)</option>
+                                <option value="carla">Perfil de Carla (#carla)</option>
+                                <option value="mapa">Mapa Completo (#mapa)</option>
+                            </select>
+                        </div>
+                    </label>
+                    <label class="admin-card-label">
+                        <span>Diseño / Estilo Visual <span class="required-mark">*</span></span>
+                        <div class="admin-card-select-wrap">
+                            <select name="style_variant" id="home-card-variant" required class="admin-card-select">
+                                <option value="space-card-large">🌸 Rosa Romántico (Destacado)</option>
+                                <option value="space-card-reading">📖 Pergamino Cálido (Serenidad)</option>
+                                <option value="space-card-entertainment">🎶 Lavanda Silvestre (Melodía)</option>
+                                <option value="space-card-dreams">✈️ Menta Esmeralda (Horizontes)</option>
+                                <option value="space-card-treasure">✨ Ámbar Dorado (Tesoro)</option>
+                                <option value="space-card-personal">💜 Lila Floral (Intimidad)</option>
+                            </select>
+                        </div>
+                    </label>
+                </div>
+
+                <label class="admin-card-label admin-card-label-desc">
+                    <span>Descripción breve <span class="required-mark">*</span></span>
+                    <textarea name="description" id="home-card-desc" rows="3" required placeholder="Instantes y vivencias que iluminan el tiempo..." class="admin-card-textarea"></textarea>
                 </label>
 
-                <label style="display: flex; flex-direction: column; gap: 4px; font-size: 12px; font-weight: 600; color: #4a3b32;">
-                    Frase / Cita inspiradora (Opcional)
-                    <input type="text" name="quote" id="home-card-quote" placeholder="«Cada imagen guarda un pedacito de sol»" style="padding: 9px 12px; border-radius: 10px; border: 1px solid #d4c2b5; font-family: inherit; font-size: 13px;">
+                <label class="admin-card-label">
+                    <span>Frase / Cita inspiradora (Opcional)</span>
+                    <input type="text" name="quote" id="home-card-quote" placeholder="«Cada imagen guarda un pedacito de sol»" class="admin-card-input">
                 </label>
 
-                <div style="display: flex; justify-content: flex-end; gap: 10px; margin-top: 10px;">
-                    <button type="button" class="button button-outline" id="btn-cancel-home-card" style="padding: 8px 18px;">Cancelar</button>
-                    <button type="submit" class="button button-primary" id="btn-save-home-card" style="padding: 8px 20px;">
+                <div class="admin-card-actions">
+                    <button type="button" class="button button-outline admin-card-btn-cancel" id="btn-cancel-home-card">Cancelar</button>
+                    <button type="submit" class="button button-primary admin-card-btn-save" id="btn-save-home-card">
                         <span id="btn-save-card-text">Guardar Tarjeta</span>
                     </button>
                 </div>
@@ -1573,11 +1577,11 @@
                 <!-- Capa posterior: Mensaje secreto y diseño romántico -->
                 <div class="misty-secret-layer" id="misty-secret-layer">
                     <div class="misty-secret-heart">💖</div>
-                    <h3 class="misty-secret-greeting">Para ti, Carla Lorena</h3>
+                    <h3 class="misty-secret-greeting">De Adrián para Carla con mucho amor</h3>
                     <p class="misty-secret-text" id="misty-secret-text">
-                        «Eres la luz serena que ilumina cada rincón de este jardín. Ni la lluvia más intensa puede apagar la calidez y ternura que transmites al mundo.»
+                        «Eres la luz serena que ilumina cada rincón de este jardín. Ni la lluvia más intensa puede apagar la calidez y el inmenso amor que Adrián siente por ti, Carla Lorena.»
                     </p>
-                    <span class="misty-secret-author">— Con todo el cariño de tu Jardín Secreto ♡</span>
+                    <span class="misty-secret-author">— De Adrián para Carla con mucho amor ♡</span>
                     <button type="button" class="misty-cycle-quote-btn" id="btn-cycle-misty-quote" title="Leer otro mensaje">
                         💌 Cambiar mensaje secreto
                     </button>

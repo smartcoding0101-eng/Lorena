@@ -79,7 +79,16 @@
                             </svg></span>
                             <span>Publicaciones</span>
                         </button>
-                        <button class="admin-tab" role="tab" aria-selected="false" data-tab="albums">
+                                                <button class="admin-tab" role="tab" aria-selected="false" data-tab="gallery">
+                            <span class="tab-icon"><svg class="admin-svg-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                                <rect x="3" y="3" width="18" height="18" rx="2" stroke="currentColor" stroke-width="1.8"/>
+                                <circle cx="8.5" cy="8.5" r="1.5" fill="currentColor"/>
+                                <polyline points="21 15 16 10 5 21" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg></span>
+                            <span>Galería & Arte</span>
+                        </button>
+
+<button class="admin-tab" role="tab" aria-selected="false" data-tab="albums">
                             <span class="tab-icon"><svg class="admin-svg-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
                                 <rect x="3.5" y="4.5" width="17" height="15" rx="3.5" fill="currentColor" fill-opacity="0.14" stroke="currentColor" stroke-width="1.6"/>
                                 <circle cx="9" cy="9.5" r="1.8" fill="currentColor"/>
@@ -120,6 +129,12 @@
                                 <path d="M15.2 15C17.8 15.2 19.8 16.9 20.2 19.2" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
                             </svg></span>
                             <span>Usuarios</span>
+                        </button>
+                        <button class="admin-tab" role="tab" aria-selected="false" data-tab="traffic">
+                            <span class="tab-icon"><svg class="admin-svg-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                                <polyline points="22 12 18 12 15 21 9 3 6 12 2 12" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg></span>
+                            <span>Tráfico & Visitas</span>
                         </button>
                         <button class="admin-tab" role="tab" aria-selected="false" data-tab="settings">
                             <span class="tab-icon"><svg class="admin-svg-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
@@ -309,6 +324,38 @@
                                 <div id="admin-profile-photo-preview" class="admin-photo-preview" hidden></div>
                             </div>
 
+                            <div class="ap-divider"><span>✿</span></div>
+
+                            <div class="ap-form-section" id="admin-hero-photos-section">
+                                <div class="ap-section-label">
+                                    <span class="ap-section-icon">🖼️</span>
+                                    <span>Fotografías del Hero Principal (Carrusel de Retratos)</span>
+                                </div>
+                                <p class="ap-file-hint" style="margin-bottom: 12px;">
+                                    Puedes cargar múltiples fotografías para el retrato de Carla en la pantalla de Inicio. Se auto-ajustan automáticamente para cualquier orientación (horizontal, vertical o cuadrada) y rotan en un carrusel dinámico y elegante.
+                                </p>
+                                <div class="ap-field-group">
+                                    <div class="ap-field ap-file-field">
+                                        <label class="ap-label" for="admin-hero-multi-photos">Seleccionar una o más fotos (JPG, PNG, WebP)</label>
+                                        <input class="ap-file-input" id="admin-hero-multi-photos" name="hero_photos[]" type="file" multiple accept="image/jpeg,image/png,image/webp">
+                                        <p class="ap-file-hint">Puedes seleccionar varios archivos a la vez manteniendo presionada la tecla Ctrl o Shift.</p>
+                                    </div>
+                                    <div style="margin-top: 10px; display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
+                                        <button class="ap-btn-primary" type="button" id="admin-upload-hero-photos-btn" style="padding: 10px 22px;">
+                                            <span>📤 Subir fotografías seleccionadas</span>
+                                        </button>
+                                        <span id="admin-hero-upload-status" class="admin-upload-status" style="font-size: 13px; color: #b8126c; font-weight: 500;"></span>
+                                    </div>
+                                </div>
+
+                                <div class="admin-hero-gallery-wrap" style="margin-top: 18px;">
+                                    <h4 style="font-size: 14px; font-weight: 600; color: #3b0a2a; margin-bottom: 10px;">Fotografías activas en el carrusel de Inicio:</h4>
+                                    <div id="admin-hero-photos-grid" class="admin-hero-photos-grid">
+                                        <div class="admin-table-loading" style="padding: 20px; text-align: center; color: #b8126c;">Cargando fotos del hero... 🌸</div>
+                                    </div>
+                                </div>
+                            </div>
+
                             <div class="ap-actions">
                                 <button class="ap-btn-primary" type="submit">🌸 Guardar perfil</button>
                                 <button class="ap-btn-outline" type="button" id="admin-profile-publish" data-action="publish">✦ Publicar</button>
@@ -401,6 +448,328 @@
                     </div>
 
                     <!-- ═══════════════════════════ PANEL: MEDIA ═══════════════════════════ -->
+                    
+                    <!-- Panel: Galería de Arte, Momentos, Destinos y Poemas -->
+                    <div class="admin-panel" id="admin-gallery" role="tabpanel" aria-labelledby="admin-gallery-title" hidden>
+                        <div class="ap-header">
+                            <div class="ap-header-icon-wrap ap-icon-rose">
+                                <svg class="admin-svg-icon" width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                                    <rect x="3" y="3" width="18" height="18" rx="4" stroke="currentColor" stroke-width="1.8"/>
+                                    <circle cx="8.5" cy="8.5" r="2" fill="currentColor"/>
+                                    <path d="M21 15L16 10L6 20" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
+                            </div>
+                            <div class="ap-header-text">
+                                <p class="ap-eyebrow">Curaduría Visual & Poética</p>
+                                <h2 id="admin-gallery-title" class="ap-title">Galería, Destinos & Poemas</h2>
+                                <p class="ap-desc">Administra en tiempo real las obras fotográficas (#galeria), el mapa de sueños (#destinos) y los versos del pergamino (#biblioteca).</p>
+                            </div>
+                        </div>
+
+                        <!-- Sub-Navegación de Galería -->
+                        <div class="admin-subtabs-pills">
+                            <button type="button" class="admin-subtab admin-subtab-pill is-active" id="subtab-btn-art" data-subtab="art">🌸 Galería de Obras</button>
+                            <button type="button" class="admin-subtab admin-subtab-pill" id="subtab-btn-dest" data-subtab="dest">✈️ Mapa de Sueños</button>
+                            <button type="button" class="admin-subtab admin-subtab-pill" id="subtab-btn-poem" data-subtab="poem">📜 Antología Poética</button>
+                        </div>
+
+                        <!-- SUBPANEL 1: OBRAS DE LA GALERÍA -->
+                        <div class="admin-subpanel is-active" id="subpanel-art">
+                            <div class="admin-curation-card">
+                                <div class="curation-card-header">
+                                    <div class="curation-card-badge">
+                                        <span class="curation-badge-icon">🌸</span>
+                                        <div>
+                                            <h3 id="gallery-form-title-text" class="curation-badge-title">Añadir Nueva Obra a la Galería</h3>
+                                            <p class="curation-badge-sub">Organiza los detalles de la obra y adjunta o enlaza la imagen correspondiente</p>
+                                        </div>
+                                    </div>
+                                    <div id="gallery-mode-badge" class="curation-mode-pill">Modo Creación</div>
+                                </div>
+
+                                <form id="admin-gallery-form" class="ap-form" enctype="multipart/form-data">
+                                    <input type="hidden" id="gallery-item-id" name="item_id" value="">
+                                    
+                                    <div class="gallery-editorial-grid">
+                                        <!-- Columna Izquierda: Información Editorial -->
+                                        <div class="gallery-col-meta">
+                                            <div class="ap-field">
+                                                <label class="ap-label" for="gallery-input-title">Título de la Obra *</label>
+                                                <input type="text" id="gallery-input-title" name="title" class="ap-input" placeholder="Ej.: Flores de domingo al amanecer" required>
+                                            </div>
+
+                                            <div class="gallery-meta-row-two">
+                                                <div class="ap-field">
+                                                    <label class="ap-label" for="gallery-input-category">Colección / Categoría *</label>
+                                                    <select id="gallery-input-category" name="category" class="ap-select" required>
+                                                        <option value="foto">🌸 Fotografía Botánica (foto)</option>
+                                                        <option value="video">🎬 Postal en Movimiento (video)</option>
+                                                        <option value="familia">🏡 Familia y Hogar (familia)</option>
+                                                        <option value="amigos">✨ Amigos del Alma (amigos)</option>
+                                                        <option value="especiales">💎 Obras Especiales (especiales)</option>
+                                                    </select>
+                                                </div>
+
+                                                <div class="ap-field">
+                                                    <label class="ap-label" for="gallery-input-pill">Pill / Distintivo</label>
+                                                    <input type="text" id="gallery-input-pill" name="pill" class="ap-input" placeholder="Ej.: Colección Carla, Serenidad">
+                                                </div>
+                                            </div>
+
+                                            <div class="ap-field">
+                                                <label class="ap-label" for="gallery-input-tag">Etiqueta Superior</label>
+                                                <input type="text" id="gallery-input-tag" name="tag_label" class="ap-input" placeholder="Ej.: FOTOGRAFÍA BOTÁNICA · ATELIER">
+                                            </div>
+
+                                            <div class="ap-field">
+                                                <label class="ap-label" for="gallery-input-quote">Cita Poética / Pensamiento</label>
+                                                <textarea id="gallery-input-quote" name="quote" class="ap-textarea" rows="2" placeholder="«Para recordarte lo bonito que es florecer despacio...»"></textarea>
+                                            </div>
+                                        </div>
+
+                                        <!-- Columna Derecha: Medio Visual & Vista Previa en Vivo -->
+                                        <div class="gallery-col-media">
+                                            <label class="ap-label">Fotografía de la Obra</label>
+                                            
+                                            <!-- Live Preview Box -->
+                                            <div class="gallery-preview-wrapper" id="gallery-preview-container">
+                                                <div class="gallery-preview-inner" id="gallery-preview-box">
+                                                    <div class="gallery-preview-empty" id="gallery-preview-placeholder">
+                                                        <span class="preview-empty-icon">🖼️</span>
+                                                        <span class="preview-empty-text">Sin imagen seleccionada</span>
+                                                        <small class="preview-empty-sub">Carga un archivo o escribe una URL para previsualizar</small>
+                                                    </div>
+                                                    <img id="gallery-preview-img" src="" alt="Vista previa" class="gallery-preview-image" style="display: none;">
+                                                </div>
+                                            </div>
+
+                                            <!-- Custom Dropzone -->
+                                            <div class="ap-file-dropzone" id="gallery-dropzone">
+                                                <input type="file" id="gallery-input-file" name="image" class="dropzone-file-input" accept="image/*">
+                                                <div class="dropzone-content">
+                                                    <span class="dropzone-icon">📁</span>
+                                                    <div class="dropzone-text">
+                                                        <strong id="gallery-dropzone-label">Seleccionar archivo del dispositivo</strong>
+                                                        <span class="dropzone-hint">JPG, PNG, WebP o GIF hasta 10MB</span>
+                                                    </div>
+                                                    <button type="button" class="dropzone-btn">Examinar</button>
+                                                </div>
+                                            </div>
+
+                                            <!-- URL fallback -->
+                                            <div class="ap-field" style="margin-top: 4px;">
+                                                <label class="ap-label" for="gallery-input-url" style="font-size: 0.72rem; color: #884d63;">O Enlace directo de Imagen (URL)</label>
+                                                <input type="url" id="gallery-input-url" name="image_url" class="ap-input" placeholder="https://ejemplo.com/fotografia.jpg">
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Footer Actions Bar -->
+                                    <div class="curation-form-actions">
+                                        <div class="actions-left">
+                                            <button type="submit" class="ap-cta-btn" id="gallery-submit-btn">
+                                                <span>🌸</span>
+                                                <span id="gallery-submit-btn-text">Guardar en Galería</span>
+                                            </button>
+                                            <button type="button" class="ap-btn-cancel" id="gallery-cancel-edit-btn" style="display: none;">
+                                                <span>✕</span> Cancelar Edición
+                                            </button>
+                                        </div>
+                                        <div class="actions-right">
+                                            <span id="gallery-form-status" class="curation-status-pill"></span>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+
+                            <!-- Listado de Obras Actuales -->
+                            <div class="admin-gallery-items-container" style="margin-top: 36px;">
+                                <div class="ap-sub-header">
+                                    <div>
+                                        <h4 class="ap-sub-title">Obras Publicadas Actualmente</h4>
+                                        <p class="ap-sub-desc">Todas las piezas sincronizadas y visibles para los visitantes del jardín.</p>
+                                    </div>
+                                </div>
+                                <div id="admin-gallery-grid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px;">
+                                    <!-- Renderizado vía JS -->
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- SUBPANEL 2: DESTINOS -->
+                        <div class="admin-subpanel" id="subpanel-dest" style="display: none;">
+                            <div class="admin-curation-card">
+                                <div class="curation-card-header">
+                                    <div class="curation-card-badge">
+                                        <span class="curation-badge-icon">✈️</span>
+                                        <div>
+                                            <h3 id="dest-form-title-text" class="curation-badge-title">Añadir Destino al Mapa de Sueños</h3>
+                                            <p class="curation-badge-sub">Define los lugares soñados y las aventuras que esperan en el horizonte</p>
+                                        </div>
+                                    </div>
+                                    <div id="dest-mode-badge" class="curation-mode-pill">Modo Creación</div>
+                                </div>
+
+                                <form id="admin-dest-form" class="ap-form" enctype="multipart/form-data">
+                                    <input type="hidden" id="dest-item-id" name="dest_id" value="">
+                                    
+                                    <div class="gallery-editorial-grid">
+                                        <div class="gallery-col-meta">
+                                            <div class="gallery-meta-row-two">
+                                                <div class="ap-field">
+                                                    <label class="ap-label" for="dest-input-title">Título del Destino *</label>
+                                                    <input type="text" id="dest-input-title" name="title" class="ap-input" placeholder="Ej.: Un verano junto al mar" required>
+                                                </div>
+                                                <div class="ap-field">
+                                                    <label class="ap-label" for="dest-input-tag">Lugar / Tag *</label>
+                                                    <input type="text" id="dest-input-tag" name="location_tag" class="ap-input" placeholder="Ej.: ITALIA · COSTA AMALFITANA" required>
+                                                </div>
+                                            </div>
+
+                                            <div class="ap-field">
+                                                <label class="ap-label" for="dest-input-desc">Descripción del Sueño *</label>
+                                                <textarea id="dest-input-desc" name="description" class="ap-textarea" rows="3" placeholder="Calles de colores, agua tranquila y tardes sin prisa." required></textarea>
+                                            </div>
+                                        </div>
+
+                                        <div class="gallery-col-media">
+                                            <label class="ap-label">Fotografía del Destino</label>
+                                            
+                                            <div class="gallery-preview-wrapper" id="dest-preview-container">
+                                                <div class="gallery-preview-inner" id="dest-preview-box">
+                                                    <div class="gallery-preview-empty" id="dest-preview-placeholder">
+                                                        <span class="preview-empty-icon">🗺️</span>
+                                                        <span class="preview-empty-text">Sin imagen seleccionada</span>
+                                                        <small class="preview-empty-sub">Carga un archivo o escribe una URL para previsualizar</small>
+                                                    </div>
+                                                    <img id="dest-preview-img" src="" alt="Vista previa" class="gallery-preview-image" style="display: none;">
+                                                </div>
+                                            </div>
+
+                                            <div class="ap-file-dropzone" id="dest-dropzone">
+                                                <input type="file" id="dest-input-file" name="image" class="dropzone-file-input" accept="image/*">
+                                                <div class="dropzone-content">
+                                                    <span class="dropzone-icon">📁</span>
+                                                    <div class="dropzone-text">
+                                                        <strong id="dest-dropzone-label">Seleccionar archivo del dispositivo</strong>
+                                                        <span class="dropzone-hint">JPG, PNG, WebP hasta 10MB</span>
+                                                    </div>
+                                                    <button type="button" class="dropzone-btn">Examinar</button>
+                                                </div>
+                                            </div>
+
+                                            <div class="ap-field" style="margin-top: 4px;">
+                                                <label class="ap-label" for="dest-input-url" style="font-size: 0.72rem; color: #884d63;">O Enlace directo de Imagen (URL)</label>
+                                                <input type="url" id="dest-input-url" name="image_url" class="ap-input" placeholder="https://ejemplo.com/destino.jpg">
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="curation-form-actions">
+                                        <div class="actions-left">
+                                            <button type="submit" class="ap-cta-btn" id="dest-submit-btn">
+                                                <span>✈️</span>
+                                                <span id="dest-submit-btn-text">Guardar Destino</span>
+                                            </button>
+                                            <button type="button" class="ap-btn-cancel" id="dest-cancel-edit-btn" style="display: none;">
+                                                <span>✕</span> Cancelar
+                                            </button>
+                                        </div>
+                                        <div class="actions-right">
+                                            <span id="dest-form-status" class="curation-status-pill"></span>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+
+                            <div class="admin-dest-items-container" style="margin-top: 36px;">
+                                <div class="ap-sub-header">
+                                    <div>
+                                        <h4 class="ap-sub-title">Destinos Registrados</h4>
+                                        <p class="ap-sub-desc">Puntos del mapa que esperan ser descubiertos por Carla Lorena.</p>
+                                    </div>
+                                </div>
+                                <div id="admin-dest-grid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px;">
+                                    <!-- Renderizado vía JS -->
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- SUBPANEL 3: POEMAS -->
+                        <div class="admin-subpanel" id="subpanel-poem" style="display: none;">
+                            <div class="admin-curation-card">
+                                <div class="curation-card-header">
+                                    <div class="curation-card-badge">
+                                        <span class="curation-badge-icon">📜</span>
+                                        <div>
+                                            <h3 id="poem-form-title-text" class="curation-badge-title">Añadir Poema a la Antología</h3>
+                                            <p class="curation-badge-sub">Escribe versos y pensamientos que quedarán grabados en el pergamino</p>
+                                        </div>
+                                    </div>
+                                    <div id="poem-mode-badge" class="curation-mode-pill">Modo Creación</div>
+                                </div>
+
+                                <form id="admin-poem-form" class="ap-form">
+                                    <input type="hidden" id="poem-item-id" name="poem_id" value="">
+                                    
+                                    <div class="gallery-meta-row-two" style="margin-bottom: 16px;">
+                                        <div class="ap-field">
+                                            <label class="ap-label" for="poem-input-title">Título del Poema *</label>
+                                            <input type="text" id="poem-input-title" name="title" class="ap-input" placeholder="Ej.: Canto al Atardecer de Primavera" required>
+                                        </div>
+                                        <div class="ap-field">
+                                            <label class="ap-label" for="poem-input-mood">Ocasión / Estado de ánimo</label>
+                                            <input type="text" id="poem-input-mood" name="mood" class="ap-input" placeholder="Ej.: Para leer con una taza de té y silencio amable">
+                                        </div>
+                                    </div>
+
+                                    <div class="gallery-meta-row-two" style="margin-bottom: 16px;">
+                                        <div class="ap-field">
+                                            <label class="ap-label" for="poem-input-s1">Primera Estrofa * (Usa saltos de línea)</label>
+                                            <textarea id="poem-input-s1" name="stanza1" class="ap-textarea" rows="4" placeholder="Hay jardines que nacen en la tierra,&#10;y otros que florecen en la mirada..." required></textarea>
+                                        </div>
+                                        <div class="ap-field">
+                                            <label class="ap-label" for="poem-input-s2">Segunda Estrofa (Opcional)</label>
+                                            <textarea id="poem-input-s2" name="stanza2" class="ap-textarea" rows="4" placeholder="Que ningún invierno apague tu calidez,&#10;porque en ti siempre amanece abril..."></textarea>
+                                        </div>
+                                    </div>
+
+                                    <div class="ap-field" style="margin-bottom: 18px;">
+                                        <label class="ap-label" for="poem-input-sig">Firma / Dedicatoria</label>
+                                        <input type="text" id="poem-input-sig" name="signature" class="ap-input" placeholder="Ej.: Escrito con devoción para Carla Lorena, mi Beiby">
+                                    </div>
+
+                                    <div class="curation-form-actions">
+                                        <div class="actions-left">
+                                            <button type="submit" class="ap-cta-btn" id="poem-submit-btn">
+                                                <span>📜</span>
+                                                <span id="poem-submit-btn-text">Guardar Poema</span>
+                                            </button>
+                                            <button type="button" class="ap-btn-cancel" id="poem-cancel-edit-btn" style="display: none;">
+                                                <span>✕</span> Cancelar
+                                            </button>
+                                        </div>
+                                        <div class="actions-right">
+                                            <span id="poem-form-status" class="curation-status-pill"></span>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+
+                            <div class="admin-poem-items-container" style="margin-top: 36px;">
+                                <div class="ap-sub-header">
+                                    <div>
+                                        <h4 class="ap-sub-title">Antología de Versos Publicados</h4>
+                                        <p class="ap-sub-desc">Poemas y cartas del alma expuestos en el pergamino interactivo.</p>
+                                    </div>
+                                </div>
+                                <div id="admin-poem-grid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 20px;">
+                                    <!-- Renderizado vía JS -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
                     <div class="admin-panel" id="admin-media" role="tabpanel" aria-labelledby="admin-media-title" hidden>
                         <div class="ap-header">
                             <div class="ap-header-icon-wrap ap-icon-rose">
@@ -476,7 +845,7 @@
                         </div>
 
                         <!-- Tarjeta de subida de audios -->
-                        <div class="ap-card" style="margin-bottom: 24px; padding: 24px; background: #ffffff; border-radius: 20px; border: 1.5px solid #fadadd; box-shadow: 0 8px 24px rgba(181, 48, 79, 0.05);">
+                        <div class="ap-card" style="margin-bottom: 24px; padding: 24px; background: #ffffff; border-radius: 20px; border: 1.5px solid #ffd2e5; box-shadow: 0 8px 24px rgba(181, 48, 79, 0.05);">
                             <h3 style="margin: 0 0 14px 0; font-size: 16px; font-weight: 600; color: var(--text-primary); display: flex; align-items: center; gap: 8px;">
                                 <span>📤</span> Subir Audios por Estación
                             </h3>
@@ -700,6 +1069,136 @@
                             </table>
                         </div>
                         <nav class="admin-pagination" id="admin-users-pagination" aria-label="Paginación usuarios"></nav>
+                    </div>
+
+                    <!-- ═══════════════════════════ PANEL: TRÁFICO & VISITAS ═══════════════════════════ -->
+                    <div class="admin-panel" id="admin-traffic" role="tabpanel" aria-labelledby="admin-traffic-title" hidden>
+                        <div class="ap-header">
+                            <div class="ap-header-icon-wrap ap-icon-sapphire">
+                                <svg class="admin-svg-icon" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                                    <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>
+                                </svg>
+                            </div>
+                            <div class="ap-header-text">
+                                <p class="ap-eyebrow">Auditoría y Monitoreo en Tiempo Real</p>
+                                <h2 id="admin-traffic-title" class="ap-title">Tráfico y Presencia de Usuarios</h2>
+                                <p class="ap-desc">Supervisión en vivo de visitantes, miembros autenticados, pantallas recorridas y tiempo de permanencia.</p>
+                            </div>
+                            <div style="display:flex; gap:10px;">
+                                <button class="ap-cta-btn" type="button" id="btn-refresh-traffic" style="background: linear-gradient(135deg, #38bdf8 0%, #0284c7 100%);">
+                                    <span>🔄</span> Actualizar en vivo
+                                </button>
+                                <button class="ap-btn-secondary" type="button" id="btn-purge-traffic" title="Purgar registros antiguos">
+                                    <span>🗑️</span> Purgar antiguos
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Métricas / KPIs de Tráfico -->
+                        <div class="admin-stats-grid" style="margin-bottom: 24px;">
+                            <article class="admin-stat-card stat-online">
+                                <div class="stat-card-icon-wrap" style="background: rgba(34, 197, 94, 0.15); color: #16a34a;">
+                                    <span class="live-pulse-dot" style="width: 14px; height: 14px; background: #22c55e;"></span>
+                                </div>
+                                <div class="stat-card-data">
+                                    <strong id="traffic-stat-online">0</strong>
+                                    <span class="stat-card-label">En Línea Ahora (5 min)</span>
+                                </div>
+                            </article>
+                            <article class="admin-stat-card stat-visits">
+                                <div class="stat-card-icon-wrap" style="background: rgba(14, 165, 233, 0.15); color: #0284c7;">
+                                    <span>👥</span>
+                                </div>
+                                <div class="stat-card-data">
+                                    <strong id="traffic-stat-visits">0</strong>
+                                    <span class="stat-card-label">Visitas Hoy (Páginas)</span>
+                                </div>
+                            </article>
+                            <article class="admin-stat-card stat-uniques">
+                                <div class="stat-card-icon-wrap" style="background: rgba(244, 63, 94, 0.15); color: #e11d48;">
+                                    <span>🌸</span>
+                                </div>
+                                <div class="stat-card-data">
+                                    <strong id="traffic-stat-uniques">0</strong>
+                                    <span class="stat-card-label">Visitantes Únicos Hoy</span>
+                                </div>
+                            </article>
+                            <article class="admin-stat-card stat-registered">
+                                <div class="stat-card-icon-wrap" style="background: rgba(234, 179, 8, 0.15); color: #ca8a04;">
+                                    <span>👑</span>
+                                </div>
+                                <div class="stat-card-data">
+                                    <strong id="traffic-stat-registered">0</strong>
+                                    <span class="stat-card-label">Registrados Activos Hoy</span>
+                                </div>
+                            </article>
+                            <article class="admin-stat-card stat-topscreen">
+                                <div class="stat-card-icon-wrap" style="background: rgba(168, 85, 247, 0.15); color: #9333ea;">
+                                    <span>⭐</span>
+                                </div>
+                                <div class="stat-card-data">
+                                    <strong id="traffic-stat-topscreen" style="font-size: 1.4rem;">inicio</strong>
+                                    <span class="stat-card-label">Pantalla Más Popular</span>
+                                </div>
+                            </article>
+                        </div>
+
+                        <!-- Barra de Filtros y Búsqueda -->
+                        <div class="ap-filter-bar" style="display:flex; flex-wrap:wrap; gap:12px; margin-bottom:18px; align-items:center;">
+                            <div class="ap-field" style="margin:0; min-width:180px;">
+                                <select class="ap-input" id="traffic-filter-type">
+                                    <option value="all">✦ Todos los visitantes</option>
+                                    <option value="registered">👑 Solo Usuarios Registrados</option>
+                                    <option value="guests">🌐 Solo Invitados Anónimos</option>
+                                    <option value="online">🟢 Solo Conectados Ahora</option>
+                                </select>
+                            </div>
+                            <div class="ap-field" style="margin:0; min-width:160px;">
+                                <select class="ap-input" id="traffic-filter-screen">
+                                    <option value="all">🗺️ Todas las pantallas</option>
+                                    <option value="inicio">🌸 Inicio</option>
+                                    <option value="galeria">🖼️ Galería</option>
+                                    <option value="mapa">🗺️ Mapa</option>
+                                    <option value="carla">👑 Carla Lorena</option>
+                                    <option value="familia">💎 Mi Familia</option>
+                                    <option value="jardin">🌷 Jardín</option>
+                                    <option value="blog">✍️ Blog</option>
+                                    <option value="diario">📖 Diario</option>
+                                    <option value="juegos">🎮 Juegos</option>
+                                    <option value="admin">⚙️ Admin</option>
+                                </select>
+                            </div>
+                            <div class="ap-field" style="margin:0; min-width:150px;">
+                                <select class="ap-input" id="traffic-filter-range">
+                                    <option value="today">📅 Hoy</option>
+                                    <option value="7days">📅 Últimos 7 días</option>
+                                    <option value="30days">📅 Últimos 30 días</option>
+                                    <option value="all">📅 Todo el historial</option>
+                                </select>
+                            </div>
+                            <div class="ap-field" style="margin:0; flex:1; min-width:220px;">
+                                <input class="ap-input" type="search" id="traffic-search-input" placeholder="Buscar por IP, usuario, navegador o dispositivo...">
+                            </div>
+                        </div>
+
+                        <!-- Tabla de Auditoría de Tráfico -->
+                        <div class="ap-table-wrap">
+                            <table class="admin-table" id="admin-traffic-table">
+                                <thead>
+                                    <tr>
+                                        <th><span class="th-inner"># ID</span></th>
+                                        <th><span class="th-inner">👤 Tipo / Usuario</span></th>
+                                        <th><span class="th-inner">📱 Dispositivo & Navegador</span></th>
+                                        <th><span class="th-inner">📍 Pantalla / Ruta</span></th>
+                                        <th><span class="th-inner">🌐 Dirección IP</span></th>
+                                        <th><span class="th-inner">⏱ Tiempo Activo</span></th>
+                                        <th><span class="th-inner">🕒 Última Actividad</span></th>
+                                    </tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                        </div>
+                        <nav class="admin-pagination" id="admin-traffic-pagination" aria-label="Paginación tráfico"></nav>
                     </div>
 
                     <!-- ═══════════════════════════ PANEL: AJUSTES ═══════════════════════════ -->

@@ -1,3 +1,5 @@
+import { initModernAlerts, showAlert, showConfirm } from './modern-alerts.js';
+initModernAlerts();
 import { openMuseumLightbox, registerPassportStamp, initMuseumLightbox, initGardenPassport } from './museum-passport.js';
 import { initFloatingSurprises } from './floating-surprises.js';
 import { initFriendDedications } from './friend-dedications.js';
@@ -8,6 +10,7 @@ import { initNavbarAutoHover } from './navbar-auto-hover.js';
 import { initCardsAutoHover } from './cards-auto-hover.js';
 import { initFloatingMediaPlayer } from './floating-media-player.js';
 import './bootstrap';
+import './traffic-tracker.js';
 import { playMusicForScreen, enableAudio, toggleMusic, setMasterVolume, isMusicPlaying } from './garden-audio.js';
 import { getRandomMessage, MESSAGE_COUNT } from './love-messages.js';
 import { initializeCornerNotes } from './corner-notes.js';
@@ -17,6 +20,9 @@ import { initializeTimeCapsules } from './time-capsules.js';
 import { initGardenUXInnovations } from './garden-ux-innovations.js';
 import { initGamesHub } from './games-hub.js';
 import { initDedicationExperience } from './dedication-experience.js';
+import { initMaskedHeading } from './masked-heading.js';
+import { initHeroMotion } from './hero-motion.js';
+
 
 const screens = [...document.querySelectorAll('[data-screen]')];
 const validScreens = new Set(screens.map((screen) => screen.dataset.screen));
@@ -377,8 +383,8 @@ function chooseSultanaAction(index) {
     document.querySelector('[data-sultana-scene-title]')?.focus();
 }
 
-function resetSultanaAdventure() {
-    if (!window.confirm('¿Reiniciar la aventura? Se borrará únicamente el avance de Sultana guardado en este navegador.')) return;
+async function resetSultanaAdventure() {
+    if (!await window.showConfirm({ title: '¿Reiniciar aventura?', message: '¿Reiniciar la aventura? Se borrará únicamente el avance de Sultana guardado en este navegador.', confirmText: 'Sí, reiniciar', type: 'danger' })) return;
     try {
         window.localStorage.removeItem(sultanaStorageKey);
     } catch {
@@ -602,10 +608,51 @@ function triggerHaptic(pattern = [15, 25, 15]) {
     } catch (_) {}
 }
 
+// ── Sincronización en vivo de Métricas Personales Garantizadas ──
+async function refreshPersonalStats() {
+    const hasMetrics = document.querySelector('[data-metric-count]');
+    if (!hasMetrics) return;
+
+    try {
+        const res = await fetch('/personal-stats', {
+            headers: { 'Accept': 'application/json' },
+            credentials: 'same-origin',
+        });
+        if (!res.ok) return;
+        const data = await res.json();
+        if (!data.success || !data.stats) return;
+
+        Object.entries(data.stats).forEach(([key, val]) => {
+            document.querySelectorAll(`[data-metric-count="${key}"]`).forEach((el) => {
+                const currentVal = el.textContent.trim();
+                const newVal = String(val);
+                if (currentVal !== newVal) {
+                    el.textContent = newVal;
+                    el.classList.add('metric-count-pulse');
+                    setTimeout(() => el.classList.remove('metric-count-pulse'), 600);
+                }
+            });
+        });
+    } catch (_) {}
+}
+window.refreshPersonalStats = refreshPersonalStats;
+
 function showScreen(screenName, updateHistory = true) {
     if (screens.length === 0) return;
 
     const target = validScreens.has(screenName) ? screenName : 'inicio';
+    document.body.setAttribute('data-active-screen', target);
+
+    // Ocultar docks flotantes en mapa para garantizar visibilidad total de los talismanes
+    const mapDockL = document.getElementById('floating-dock-left');
+    const mapDockR = document.getElementById('floating-dock-right');
+    if (target === 'mapa') {
+        if (mapDockL) mapDockL.style.setProperty('display', 'none', 'important');
+        if (mapDockR) mapDockR.style.setProperty('display', 'none', 'important');
+    } else {
+        if (mapDockL) mapDockL.style.removeProperty('display');
+        if (mapDockR) mapDockR.style.removeProperty('display');
+    }
 
     // Ráfaga cinematográfica de pétalos y respuesta táctil
     triggerPetalTransition();
@@ -626,6 +673,8 @@ function showScreen(screenName, updateHistory = true) {
     document.title = heading ? `${heading.innerText.trim().replace(/\s+/g, ' ')} · El Jardín de Carla` : 'El Jardín de Carla';
     window.scrollTo({ top: 0, behavior: 'smooth' });
     closeMenu();
+    if (target === 'inicio') { window.restartHeroCarousel?.(); window.triggerHeroEntranceReveal?.(); }
+    if (target === 'carla') refreshPersonalStats();
     if (target === 'jardines-liria') loadSultanaGarden();
     if (target === 'sultana-plataformas') loadSultanaPlatformer();
     // ── Resaltar enlace activo en el Navbar ──
@@ -688,7 +737,7 @@ document.querySelectorAll('.media-upload-form').forEach((form) => {
     form.querySelector('[data-media-source-type]')?.addEventListener('change', () => updateMediaSourceFields(form));
 });
 
-document.addEventListener('click', (event) => {
+document.addEventListener('click', async (event) => {
     const youtubeButton = event.target.closest('[data-youtube-load]');
     if (youtubeButton) {
         const embedUrl = youtubeButton.dataset.embedUrl;
@@ -879,7 +928,7 @@ document.addEventListener('click', (event) => {
 
     const deleteQuizQuestion = event.target.closest('[data-quiz-delete]');
     if (deleteQuizQuestion) {
-        if (window.confirm('¿Eliminar esta pregunta? No se puede deshacer.')) {
+        if (await window.showConfirm({ title: '¿Eliminar pregunta?', message: '¿Eliminar esta pregunta? No se puede deshacer.', confirmText: 'Sí, eliminar', type: 'danger' })) {
             deleteCarlaQuizQuestion(deleteQuizQuestion.closest('[data-quiz-admin-question]'));
         }
         return;
@@ -959,12 +1008,7 @@ document.querySelectorAll('dialog').forEach((d) => {
 });
 
 document.addEventListener('submit', (event) => {
-    const form = event.target.closest('[data-confirm]');
 
-    if (form && !window.confirm(form.dataset.confirm)) {
-        event.preventDefault();
-        return;
-    }
 
     if (event.target.matches('[data-quiz-answer-form]')) {
         event.preventDefault();
@@ -1557,20 +1601,40 @@ function revealMemoryCard(button) {
 
 function renderStory(nodeName) {
     const node = storyNodes[nodeName];
-    if (!node || !document.querySelector('[data-story-card]')) return;
+    const card = document.querySelector('[data-story-card]');
+    if (!node || !card) return;
 
-    document.querySelector('[data-story-chapter]').textContent = node.chapter;
-    document.querySelector('[data-story-text]').textContent = node.text;
-    document.querySelector('[data-story-detail]').textContent = node.detail;
-    const choices = document.querySelector('[data-story-choices]');
-    choices.replaceChildren(...node.choices.map((choice) => {
-        const button = document.createElement('button');
-        button.className = `button ${choice.restart ? 'button-outline' : 'button-primary'}`;
-        button.type = 'button';
-        button.dataset.storyChoice = choice.next;
-        button.textContent = choice.label;
-        return button;
-    }));
+    const chapterEl = card.querySelector('[data-story-chapter]');
+    const textEl = card.querySelector('[data-story-text]');
+    const detailEl = card.querySelector('[data-story-detail]');
+    const choicesEl = card.querySelector('[data-story-choices]');
+
+    if (chapterEl) chapterEl.textContent = node.chapter;
+    if (textEl) textEl.textContent = node.text;
+    if (detailEl) detailEl.textContent = node.detail;
+
+    if (choicesEl) {
+        choicesEl.replaceChildren(...node.choices.map((choice) => {
+            const button = document.createElement('button');
+            button.className = `button ${choice.restart ? 'button-outline' : 'button-primary'} story-choice-btn`;
+            button.type = 'button';
+            button.dataset.storyChoice = choice.next;
+            const icon = choice.restart ? '↺' : '✨';
+            button.innerHTML = `<span class="choice-icon" aria-hidden="true">${icon}</span> <span>${choice.label}</span>`;
+            return button;
+        }));
+    }
+
+    if (typeof triggerHaptic === 'function') {
+        triggerHaptic([15, 25]);
+    }
+
+    if (window.gsap) {
+        window.gsap.fromTo(card, 
+            { opacity: 0.88, y: 8, scale: 0.995 }, 
+            { opacity: 1, y: 0, scale: 1, duration: 0.35, ease: 'power2.out' }
+        );
+    }
 }
 
 function startTreasure() {
@@ -2084,6 +2148,146 @@ function initRomanticFeatures() {
             osc.stop(audioCtx.currentTime + 1.3);
         } catch (_) {}
     }
+    // 3.5 Carrusel Dinámico y Auto-ajuste de Fotos del Hero de Inicio
+    function initHeroCarousel() {
+        const frame = document.getElementById('hero-carousel-frame');
+        if (!frame) return;
+
+        // Regla estricta del sistema: Toda fotografía debe ser mostrada al 100% (sin recortes ni pérdidas)
+        try {
+            localStorage.removeItem('carla_hero_fit_mode');
+        } catch (_) {}
+        frame.classList.remove('is-cover-fit');
+
+        const slides = Array.from(frame.querySelectorAll('.hero-slide'));
+        if (slides.length <= 1) return;
+
+        let currentIndex = 0;
+        const totalSlides = slides.length;
+        let autoPlayTimer = null;
+        let isPaused = false;
+
+        const prevBtn = document.getElementById('hero-prev-btn');
+        const nextBtn = document.getElementById('hero-next-btn');
+        const dots = Array.from(frame.querySelectorAll('.hero-dot'));
+        const currentCounter = frame.querySelector('.hcb-current');
+
+        function goToSlide(newIndex) {
+            if (newIndex < 0) {
+                newIndex = totalSlides - 1;
+            } else if (newIndex >= totalSlides) {
+                newIndex = 0;
+            }
+
+            if (newIndex === currentIndex) return;
+
+            slides[currentIndex].classList.remove('is-active');
+            slides[currentIndex].setAttribute('aria-hidden', 'true');
+            if (dots[currentIndex]) {
+                dots[currentIndex].classList.remove('is-active');
+                dots[currentIndex].setAttribute('aria-selected', 'false');
+            }
+
+            currentIndex = newIndex;
+            slides[currentIndex].classList.add('is-active');
+            slides[currentIndex].setAttribute('aria-hidden', 'false');
+            if (dots[currentIndex]) {
+                dots[currentIndex].classList.add('is-active');
+                dots[currentIndex].setAttribute('aria-selected', 'true');
+            }
+
+            if (currentCounter) {
+                currentCounter.textContent = String(currentIndex + 1);
+            }
+        }
+
+        function nextSlide() {
+            goToSlide((currentIndex + 1) % totalSlides);
+        }
+
+        function prevSlide() {
+            goToSlide((currentIndex - 1 + totalSlides) % totalSlides);
+        }
+
+        // Rotación ininterrumpida cada 3 segundos exactos sin fin
+        function startAutoPlay() {
+            stopAutoPlay();
+            autoPlayTimer = setInterval(() => {
+                if (document.visibilityState === 'visible') {
+                    nextSlide();
+                }
+            }, 3000); // 3 segundos continuos sin fin
+        }
+
+        function stopAutoPlay() {
+            if (autoPlayTimer) {
+                clearInterval(autoPlayTimer);
+                autoPlayTimer = null;
+            }
+        }
+
+        if (prevBtn) {
+            prevBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                prevSlide();
+                startAutoPlay();
+            });
+        }
+
+        if (nextBtn) {
+            nextBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                nextSlide();
+                startAutoPlay();
+            });
+        }
+
+        dots.forEach((dot, idx) => {
+            dot.addEventListener('click', (e) => {
+                e.stopPropagation();
+                goToSlide(idx);
+                startAutoPlay();
+            });
+        });
+
+        // Soporte gestual táctil
+        let touchStartX = 0;
+        let touchStartY = 0;
+        frame.addEventListener('touchstart', (e) => {
+            if (e.touches.length > 0) {
+                touchStartX = e.touches[0].clientX;
+                touchStartY = e.touches[0].clientY;
+            }
+        }, { passive: true });
+
+        frame.addEventListener('touchend', (e) => {
+            if (e.changedTouches.length > 0) {
+                const diffX = e.changedTouches[0].clientX - touchStartX;
+                const diffY = e.changedTouches[0].clientY - touchStartY;
+                if (Math.abs(diffX) > Math.abs(diffY) && Math.abs(diffX) > 40) {
+                    if (diffX < 0) {
+                        nextSlide();
+                    } else {
+                        prevSlide();
+                    }
+                    startAutoPlay();
+                }
+            }
+        }, { passive: true });
+
+        document.addEventListener('visibilitychange', () => {
+            if (document.visibilityState === 'visible') {
+                startAutoPlay();
+            } else {
+                stopAutoPlay();
+            }
+        });
+
+        window.restartHeroCarousel = startAutoPlay;
+        startAutoPlay();
+    }
+    initHeroCarousel();
+
     // 4. Rosa Encantada Interactiva de Carla Lorena
     const roseTrigger = document.getElementById('enchanted-rose-trigger');
     const roseDialog = document.getElementById('enchanted-rose-dialog');
@@ -2198,21 +2402,21 @@ function initRomanticFeatures() {
         chordNotes.forEach((n, i) => {
             setTimeout(() => playSoftChime(n), i * 160);
         });
-        showToast('🎶 Arpegio de amor resonando en el corazón de Carla');
+        showToast('🎶 De Adrián para Carla con mucho amor resonando en tu corazón');
     });
 
     // Guardar Carta y Poema en Portapapeles
     roseCopyBtn?.addEventListener('click', () => {
-        const letterText = `🌹 PARA CARLA LORENA — CARTA DEL CORAZÓN DEL JARDÍN SECRETO\n\n` +
+        const letterText = `🌹 DE ADRIÁN PARA CARLA CON MUCHO AMOR — CARTA DEL CORAZÓN DEL JARDÍN SECRETO\n\n` +
             `«Tú eres la raíz de toda la belleza que aquí respira. No hay rincón en este jardín que no guarde tu ternura, ni flor que no busque emular tu delicadeza. Gracias por ser mi calma en la tormenta, por iluminar mis amaneceres con la nobleza de tu alma y por enseñarme que el amor más grande se cultiva en los pequeños detalles de cada día.»\n\n` +
             `POEMA: DONDE FLORECE TU MIRADA\n` +
             `Dicen que el rosal florece lento,\naguardando el rocío de la mañana,\npero ante la gracia de tu aliento,\ntoda primavera se hace temprana.\n\n` +
             `Eres brisa que calma la fatiga,\npoesía que no necesita rima,\nla melodía dulce que me abriga,\nla más radiante flor sobre la cima.\n\n` +
-            `— Con devoción infinita, por y para siempre. ♡`;
+            `— De Adrián para Carla con devoción infinita y mucho amor. ♡`;
 
         if (navigator.clipboard) {
             navigator.clipboard.writeText(letterText).then(() => {
-                showToast('💌 ¡Carta y poema guardados con todo mi amor en tu portapapeles!');
+                showToast('💌 ¡Carta y poema de Adrián para Carla guardados con mucho amor!');
                 playSoftChime(880.00);
             }).catch(() => {
                 showToast('💌 Carta seleccionada para ti');
@@ -2337,7 +2541,7 @@ function initRomanticFeatures() {
                     const grad = ctx.createRadialGradient(0, -s * 0.25, 0, 0, 0, s);
                     grad.addColorStop(0, '#fff1f5');
                     grad.addColorStop(0.55, '#fda4af');
-                    grad.addColorStop(1, '#e11d48');
+                    grad.addColorStop(1, '#ff3e9a');
                     ctx.fillStyle = grad;
                     ctx.shadowColor = 'rgba(225, 29, 72, 0.35)';
                     ctx.shadowBlur = 6;
@@ -2817,7 +3021,18 @@ function initReadingNook() {
         { badge: 'NOTA · ALEGRÍA', pin: '🌷', title: 'Coleccionar momentos dorados', body: '«Al final del día, lo que más abriga el alma son las risas sinceras, los abrazos honestos y la paz de estar en casa.»', author: 'Memoria Viva · El Jardín' }
     ];
 
-    const poemsPool = [
+    const dbPoems = (Array.isArray(window.__GARDEN_POEMS__) && window.__GARDEN_POEMS__.length > 0)
+        ? window.__GARDEN_POEMS__.map(p => ({
+            id: p.id,
+            title: p.title,
+            mood: p.mood || 'Para leer con una taza de té y silencio amable',
+            stanza1: p.stanza1,
+            stanza2: p.stanza2 || '',
+            signature: p.signature || 'Escrito con amor para Carla Lorena'
+        }))
+        : null;
+
+    const poemsPool = dbPoems || [
         {
             title: 'Canto al Atardecer',
             mood: 'Para leer con una taza de té y silencio amable',
@@ -3322,23 +3537,96 @@ function initReadingNook() {
 })();
 
 
-/* --- Splash Romantico de Bienvenida con Efecto Desintegracion (Segundo 1) --- */
+/* --- Splash Romantico de Bienvenida con Control de Inactividad y Sesión Única --- */
 (function() {
+    const SPLASH_SEEN_KEY = 'carla_splash_seen';
+    const SPLASH_LAST_ACTIVE_KEY = 'carla_splash_last_active';
+    const SPLASH_INACTIVITY_LIMIT_MS = 20 * 60 * 1000; // 20 minutos de inactividad para reaparición
+
+    // Funciones auxiliares de actividad de usuario
+    function recordUserActivity() {
+        try {
+            localStorage.setItem(SPLASH_LAST_ACTIVE_KEY, String(Date.now()));
+        } catch (e) {}
+    }
+
+    let lastRecordedActivity = 0;
+    function onUserActivityThrottled() {
+        const now = Date.now();
+        if (now - lastRecordedActivity > 10000) { // Throttling: máximo una vez cada 10s
+            lastRecordedActivity = now;
+            recordUserActivity();
+        }
+    }
+
+    // Registrar actividad en eventos de interacción del usuario
+    ['mousedown', 'keydown', 'scroll', 'touchstart', 'mousemove'].forEach(function(evt) {
+        window.addEventListener(evt, onUserActivityThrottled, { passive: true });
+    });
+
+    // Helpers en window para depuración, demostración y reinicio manual
+    window.resetGardenSplash = function() {
+        try {
+            localStorage.removeItem(SPLASH_SEEN_KEY);
+            localStorage.removeItem(SPLASH_LAST_ACTIVE_KEY);
+            sessionStorage.removeItem('carla_jardin_splash_seen_v1');
+        } catch (e) {}
+        window.location.reload();
+    };
+
+    window.simulateSplashInactivity = function() {
+        try {
+            const pastTime = Date.now() - (SPLASH_INACTIVITY_LIMIT_MS + 60000); // 21 minutos atrás
+            localStorage.setItem(SPLASH_SEEN_KEY, String(pastTime));
+            localStorage.setItem(SPLASH_LAST_ACTIVE_KEY, String(pastTime));
+        } catch (e) {}
+        window.location.reload();
+    };
+
     function initSplash() {
         const splashEl = document.getElementById('romantic-splash');
         if (!splashEl) return;
 
-        const SPLASH_SESSION_KEY = 'carla_jardin_splash_seen_v1';
+        const now = Date.now();
+        let lastActive = 0;
+        let splashSeen = null;
+        try {
+            lastActive = parseInt(localStorage.getItem(SPLASH_LAST_ACTIVE_KEY) || '0', 10);
+            splashSeen = localStorage.getItem(SPLASH_SEEN_KEY);
+        } catch (e) {}
+
+        const urlParams = new URLSearchParams(window.location.search);
+        const forceSplash = urlParams.get('splash') === '1' || urlParams.get('splash') === 'force';
         const currentHash = (window.location.hash || '').replace(/^#/, '').trim();
         const isHomeEntry = !currentHash || currentHash === 'inicio';
         const hasFormToast = Boolean(document.querySelector('.toast.is-visible'));
+        const wasSuppressedInline = splashEl.getAttribute('data-suppressed') === 'true';
 
-        if ((!isHomeEntry || hasFormToast) && sessionStorage.getItem(SPLASH_SESSION_KEY)) {
+        // Determinar si el usuario ha estado inactivo más del límite (o si es primera visita)
+        const isInactive = !lastActive || (now - lastActive) >= SPLASH_INACTIVITY_LIMIT_MS;
+
+        // Debe suprimirse si:
+        // 1. No se forzó expresamente por URL (?splash=1)
+        // 2. Y (fue suprimido inline O hay toast de formulario O fue a sección profunda habiéndose visto O ya se vio y NO está inactivo)
+        const shouldSuppress = !forceSplash && (
+            wasSuppressedInline ||
+            hasFormToast ||
+            (!isHomeEntry && Boolean(splashSeen)) ||
+            (Boolean(splashSeen) && !isInactive)
+        );
+
+        if (shouldSuppress) {
             splashEl.remove();
+            recordUserActivity();
             return;
         }
 
         splashEl.style.removeProperty('display');
+        try {
+            localStorage.setItem(SPLASH_SEEN_KEY, String(now));
+            localStorage.setItem(SPLASH_LAST_ACTIVE_KEY, String(now));
+            sessionStorage.setItem('carla_jardin_splash_seen_v1', 'true');
+        } catch (e) {}
 
         const cardEl = splashEl.querySelector('.splash-card');
         const canvas = document.getElementById('splash-particle-canvas');
@@ -3346,6 +3634,7 @@ function initReadingNook() {
         let particles = [];
         let animId = null;
         let isDismissed = false;
+        let autoDismissTimer = null;
 
         if (canvas) {
             ctx = canvas.getContext('2d');
@@ -3449,8 +3738,14 @@ function initReadingNook() {
         function dismissSplashWithDisintegration() {
             if (isDismissed) return;
             isDismissed = true;
+            if (autoDismissTimer) {
+                clearTimeout(autoDismissTimer);
+                autoDismissTimer = null;
+            }
             try {
-                sessionStorage.setItem(SPLASH_SESSION_KEY, 'true');
+                localStorage.setItem(SPLASH_SEEN_KEY, String(Date.now()));
+                localStorage.setItem(SPLASH_LAST_ACTIVE_KEY, String(Date.now()));
+                sessionStorage.setItem('carla_jardin_splash_seen_v1', 'true');
             } catch (e) {}
 
             // Iniciar efecto de desintegracion
@@ -3502,7 +3797,7 @@ function initReadingNook() {
         });
 
         // Activar el efecto de desintegracion a los 8 segundos (8000ms)
-        setTimeout(() => {
+        autoDismissTimer = setTimeout(() => {
             dismissSplashWithDisintegration();
         }, 8000);
     }
@@ -5141,6 +5436,10 @@ function initFamilySanctuary() {
         if (!current) return;
         selectedMemberId = current.id;
         const photoUrl = current.photo_url || '/images/carla-hero.jpg';
+        const spotlightCard = document.getElementById('family-spotlight-card');
+        if (spotlightCard) {
+            spotlightCard.dataset.theme = current.theme_color || 'sapphire';
+        }
         if (spotlightBlur) spotlightBlur.style.backgroundImage = `url('${photoUrl}')`;
         if (spotlightImg) {
             spotlightImg.src = photoUrl;
@@ -5169,8 +5468,9 @@ function initFamilySanctuary() {
         const buildNodeHtml = (m) => {
             const isSel = Number(m.id) === Number(selectedMemberId);
             const photoUrl = escapeHtml(m.photo_url || '/images/carla-hero.jpg');
+            const theme = escapeHtml(m.theme_color || 'sapphire');
             return `
-                <button type="button" class="family-tree-node-btn ${isSel ? 'is-selected' : ''}" data-tree-member-id="${m.id}">
+                <button type="button" class="family-tree-node-btn ${isSel ? 'is-selected' : ''}" data-tree-member-id="${m.id}" data-theme="${theme}">
                     <div class="family-tree-node-avatar">
                         <img src="${photoUrl}" alt="${escapeHtml(m.name)}" loading="lazy">
                         <span class="family-tree-node-icon">${escapeHtml(m.avatar_icon || '💎')}</span>
@@ -5192,8 +5492,9 @@ function initFamilySanctuary() {
         membersCardsGrid.innerHTML = members.map((m) => {
             const photoUrl = escapeHtml(m.photo_url || '/images/carla-hero.jpg');
             const canDelete = !coreSlugs.includes(m.slug);
+            const theme = escapeHtml(m.theme_color || 'sapphire');
             return `
-                <article class="family-member-card" data-member-card-id="${m.id}">
+                <article class="family-member-card" data-member-card-id="${m.id}" data-theme="${theme}">
                     <div class="family-member-card-media" data-select-member="${m.id}" style="cursor: pointer;">
                         <div class="family-member-card-blur" style="background-image: url('${photoUrl}');"></div>
                         <img class="family-member-card-img" src="${photoUrl}" alt="${escapeHtml(m.name)}" loading="lazy">
@@ -5202,6 +5503,7 @@ function initFamilySanctuary() {
                     <div class="family-member-card-body">
                         <span class="family-member-card-role">${escapeHtml(m.role_badge)}</span>
                         <h3 class="family-member-card-name">${escapeHtml(m.name)}</h3>
+                        ${m.favorite_quote ? `<p class="family-member-card-quote" style="font-size:0.8rem; font-style:italic; opacity:0.88; margin-bottom:4px;">${escapeHtml(m.favorite_quote)}</p>` : ''}
                         <p class="family-member-card-bio">${escapeHtml(m.bio || '')}</p>
                         <div class="family-member-card-footer">
                             <button type="button" class="button button-sm button-outline" data-edit-member="${m.id}">
@@ -5295,6 +5597,7 @@ function initFamilySanctuary() {
             selectedMemberId = members[0].id;
         }
         updateStatsUI();
+        applySanctuaryHeaderSettings();
         renderConstellationTree();
         renderSpotlight();
         renderMemberCards();
@@ -5425,6 +5728,30 @@ function initFamilySanctuary() {
         document.getElementById('family-album-section')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
     });
 
+    const spotlightStage = document.getElementById('family-spotlight-photo-stage');
+    const spotlightFitToggleBtn = document.getElementById('btn-spotlight-fit-toggle');
+    if (spotlightFitToggleBtn && spotlightStage) {
+        try {
+            const savedFit = localStorage.getItem('carla_family_spotlight_fit_mode');
+            if (savedFit === 'cover') {
+                spotlightStage.classList.add('is-cover-fit');
+                const textEl = spotlightFitToggleBtn.querySelector('.fsft-text');
+                if (textEl) textEl.textContent = 'Lleno';
+            }
+        } catch (_) {}
+
+        spotlightFitToggleBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            const isCover = spotlightStage.classList.toggle('is-cover-fit');
+            try {
+                localStorage.setItem('carla_family_spotlight_fit_mode', isCover ? 'cover' : 'contain');
+            } catch (_) {}
+            const textEl = spotlightFitToggleBtn.querySelector('.fsft-text');
+            if (textEl) textEl.textContent = isCover ? 'Lleno' : 'Completa';
+            showToast(isCover ? '🖼️ Modo: Llenar marco' : '🌸 Modo: Foto completa sin cortes');
+        });
+    }
+
     // Modal de Crear / Editar Integrante o Hijo
     const memberForm = document.getElementById('family-member-editor-form');
     const memberPhotoInput = document.getElementById('family-member-photo-input');
@@ -5436,24 +5763,33 @@ function initFamilySanctuary() {
     function openMemberModal(member = null) {
         if (!memberEditorDialog || !memberForm) return;
         memberForm.reset();
-        document.getElementById('family-member-id').value = member ? String(member.id) : '';
-        document.getElementById('family-member-modal-title').textContent = member
-            ? `Editar Perfil de ${member.name}`
-            : 'Agregar Nuevo Hijo / Integrante';
-        document.getElementById('family-member-name').value = member?.name || '';
-        document.getElementById('family-member-category').value = member?.category || 'children';
-        document.getElementById('family-member-role').value = member?.role_badge || 'Hijo Amado · Alegría del Hogar';
-        document.getElementById('family-member-icon').value = member?.avatar_icon || '🌟';
-        document.getElementById('family-member-date').value = member?.special_date || '';
-        document.getElementById('family-member-quote').value = member?.favorite_quote || '';
-        document.getElementById('family-member-bio').value = member?.bio || '';
 
-        if (member?.photo_url) {
-            if (memberPreviewBlur) memberPreviewBlur.style.backgroundImage = `url('${member.photo_url}')`;
-            if (memberPreviewImg) memberPreviewImg.src = member.photo_url;
+        const isRealMember = member && !(member instanceof Event) && typeof member === 'object' && member.id;
+        const actualMember = isRealMember ? member : null;
+
+        document.getElementById('family-member-id').value = actualMember ? String(actualMember.id) : '';
+        document.getElementById('family-member-modal-title').textContent = actualMember
+            ? `Editar Perfil de ${actualMember.name || ''}`
+            : 'Agregar Nuevo Hijo / Integrante';
+        document.getElementById('family-member-name').value = actualMember?.name || '';
+        document.getElementById('family-member-category').value = actualMember?.category || 'children';
+        document.getElementById('family-member-role').value = actualMember?.role_badge || 'Hijo Amado · Alegría del Hogar';
+        document.getElementById('family-member-icon').value = actualMember?.avatar_icon || '🌟';
+        const memberThemeEl = document.getElementById('family-member-theme-color');
+        if (memberThemeEl) memberThemeEl.value = actualMember?.theme_color || 'sapphire';
+        document.getElementById('family-member-date').value = actualMember?.special_date || '';
+        document.getElementById('family-member-quote').value = actualMember?.favorite_quote || '';
+        document.getElementById('family-member-bio').value = actualMember?.bio || '';
+
+        if (actualMember?.photo_url) {
+            if (memberPreviewBlur) memberPreviewBlur.style.backgroundImage = 'url("' + (actualMember.photo_url || '') + '")';
+            if (memberPreviewImg) memberPreviewImg.src = actualMember.photo_url;
             if (memberDropEmpty) memberDropEmpty.hidden = true;
             if (memberDropPreview) memberDropPreview.hidden = false;
         } else {
+            if (memberPhotoInput) memberPhotoInput.value = '';
+            if (memberPreviewImg) memberPreviewImg.src = '';
+            if (memberPreviewBlur) memberPreviewBlur.style.backgroundImage = 'none';
             if (memberDropEmpty) memberDropEmpty.hidden = false;
             if (memberDropPreview) memberDropPreview.hidden = true;
         }
@@ -5465,20 +5801,21 @@ function initFamilySanctuary() {
         const file = memberPhotoInput.files?.[0];
         if (!file) return;
         const url = URL.createObjectURL(file);
-        if (memberPreviewBlur) memberPreviewBlur.style.backgroundImage = `url('${url}')`;
+        if (memberPreviewBlur) memberPreviewBlur.style.backgroundImage = 'url("' + url + '")';
         if (memberPreviewImg) memberPreviewImg.src = url;
         if (memberDropEmpty) memberDropEmpty.hidden = true;
         if (memberDropPreview) memberDropPreview.hidden = false;
     });
 
     document.getElementById('btn-open-new-member-modal')?.addEventListener('click', () => openMemberModal(null));
-    document.getElementById('btn-Add-Child-Shortcut')?.addEventListener('click', () => openMemberModal(null));
+    document.getElementById('btn-add-child-shortcut')?.addEventListener('click', () => openMemberModal(null));
     document.getElementById('btn-close-member-modal')?.addEventListener('click', () => closeDialog(memberEditorDialog));
     document.getElementById('btn-cancel-member-modal')?.addEventListener('click', () => closeDialog(memberEditorDialog));
 
     memberForm?.addEventListener('submit', async (e) => {
         e.preventDefault();
-        const memberId = document.getElementById('family-member-id')?.value;
+        const rawMemberId = document.getElementById('family-member-id')?.value;
+        const memberId = (rawMemberId && rawMemberId !== 'undefined' && rawMemberId !== 'null' && rawMemberId.trim() !== '') ? rawMemberId.trim() : null;
         const saveBtn = document.getElementById('btn-save-member-modal');
         const formData = new FormData(memberForm);
         const url = memberId ? `/admin/family-members/${memberId}` : '/admin/family-members';
@@ -5507,9 +5844,16 @@ function initFamilySanctuary() {
                 selectedMemberId = data.member.id;
                 renderAllFamilyUI();
                 closeDialog(memberEditorDialog);
+                showToast(data.message || (memberId ? 'Perfil familiar actualizado con éxito 🌸' : 'Integrante agregado al álbum familiar 💎'));
+            } else {
+                const errorMsg = data?.message || (data?.errors ? Object.values(data.errors).flat().join('\n') : 'No se pudo guardar el perfil.');
+                showToast('⚠️ ' + errorMsg);
+                showAlert({ title: 'Atención', message: errorMsg, type: 'error' });
             }
         } catch (err) {
             console.error('Error guardando integrante:', err);
+            showToast('⚠️ Error de conexión o permisos al guardar el integrante.');
+            showAlert({ title: 'Error', message: 'Error de conexión o permisos al guardar el integrante.', type: 'error' });
         } finally {
             if (saveBtn) {
                 saveBtn.disabled = false;
@@ -5585,33 +5929,40 @@ function initFamilySanctuary() {
     function openMemoryModal(memory = null) {
         if (!memoryEditorDialog || !memoryForm) return;
         memoryForm.reset();
-        document.getElementById('family-memory-id').value = memory ? String(memory.id) : '';
-        document.getElementById('family-memory-modal-title').textContent = memory
-            ? `Editar Fotografía / Recuerdo: ${memory.title}`
+
+        const isRealMemory = memory && !(memory instanceof Event) && typeof memory === 'object' && memory.id;
+        const actualMemory = isRealMemory ? memory : null;
+
+        document.getElementById('family-memory-id').value = actualMemory ? String(actualMemory.id) : '';
+        document.getElementById('family-memory-modal-title').textContent = actualMemory
+            ? `Editar Fotografía / Recuerdo: ${actualMemory.title || ''}`
             : 'Subir Recuerdo al Álbum Familiar';
 
-        document.getElementById('family-memory-title').value = memory?.title || '';
-        document.getElementById('family-memory-category').value = memory?.category || 'todos';
-        document.getElementById('family-memory-date').value = memory?.memory_date || '';
-        document.getElementById('family-memory-tag').value = memory?.emotion_tag || '';
-        document.getElementById('family-memory-story').value = memory?.story || '';
+        document.getElementById('family-memory-title').value = actualMemory?.title || '';
+        document.getElementById('family-memory-category').value = actualMemory?.category || 'todos';
+        document.getElementById('family-memory-date').value = actualMemory?.memory_date || '';
+        document.getElementById('family-memory-tag').value = actualMemory?.emotion_tag || '';
+        document.getElementById('family-memory-story').value = actualMemory?.story || '';
 
-        updateMemoryMemberSelect(memory?.family_member_id || '');
+        updateMemoryMemberSelect(actualMemory?.family_member_id || '');
 
-        const imgUrl = memory?.image_url;
+        const imgUrl = actualMemory?.image_url;
         if (imgUrl) {
-            if (memoryPreviewBlur) memoryPreviewBlur.style.backgroundImage = `url('${imgUrl}')`;
+            if (memoryPreviewBlur) memoryPreviewBlur.style.backgroundImage = 'url("' + imgUrl + '")';
             if (memoryPreviewImg) memoryPreviewImg.src = imgUrl;
             if (memoryDropEmpty) memoryDropEmpty.hidden = true;
             if (memoryDropPreview) memoryDropPreview.hidden = false;
         } else {
+            if (memoryImageInput) memoryImageInput.value = '';
+            if (memoryPreviewImg) memoryPreviewImg.src = '';
+            if (memoryPreviewBlur) memoryPreviewBlur.style.backgroundImage = 'none';
             if (memoryDropEmpty) memoryDropEmpty.hidden = false;
             if (memoryDropPreview) memoryDropPreview.hidden = true;
         }
 
         const saveBtn = document.getElementById('btn-save-memory-modal');
         if (saveBtn) {
-            saveBtn.textContent = memory ? '💎 Guardar Cambios en la Foto' : '💎 Publicar en el Álbum Familiar';
+            saveBtn.textContent = actualMemory ? '💎 Guardar Cambios en la Foto' : '💎 Publicar en el Álbum Familiar';
         }
 
         openDialog(memoryEditorDialog);
@@ -5621,20 +5972,21 @@ function initFamilySanctuary() {
         const file = memoryImageInput.files?.[0];
         if (!file) return;
         const url = URL.createObjectURL(file);
-        if (memoryPreviewBlur) memoryPreviewBlur.style.backgroundImage = `url('${url}')`;
+        if (memoryPreviewBlur) memoryPreviewBlur.style.backgroundImage = 'url("' + url + '")';
         if (memoryPreviewImg) memoryPreviewImg.src = url;
         if (memoryDropEmpty) memoryDropEmpty.hidden = true;
         if (memoryDropPreview) memoryDropPreview.hidden = false;
     });
 
-    document.getElementById('btn-open-new-memory-modal')?.addEventListener('click', openMemoryModal);
-    document.getElementById('btn-album-add-photo')?.addEventListener('click', openMemoryModal);
+    document.getElementById('btn-open-new-memory-modal')?.addEventListener('click', () => openMemoryModal(null));
+    document.getElementById('btn-album-add-photo')?.addEventListener('click', () => openMemoryModal(null));
     document.getElementById('btn-close-memory-modal')?.addEventListener('click', () => closeDialog(memoryEditorDialog));
     document.getElementById('btn-cancel-memory-modal')?.addEventListener('click', () => closeDialog(memoryEditorDialog));
 
     memoryForm?.addEventListener('submit', async (e) => {
         e.preventDefault();
-        const memoryId = document.getElementById('family-memory-id')?.value;
+        const rawMemoryId = document.getElementById('family-memory-id')?.value;
+        const memoryId = (rawMemoryId && rawMemoryId !== 'undefined' && rawMemoryId !== 'null' && rawMemoryId.trim() !== '') ? rawMemoryId.trim() : null;
         const saveBtn = document.getElementById('btn-save-memory-modal');
         const formData = new FormData(memoryForm);
         const url = memoryId ? `/admin/family-memories/${memoryId}` : '/admin/family-memories';
@@ -5663,9 +6015,16 @@ function initFamilySanctuary() {
                 updateStatsUI();
                 renderMemoriesAlbum();
                 closeDialog(memoryEditorDialog);
+                showToast(data.message || (memoryId ? 'Recuerdo actualizado con éxito 🌸' : 'Recuerdo publicado en el álbum familiar 💎'));
+            } else {
+                const errorMsg = data?.message || (data?.errors ? Object.values(data.errors).flat().join('\n') : 'No se pudo guardar la fotografía familiar.');
+                showToast('⚠️ ' + errorMsg);
+                showAlert({ title: 'Atención', message: errorMsg, type: 'error' });
             }
         } catch (err) {
             console.error('Error guardando recuerdo familiar:', err);
+            showToast('⚠️ Error de conexión o permisos al guardar el recuerdo familiar.');
+            showAlert({ title: 'Error', message: 'Error de conexión o permisos al guardar el recuerdo familiar.', type: 'error' });
         } finally {
             if (saveBtn) {
                 saveBtn.disabled = false;
@@ -5754,8 +6113,88 @@ function initFamilySanctuary() {
         }
     });
 
+    // Personalización de Cabecera, Títulos y Colores del Santuario
+    const headerDialog = document.getElementById('family-sanctuary-header-dialog');
+    const headerForm = document.getElementById('family-sanctuary-header-form');
+    const btnEditHeader = document.getElementById('btn-edit-sanctuary-header');
+    const btnCloseHeader = document.getElementById('btn-close-header-modal');
+    const btnCancelHeader = document.getElementById('btn-cancel-header-modal');
+
+    function applySanctuaryHeaderSettings() {
+        try {
+            const raw = localStorage.getItem('carla_family_sanctuary_settings');
+            if (!raw) return;
+            const s = JSON.parse(raw);
+            const titleEl = document.getElementById('family-sanctuary-title');
+            const subEl = document.getElementById('family-sanctuary-subtitle');
+            const pillEl = document.getElementById('family-header-pill');
+            const bannerEl = document.getElementById('family-hero-banner');
+
+            if (titleEl && s.title) titleEl.textContent = s.title;
+            if (subEl && s.subtitle) subEl.textContent = s.subtitle;
+            if (pillEl && s.pill) pillEl.textContent = s.pill;
+            if (bannerEl && s.theme) bannerEl.dataset.theme = s.theme;
+        } catch (e) {
+            console.warn('Error cargando configuración del santuario:', e);
+        }
+    }
+
+    btnEditHeader?.addEventListener('click', () => {
+        if (!headerDialog || !headerForm) return;
+        const titleEl = document.getElementById('family-sanctuary-title');
+        const subEl = document.getElementById('family-sanctuary-subtitle');
+        const pillEl = document.getElementById('family-header-pill');
+        const bannerEl = document.getElementById('family-hero-banner');
+
+        const titleInput = document.getElementById('family-custom-title-input');
+        const subInput = document.getElementById('family-custom-subtitle-input');
+        const pillInput = document.getElementById('family-custom-pill-input');
+        const themeInput = document.getElementById('family-custom-theme-input');
+
+        if (titleInput) titleInput.value = titleEl ? titleEl.textContent.trim() : '';
+        if (subInput) subInput.value = subEl ? subEl.textContent.trim() : '';
+        if (pillInput) pillInput.value = pillEl ? pillEl.textContent.trim() : '';
+        if (themeInput) themeInput.value = bannerEl?.dataset?.theme || 'sapphire';
+
+        openDialog(headerDialog);
+    });
+
+    btnCloseHeader?.addEventListener('click', () => closeDialog(headerDialog));
+    btnCancelHeader?.addEventListener('click', () => closeDialog(headerDialog));
+
+    headerForm?.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const title = document.getElementById('family-custom-title-input')?.value.trim() || '';
+        const subtitle = document.getElementById('family-custom-subtitle-input')?.value.trim() || '';
+        const pill = document.getElementById('family-custom-pill-input')?.value.trim() || '';
+        const theme = document.getElementById('family-custom-theme-input')?.value || 'sapphire';
+
+        const titleEl = document.getElementById('family-sanctuary-title');
+        const subEl = document.getElementById('family-sanctuary-subtitle');
+        const pillEl = document.getElementById('family-header-pill');
+        const bannerEl = document.getElementById('family-hero-banner');
+
+        if (titleEl && title) titleEl.textContent = title;
+        if (subEl && subtitle) subEl.textContent = subtitle;
+        if (pillEl && pill) pillEl.textContent = pill;
+        if (bannerEl && theme) bannerEl.dataset.theme = theme;
+
+        try {
+            localStorage.setItem('carla_family_sanctuary_settings', JSON.stringify({
+                title,
+                subtitle,
+                pill,
+                theme,
+            }));
+        } catch (_) {}
+
+        closeDialog(headerDialog);
+        showToast('✨ Santuario y colores actualizados correctamente 💎');
+    });
+
     document.getElementById('btn-close-family-lightbox')?.addEventListener('click', () => closeDialog(lightboxDialog));
 
+    applySanctuaryHeaderSettings();
     renderAllFamilyUI();
 }
 
@@ -5765,10 +6204,16 @@ if (document.readyState === 'loading') {
         initGardenUXInnovations();
         initGamesHub();
         initDedicationExperience();
+        initMaskedHeading();
+        initHeroMotion();
+
     });
 } else {
     initFamilySanctuary();
     initGardenUXInnovations();
     initGamesHub();
     initDedicationExperience();
+    initMaskedHeading();
+    initHeroMotion();
+
 }

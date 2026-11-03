@@ -6,6 +6,11 @@ use App\Models\Album;
 use App\Models\GardenMedia;
 use App\Models\GardenPost;
 use App\Models\GardenProfile;
+use App\Models\GardenHeroPhoto;
+use App\Models\GardenGalleryItem;
+use App\Models\GardenDestination;
+use App\Models\GardenPoem;
+
 use App\Models\FriendDedication;
 use App\Models\GardenHomeCard;
 use App\Models\GardenStatus;
@@ -27,6 +32,42 @@ class HomeController extends Controller
             ->latest('updated_at')
             ->first();
         $editableProfile = auth()->user()?->gardenProfile;
+
+        if (Schema::hasTable('garden_hero_photos')) {
+            if (! app()->runningUnitTests() && GardenHeroPhoto::where('is_active', true)->count() < 3) {
+                $this->ensureDefaultHeroPhotos();
+            }
+        }
+
+        
+        if (Schema::hasTable('garden_gallery_items') && ! app()->runningUnitTests() && GardenGalleryItem::count() === 0) {
+            \Database\Seeders\DynamicGardenContentSeeder::seedGallery();
+        }
+        if (Schema::hasTable('garden_destinations') && ! app()->runningUnitTests() && GardenDestination::count() === 0) {
+            \Database\Seeders\DynamicGardenContentSeeder::seedDestinations();
+        }
+        if (Schema::hasTable('garden_poems') && ! app()->runningUnitTests() && GardenPoem::count() === 0) {
+            \Database\Seeders\DynamicGardenContentSeeder::seedPoems();
+        }
+        if (auth()->check() && ! app()->runningUnitTests()) {
+            \Database\Seeders\DynamicGardenContentSeeder::seedPersonalSanctuary(auth()->user());
+        }
+
+        $galleryItems = Schema::hasTable('garden_gallery_items')
+            ? GardenGalleryItem::where('is_active', true)->orderBy('sort_order')->orderByDesc('id')->get()
+            : collect();
+
+        $destinations = Schema::hasTable('garden_destinations')
+            ? GardenDestination::where('is_active', true)->orderBy('sort_order')->orderByDesc('id')->get()
+            : collect();
+
+        $gardenPoems = Schema::hasTable('garden_poems')
+            ? GardenPoem::where('is_active', true)->orderBy('sort_order')->orderBy('id')->get()
+            : collect();
+
+        $heroPhotos = Schema::hasTable('garden_hero_photos')
+            ? GardenHeroPhoto::where('is_active', true)->orderBy('sort_order')->orderByDesc('id')->get()
+            : collect();
 
         $editableBlogPosts = auth()->check()
             ? auth()->user()->gardenPosts()->where('kind', 'blog')->latest()->get()
@@ -54,7 +95,7 @@ class HomeController extends Controller
 
         $personalStats = [
             'albums' => $albums->count(),
-            'photos' => $albums->sum(fn ($album) => $album->photos->count()),
+            'photos' => auth()->check() ? max(auth()->user()->photos()->count(), $albums->sum(fn ($album) => $album->photos->count())) : 0,
             'favorites' => $favoritePhotos->count(),
             'drafts' => $editableBlogPosts->where('status', 'draft')->count(),
             'diary' => $diaryPosts->count(),
@@ -118,6 +159,10 @@ class HomeController extends Controller
             'quizQuestions',
             'isGardenQuizManager',
             'globalAdminStats',
+            'heroPhotos',
+            'galleryItems',
+            'destinations',
+            'gardenPoems',
         ));
     }
 
@@ -171,5 +216,56 @@ class HomeController extends Controller
         }
 
         cache()->forever('garden_statuses_seeded_v1', true);
+    }
+
+    private function ensureDefaultHeroPhotos(): void
+    {
+        $adminUser = User::where('is_admin', true)->first() ?? User::first();
+        if (! $adminUser) {
+            return;
+        }
+
+        $defaults = [
+            [
+                'file' => public_path('images/hero-option-2.jpg'),
+                'target' => 'hero/' . $adminUser->id . '/carla-doctora.jpg',
+                'caption' => 'Dra. Carla Lorena · Vocación y Ternura',
+                'order' => 1,
+            ],
+            [
+                'file' => public_path('images/hero-option-1.jpg'),
+                'target' => 'hero/' . $adminUser->id . '/carla-luz-natural.jpg',
+                'caption' => 'Carla Lorena · Luz del Jardín',
+                'order' => 2,
+            ],
+            [
+                'file' => public_path('images/carla-hero.jpg'),
+                'target' => 'hero/' . $adminUser->id . '/carla-atelier.jpg',
+                'caption' => 'Carla Lorena · Belleza y Esencia',
+                'order' => 3,
+            ],
+        ];
+
+        $disk = Storage::disk('garden_private');
+
+        foreach ($defaults as $item) {
+            if (is_file($item['file'])) {
+                if (! $disk->exists($item['target'])) {
+                    $disk->put($item['target'], file_get_contents($item['file']));
+                }
+
+                GardenHeroPhoto::firstOrCreate(
+                    [
+                        'photo_path' => $item['target'],
+                    ],
+                    [
+                        'user_id' => $adminUser->id,
+                        'caption' => $item['caption'],
+                        'sort_order' => $item['order'],
+                        'is_active' => true,
+                    ]
+                );
+            }
+        }
     }
 }

@@ -6,10 +6,10 @@
                         <span>Bienvenida a mi mundo</span>
                     </div>
                     <h1 id="welcome-title" class="hero-grand-title">
-                        La vida es más bonita<br>
-                        <span class="grand-script">cuando la vives con el corazón...</span>
+                        <span class="hero-title-row row-1">La vida es más bonita</span>
+                        <span class="hero-title-row row-2 grand-script">cuando la vives con el corazón...</span>
                     </h1>
-                    <p class="welcome-text">Un universo digital donde la belleza, la naturaleza, los recuerdos y los sueños encuentran su lugar. Creado con devoción para celebrar cada instante y florecer a tu propio ritmo.</p>
+                    <p class="welcome-text">Un universo digital donde la belleza, la naturaleza, los recuerdos y los sueños encuentran su lugar. Creado con amor, cariño y pasion para celebrar cada instante y florecer a tu propio ritmo.</p>
 
                     <div class="welcome-actions">
                         <a class="button button-primary button-glow" href="#galeria" data-go="galeria">
@@ -40,23 +40,102 @@
                     </div>
                 </div>
 
-                <div class="welcome-art enchanted-frame" aria-label="Retrato editorial de Carla Lorena en su jardín">
+                @php
+                    $heroPhotoList = collect();
+                    if (isset($heroPhotos) && $heroPhotos->isNotEmpty()) {
+                        foreach ($heroPhotos as $hp) {
+                            $heroPhotoList->push([
+                                'id' => $hp->id,
+                                'url' => $hp->url,
+                                'caption' => $hp->caption ?? 'Retrato de Carla Lorena',
+                            ]);
+                        }
+                    } elseif ($publicProfile && $publicProfile->featured_photo_path) {
+                        $heroPhotoList->push([
+                            'id' => 'profile',
+                            'url' => route('profiles.featured-photo', $publicProfile),
+                            'caption' => 'Retrato editorial de Carla Lorena',
+                        ]);
+                    } elseif (auth()->check() && $editableProfile && $editableProfile->featured_photo_path) {
+                        $heroPhotoList->push([
+                            'id' => 'editable',
+                            'url' => route('profiles.featured-photo', $editableProfile),
+                            'caption' => 'Retrato editorial de Carla Lorena',
+                        ]);
+                    } else {
+                        $heroPhotoList->push([
+                            'id' => 'default',
+                            'url' => asset('images/carla-hero.jpg'),
+                            'caption' => 'Retrato artístico de Carla Lorena',
+                        ]);
+                    }
+
+                    // Garantizar siempre múltiples retratos oficiales activos si hay menos de 3 fotos
+                    $defaultFallbacks = [
+                        ['id' => 'fallback-doc', 'url' => asset('images/hero-option-2.jpg'), 'caption' => 'Dra. Carla Lorena · Vocación y Ternura'],
+                        ['id' => 'fallback-nat', 'url' => asset('images/hero-option-1.jpg'), 'caption' => 'Carla Lorena · Luz del Jardín'],
+                        ['id' => 'fallback-ate', 'url' => asset('images/carla-hero.jpg'), 'caption' => 'Carla Lorena · Belleza y Esencia'],
+                    ];
+
+                    foreach ($defaultFallbacks as $df) {
+                        if ($heroPhotoList->count() >= 3) break;
+                        $alreadyExists = $heroPhotoList->contains(fn($item) => $item['url'] === $df['url'] || str_contains($item['url'], basename($df['url'])));
+                        if (! $alreadyExists) {
+                            $heroPhotoList->push($df);
+                        }
+                    }
+
+                    $isMultiPhoto = $heroPhotoList->count() > 1;
+                @endphp
+                <div class="welcome-art enchanted-frame" id="hero-carousel-frame" aria-label="Galería de retratos de Carla Lorena en su jardín" data-multi="{{ $isMultiPhoto ? 'true' : 'false' }}">
                     <div class="frame-ambient-glow"></div>
                     <div class="frame-oval-border">
-                        <img src="{{ asset('images/carla-hero.jpg') }}" alt="Retrato artístico de Carla Lorena">
-                        <div class="rose-bloom-overlay"></div>
+                        <div class="hero-slides-track" id="hero-slides-track">
+                            @foreach($heroPhotoList as $idx => $photo)
+                                <div class="hero-slide {{ $idx === 0 ? 'is-active' : '' }}" data-slide-index="{{ $idx }}" aria-hidden="{{ $idx === 0 ? 'false' : 'true' }}">
+                                    <!-- Fondo con desenfoque ambiental para auto-ajustar cualquier orientación (horizontal, vertical, cuadrada) -->
+                                    <div class="hero-slide-backdrop" style="background-image: url('{{ $photo['url'] }}')" aria-hidden="true"></div>
+                                    <!-- Imagen principal con auto-ajuste inteligente -->
+                                    <img src="{{ $photo['url'] }}" alt="{{ $photo['caption'] }}" class="hero-slide-img" loading="{{ $idx === 0 ? 'eager' : 'lazy' }}">
+                                    <div class="rose-bloom-overlay"></div>
+                                </div>
+                            @endforeach
+                        </div>
+
+                        @if($isMultiPhoto)
+                            <!-- Controles de navegación de lujo (Anterior / Siguiente) -->
+                            <button type="button" class="hero-nav-btn hero-nav-prev" id="hero-prev-btn" aria-label="Fotografía anterior">
+                                <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
+                            </button>
+                            <button type="button" class="hero-nav-btn hero-nav-next" id="hero-next-btn" aria-label="Fotografía siguiente">
+                                <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                            </button>
+
+                            <!-- Indicadores de puntos / joyas inferiores -->
+                            <div class="hero-dots-indicator" id="hero-dots-container" role="tablist" aria-label="Selector de fotografías del hero">
+                                @foreach($heroPhotoList as $idx => $photo)
+                                    <button type="button" class="hero-dot {{ $idx === 0 ? 'is-active' : '' }}" data-slide-target="{{ $idx }}" role="tab" aria-selected="{{ $idx === 0 ? 'true' : 'false' }}" aria-label="Ver fotografía {{ $idx + 1 }}"></button>
+                                @endforeach
+                            </div>
+
+                            <!-- Contador flotante discreto y elegante -->
+                            <div class="hero-counter-badge" id="hero-counter-badge" aria-live="polite">
+                                <span class="hcb-current">1</span> / <span class="hcb-total">{{ $heroPhotoList->count() }}</span>
+                            </div>
+                        @endif
                     </div>
 
-                    <!-- Rosa Encantada Interactiva de Carla -->
+                    <!-- Sello de autenticidad editorial de lujo (en la esquina exterior del marco, sin tapar la fotografía) -->
+                    <div class="art-stamp luxury-monogram" aria-hidden="true">
+                        <span>CL</span>
+                        <small>BELLEZA & SUEÑOS</small>
+                    </div>
+
+                    <!-- Rosa Encantada Interactiva de Carla (Pedestal inferior exterior: 100% visible sin obstruir la foto ni el calzado) -->
                     <div class="interactive-enchanted-rose" id="enchanted-rose-trigger" role="button" tabindex="0" aria-label="Tocar la rosa encantada de Carla Lorena">
                         <div class="rose-halo"></div>
                         <div class="rose-emblem">🌹</div>
                         <span class="rose-pulse-label">Tócame</span>
-                    </div>
-
-                    <div class="art-stamp luxury-monogram" aria-hidden="true">
-                        <span>CL</span>
-                        <small>BELLEZA & SUEÑOS</small>
                     </div>
                 </div>
 
@@ -71,12 +150,12 @@
                 <div class="enchanted-rose-box">
                     <button class="enchanted-close-btn" type="button" aria-label="Cerrar dedicatoria">✕</button>
                     <span class="enchanted-big-rose">🌹</span>
-                    <span class="eyebrow">EL SECRETO DE LA ROSA</span>
-                    <h2>Para Carla Lorena</h2>
+                    <span class="eyebrow">EL SECRETO DE LA ROSA · DE ADRIÁN PARA CARLA</span>
+                    <h2>De Adrián para mi Amada Carla Lorena</h2>
                     <blockquote class="enchanted-message">
-                        «De todas las flores que existen en este jardín infinito, tú eres la que más luz, alegría y elegancia aporta al mundo. Que nunca dejes de brillar.»
+                        «De todas las flores que existen en este jardín infinito, tú eres la que más luz, alegría y elegancia aporta a mi vida y al mundo entero. Que nunca dejes de brillar, mi amada reina.»
                     </blockquote>
-                    <span class="enchanted-signature">— Con todo el corazón ♡</span>
+                    <span class="enchanted-signature">— De Adrián para Carla con mucho amor ♡</span>
                 </div>
             </dialog>
 

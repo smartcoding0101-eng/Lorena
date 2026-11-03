@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Galería Exclusiva de Diseños · Red Social Carla</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Playfair+Display:ital,wght@0,600;0,700;1,400;1,600&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Outfit:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-canvas: #faf8f5;
+            --text-dark: #1b1317;
+            --text-muted: #73646d;
+            --border-soft: rgba(0,0,0,0.08);
+            --card-shadow: 0 16px 40px rgba(0,0,0,0.06);
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background: var(--bg-canvas);
+            color: var(--text-dark);
+            line-height: 1.6;
+            padding: 40px 20px 100px;
+        }
+        .container {
+            max-width: 1300px;
+            margin: 0 auto;
+        }
+        header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+        .tag-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 6px 18px;
+            border-radius: 999px;
+            font-size: 0.78rem;
+            font-weight: 800;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            background: #fff;
+            border: 1px solid rgba(0,0,0,0.12);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+            margin-bottom: 16px;
+        }
+        h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(2.2rem, 4vw, 3.4rem);
+            font-weight: 700;
+            color: #1a0814;
+            margin-bottom: 14px;
+        }
+        h1 em {
+            font-style: italic;
+            font-weight: 400;
+            color: #c94079;
+        }
+        .subtitle {
+            font-size: 1.1rem;
+            color: var(--text-muted);
+            max-width: 720px;
+            margin: 0 auto 30px;
+        }
+        .quick-nav {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin-bottom: 40px;
+        }
+        .quick-nav a {
+            text-decoration: none;
+            padding: 10px 22px;
+            border-radius: 999px;
+            font-size: 0.88rem;
+            font-weight: 700;
+            background: #fff;
+            color: #333;
+            border: 1px solid rgba(0,0,0,0.1);
+            transition: all 0.2s ease;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.03);
+        }
+        .quick-nav a:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(0,0,0,0.08);
+            border-color: #c94079;
+            color: #c94079;
+        }
+        .proposal-card {
+            background: #ffffff;
+            border-radius: 28px;
+            border: 1.5px solid rgba(0,0,0,0.08);
+            box-shadow: var(--card-shadow);
+            padding: 40px;
+            margin-bottom: 60px;
+            transition: transform 0.2s ease;
+        }
+        .proposal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            flex-wrap: wrap;
+            gap: 20px;
+            margin-bottom: 24px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid rgba(0,0,0,0.06);
+        }
+        .proposal-num {
+            display: inline-block;
+            font-size: 0.8rem;
+            font-weight: 800;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            padding: 4px 14px;
+            border-radius: 999px;
+            margin-bottom: 8px;
+        }
+        .p1 .proposal-num { background: #e8f4ed; color: #0e4d38; border: 1px solid #b8dfcc; }
+        .p2 .proposal-num { background: #f3e6fa; color: #6e2399; border: 1px solid #d9aff5; }
+        .p3 .proposal-num { background: #fae8ed; color: #a11b34; border: 1px solid #f2b3c2; }
+        .p0 .proposal-num { background: #ffeaf3; color: #ff3e9a; border: 1px solid #ffd2e5; }
+        
+        .proposal-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 6px;
+        }
+        .proposal-desc {
+            font-size: 1rem;
+            color: var(--text-muted);
+            max-width: 680px;
+        }
+        .proposal-actions {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+        .btn-action {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            text-decoration: none;
+            padding: 10px 20px;
+            border-radius: 999px;
+            font-weight: 700;
+            font-size: 0.86rem;
+            transition: all 0.2s ease;
+        }
+        .btn-view-full {
+            background: #111;
+            color: #fff;
+        }
+        .btn-view-full:hover {
+            background: #333;
+            transform: translateY(-2px);
+        }
+        .image-viewport {
+            width: 100%;
+            border-radius: 20px;
+            overflow: hidden;
+            border: 1.5px solid rgba(0,0,0,0.08);
+            box-shadow: 0 8px 30px rgba(0,0,0,0.06);
+            background: #fdfdfd;
+            margin-bottom: 24px;
+            position: relative;
+        }
+        .image-viewport img {
+            width: 100%;
+            height: auto;
+            display: block;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+        .image-viewport:hover img {
+            transform: scale(1.01);
+        }
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 18px;
+            margin-top: 24px;
+        }
+        .feature-box {
+            background: #faf8f6;
+            border: 1px solid rgba(0,0,0,0.06);
+            border-radius: 16px;
+            padding: 18px 20px;
+        }
+        .feature-box strong {
+            display: block;
+            font-size: 0.95rem;
+            margin-bottom: 6px;
+            color: #1b1317;
+        }
+        .feature-box p {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            line-height: 1.5;
+        }
+        .back-to-app {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            background: #ff3e9a;
+            color: #fff;
+            text-decoration: none;
+            font-weight: 800;
+            font-size: 0.88rem;
+            padding: 12px 24px;
+            border-radius: 999px;
+            box-shadow: 0 10px 25px rgba(255, 62, 154, 0.4);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            z-index: 100;
+            transition: all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+        .back-to-app:hover {
+            transform: translateY(-3px) scale(1.03);
+            background: #e02482;
+        }
+    </style>
+</head>
+<body>
+
+    <a href="/#carla" class="back-to-app">
+        <span>← Volver a Mi Espacio (#carla)</span>
+    </a>
+
+    <div class="container">
+        <header>
+            <span class="tag-pill">✨ ALTA COSTURA & EXCLUSIVIDAD FEMENINA</span>
+            <h1>Catálogo de <em>Diseños Elegantes</em></h1>
+            <p class="subtitle">Propuestas de alto impacto visual diseñadas exclusivamente para una mujer sofisticada. Todos los lienzos están renderizados y disponibles localmente en tu servidor.</p>
+            
+            <div class="quick-nav">
+                <a href="#propuesta-1">🌿 01. Royal Emerald Couture</a>
+                <a href="#propuesta-2">🔮 02. Champagne Amethyst</a>
+                <a href="#propuesta-3">👠 03. Minimalist Carmine & Silk</a>
+                <a href="#propuestas-anteriores">🌸 Ver Blossom Pop Aurora (Actual)</a>
+            </div>
+        </header>
+
+        <!-- ================= PROPUESTA 1 ================= -->
+        <article class="proposal-card p1" id="propuesta-1">
+            <div class="proposal-header">
+                <div>
+                    <span class="proposal-num">PROPUESTA 01 · ALTA JOYERÍA & BOTÁNICA REAL</span>
+                    <h2 class="proposal-title">Royal Emerald & Rose Gold Couture</h2>
+                    <p class="proposal-desc">Verde Esmeralda Imperial (#0E4D38), Oro Rosa de 24K (#D4976A), Rosa Empolvado Nude (#F4DCD6) y Seda Marfil (#FAF7F2). Inspirado en el lujo aristocrático de Cartier y Hermès.</p>
+                </div>
+                <div class="proposal-actions">
+                    <a href="/images/mockups/propuesta_1_royal_emerald.png" target="_blank" class="btn-action btn-view-full">
+                        <span>Ver Lienzo en Alta Resolución (1600x1050) ↗</span>
+                    </a>
+                </div>
+            </div>
+
+            <div class="image-viewport">
+                <img src="/images/mockups/propuesta_1_royal_emerald.png" alt="Propuesta 1: Royal Emerald & Rose Gold Couture" loading="lazy">
+            </div>
+
+            <div class="features-grid">
+                <div class="feature-box">
+                    <strong>Paleta Aristocrática</strong>
+                    <p>Fusión de verde bosque profundo y destellos oro rosa que transmiten paz, sabiduría y exclusividad serena.</p>
+                </div>
+                <div class="feature-box">
+                    <strong>Tipografía de Alta Joyería</strong>
+                    <p>Cormorant Garamond en títulos display e itálicas refinadas, con Montserrat Sans para lecturas impecables.</p>
+                </div>
+                <div class="feature-box">
+                    <strong>Barra de Navegación 100% Optimizada</strong>
+                    <p>Volver al mapa y Secret Garden en cápsulas independientes que fluyen en una sola línea armónica.</p>
+                </div>
+            </div>
+        </article>
+
+        <!-- ================= PROPUESTA 2 ================= -->
+        <article class="proposal-card p2" id="propuesta-2">
+            <div class="proposal-header">
+                <div>
+                    <span class="proposal-num">PROPUESTA 02 · AMATISTA REAL & CHAMPÁN ROSÉ</span>
+                    <h2 class="proposal-title">Champagne Amethyst High-Jewelry</h2>
+                    <p class="proposal-desc">Violeta Amatista Profundo (#6E2399), Champán Doré (#E3A857), Lila Iris Iridiscente (#B892FF) y Nácar Místico (#FAF6FE). Inspirado en la alta perfumería parisina y la magia nocturna.</p>
+                </div>
+                <div class="proposal-actions">
+                    <a href="/images/mockups/propuesta_2_champagne_amethyst.png" target="_blank" class="btn-action btn-view-full">
+                        <span>Ver Lienzo en Alta Resolución (1600x1050) ↗</span>
+                    </a>
+                </div>
+            </div>
+
+            <div class="image-viewport">
+                <img src="/images/mockups/propuesta_2_champagne_amethyst.png" alt="Propuesta 2: Champagne Amethyst High-Jewelry" loading="lazy">
+            </div>
+
+            <div class="features-grid">
+                <div class="feature-box">
+                    <strong>Aura Magnética y Mística</strong>
+                    <p>Contrastes profundos de piedras preciosas violetas con reflejos dorados cálidos ideales para confidencias íntimas.</p>
+                </div>
+                <div class="feature-box">
+                    <strong>Tipografía Sensorial</strong>
+                    <p>Playfair Display itálica sensual combinada con la claridad geométrica de Outfit Sans.</p>
+                </div>
+                <div class="feature-box">
+                    <strong>Efectos Iridiscentes</strong>
+                    <p>Bordes de cristal pulido con halo púrpura sutil que reacciona suavemente al pasar el cursor.</p>
+                </div>
+            </div>
+        </article>
+
+        <!-- ================= PROPUESTA 3 ================= -->
+        <article class="proposal-card p3" id="propuesta-3">
+            <div class="proposal-header">
+                <div>
+                    <span class="proposal-num">PROPUESTA 03 · CARMÍN VOGUE & SEDA EDITORIAL</span>
+                    <h2 class="proposal-title">Minimalist Carmine & Silk Editorial</h2>
+                    <p class="proposal-desc">Rojo Carmín Francés (#A11B34), Oro Cobrizo (#C59B27), Seda Marfil (#FDFBF9) y Obsidiana Noir (#1A1516). Estética limpia de revista de moda, fuerza femenina y líneas esculturales.</p>
+                </div>
+                <div class="proposal-actions">
+                    <a href="/images/mockups/propuesta_3_minimal_carmine.png" target="_blank" class="btn-action btn-view-full">
+                        <span>Ver Lienzo en Alta Resolución (1600x1050) ↗</span>
+                    </a>
+                </div>
+            </div>
+
+            <div class="image-viewport">
+                <img src="/images/mockups/propuesta_3_minimal_carmine.png" alt="Propuesta 3: Minimalist Carmine & Silk Editorial" loading="lazy">
+            </div>
+
+            <div class="features-grid">
+                <div class="feature-box">
+                    <strong>Poder & Seguridad Femenina</strong>
+                    <p>El rojo carmín francés como protagonista absoluto, equilibrado con la serenidad táctil de la seda marfil.</p>
+                </div>
+                <div class="feature-box">
+                    <strong>Espaciado Escultural de Pasarela</strong>
+                    <p>Composición aireada donde cada tarjeta, memoria y botón tiene la presencia de una galería de arte.</p>
+                </div>
+                <div class="feature-box">
+                    <strong>Lujo Sin Sobrecarga</strong>
+                    <p>Bordes milimétricos y sombras imperceptibles que dejan que las fotografías y cartas brillen por sí solas.</p>
+                </div>
+            </div>
+        </article>
+
+        <!-- ================= DISEÑOS ANTERIORES ================= -->
+        <section id="propuestas-anteriores" style="margin-top: 80px;">
+            <div style="text-align: center; margin-bottom: 30px;">
+                <span class="tag-pill">🌸 REFERENCIAS ANTERIORES</span>
+                <h3 style="font-family: 'Playfair Display', serif; font-size: 2rem;">Lienzos Generados Previamente</h3>
+            </div>
+
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(360px, 1fr)); gap: 24px;">
+                <div class="proposal-card p0" style="padding: 24px; margin-bottom: 0;">
+                    <span class="proposal-num">ACTUALMENTE IMPLEMENTADO</span>
+                    <h4 style="font-size: 1.3rem; margin: 8px 0;">Blossom Pop Aurora</h4>
+                    <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 14px;">Hot Pink (#FF3E9A), Coral Sunset (#FF8A6B), Lila Aurora (#A78BFA) y Oro Sol.</p>
+                    <a href="/images/mockups/blossom_pop_aurora.jpg" target="_blank" class="image-viewport" style="display: block; margin-bottom: 12px;">
+                        <img src="/images/mockups/blossom_pop_aurora.jpg" alt="Blossom Pop Aurora" loading="lazy">
+                    </a>
+                    <a href="/images/mockups/blossom_pop_aurora.jpg" target="_blank" class="btn-action btn-view-full" style="width: 100%; justify-content: center;">Ver Lienzo Completo ↗</a>
+                </div>
+
+                <div class="proposal-card" style="padding: 24px; margin-bottom: 0;">
+                    <span class="proposal-num" style="background:#222; color:#fff;">PROPUESTA A ORIGINAL</span>
+                    <h4 style="font-size: 1.3rem; margin: 8px 0;">Rose Noir Couture</h4>
+                    <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 14px;">Negro Azabache, Borgoña Terciopelo, Oro Antiguo y Destellos Rosa.</p>
+                    <a href="/images/mockups/rose_noir_couture.jpg" target="_blank" class="image-viewport" style="display: block; margin-bottom: 12px;">
+                        <img src="/images/mockups/rose_noir_couture.jpg" alt="Rose Noir Couture" loading="lazy">
+                    </a>
+                    <a href="/images/mockups/rose_noir_couture.jpg" target="_blank" class="btn-action btn-view-full" style="width: 100%; justify-content: center;">Ver Lienzo Completo ↗</a>
+                </div>
+
+                <div class="proposal-card" style="padding: 24px; margin-bottom: 0;">
+                    <span class="proposal-num" style="background:#f7f0ea; color:#8c6239;">PROPUESTA C ORIGINAL</span>
+                    <h4 style="font-size: 1.3rem; margin: 8px 0;">Pearl Atelier Editorial</h4>
+                    <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 14px;">Nácar Crema, Rosa Melocotón Suave, Marfil y Detalles Caligráficos.</p>
+                    <a href="/images/mockups/pearl_atelier_editorial.jpg" target="_blank" class="image-viewport" style="display: block; margin-bottom: 12px;">
+                        <img src="/images/mockups/pearl_atelier_editorial.jpg" alt="Pearl Atelier Editorial" loading="lazy">
+                    </a>
+                    <a href="/images/mockups/pearl_atelier_editorial.jpg" target="_blank" class="btn-action btn-view-full" style="width: 100%; justify-content: center;">Ver Lienzo Completo ↗</a>
+                </div>
+            </div>
+        </section>
+
+    </div>
+
+</body>
+</html>
+

@@ -40,7 +40,7 @@
                                     </radialGradient>
                                     <linearGradient id="sapphireGoldRim" x1="0%" y1="0%" x2="100%" y2="100%">
                                         <stop offset="0%" stop-color="#fef08a"/>
-                                        <stop offset="50%" stop-color="#d4af37"/>
+                                        <stop offset="50%" stop-color="#e0ab00"/>
                                         <stop offset="100%" stop-color="#92400e"/>
                                     </linearGradient>
                                 </defs>
@@ -54,7 +54,7 @@
                         <span class="family-vault-eyebrow">PÉTALO DE ZAFIRO REAL · RINCÓN N° 12</span>
                         <h1 class="family-vault-title">Santuario Privado · <em>Mi Familia</em></h1>
                         <p class="family-vault-desc">
-                            Este rincón guarda el álbum familiar de <strong>Carla Lorena</strong>, <strong>Adrián</strong>, nuestra mascota <strong>Ody</strong> y <strong>nuestros hijos</strong>. Ingresa tu usuario y contraseña de administrador para abrir la bóveda.
+                            Este rincón guarda el álbum familiar de <strong>Carla Lorena</strong>, <strong>Adrián</strong>, nuestra mascota <strong>Ody</strong> y <strong>nuestros beibys</strong>. Ingresa tu usuario y contraseña de administrador para abrir la bóveda.
                         </p>
 
                         <form class="family-vault-login-form" id="family-inline-unlock-form" autocomplete="on">
@@ -93,16 +93,16 @@
                 <div class="family-sanctuary-content" id="family-sanctuary-content" @if(!$familyAdminActive) hidden @endif>
 
                     <!-- Hero Editorial de Mi Familia -->
-                    <header class="family-hero-banner">
+                    <header class="family-hero-banner" id="family-hero-banner">
                         <div class="family-hero-copy">
                             <div class="family-hero-badges">
-                                <span class="family-sapphire-pill">💎 ZAFIRO IMPERIAL · N° 12</span>
+                                <span class="family-sapphire-pill" id="family-header-pill">💎 ZAFIRO IMPERIAL · N° 12</span>
                                 <span class="family-members-pill">👑 Carla Lorena · 💙 Adrián · 🐾 Ody · 🌟 Hijos</span>
                             </div>
                             <h1 id="family-sanctuary-title" class="family-hero-title">
                                 Nuestro Álbum Familiar · <em>El Hogar de Nuestro Amor</em>
                             </h1>
-                            <p class="family-hero-subtitle">
+                            <p class="family-hero-subtitle" id="family-sanctuary-subtitle">
                                 Un santuario vivo e interactivo donde florecen las historias de <strong>Carla Lorena</strong>, <strong>Adrián</strong>, las travesuras de nuestra mascota <strong>Ody</strong> y la luz de <strong>nuestros hijos</strong>.
                             </p>
 
@@ -112,6 +112,9 @@
                                 </button>
                                 <button type="button" class="button button-outline family-action-btn" id="btn-open-new-memory-modal">
                                     <span aria-hidden="true">📸</span> Subir Foto al Álbum Familiar
+                                </button>
+                                <button type="button" class="button button-outline family-action-btn" id="btn-edit-sanctuary-header" title="Editar títulos, textos y colores del santuario">
+                                    <span aria-hidden="true">🎨</span> Personalizar Santuario
                                 </button>
                             </div>
                         </div>
@@ -171,10 +174,14 @@
 
                             <!-- Tarjeta de Inspección Dinámica del Integrante Seleccionado -->
                             <aside class="family-spotlight-card" id="family-spotlight-card" aria-live="polite">
-                                <div class="family-spotlight-photo-stage">
+                                <div class="family-spotlight-photo-stage" id="family-spotlight-photo-stage">
                                     <div class="family-spotlight-blur" id="family-spotlight-blur"></div>
                                     <img class="family-spotlight-img" id="family-spotlight-img" src="/images/carla-hero.jpg" alt="Retrato del integrante seleccionado">
                                     <span class="family-spotlight-avatar-badge" id="family-spotlight-icon">👑</span>
+                                    <button type="button" class="family-spotlight-fit-toggle" id="btn-spotlight-fit-toggle" title="Cambiar modo de ajuste (Foto completa / Llenar marco)" aria-label="Cambiar ajuste de imagen">
+                                        <span class="fsft-icon" aria-hidden="true">⤢</span>
+                                        <span class="fsft-text">Ajuste</span>
+                                    </button>
                                 </div>
                                 <div class="family-spotlight-body">
                                     <span class="family-spotlight-role" id="family-spotlight-role">Corazón del Hogar · Mamá & Luz</span>
@@ -342,13 +349,27 @@
 
                         <div class="family-form-grid-2">
                             <div class="family-vault-field">
+                                <label for="family-member-theme-color">Color de Aura / Constelación</label>
+                                <select id="family-member-theme-color" name="theme_color">
+                                    <option value="sapphire">💎 Zafiro Imperial (Azul Real)</option>
+                                    <option value="rose">🌹 Rosa Real (Fucsia Romance)</option>
+                                    <option value="gold">👑 Oro Solar (Dorado Radiante)</option>
+                                    <option value="emerald">🌿 Esmeralda Vida (Verde Botánico)</option>
+                                    <option value="amethyst">🔮 Amatista Mística (Púrpura Amor)</option>
+                                    <option value="amber">🐾 Ámbar Miel (Cálido Ody)</option>
+                                    <option value="ruby">🌺 Rubí Pasión (Carmesí Profundo)</option>
+                                    <option value="cyan">🩵 Turquesa Cielo (Celeste Sereno)</option>
+                                </select>
+                            </div>
+                            <div class="family-vault-field">
                                 <label for="family-member-date">Fecha Especial o Insignia</label>
                                 <input type="text" id="family-member-date" name="special_date" maxlength="120" placeholder="Ej.: Nacido con amor · Semilla #1">
                             </div>
-                            <div class="family-vault-field">
-                                <label for="family-member-quote">Frase o Lema Especial</label>
-                                <input type="text" id="family-member-quote" name="favorite_quote" maxlength="280" placeholder="Ej.: «Nuestra alegría de cada mañana»">
-                            </div>
+                        </div>
+
+                        <div class="family-vault-field">
+                            <label for="family-member-quote">Frase o Lema Especial</label>
+                            <input type="text" id="family-member-quote" name="favorite_quote" maxlength="280" placeholder="Ej.: «Nuestra alegría de cada mañana»">
                         </div>
 
                         <div class="family-vault-field">
@@ -464,6 +485,57 @@
                             </button>
                         </div>
                     </div>
+                </div>
+            </dialog>
+
+            <!-- ═══════════════════════════════════════════════════════════════════ -->
+            <!--  MODAL: PERSONALIZAR TÍTULO, SUBTÍTULO Y COLORES DEL SANTUARIO       -->
+            <!-- ═══════════════════════════════════════════════════════════════════ -->
+            <dialog class="family-editor-dialog" id="family-sanctuary-header-dialog" aria-labelledby="family-header-modal-title">
+                <div class="family-editor-modal-card">
+                    <header class="family-editor-header">
+                        <div>
+                            <span class="eyebrow">ESTILO & AMBIENTACIÓN DEL SANTUARIO</span>
+                            <h3 id="family-header-modal-title">Personalizar Título, Texto y Colores</h3>
+                        </div>
+                        <button type="button" class="family-modal-close-btn" id="btn-close-header-modal" aria-label="Cerrar">✕</button>
+                    </header>
+
+                    <form id="family-sanctuary-header-form">
+                        <div class="family-vault-field">
+                            <label for="family-custom-title-input">Título del Santuario</label>
+                            <input type="text" id="family-custom-title-input" name="title" required maxlength="160" placeholder="Ej.: Nuestro Álbum Familiar · El Hogar de Nuestro Amor">
+                        </div>
+
+                        <div class="family-vault-field">
+                            <label for="family-custom-subtitle-input">Subtítulo o Dedicatoria Principal</label>
+                            <textarea id="family-custom-subtitle-input" name="subtitle" rows="3" maxlength="500" placeholder="Escribe la dedicatoria principal que acompaña la cabecera..."></textarea>
+                        </div>
+
+                        <div class="family-form-grid-2">
+                            <div class="family-vault-field">
+                                <label for="family-custom-pill-input">Insignia / Rincón</label>
+                                <input type="text" id="family-custom-pill-input" name="pill" maxlength="80" placeholder="Ej.: 💎 ZAFIRO IMPERIAL · N° 12">
+                            </div>
+
+                            <div class="family-vault-field">
+                                <label for="family-custom-theme-input">Color de Atmósfera del Santuario</label>
+                                <select id="family-custom-theme-input" name="theme">
+                                    <option value="sapphire">💎 Zafiro Imperial (Azul Real)</option>
+                                    <option value="rose">🌹 Rosa Romance (Fucsia Real)</option>
+                                    <option value="gold">👑 Oro Sagrado (Dorado de Gala)</option>
+                                    <option value="emerald">🌿 Esmeralda Jardín (Verde Botánico)</option>
+                                    <option value="amethyst">🔮 Amatista Reina (Púrpura Místico)</option>
+                                    <option value="ruby">🌺 Rubí Fuego (Carmesí Pasión)</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="family-modal-actions">
+                            <button type="button" class="button button-outline" id="btn-cancel-header-modal">Cancelar</button>
+                            <button type="submit" class="button button-primary" id="btn-save-header-modal">✨ Guardar y Aplicar al Santuario</button>
+                        </div>
+                    </form>
                 </div>
             </dialog>
 

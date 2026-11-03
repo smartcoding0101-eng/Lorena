@@ -41,6 +41,7 @@ export function initializeTimeCapsules() {
             capsules = data.capsules || [];
             renderCapsules();
             startCountdownLoop();
+            window.refreshPersonalStats?.();
         } catch (e) {
             console.error(e);
             grid.innerHTML = `
@@ -143,7 +144,7 @@ export function initializeTimeCapsules() {
         grid.querySelectorAll('[data-delete-capsule]').forEach(btn => {
             btn.addEventListener('click', async (e) => {
                 e.stopPropagation();
-                if (!confirm('¿Deseas romper el sello y eliminar esta cápsula para siempre?')) return;
+                if (!await window.showConfirm({ title: '¿Romper cápsula?', message: '¿Deseas romper el sello y eliminar esta cápsula para siempre?', confirmText: 'Sí, eliminar', type: 'danger' })) return;
                 const id = btn.getAttribute('data-delete-capsule');
                 try {
                     const token = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content');
@@ -157,6 +158,7 @@ export function initializeTimeCapsules() {
                     if (res.ok) {
                         capsules = capsules.filter(c => c.id != id);
                         renderCapsules();
+                        window.refreshPersonalStats?.();
                     }
                 } catch (err) {
                     console.error('Error al eliminar cápsula:', err);
@@ -237,16 +239,17 @@ export function initializeTimeCapsules() {
 
                 const data = await res.json();
                 if (!res.ok) {
-                    alert(data.message || 'Error al sellar la cápsula. Verifica la fecha.');
+                    window.showAlert({ title: 'Error en la cápsula', message: data.message || 'Error al sellar la cápsula. Verifica la fecha.', type: 'error' });
                     return;
                 }
 
                 form.reset();
                 drawer.hidden = true;
                 await fetchCapsules();
+                window.refreshPersonalStats?.();
             } catch (err) {
                 console.error('Error al crear cápsula:', err);
-                alert('No se pudo guardar la cápsula.');
+                window.showAlert({ title: 'Error', message: 'No se pudo guardar la cápsula.', type: 'error' });
             } finally {
                 if (submitBtn) {
                     submitBtn.disabled = false;

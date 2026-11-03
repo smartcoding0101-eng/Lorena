@@ -1,4 +1,28 @@
     <div id="romantic-splash" class="romantic-splash" aria-modal="true" role="dialog" aria-label="Bienvenida al Jardín de Carla Lorena">
+        <script>
+            (function() {
+                try {
+                    var search = window.location.search || '';
+                    if (search.indexOf('splash=1') !== -1 || search.indexOf('splash=force') !== -1) return;
+                    var INACTIVITY_LIMIT_MS = 20 * 60 * 1000; // 20 minutos de inactividad
+                    var lastActive = parseInt(localStorage.getItem('carla_splash_last_active') || '0', 10);
+                    var splashSeen = localStorage.getItem('carla_splash_seen');
+                    var now = Date.now();
+                    var currentHash = (window.location.hash || '').replace(/^#/, '').trim();
+                    var isHomeEntry = !currentHash || currentHash === 'inicio';
+                    var isInactive = !lastActive || (now - lastActive) >= INACTIVITY_LIMIT_MS;
+
+                    // Si ya se mostró y el usuario sigue activo (o navega a sección interna), ocultar inmediatamente sin flash
+                    if ((splashSeen && !isInactive) || (!isHomeEntry && splashSeen)) {
+                        var splashEl = document.getElementById('romantic-splash');
+                        if (splashEl) {
+                            splashEl.style.display = 'none';
+                            splashEl.setAttribute('data-suppressed', 'true');
+                        }
+                    }
+                } catch (e) {}
+            })();
+        </script>
         <div class="splash-backdrop">
             <!-- Aurora Borealis luminosa flotante -->
             <div class="splash-aurora-glow g-1" aria-hidden="true"></div>
@@ -24,9 +48,9 @@
                 <svg viewBox="0 0 24 24" fill="none">
                     <path d="M12 12C10 7 4 4 2 8C0 12 7 15 12 12Z" fill="url(#bfWingRose)"/>
                     <path d="M12 12C14 7 20 4 22 8C24 12 17 15 12 12Z" fill="url(#bfWingRose)"/>
-                    <path d="M12 12C10 16 5 19 4 16C3 13 9 13 12 12Z" fill="#f43f5e" opacity="0.75"/>
-                    <path d="M12 12C14 16 19 19 20 16C21 13 15 13 12 12Z" fill="#f43f5e" opacity="0.75"/>
-                    <ellipse cx="12" cy="12" rx="1" ry="4" fill="#881337"/>
+                    <path d="M12 12C10 16 5 19 4 16C3 13 9 13 12 12Z" fill="#ff3e9a" opacity="0.75"/>
+                    <path d="M12 12C14 16 19 19 20 16C21 13 15 13 12 12Z" fill="#ff3e9a" opacity="0.75"/>
+                    <ellipse cx="12" cy="12" rx="1" ry="4" fill="#3b0a2a"/>
                 </svg>
             </div>
             <div class="splash-flutter-butterfly bf-center-fly" aria-hidden="true">
@@ -41,33 +65,33 @@
             <div class="splash-ladybug lb-top-right" aria-hidden="true" title="Mariquita de la fortuna">
                 <svg viewBox="0 0 26 26" fill="none">
                     <!-- Cabeza y antenas -->
-                    <circle cx="13" cy="6" r="3.5" fill="#1e1b18"/>
-                    <path d="M11 4 L8 2 M15 4 L18 2" stroke="#1e1b18" stroke-width="1.2" stroke-linecap="round"/>
+                    <circle cx="13" cy="6" r="3.5" fill="#260419"/>
+                    <path d="M11 4 L8 2 M15 4 L18 2" stroke="#260419" stroke-width="1.2" stroke-linecap="round"/>
                     <!-- Cuerpo rojo brillante -->
-                    <circle cx="13" cy="14" r="9" fill="#e11d48"/>
+                    <circle cx="13" cy="14" r="9" fill="#ff3e9a"/>
                     <!-- Línea de alas -->
-                    <line x1="13" y1="5.5" x2="13" y2="23" stroke="#1e1b18" stroke-width="1.2"/>
+                    <line x1="13" y1="5.5" x2="13" y2="23" stroke="#260419" stroke-width="1.2"/>
                     <!-- Manchas negras de la mariquita -->
-                    <circle cx="9.5" cy="11.5" r="1.6" fill="#1e1b18"/>
-                    <circle cx="16.5" cy="11.5" r="1.6" fill="#1e1b18"/>
-                    <circle cx="8" cy="16.5" r="1.5" fill="#1e1b18"/>
-                    <circle cx="18" cy="16.5" r="1.5" fill="#1e1b18"/>
-                    <circle cx="13" cy="19.5" r="1.4" fill="#1e1b18"/>
+                    <circle cx="9.5" cy="11.5" r="1.6" fill="#260419"/>
+                    <circle cx="16.5" cy="11.5" r="1.6" fill="#260419"/>
+                    <circle cx="8" cy="16.5" r="1.5" fill="#260419"/>
+                    <circle cx="18" cy="16.5" r="1.5" fill="#260419"/>
+                    <circle cx="13" cy="19.5" r="1.4" fill="#260419"/>
                     <!-- Brillo de caparazón -->
                     <ellipse cx="10" cy="10" rx="2" ry="3.5" transform="rotate(-30 10 10)" fill="#ffffff" opacity="0.45"/>
                 </svg>
             </div>
             <div class="splash-ladybug lb-bottom-left" aria-hidden="true" title="Mariquita de la paz">
                 <svg viewBox="0 0 26 26" fill="none">
-                    <circle cx="13" cy="6" r="3.5" fill="#1e1b18"/>
-                    <path d="M11 4 L8 2 M15 4 L18 2" stroke="#1e1b18" stroke-width="1.2" stroke-linecap="round"/>
-                    <circle cx="13" cy="14" r="9" fill="#f43f5e"/>
-                    <line x1="13" y1="5.5" x2="13" y2="23" stroke="#1e1b18" stroke-width="1.2"/>
-                    <circle cx="9.5" cy="11.5" r="1.6" fill="#1e1b18"/>
-                    <circle cx="16.5" cy="11.5" r="1.6" fill="#1e1b18"/>
-                    <circle cx="8" cy="16.5" r="1.5" fill="#1e1b18"/>
-                    <circle cx="18" cy="16.5" r="1.5" fill="#1e1b18"/>
-                    <circle cx="13" cy="19.5" r="1.4" fill="#1e1b18"/>
+                    <circle cx="13" cy="6" r="3.5" fill="#260419"/>
+                    <path d="M11 4 L8 2 M15 4 L18 2" stroke="#260419" stroke-width="1.2" stroke-linecap="round"/>
+                    <circle cx="13" cy="14" r="9" fill="#ff3e9a"/>
+                    <line x1="13" y1="5.5" x2="13" y2="23" stroke="#260419" stroke-width="1.2"/>
+                    <circle cx="9.5" cy="11.5" r="1.6" fill="#260419"/>
+                    <circle cx="16.5" cy="11.5" r="1.6" fill="#260419"/>
+                    <circle cx="8" cy="16.5" r="1.5" fill="#260419"/>
+                    <circle cx="18" cy="16.5" r="1.5" fill="#260419"/>
+                    <circle cx="13" cy="19.5" r="1.4" fill="#260419"/>
                     <ellipse cx="10" cy="10" rx="2" ry="3.5" transform="rotate(-30 10 10)" fill="#ffffff" opacity="0.45"/>
                 </svg>
             </div>
@@ -88,13 +112,13 @@
                         <svg viewBox="0 0 100 100" fill="none">
                             <defs>
                                 <radialGradient id="sunCenterMini1" cx="50%" cy="50%" r="50%">
-                                    <stop offset="0%" stop-color="#451a03"/>
-                                    <stop offset="100%" stop-color="#1c0a00"/>
+                                    <stop offset="0%" stop-color="#3b0a2a"/>
+                                    <stop offset="100%" stop-color="#260419"/>
                                 </radialGradient>
                                 <linearGradient id="sunPetalGold1" x1="0" y1="0" x2="1" y2="1">
                                     <stop offset="0%" stop-color="#fef08a"/>
                                     <stop offset="60%" stop-color="#f59e0b"/>
-                                    <stop offset="100%" stop-color="#d97706"/>
+                                    <stop offset="100%" stop-color="#e0ab00"/>
                                 </linearGradient>
                             </defs>
                             <path d="M50 18 L53 38 L50 42 L47 38 Z" fill="url(#sunPetalGold1)"/>
@@ -116,18 +140,18 @@
                             <defs>
                                 <radialGradient id="splashRoseGlow" cx="50%" cy="45%" r="50%">
                                     <stop offset="0%" stop-color="#fb7185"/>
-                                    <stop offset="50%" stop-color="#e11d48"/>
-                                    <stop offset="85%" stop-color="#9f1239"/>
-                                    <stop offset="100%" stop-color="#4c0519"/>
+                                    <stop offset="50%" stop-color="#ff3e9a"/>
+                                    <stop offset="85%" stop-color="#b8126c"/>
+                                    <stop offset="100%" stop-color="#3b0a2a"/>
                                 </radialGradient>
                                 <radialGradient id="splashRoseHeart" cx="50%" cy="50%" r="40%">
                                     <stop offset="0%" stop-color="#ffffff"/>
                                     <stop offset="45%" stop-color="#fed7aa"/>
-                                    <stop offset="100%" stop-color="#e11d48"/>
+                                    <stop offset="100%" stop-color="#ff3e9a"/>
                                 </radialGradient>
                                 <linearGradient id="splashStem" x1="0" y1="0" x2="0" y2="1">
-                                    <stop offset="0%" stop-color="#4ade80"/>
-                                    <stop offset="100%" stop-color="#166534"/>
+                                    <stop offset="0%" stop-color="#34d399"/>
+                                    <stop offset="100%" stop-color="#1b7a5a"/>
                                 </linearGradient>
                                 <linearGradient id="bfWingGold" x1="0" y1="0" x2="1" y2="1">
                                     <stop offset="0%" stop-color="#fef08a"/>
@@ -135,18 +159,18 @@
                                 </linearGradient>
                                 <linearGradient id="bfWingRose" x1="0" y1="0" x2="1" y2="1">
                                     <stop offset="0%" stop-color="#fbcfe8"/>
-                                    <stop offset="100%" stop-color="#e11d48"/>
+                                    <stop offset="100%" stop-color="#ff3e9a"/>
                                 </linearGradient>
                             </defs>
                             <!-- Tallo & Hojas con Rocío -->
                             <path d="M50 68 C50 78 52 89 51 98" stroke="url(#splashStem)" stroke-width="3.5" stroke-linecap="round"/>
-                            <path d="M49 76 C40 73 33 78 30 83 C36 84 44 80 49 76Z" fill="#22c55e"/>
-                            <path d="M51 82 C60 79 67 83 70 89 C63 90 56 87 51 82Z" fill="#15803d"/>
+                            <path d="M49 76 C40 73 33 78 30 83 C36 84 44 80 49 76Z" fill="#34d399"/>
+                            <path d="M51 82 C60 79 67 83 70 89 C63 90 56 87 51 82Z" fill="#26a57b"/>
                             <!-- Pétalos de Rosa Sedosa -->
                             <path d="M30 46 C24 35 38 24 50 30 C62 24 76 35 70 46 C64 58 36 58 30 46Z" fill="url(#splashRoseGlow)"/>
                             <path d="M23 48 C21 38 31 31 43 33 C41 45 31 55 23 48Z" fill="url(#splashRoseGlow)" opacity="0.95"/>
                             <path d="M77 48 C79 38 69 31 57 33 C59 45 69 55 77 48Z" fill="url(#splashRoseGlow)" opacity="0.95"/>
-                            <path d="M32 55 C26 64 44 73 50 68 C56 73 74 64 68 55 C60 63 40 63 32 55Z" fill="#be123c"/>
+                            <path d="M32 55 C26 64 44 73 50 68 C56 73 74 64 68 55 C60 63 40 63 32 55Z" fill="#b8126c"/>
                             <!-- Corazón Iluminado -->
                             <circle cx="50" cy="46" r="14" fill="url(#splashRoseHeart)"/>
                             <circle cx="50" cy="46" r="8" fill="#ffffff" opacity="0.8"/>

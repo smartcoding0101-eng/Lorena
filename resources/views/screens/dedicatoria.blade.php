@@ -168,7 +168,7 @@
                                 <div class="signature-line">
                                     <span class="sig-seal" aria-hidden="true">♡</span>
                                     <div class="sig-names">
-                                        <strong>Con todo mi amor y cariño para mi vida, la mujer que amo:</strong>
+                                        <strong>De Adrián para Carla con mucho amor — Para mi vida, la mujer que amo:</strong>
                                         <span>Tu Ingeniero Julio Adrián</span>
                                     </div>
                                 </div>
@@ -205,8 +205,8 @@
                 <section class="dedication-section-block" id="dedication-block-promesas" data-section-category="promesas">
                     <div class="section-title-wrap">
                         <span class="section-eyebrow">PACTO DE AMOR Y CUIDADO</span>
-                        <h2 class="section-heading-h2">Las 4 Promesas Eternas del Jardín</h2>
-                        <p class="section-desc">Principios grabados en la roca y en las flores de este santuario, dedicados a tu paz y alegría.</p>
+                        <h2 class="section-heading-h2">Las 4 Promesas Eternas de Amor de Adrián para Carla</h2>
+                        <p class="section-desc">Principios grabados en el corazón de este santuario: el pacto inquebrantable de Adrián para Carla con mucho amor.</p>
                     </div>
 
                     <div class="dedication-pillars-grid">
@@ -363,8 +363,8 @@
                 <section class="dedication-section-block" id="dedication-block-sobres" data-section-category="sobres">
                     <div class="section-title-wrap">
                         <span class="section-eyebrow">PALABRAS PARA CUANDO LAS NECESITES</span>
-                        <h2 class="section-heading-h2">Cartas de Amor para Cada Ocasión</h2>
-                        <p class="section-desc">Toca cada sobre para desatar su lazo y leer el mensaje íntimo guardado para ti.</p>
+                        <h2 class="section-heading-h2">Cartas de Amor de Adrián para Carla</h2>
+                        <p class="section-desc">Toca cada sobre para desatar su lazo y leer las palabras entregadas de Adrián para Carla con mucho amor.</p>
                     </div>
 
                     <div class="dedication-letters-grid">
@@ -384,7 +384,7 @@
                             </button>
                             <div class="envelope-unfolded-content" hidden>
                                 <p class="letter-body-p">«Mi vida, si la noche se hace larga o tus pensamientos no se detienen, inhala hondo y suelta toda carga. Cierra los ojos con la certeza de que estás cuidada, que no estás sola y que en mi corazón habitas con la ternura más dulce. Que las estrellas velen tu descanso, mi reina.»</p>
-                                <span class="letter-sig">— Con amor, Adrián</span>
+                                <span class="letter-sig">— De Adrián para Carla con mucho amor ♡</span>
                             </div>
                         </article>
 
@@ -404,7 +404,7 @@
                             </button>
                             <div class="envelope-unfolded-content" hidden>
                                 <p class="letter-body-p">«¡Qué orgullo inmenso siento por ti, Lorena! Tu esfuerzo, tu inteligencia y tu nobleza son gigantescos. Ver tu rostro iluminado por la felicidad es la mejor recompensa de mi vida. Sigue brillando, porque el mundo entero es más hermoso con tu sonrisa.»</p>
-                                <span class="letter-sig">— Con amor, Adrián</span>
+                                <span class="letter-sig">— De Adrián para Carla con mucho amor ♡</span>
                             </div>
                         </article>
 
@@ -424,7 +424,7 @@
                             </button>
                             <div class="envelope-unfolded-content" hidden>
                                 <p class="letter-body-p">«Respira tranquila, amor mío. Los días difíciles solo son nubes pasajeras que no pueden opacar tu grandeza. No tienes que demostrarle nada al mundo ni llevar todas las cargas sobre tus hombros. Hoy solo descansa: yo estoy aquí para cuidarte y recordarte cuánto vales.»</p>
-                                <span class="letter-sig">— Con amor, Adrián</span>
+                                <span class="letter-sig">— De Adrián para Carla con mucho amor ♡</span>
                             </div>
                         </article>
 
@@ -444,7 +444,7 @@
                             </button>
                             <div class="envelope-unfolded-content" hidden>
                                 <p class="letter-body-p">«No necesito esperar un aniversario ni una ocasión festiva para decirte lo mucho que te amo. Te amo en los martes corrientes, en las mañanas ocupadas y en los atardeceres en calma. Eres la mujer de mi vida y mi más grande bendición.»</p>
-                                <span class="letter-sig">— Con amor, Adrián</span>
+                                <span class="letter-sig">— De Adrián para Carla con mucho amor ♡</span>
                             </div>
                         </article>
                     </div>

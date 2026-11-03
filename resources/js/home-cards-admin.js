@@ -70,7 +70,7 @@ export function initHomeCardsAdmin() {
     // Delegación de eventos para Editar y Eliminar
     const grid = document.getElementById('home-space-grid');
     if (grid) {
-        grid.addEventListener('click', (e) => {
+        grid.addEventListener('click', async (e) => {
             const editBtn = e.target.closest('.btn-home-card-edit');
             const deleteBtn = e.target.closest('.btn-home-card-delete');
 
@@ -103,7 +103,7 @@ export function initHomeCardsAdmin() {
                 const card = deleteBtn.closest('.space-card');
                 const title = card ? card.dataset.cardTitle : 'esta tarjeta';
 
-                if (!confirm(`¿Eliminar la tarjeta "${title}" del inicio?`)) {
+                if (!await window.showConfirm({ title: '¿Eliminar tarjeta?', message: `¿Eliminar la tarjeta "${title}" del inicio?`, confirmText: 'Sí, eliminar', type: 'danger' })) {
                     return;
                 }
 
@@ -123,14 +123,14 @@ export function initHomeCardsAdmin() {
                     if (data.success) {
                         window.location.reload();
                     } else {
-                        alert(data.message || 'No se pudo eliminar la tarjeta.');
+                        window.showAlert({ title: 'Error', message: data.message || 'No se pudo eliminar la tarjeta.', type: 'error' });
                         deleteBtn.disabled = false;
                         deleteBtn.textContent = '🗑️';
                     }
                 })
                 .catch(err => {
                     console.error('Error al eliminar tarjeta:', err);
-                    alert('Ocurrió un error al intentar eliminar la tarjeta.');
+                    window.showAlert({ title: 'Error', message: 'Ocurrió un error al intentar eliminar la tarjeta.', type: 'error' });
                     deleteBtn.disabled = false;
                     deleteBtn.textContent = '🗑️';
                 });
@@ -187,7 +187,7 @@ export function initHomeCardsAdmin() {
         })
         .catch(err => {
             console.error('Error al guardar tarjeta:', err);
-            alert(err.message || 'Ocurrió un error al guardar la tarjeta.');
+            window.showAlert({ title: 'Error', message: err.message || 'Ocurrió un error al guardar la tarjeta.', type: 'error' });
             submitBtn.disabled = false;
             saveBtnText.textContent = originalText;
         });

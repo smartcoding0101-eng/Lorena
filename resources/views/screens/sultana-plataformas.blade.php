@@ -37,7 +37,7 @@
                     <div class="platformer-love-banner" data-platformer-love-banner>
                         <span class="love-banner-icon">💌</span>
                         <div class="love-banner-content">
-                            <strong data-platformer-letter-title>Carta de Adrián para Carla Lorena</strong>
+                            <strong data-platformer-letter-title>De Adrián para Carla con mucho amor</strong>
                             <p data-platformer-letter-snippet>Que cada salto te recuerde lo valiente y maravillosa que eres...</p>
                         </div>
                         <button type="button" class="love-banner-action" data-platformer-read-letter>Leer completa</button>

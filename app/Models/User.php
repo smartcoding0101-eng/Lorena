@@ -82,4 +82,9 @@ class User extends Authenticatable
     {
         return $this->hasMany(TimeCapsule::class);
     }
+
+    public function heroPhotos(): HasMany
+    {
+        return $this->hasMany(GardenHeroPhoto::class)->orderBy('sort_order')->orderByDesc('id');
+    }
 }

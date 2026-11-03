@@ -36,11 +36,11 @@
                         <svg class="diary-emblem-svg" viewBox="0 0 120 120" fill="none">
                             <circle cx="60" cy="60" r="52" fill="#fff5f7" stroke="#e4b8c3" stroke-width="1.5" stroke-dasharray="4 4"/>
                             <rect x="30" y="26" width="60" height="70" rx="10" fill="#ffffff" stroke="#9e2a47" stroke-width="2.2"/>
-                            <path d="M40 26V96" stroke="#d4af37" stroke-width="2"/>
+                            <path d="M40 26V96" stroke="#e0ab00" stroke-width="2"/>
                             <path d="M48 44H78M48 54H74M48 64H70" stroke="#c88a99" stroke-width="1.8" stroke-linecap="round"/>
-                            <circle cx="62" cy="79" r="10" fill="#fff0f3" stroke="#9e2a47" stroke-width="2"/>
-                            <path d="M58 79C58 76.5 60 74.5 62 74.5C64 74.5 66 76.5 66 79C66 82 62 84.5 62 84.5C62 84.5 58 82 58 79Z" fill="#be123c"/>
-                            <path d="M78 20C85 20 91 26 91 33C91 41 79 51 74 56L70 52C75 47 84 38 84 32C84 28 81 25 78 25" stroke="#d4af37" stroke-width="2" stroke-linecap="round"/>
+                            <circle cx="62" cy="79" r="10" fill="#ffeaf3" stroke="#9e2a47" stroke-width="2"/>
+                            <path d="M58 79C58 76.5 60 74.5 62 74.5C64 74.5 66 76.5 66 79C66 82 62 84.5 62 84.5C62 84.5 58 82 58 79Z" fill="#b8126c"/>
+                            <path d="M78 20C85 20 91 26 91 33C91 41 79 51 74 56L70 52C75 47 84 38 84 32C84 28 81 25 78 25" stroke="#e0ab00" stroke-width="2" stroke-linecap="round"/>
                         </svg>
                         <span class="diary-emblem-caption">CÓDICE DE TERCIOPELO</span>
                         <small>Guardado con llave de oro rosa</small>
@@ -65,7 +65,7 @@
                                 <div class="diary-panel-icon" aria-hidden="true">
                                     <svg viewBox="0 0 28 28" fill="none">
                                         <path d="M6 22L10 21L21 10C22.1 8.9 22.1 7.1 21 6C19.9 4.9 18.1 4.9 17 6L6 17L5 21Z" stroke="#9e2a47" stroke-width="1.8" stroke-linejoin="round"/>
-                                        <path d="M15.5 7.5L19.5 11.5" stroke="#d4af37" stroke-width="1.8"/>
+                                        <path d="M15.5 7.5L19.5 11.5" stroke="#e0ab00" stroke-width="1.8"/>
                                         <path d="M4 24H24" stroke="#9e2a47" stroke-width="1.8" stroke-linecap="round"/>
                                     </svg>
                                 </div>
@@ -166,8 +166,8 @@
                                         <div class="diary-empty-icon" aria-hidden="true">
                                             <svg viewBox="0 0 64 64" fill="none">
                                                 <rect x="14" y="10" width="36" height="44" rx="6" fill="#fff5f7" stroke="#9e2a47" stroke-width="2"/>
-                                                <path d="M22 22H42M22 30H38M22 38H34" stroke="#d4af37" stroke-width="2" stroke-linecap="round"/>
-                                                <circle cx="32" cy="46" r="3" fill="#be123c"/>
+                                                <path d="M22 22H42M22 30H38M22 38H34" stroke="#e0ab00" stroke-width="2" stroke-linecap="round"/>
+                                                <circle cx="32" cy="46" r="3" fill="#b8126c"/>
                                             </svg>
                                         </div>
                                         <h3>Tu códice íntimo aguarda su primera página</h3>

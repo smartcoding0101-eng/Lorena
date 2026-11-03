@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Album;
 use App\Models\AlbumPhoto;
+use App\Models\GardenHeroPhoto;
 use App\Models\GardenMedia;
 use App\Models\GardenPost;
 use App\Models\GardenProfile;
@@ -73,15 +74,34 @@ class AdminController extends Controller
         return response()->json(['user' => $user]);
     }
 
+    protected function resolveAdminProfile(): GardenProfile
+    {
+        $user = auth()->user()
+            ?? User::where('is_admin', true)->first()
+            ?? User::first();
+
+        if (! $user) {
+            abort(404, 'No se encontró un usuario administrador registrado en el sistema.');
+        }
+
+        return GardenProfile::firstOrCreate(
+            ['user_id' => $user->id],
+            [
+                'user_id' => $user->id,
+                'status' => 'draft',
+            ]
+        );
+    }
+
     public function profile()
     {
-        $profile = GardenProfile::with('user')->firstOrNew(['user_id' => 1]);
+        $profile = $this->resolveAdminProfile();
         return response()->json(['profile' => $profile->load('user')]);
     }
 
     public function updateProfile(Request $request)
     {
-        $profile = GardenProfile::firstOrCreate(['user_id' => 1]);
+        $profile = $this->resolveAdminProfile();
 
         $validated = $request->validate([
             'profession' => 'nullable|string|max:160',
@@ -94,7 +114,7 @@ class AdminController extends Controller
         ]);
 
         $profile->update($validated);
-        return response()->json(['profile' => $profile]);
+        return response()->json(['profile' => $profile->fresh()->load('user')]);
     }
 
     public function uploadProfilePhoto(Request $request)
@@ -103,42 +123,130 @@ class AdminController extends Controller
             'featured_photo' => 'required|file|image|max:10240',
         ]);
 
-        $profile = GardenProfile::firstOrCreate(['user_id' => 1]);
+        $profile = $this->resolveAdminProfile();
 
         if ($profile->featured_photo_path) {
             Storage::disk('garden_private')->delete($profile->featured_photo_path);
         }
 
-        $path = $request->file('featured_photo')->store('profiles/' . auth()->id(), 'garden_private');
+        $userId = $profile->user_id;
+        $path = $request->file('featured_photo')->store('profiles/' . $userId, 'garden_private');
         $profile->update(['featured_photo_path' => $path]);
 
-        return response()->json(['profile' => $profile]);
+        // Sincronizar también con la galería del hero
+        GardenHeroPhoto::firstOrCreate(
+            ['user_id' => $userId, 'photo_path' => $path],
+            [
+                'caption' => 'Retrato principal',
+                'sort_order' => 0,
+                'is_active' => true,
+            ]
+        );
+
+        return response()->json([
+            'profile' => $profile->fresh()->load('user'),
+            'photo_url' => $profile->fresh()->featured_photo_url,
+        ]);
     }
 
     public function deleteProfilePhoto()
     {
-        $profile = GardenProfile::firstOrCreate(['user_id' => 1]);
+        $profile = $this->resolveAdminProfile();
 
         if ($profile->featured_photo_path) {
             Storage::disk('garden_private')->delete($profile->featured_photo_path);
             $profile->update(['featured_photo_path' => null]);
         }
 
-        return response()->json(['profile' => $profile]);
+        return response()->json(['profile' => $profile->fresh()->load('user')]);
     }
 
     public function publishProfile()
     {
-        $profile = GardenProfile::firstOrCreate(['user_id' => 1]);
+        $profile = $this->resolveAdminProfile();
         $profile->update(['status' => 'published']);
-        return response()->json(['profile' => $profile]);
+        return response()->json(['profile' => $profile->fresh()->load('user')]);
     }
 
     public function unpublishProfile()
     {
-        $profile = GardenProfile::firstOrCreate(['user_id' => 1]);
+        $profile = $this->resolveAdminProfile();
         $profile->update(['status' => 'draft']);
-        return response()->json(['profile' => $profile]);
+        return response()->json(['profile' => $profile->fresh()->load('user')]);
+    }
+
+    public function heroPhotosIndex()
+    {
+        $photos = GardenHeroPhoto::orderBy('sort_order')->orderByDesc('id')->get();
+        return response()->json(['photos' => $photos]);
+    }
+
+    public function heroPhotosStore(Request $request)
+    {
+        $request->validate([
+            'photos' => 'nullable|array|max:50',
+            'photos.*' => 'file|image|max:20480',
+            'hero_photos' => 'nullable|array|max:50',
+            'hero_photos.*' => 'file|image|max:20480',
+            'photo' => 'nullable|file|image|max:20480',
+            'caption' => 'nullable|string|max:255',
+        ]);
+
+        $userId = auth()->id() ?? User::where('is_admin', true)->first()?->id ?? 1;
+        $files = [];
+
+        if ($request->hasFile('photos')) {
+            $files = $request->file('photos');
+        } elseif ($request->hasFile('hero_photos')) {
+            $files = $request->file('hero_photos');
+        } elseif ($request->hasFile('photo')) {
+            $files = [$request->file('photo')];
+        }
+
+        if (empty($files)) {
+            return response()->json(['message' => 'No se enviaron fotografías válidas.'], 422);
+        }
+
+        $maxOrder = GardenHeroPhoto::max('sort_order') ?? 0;
+        $uploaded = [];
+
+        foreach ($files as $index => $file) {
+            $path = $file->store('hero/' . $userId, 'garden_private');
+            $heroPhoto = GardenHeroPhoto::create([
+                'user_id' => $userId,
+                'photo_path' => $path,
+                'caption' => $request->input('caption'),
+                'sort_order' => $maxOrder + $index + 1,
+                'is_active' => true,
+            ]);
+            $uploaded[] = $heroPhoto;
+        }
+
+        // Si el perfil no tiene fotografía destacada aún, asignar la primera
+        $profile = $this->resolveAdminProfile();
+        if (! $profile->featured_photo_path && count($uploaded) > 0) {
+            $profile->update(['featured_photo_path' => $uploaded[0]->photo_path]);
+        }
+
+        return response()->json([
+            'message' => count($uploaded) . ' fotografía(s) agregada(s) al hero principal con éxito.',
+            'photos' => $uploaded,
+        ], 201);
+    }
+
+    public function heroPhotosDestroy(GardenHeroPhoto $heroPhoto)
+    {
+        if ($heroPhoto->photo_path) {
+            Storage::disk('garden_private')->delete($heroPhoto->photo_path);
+        }
+        $heroPhoto->delete();
+        return response()->json(['message' => 'Fotografía eliminada del hero']);
+    }
+
+    public function heroPhotosToggle(GardenHeroPhoto $heroPhoto)
+    {
+        $heroPhoto->update(['is_active' => ! $heroPhoto->is_active]);
+        return response()->json(['photo' => $heroPhoto]);
     }
 
     public function postsIndex(Request $request)
@@ -545,4 +653,278 @@ class AdminController extends Controller
         }
         return $url;
     }
+
+    // ==========================================
+    // GALERÍA DE ARTE Y MOMENTOS (DINÁMICA)
+    // ==========================================
+    public function galleryIndex()
+    {
+        $items = \App\Models\GardenGalleryItem::orderBy('sort_order')->orderByDesc('id')->get()->map(function ($item) {
+            return [
+                'id' => $item->id,
+                'title' => $item->title,
+                'category' => $item->category,
+                'pill' => $item->pill,
+                'tag_label' => $item->tag_label,
+                'quote' => $item->quote,
+                'image_path' => $item->image_path,
+                'image_url' => $item->image_url,
+                'video_url' => $item->video_url,
+                'sort_order' => $item->sort_order,
+                'is_active' => $item->is_active,
+                'created_at' => $item->created_at?->format('d/m/Y H:i'),
+            ];
+        });
+
+        return response()->json(['items' => $items]);
+    }
+
+    public function galleryStore(Request $request)
+    {
+        $request->validate([
+            'title' => 'required|string|max:255',
+            'category' => 'required|string|in:foto,video,familia,amigos,especiales',
+            'pill' => 'nullable|string|max:100',
+            'tag_label' => 'nullable|string|max:100',
+            'quote' => 'nullable|string|max:1000',
+            'image' => 'nullable|image|max:20480',
+            'image_url' => 'nullable|string|max:1000',
+            'video_url' => 'nullable|string|max:1000',
+            'sort_order' => 'nullable|integer',
+        ]);
+
+        $imagePath = $request->input('image_url');
+        if ($request->hasFile('image')) {
+            $path = $request->file('image')->store('gallery', 'public');
+            $imagePath = $path;
+        }
+
+        if (empty($imagePath)) {
+            return response()->json(['message' => 'Debes proporcionar una imagen o enlace.'], 422);
+        }
+
+        $item = \App\Models\GardenGalleryItem::create([
+            'user_id' => Auth::id(),
+            'title' => $request->title,
+            'category' => $request->category,
+            'pill' => $request->pill ?: 'Colección Carla',
+            'tag_label' => $request->tag_label ?: 'FOTOGRAFÍA BOTÁNICA',
+            'quote' => $request->quote,
+            'image_path' => $imagePath,
+            'video_url' => $request->video_url,
+            'sort_order' => $request->sort_order ?? 0,
+            'is_active' => true,
+        ]);
+
+        return response()->json([
+            'message' => 'Obra agregada a la galería con éxito',
+            'item' => $item->fresh(),
+        ], 201);
+    }
+
+    public function galleryUpdate(Request $request, \App\Models\GardenGalleryItem $item)
+    {
+        $request->validate([
+            'title' => 'sometimes|required|string|max:255',
+            'category' => 'sometimes|required|string|in:foto,video,familia,amigos,especiales',
+            'pill' => 'nullable|string|max:100',
+            'tag_label' => 'nullable|string|max:100',
+            'quote' => 'nullable|string|max:1000',
+            'image' => 'nullable|image|max:20480',
+            'image_url' => 'nullable|string|max:1000',
+            'video_url' => 'nullable|string|max:1000',
+            'sort_order' => 'nullable|integer',
+            'is_active' => 'nullable|boolean',
+        ]);
+
+        $data = $request->only(['title', 'category', 'pill', 'tag_label', 'quote', 'video_url', 'sort_order', 'is_active']);
+
+        if ($request->hasFile('image')) {
+            if ($item->image_path && Storage::disk('public')->exists($item->image_path)) {
+                Storage::disk('public')->delete($item->image_path);
+            }
+            $data['image_path'] = $request->file('image')->store('gallery', 'public');
+        } elseif ($request->filled('image_url')) {
+            $data['image_path'] = $request->input('image_url');
+        }
+
+        $item->update($data);
+
+        return response()->json([
+            'message' => 'Obra actualizada correctamente',
+            'item' => $item->fresh(),
+        ]);
+    }
+
+    public function galleryDestroy(\App\Models\GardenGalleryItem $item)
+    {
+        if ($item->image_path && Storage::disk('public')->exists($item->image_path)) {
+            Storage::disk('public')->delete($item->image_path);
+        }
+        $item->delete();
+
+        return response()->json(['message' => 'Obra eliminada de la galería']);
+    }
+
+    // ==========================================
+    // DESTINOS & SUEÑOS (DINÁMICOS)
+    // ==========================================
+    public function destinationsIndex()
+    {
+        $destinations = \App\Models\GardenDestination::orderBy('sort_order')->orderByDesc('id')->get()->map(function ($d) {
+            return [
+                'id' => $d->id,
+                'title' => $d->title,
+                'location_tag' => $d->location_tag,
+                'description' => $d->description,
+                'image_path' => $d->image_path,
+                'image_url' => $d->image_url,
+                'sort_order' => $d->sort_order,
+                'is_active' => $d->is_active,
+            ];
+        });
+
+        return response()->json(['destinations' => $destinations]);
+    }
+
+    public function destinationsStore(Request $request)
+    {
+        $request->validate([
+            'title' => 'required|string|max:255',
+            'location_tag' => 'required|string|max:120',
+            'description' => 'required|string|max:1000',
+            'image' => 'nullable|image|max:20480',
+            'image_url' => 'nullable|string|max:1000',
+            'sort_order' => 'nullable|integer',
+        ]);
+
+        $imagePath = $request->input('image_url');
+        if ($request->hasFile('image')) {
+            $imagePath = $request->file('image')->store('destinations', 'public');
+        }
+
+        if (empty($imagePath)) {
+            return response()->json(['message' => 'Debes proporcionar una imagen o enlace para el destino.'], 422);
+        }
+
+        $destination = \App\Models\GardenDestination::create([
+            'user_id' => Auth::id(),
+            'title' => $request->title,
+            'location_tag' => $request->location_tag,
+            'description' => $request->description,
+            'image_path' => $imagePath,
+            'sort_order' => $request->sort_order ?? 0,
+            'is_active' => true,
+        ]);
+
+        return response()->json([
+            'message' => 'Destino agregado al mapa de sueños',
+            'destination' => $destination->fresh(),
+        ], 201);
+    }
+
+    public function destinationsUpdate(Request $request, \App\Models\GardenDestination $destination)
+    {
+        $request->validate([
+            'title' => 'sometimes|required|string|max:255',
+            'location_tag' => 'sometimes|required|string|max:120',
+            'description' => 'sometimes|required|string|max:1000',
+            'image' => 'nullable|image|max:20480',
+            'image_url' => 'nullable|string|max:1000',
+            'sort_order' => 'nullable|integer',
+            'is_active' => 'nullable|boolean',
+        ]);
+
+        $data = $request->only(['title', 'location_tag', 'description', 'sort_order', 'is_active']);
+
+        if ($request->hasFile('image')) {
+            if ($destination->image_path && Storage::disk('public')->exists($destination->image_path)) {
+                Storage::disk('public')->delete($destination->image_path);
+            }
+            $data['image_path'] = $request->file('image')->store('destinations', 'public');
+        } elseif ($request->filled('image_url')) {
+            $data['image_path'] = $request->input('image_url');
+        }
+
+        $destination->update($data);
+
+        return response()->json([
+            'message' => 'Destino actualizado con éxito',
+            'destination' => $destination->fresh(),
+        ]);
+    }
+
+    public function destinationsDestroy(\App\Models\GardenDestination $destination)
+    {
+        if ($destination->image_path && Storage::disk('public')->exists($destination->image_path)) {
+            Storage::disk('public')->delete($destination->image_path);
+        }
+        $destination->delete();
+
+        return response()->json(['message' => 'Destino eliminado del mapa de sueños']);
+    }
+
+    // ==========================================
+    // POEMAS & PERGAMINOS (DINÁMICOS)
+    // ==========================================
+    public function poemsIndex()
+    {
+        $poems = \App\Models\GardenPoem::orderBy('sort_order')->orderBy('id')->get();
+        return response()->json(['poems' => $poems]);
+    }
+
+    public function poemsStore(Request $request)
+    {
+        $request->validate([
+            'title' => 'required|string|max:255',
+            'mood' => 'nullable|string|max:255',
+            'stanza1' => 'required|string',
+            'stanza2' => 'nullable|string',
+            'signature' => 'nullable|string|max:255',
+            'sort_order' => 'nullable|integer',
+        ]);
+
+        $poem = \App\Models\GardenPoem::create([
+            'user_id' => Auth::id(),
+            'title' => $request->title,
+            'mood' => $request->mood ?: 'Para leer con calma y una sonrisa',
+            'stanza1' => $request->stanza1,
+            'stanza2' => $request->stanza2,
+            'signature' => $request->signature ?: 'Escrito con amor para Carla Lorena',
+            'sort_order' => $request->sort_order ?? 0,
+            'is_active' => true,
+        ]);
+
+        return response()->json([
+            'message' => 'Poema agregado al pergamino',
+            'poem' => $poem,
+        ], 201);
+    }
+
+    public function poemsUpdate(Request $request, \App\Models\GardenPoem $poem)
+    {
+        $request->validate([
+            'title' => 'sometimes|required|string|max:255',
+            'mood' => 'nullable|string|max:255',
+            'stanza1' => 'sometimes|required|string',
+            'stanza2' => 'nullable|string',
+            'signature' => 'nullable|string|max:255',
+            'sort_order' => 'nullable|integer',
+            'is_active' => 'nullable|boolean',
+        ]);
+
+        $poem->update($request->only(['title', 'mood', 'stanza1', 'stanza2', 'signature', 'sort_order', 'is_active']));
+
+        return response()->json([
+            'message' => 'Poema actualizado correctamente',
+            'poem' => $poem,
+        ]);
+    }
+
+    public function poemsDestroy(\App\Models\GardenPoem $poem)
+    {
+        $poem->delete();
+        return response()->json(['message' => 'Poema eliminado']);
+    }
+
 }

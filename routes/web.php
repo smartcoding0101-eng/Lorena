@@ -6,6 +6,7 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\Auth\SessionController;
 use App\Http\Controllers\GardenPostController;
 use App\Http\Controllers\GardenProfileController;
+use App\Http\Controllers\GardenHeroPhotoController;
 use App\Http\Controllers\GardenMediaController;
 use App\Http\Controllers\GardenHomeCardController;
 use App\Http\Controllers\GardenNoteController;
@@ -21,6 +22,9 @@ Route::get('/blog/{slug}', [GardenPostController::class, 'show'])
 Route::get('/profiles/{profile}/featured-photo', [GardenProfileController::class, 'featuredPhoto'])
     ->whereNumber('profile')
     ->name('profiles.featured-photo');
+Route::get('/hero-photos/{heroPhoto}/image', [GardenHeroPhotoController::class, 'show'])
+    ->whereNumber('heroPhoto')
+    ->name('hero-photos.show');
 Route::post('/games/conociendo-a-carla/start', [GardenQuizController::class, 'start'])
     ->middleware('throttle:20,1')
     ->name('garden-quiz.start');
@@ -46,6 +50,25 @@ Route::middleware('guest')->group(function () {
 
 Route::middleware('auth')->group(function () {
     Route::post('/logout', [SessionController::class, 'destroy'])->name('logout');
+
+    Route::get('/personal-stats', function (\Illuminate\Http\Request $request) {
+        $user = $request->user();
+        $albums = $user->albums()->with('photos')->get();
+        $photosCount = max($user->photos()->count(), $albums->sum(fn ($a) => $a->photos->count()));
+
+        return response()->json([
+            'success' => true,
+            'stats' => [
+                'albums' => $albums->count(),
+                'photos' => $photosCount,
+                'favorites' => $user->photos()->where('is_favorite', true)->count(),
+                'diary' => $user->gardenPosts()->where('kind', 'diary')->count(),
+                'capsules' => $user->timeCapsules()->count(),
+                'drafts' => $user->gardenPosts()->where('kind', 'blog')->where('status', 'draft')->count(),
+                'media' => $user->gardenMedia()->count(),
+            ],
+        ]);
+    })->name('personal-stats');
 
     Route::post('/albums', [AlbumController::class, 'store'])->name('albums.store');
     Route::post('/entertainment', [GardenMediaController::class, 'store'])->name('garden-media.store');
@@ -109,6 +132,11 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::post('profile/publish', [AdminController::class, 'publishProfile'])->name('profile.publish');
     Route::post('profile/unpublish', [AdminController::class, 'unpublishProfile'])->name('profile.unpublish');
 
+    Route::get('hero-photos', [AdminController::class, 'heroPhotosIndex'])->name('hero-photos.index');
+    Route::post('hero-photos', [AdminController::class, 'heroPhotosStore'])->name('hero-photos.store');
+    Route::delete('hero-photos/{heroPhoto}', [AdminController::class, 'heroPhotosDestroy'])->name('hero-photos.destroy');
+    Route::post('hero-photos/{heroPhoto}/toggle', [AdminController::class, 'heroPhotosToggle'])->name('hero-photos.toggle');
+
     Route::get('posts', [AdminController::class, 'postsIndex'])->name('posts.index');
     Route::post('posts', [AdminController::class, 'postsStore'])->name('posts.store');
     Route::put('posts/{post}', [AdminController::class, 'postsUpdate'])->name('posts.update');
@@ -142,6 +170,25 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::put('media/{media}', [AdminController::class, 'mediaUpdate'])->name('media.update');
     Route::delete('media/{media}', [AdminController::class, 'mediaDestroy'])->name('media.destroy');
 
+    // Galería Dinámica
+    Route::get('gallery', [AdminController::class, 'galleryIndex'])->name('gallery.index');
+    Route::post('gallery', [AdminController::class, 'galleryStore'])->name('gallery.store');
+    Route::put('gallery/{item}', [AdminController::class, 'galleryUpdate'])->name('gallery.update');
+    Route::delete('gallery/{item}', [AdminController::class, 'galleryDestroy'])->name('gallery.destroy');
+
+    // Destinos Dinámicos (Mapa de Sueños)
+    Route::get('destinations', [AdminController::class, 'destinationsIndex'])->name('destinations.index');
+    Route::post('destinations', [AdminController::class, 'destinationsStore'])->name('destinations.store');
+    Route::put('destinations/{destination}', [AdminController::class, 'destinationsUpdate'])->name('destinations.update');
+    Route::delete('destinations/{destination}', [AdminController::class, 'destinationsDestroy'])->name('destinations.destroy');
+
+    // Poemas Dinámicos (Pergamino de Seda)
+    Route::get('poems', [AdminController::class, 'poemsIndex'])->name('poems.index');
+    Route::post('poems', [AdminController::class, 'poemsStore'])->name('poems.store');
+    Route::put('poems/{poem}', [AdminController::class, 'poemsUpdate'])->name('poems.update');
+    Route::delete('poems/{poem}', [AdminController::class, 'poemsDestroy'])->name('poems.destroy');
+
+
     Route::get('settings', [AdminController::class, 'settings'])->name('settings');
     Route::put('settings', [AdminController::class, 'updateSettings'])->name('settings.update');
 
@@ -168,7 +215,16 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::post('family-memories', [\App\Http\Controllers\FamilySanctuaryController::class, 'storeMemory'])->name('family-memories.store');
     Route::post('family-memories/{familyMemory}', [\App\Http\Controllers\FamilySanctuaryController::class, 'updateMemory'])->name('family-memories.update');
     Route::delete('family-memories/{familyMemory}', [\App\Http\Controllers\FamilySanctuaryController::class, 'destroyMemory'])->name('family-memories.destroy');
+
+    // ── Auditoría & Monitoreo de Tráfico de Usuarios ──
+    Route::get('traffic', [\App\Http\Controllers\GardenTrafficController::class, 'adminIndex'])->name('traffic.index');
+    Route::delete('traffic/purge', [\App\Http\Controllers\GardenTrafficController::class, 'purge'])->name('traffic.purge');
 });
+
+// Endpoint público para beacon de tráfico en la SPA
+Route::post('/traffic/ping', [\App\Http\Controllers\GardenTrafficController::class, 'ping'])
+    ->middleware('throttle:120,1')
+    ->name('traffic.ping');
 
 // Desbloqueo con usuario/correo y contraseña de Administrador para el Santuario Familiar (#familia)
 Route::post('/family-sanctuary/unlock', [\App\Http\Controllers\FamilySanctuaryController::class, 'unlock'])
@@ -180,4 +236,13 @@ Route::get('/season-audios', [\App\Http\Controllers\SeasonAudioController::class
 
 // Ruta pública para leer los Estados Efímeros activos (< 24h)
 Route::get('/garden-statuses', [\App\Http\Controllers\GardenStatusController::class, 'index'])->name('garden-statuses.index');
+
+// Ruta pública de respaldo para servir archivos de almacenamiento público
+Route::get('/storage/{path}', function (string $path) {
+    $cleanPath = ltrim($path, '/');
+    if (\Illuminate\Support\Facades\Storage::disk('public')->exists($cleanPath)) {
+        return \Illuminate\Support\Facades\Storage::disk('public')->response($cleanPath);
+    }
+    abort(404);
+})->where('path', '.*')->name('storage.public.fallback');
 

@@ -396,36 +396,22 @@
                             <span>ANTOLOGÍA:</span>
                         </span>
                         <div class="anthology-pills-row" id="poetry-anthology-pills">
-                            <button type="button" class="anthology-pill is-active" data-poem-jump="0" role="tab" aria-selected="true">
-                                <span class="pill-roman">I</span>
-                                <span class="pill-name">Canto al Atardecer</span>
-                            </button>
-                            <button type="button" class="anthology-pill" data-poem-jump="1" role="tab" aria-selected="false">
-                                <span class="pill-roman">II</span>
-                                <span class="pill-name">Soneto de las Rosas</span>
-                            </button>
-                            <button type="button" class="anthology-pill" data-poem-jump="2" role="tab" aria-selected="false">
-                                <span class="pill-roman">III</span>
-                                <span class="pill-name">Balada del Agua Serena</span>
-                            </button>
-                            <button type="button" class="anthology-pill" data-poem-jump="3" role="tab" aria-selected="false">
-                                <span class="pill-roman">IV</span>
-                                <span class="pill-name">Nocturno de los Luceros</span>
-                            </button>
-                            <button type="button" class="anthology-pill" data-poem-jump="4" role="tab" aria-selected="false">
-                                <span class="pill-roman">V</span>
-                                <span class="pill-name">Oda a los Caminos</span>
-                            </button>
-                            <button type="button" class="anthology-pill" data-poem-jump="5" role="tab" aria-selected="false">
-                                <span class="pill-roman">VI</span>
-                                <span class="pill-name">Madrigal del Jazmín</span>
-                            </button>
-                            <button type="button" class="anthology-pill" data-poem-jump="6" role="tab" aria-selected="false">
-                                <span class="pill-roman">VII</span>
-                                <span class="pill-name">Elegía de la Ternura</span>
-                            </button>
+                            @foreach($gardenPoems as $idx => $p)
+                                <button type="button" class="anthology-pill {{ $idx === 0 ? 'is-active' : '' }}" data-poem-jump="{{ $idx }}" role="tab" aria-selected="{{ $idx === 0 ? 'true' : 'false' }}">
+                                    <span class="pill-roman">{{ ['I','II','III','IV','V','VI','VII','VIII','IX','X'][$idx % 10] }}</span>
+                                    <span class="pill-name">{{ $p->title }}</span>
+                                </button>
+                            @endforeach
                         </div>
                     </div>
+
+                    @auth
+                        @if(auth()->user()->is_admin || in_array(auth()->id(), [1, 2], true))
+                            <div style="margin-bottom: 1rem; text-align: right;">
+                                <a href="#admin" data-go="admin" class="button button-outline button-sm" style="font-size: 11px;">⚙️ Gestionar Poemas en Control Center</a>
+                            </div>
+                        @endif
+                    @endauth
 
                     <!-- Gran Tarjeta de Pergamino Iluminado -->
                     <div class="poetry-pergamino-card luxury-card" id="dynamic-poem-card">

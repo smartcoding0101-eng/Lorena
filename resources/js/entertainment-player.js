@@ -363,7 +363,7 @@ export function initializeEntertainmentPlayer() {
                         <button type="button" class="ep-item-fav-btn" data-toggle-fav="${item.id}" title="${fav ? 'Quitar de favoritos' : 'Marcar favorito'}">
                             ${fav ? '❤️' : '🤍'}
                         </button>
-                        <form method="POST" action="/entertainment/${item.id}" onsubmit="return confirm('¿Quitar de la playlist?');" class="ep-item-del-form">
+                        <form method="POST" action="/entertainment/${item.id}" data-confirm="¿Quitar de la playlist de reproducción?" class="ep-item-del-form">
                             <input type="hidden" name="_token" value="${document.querySelector('meta[name=\"csrf-token\"]')?.getAttribute('content') || ''}">
                             <input type="hidden" name="_method" value="DELETE">
                             <button type="submit" class="ep-item-del-btn" title="Quitar de mi playlist">🗑️</button>

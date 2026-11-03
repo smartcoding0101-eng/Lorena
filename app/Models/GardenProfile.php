@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class GardenProfile extends Model
 {
     protected $fillable = [
+        'user_id',
         'profession',
         'biography',
         'education',
@@ -18,6 +19,23 @@ class GardenProfile extends Model
         'featured_photo_path',
         'status',
     ];
+
+    protected $appends = [
+        'featured_photo_url',
+    ];
+
+    public function getFeaturedPhotoUrlAttribute(): ?string
+    {
+        if (! $this->featured_photo_path || ! $this->id) {
+            return null;
+        }
+
+        try {
+            return route('profiles.featured-photo', $this);
+        } catch (\Throwable) {
+            return '/profiles/' . $this->id . '/featured-photo';
+        }
+    }
 
     public function user(): BelongsTo
     {

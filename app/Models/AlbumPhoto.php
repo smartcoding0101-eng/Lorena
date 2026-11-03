@@ -11,6 +11,9 @@ class AlbumPhoto extends Model
     use HasFactory;
 
     protected $fillable = [
+        'user_id',
+        'album_id',
+        'path',
         'title',
         'description',
         'mime_type',

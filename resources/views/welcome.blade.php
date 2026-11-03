@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="theme-color" content="#faf7f1">
+    <meta name="theme-color" content="#fff5fa">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta name="referrer" content="no-referrer">
     <meta name="description" content="Un jardín digital para explorar historias, recuerdos y lugares especiales.">
@@ -12,6 +12,8 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 <body data-theme="{{ auth()->check() ? (auth()->user()->preferences['theme'] ?? 'rose') : 'rose' }}">
+    {{-- Tarjetas Modernas de Alerta & Notificaciones (Tailwind CSS) --}}
+    @include('partials.alerts')
     {{-- Splash Romántico de Bienvenida --}}
     @include('partials.splash')
 
@@ -57,6 +59,9 @@
     </main>
 
     {{-- Diálogos Modales, Efectos y Toasts --}}
+        <script>
+        window.__GARDEN_POEMS__ = @json($gardenPoems ?? []);
+    </script>
     @include('partials.modals')
 </body>
 </html>

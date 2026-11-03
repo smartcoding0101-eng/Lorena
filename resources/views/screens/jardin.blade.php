@@ -227,13 +227,13 @@
                                             <stop offset="100%" stop-color="#e03e67"/>
                                         </radialGradient>
                                         <linearGradient id="roseStem" x1="0" y1="0" x2="0" y2="1">
-                                            <stop offset="0%" stop-color="#4e8d5e"/>
-                                            <stop offset="100%" stop-color="#2d5737"/>
+                                            <stop offset="0%" stop-color="#26a57b"/>
+                                            <stop offset="100%" stop-color="#1b7a5a"/>
                                         </linearGradient>
                                     </defs>
                                     <path d="M50 68 C50 78 52 88 51 98" stroke="url(#roseStem)" stroke-width="3.5" stroke-linecap="round"/>
-                                    <path d="M49 76 C41 73 34 77 31 82 C37 83 44 80 49 76Z" fill="#4e8d5e"/>
-                                    <path d="M51 82 C59 79 66 82 69 88 C63 89 56 86 51 82Z" fill="#3f754c"/>
+                                    <path d="M49 76 C41 73 34 77 31 82 C37 83 44 80 49 76Z" fill="#26a57b"/>
+                                    <path d="M51 82 C59 79 66 82 69 88 C63 89 56 86 51 82Z" fill="#1b7a5a"/>
                                     <path d="M30 46 C24 35 38 24 50 30 C62 24 76 35 70 46 C64 58 36 58 30 46Z" fill="url(#roseGlow)" opacity="0.95"/>
                                     <path d="M24 50 C22 40 32 32 44 34 C42 46 32 56 24 50Z" fill="url(#roseGlow)"/>
                                     <path d="M76 50 C78 40 68 32 56 34 C58 46 68 56 76 50Z" fill="url(#roseGlow)"/>
@@ -306,9 +306,9 @@
                                             <stop offset="100%" stop-color="#d97706"/>
                                         </linearGradient>
                                     </defs>
-                                    <path d="M50 65 L50 98" stroke="#4a7c59" stroke-width="4.5" stroke-linecap="round"/>
-                                    <path d="M49 78 C39 74 34 82 28 84 C36 88 45 84 49 78Z" fill="#3e684a"/>
-                                    <path d="M51 84 C61 80 66 88 72 90 C64 94 55 90 51 84Z" fill="#4a7c59"/>
+                                    <path d="M50 65 L50 98" stroke="#26a57b" stroke-width="4.5" stroke-linecap="round"/>
+                                    <path d="M49 78 C39 74 34 82 28 84 C36 88 45 84 49 78Z" fill="#1b7a5a"/>
+                                    <path d="M51 84 C61 80 66 88 72 90 C64 94 55 90 51 84Z" fill="#26a57b"/>
                                     <path d="M50 16 L54 36 L50 40 L46 36 Z" fill="url(#sunPetal)"/>
                                     <path d="M50 74 L54 54 L50 50 L46 54 Z" fill="url(#sunPetal)"/>
                                     <path d="M21 45 L41 49 L45 45 L41 41 Z" fill="url(#sunPetal)"/>
@@ -393,9 +393,9 @@
                                             <stop offset="100%" stop-color="#dc2626"/>
                                         </linearGradient>
                                     </defs>
-                                    <path d="M50 56 C50 72 49 84 50 98" stroke="#48815b" stroke-width="3.5" stroke-linecap="round"/>
-                                    <path d="M48 94 C34 88 24 64 28 46 C35 58 45 78 48 94Z" fill="#589a6f"/>
-                                    <path d="M52 94 C66 88 74 68 70 52 C65 64 55 80 52 94Z" fill="#3f7351"/>
+                                    <path d="M50 56 C50 72 49 84 50 98" stroke="#26a57b" stroke-width="3.5" stroke-linecap="round"/>
+                                    <path d="M48 94 C34 88 24 64 28 46 C35 58 45 78 48 94Z" fill="#34d399"/>
+                                    <path d="M52 94 C66 88 74 68 70 52 C65 64 55 80 52 94Z" fill="#1b7a5a"/>
                                     <path d="M33 34 C30 46 36 60 50 60 C40 56 36 44 38 32 C35 32 34 33 33 34Z" fill="url(#tulipSide)"/>
                                     <path d="M67 34 C70 46 64 60 50 60 C60 56 64 44 62 32 C65 32 66 33 67 34Z" fill="url(#tulipSide)"/>
                                     <path d="M37 32 C43 20 57 20 63 32 C67 48 57 60 50 60 C43 60 33 48 37 32Z" fill="url(#tulipPetal)"/>
@@ -456,8 +456,8 @@
                                 <svg class="real-flower-svg" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="Lavanda Silvestre">
                                     <defs>
                                         <linearGradient id="lavenderStem" x1="0" y1="0" x2="0" y2="1">
-                                            <stop offset="0%" stop-color="#5a8b66"/>
-                                            <stop offset="100%" stop-color="#345c3e"/>
+                                            <stop offset="0%" stop-color="#34d399"/>
+                                            <stop offset="100%" stop-color="#1b7a5a"/>
                                         </linearGradient>
                                     </defs>
                                     <path d="M50 30 L50 96" stroke="url(#lavenderStem)" stroke-width="2.5" stroke-linecap="round"/>
@@ -541,9 +541,9 @@
                                             <stop offset="100%" stop-color="#991b1b"/>
                                         </radialGradient>
                                     </defs>
-                                    <path d="M50 72 L50 98" stroke="#3b6946" stroke-width="3.5" stroke-linecap="round"/>
-                                    <path d="M49 82 C38 78 30 84 25 88 C34 91 44 88 49 82Z" fill="#4d835b"/>
-                                    <path d="M51 86 C62 82 70 88 75 92 C66 95 56 92 51 86Z" fill="#3b6946"/>
+                                    <path d="M50 72 L50 98" stroke="#1b7a5a" stroke-width="3.5" stroke-linecap="round"/>
+                                    <path d="M49 82 C38 78 30 84 25 88 C34 91 44 88 49 82Z" fill="#26a57b"/>
+                                    <path d="M51 86 C62 82 70 88 75 92 C66 95 56 92 51 86Z" fill="#1b7a5a"/>
                                     <circle cx="50" cy="46" r="26" fill="url(#peonyGlow)" opacity="0.9"/>
                                     <path d="M30 40 C28 28 42 22 52 26 C64 20 74 30 70 42 C74 54 62 66 48 64 C34 66 26 52 30 40Z" fill="#fee2e2" opacity="0.6"/>
                                     <path d="M36 44 C34 36 44 32 50 36 C56 32 66 36 64 44 C66 52 58 58 50 56 C42 58 34 52 36 44Z" fill="#ef4444"/>
@@ -603,7 +603,7 @@
                             <div class="real-flower-visual">
                                 <div class="flower-sparkle-ring" aria-hidden="true"></div>
                                 <svg class="real-flower-svg" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="Orquídea Imperial">
-                                    <path d="M50 58 C50 74 48 86 50 98" stroke="#3b6946" stroke-width="3" stroke-linecap="round"/>
+                                    <path d="M50 58 C50 74 48 86 50 98" stroke="#1b7a5a" stroke-width="3" stroke-linecap="round"/>
                                     <ellipse cx="50" cy="24" rx="9" ry="14" fill="#fdf4ff" stroke="#e879f9" stroke-width="1.2"/>
                                     <ellipse cx="29" cy="42" rx="16" ry="11" transform="rotate(-15 29 42)" fill="#fae8ff" stroke="#d946ef" stroke-width="1.2"/>
                                     <ellipse cx="71" cy="42" rx="16" ry="11" transform="rotate(15 71 42)" fill="#fae8ff" stroke="#d946ef" stroke-width="1.2"/>
@@ -665,7 +665,7 @@
                             <div class="real-flower-visual">
                                 <div class="flower-sparkle-ring" aria-hidden="true"></div>
                                 <svg class="real-flower-svg" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="Lirio Real Blanco">
-                                    <path d="M50 60 L50 98" stroke="#3f754c" stroke-width="3.5" stroke-linecap="round"/>
+                                    <path d="M50 60 L50 98" stroke="#1b7a5a" stroke-width="3.5" stroke-linecap="round"/>
                                     <path d="M50 14 C56 26 56 36 50 45 C44 36 44 26 50 14Z" fill="#ffffff" stroke="#cbd5e1" stroke-width="1"/>
                                     <path d="M22 36 C34 33 43 38 50 45 C40 48 30 45 22 36Z" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1"/>
                                     <path d="M78 36 C66 33 57 38 50 45 C60 48 70 45 78 36Z" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1"/>
@@ -792,11 +792,11 @@
                                 <div class="flower-sparkle-ring" aria-hidden="true"></div>
                                 <svg class="real-flower-svg" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="Magnolia Imperial">
                                     <path d="M50 64 L50 98" stroke="#4b5563" stroke-width="3.5" stroke-linecap="round"/>
-                                    <ellipse cx="50" cy="34" rx="11" ry="20" fill="#fff1f2" stroke="#f43f5e" stroke-width="1"/>
-                                    <ellipse cx="34" cy="44" rx="11" ry="18" transform="rotate(-28 34 44)" fill="#ffe4e6"/>
-                                    <ellipse cx="66" cy="44" rx="11" ry="18" transform="rotate(28 66 44)" fill="#ffe4e6"/>
-                                    <ellipse cx="42" cy="52" rx="12" ry="14" fill="#fecdd3"/>
-                                    <ellipse cx="58" cy="52" rx="12" ry="14" fill="#fecdd3"/>
+                                    <ellipse cx="50" cy="34" rx="11" ry="20" fill="#ffeaf3" stroke="#ff3e9a" stroke-width="1"/>
+                                    <ellipse cx="34" cy="44" rx="11" ry="18" transform="rotate(-28 34 44)" fill="#ffeaf3"/>
+                                    <ellipse cx="66" cy="44" rx="11" ry="18" transform="rotate(28 66 44)" fill="#ffeaf3"/>
+                                    <ellipse cx="42" cy="52" rx="12" ry="14" fill="#ffd2e5"/>
+                                    <ellipse cx="58" cy="52" rx="12" ry="14" fill="#ffd2e5"/>
                                     <circle cx="50" cy="48" r="6" fill="#fbbf24"/>
                                 </svg>
                             </div>
@@ -852,7 +852,7 @@
                             <div class="real-flower-visual">
                                 <div class="flower-sparkle-ring" aria-hidden="true"></div>
                                 <svg class="real-flower-svg" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="Hortensia Azul">
-                                    <path d="M50 66 L50 98" stroke="#3f754c" stroke-width="4" stroke-linecap="round"/>
+                                    <path d="M50 66 L50 98" stroke="#1b7a5a" stroke-width="4" stroke-linecap="round"/>
                                     <circle cx="50" cy="44" r="24" fill="#bfdbfe"/>
                                     <circle cx="38" cy="36" r="10" fill="#60a5fa"/>
                                     <circle cx="62" cy="36" r="10" fill="#3b82f6"/>
@@ -918,7 +918,7 @@
                             <div class="real-flower-visual">
                                 <div class="flower-sparkle-ring" aria-hidden="true"></div>
                                 <svg class="real-flower-svg" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="Jazmín Estrellado">
-                                    <path d="M50 58 L50 98" stroke="#3f754c" stroke-width="3" stroke-linecap="round"/>
+                                    <path d="M50 58 L50 98" stroke="#1b7a5a" stroke-width="3" stroke-linecap="round"/>
                                     <polygon points="50,15 56,37 79,37 60,50 67,72 50,58 33,72 40,50 21,37 44,37" fill="#fefce8" stroke="#facc15" stroke-width="1.2"/>
                                     <circle cx="50" cy="46" r="7" fill="#f59e0b"/>
                                     <circle cx="50" cy="46" r="3" fill="#ffffff"/>
@@ -976,11 +976,11 @@
                             <div class="real-flower-visual">
                                 <div class="flower-sparkle-ring" aria-hidden="true"></div>
                                 <svg class="real-flower-svg" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="Camelia Carmesí">
-                                    <path d="M50 68 L50 98" stroke="#2d5737" stroke-width="3.5" stroke-linecap="round"/>
-                                    <circle cx="50" cy="45" r="25" fill="#9f1239"/>
-                                    <circle cx="50" cy="45" r="20" fill="#be123c"/>
-                                    <circle cx="50" cy="45" r="15" fill="#e11d48"/>
-                                    <circle cx="50" cy="45" r="10" fill="#f43f5e"/>
+                                    <path d="M50 68 L50 98" stroke="#1b7a5a" stroke-width="3.5" stroke-linecap="round"/>
+                                    <circle cx="50" cy="45" r="25" fill="#b8126c"/>
+                                    <circle cx="50" cy="45" r="20" fill="#b8126c"/>
+                                    <circle cx="50" cy="45" r="15" fill="#ff3e9a"/>
+                                    <circle cx="50" cy="45" r="10" fill="#ff3e9a"/>
                                     <circle cx="50" cy="45" r="5" fill="#fde047"/>
                                 </svg>
                             </div>
@@ -1127,8 +1127,8 @@
                     <p class="flower-modal-text" id="flower-modal-dedication">Mensaje dedicado</p>
 
                     <div class="flower-modal-adrian-box">
-                        <span class="adrian-box-kicker">💌 PALABRAS DE ADRIÁN EN ESTA FLOR</span>
-                        <blockquote id="flower-modal-adrian">«Para mi amada Carla Lorena...»</blockquote>
+                        <span class="adrian-box-kicker">💌 DE ADRIÁN PARA CARLA CON MUCHO AMOR</span>
+                        <blockquote id="flower-modal-adrian">«De Adrián para mi amada Carla Lorena con mucho amor...»</blockquote>
                     </div>
 
                     <p class="flower-modal-secret" id="flower-modal-secret">✨ Secreto botánico del corazón.</p>
