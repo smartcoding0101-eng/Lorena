@@ -568,6 +568,17 @@
             <span class="crud-btn-badge" id="corner-notes-count" hidden>0</span>
             <span class="dock-tooltip" role="tooltip">Recuerdos del rincón</span>
         </button>
+
+        <!-- 5. Botón Flotante del Buscador Mágico (En la parte superior de Recuerdos del Rincón) -->
+        <button id="garden-search-floating-btn" 
+                class="garden-search-floating-btn" 
+                type="button" 
+                aria-label="Buscar en el jardín (Ctrl+K)" 
+                title="Buscar en el jardín (Ctrl+K)">
+            <span class="search-btn-sparkle" aria-hidden="true">✦</span>
+            <span class="search-btn-icon" aria-hidden="true">✨</span>
+            <span class="dock-tooltip" role="tooltip">Buscar (Ctrl+K)</span>
+        </button>
     </div>
 
     <!-- ═══════════════════════════════════════════════════════════════════════ -->

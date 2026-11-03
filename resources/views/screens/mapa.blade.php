@@ -1,4 +1,4 @@
-        <section class="screen" data-screen="mapa" aria-labelledby="map-title" hidden>
+        <section class="screen" id="screen-mapa" data-screen="mapa" aria-labelledby="map-title" hidden>
             <div class="page-shell">
                 <div class="page-heading">
                     <div>
@@ -9,7 +9,7 @@
                         </div>
                         <p class="eyebrow">Senderos de seda, pétalos y recuerdos eternos</p>
                         <h1 id="map-title" class="shimmer-title">El mapa del <em>jardín secreto</em></h1>
-                        <p>Un universo botánico en flor donde cada rincón atesora un pensamiento para ti. Desliza sobre cada flor para iluminar las enredaderas de oro rosa y descubrir su esencia.</p>
+                        <p>Un universo botánico en flor donde 12 talismanes y rincones atesoran un pensamiento para ti. Desliza sobre cada talismán para iluminar las enredaderas de oro rosa y descubrir su esencia.</p>
                     </div>
                     <span class="heading-mark romantic-spin" aria-hidden="true">🌹</span>
                 </div>
@@ -19,7 +19,7 @@
                     <div class="garden-toolbar-left">
                         <span class="garden-status-pill prism-status-pill">
                             <span class="pulse-emerald-dot prism-diamond-dot"></span>
-                            <span id="garden-season-label">Rosaleda en Flor · 11 Rincones en Armonía</span>
+                            <span id="garden-season-label">Rosaleda en Flor · 12 Talismanes en Armonía</span>
                         </span>
                     </div>
                     <div class="garden-toolbar-right">
@@ -52,7 +52,7 @@
                         </div>
                         <p class="mei-quote" id="mei-quote">«Pasa el cursor sobre cualquier flor del mapa para iluminar su sendero y descubrir lo que guarda para ti.»</p>
                     </div>
-                    <span class="mei-action-hint" id="mei-action-hint">Explora los 11 rincones ✿</span>
+                    <span class="mei-action-hint" id="mei-action-hint">Explora los 12 talismanes ✿</span>
                 </div>
 
                 <!-- Reino Botánico Dinámico con Tecnología Motion 3D -->
@@ -75,7 +75,7 @@
                     <div class="garden-3d-stage" id="garden-3d-stage">
 
                         <!-- Red de Enredaderas Orgánicas en Oro-Rosa y Seda Carmesí (SVG) -->
-                        <svg class="garden-botanical-frame prism-light-frame" viewBox="0 0 1000 640" preserveAspectRatio="none" aria-hidden="true">
+                        <svg class="garden-botanical-frame prism-light-frame" viewBox="0 0 1000 780" preserveAspectRatio="none" aria-hidden="true">
                             <defs>
                                 <!-- Gradiente Enredadera Oro-Rosa y Seda Carmesí -->
                                 <linearGradient id="roseGoldVineGrad" x1="0%" y1="0%" x2="100%" y2="100%">
@@ -99,6 +99,45 @@
                                     <stop offset="100%" stop-color="#be123c" stop-opacity="0"/>
                                 </radialGradient>
 
+                                <!-- Gradientes de Fauna: Mariposas & Mariquitas -->
+                                <linearGradient id="monarchForewingGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                                    <stop offset="0%" stop-color="#ff4b72"/>
+                                    <stop offset="50%" stop-color="#fb7185"/>
+                                    <stop offset="100%" stop-color="#fde047"/>
+                                </linearGradient>
+                                <linearGradient id="monarchHindwingGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                                    <stop offset="0%" stop-color="#be123c"/>
+                                    <stop offset="100%" stop-color="#fb7185"/>
+                                </linearGradient>
+                                <linearGradient id="azureForewingGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                                    <stop offset="0%" stop-color="#0284c7"/>
+                                    <stop offset="50%" stop-color="#38bdf8"/>
+                                    <stop offset="100%" stop-color="#c084fc"/>
+                                </linearGradient>
+                                <linearGradient id="azureHindwingGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                                    <stop offset="0%" stop-color="#0369a1"/>
+                                    <stop offset="100%" stop-color="#818cf8"/>
+                                </linearGradient>
+                                <linearGradient id="goldForewingGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                                    <stop offset="0%" stop-color="#d97706"/>
+                                    <stop offset="50%" stop-color="#fbbf24"/>
+                                    <stop offset="100%" stop-color="#fef08a"/>
+                                </linearGradient>
+                                <linearGradient id="goldHindwingGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                                    <stop offset="0%" stop-color="#b45309"/>
+                                    <stop offset="100%" stop-color="#f59e0b"/>
+                                </linearGradient>
+                                <radialGradient id="ladybugShellGrad" cx="35%" cy="30%" r="65%">
+                                    <stop offset="0%" stop-color="#ff4d6d"/>
+                                    <stop offset="45%" stop-color="#e11d48"/>
+                                    <stop offset="85%" stop-color="#9f1239"/>
+                                    <stop offset="100%" stop-color="#4c0519"/>
+                                </radialGradient>
+                                <radialGradient id="ladybugShine" cx="30%" cy="25%" r="40%">
+                                    <stop offset="0%" stop-color="#ffffff" stop-opacity="0.85"/>
+                                    <stop offset="100%" stop-color="#ffffff" stop-opacity="0"/>
+                                </radialGradient>
+
                                 <!-- Símbolo de Rocío de Rosa Viajero -->
                                 <g id="diamond-spark-symbol">
                                     <circle cx="0" cy="0" r="4" fill="url(#diamondPhoton)"/>
@@ -111,55 +150,55 @@
                                     <circle cx="0" cy="0" r="2.3" fill="#d4607a"/>
                                 </g>
 
-                                <!-- Senderos Curvos Orgánicos Bézier desde el Corazón (500,320) a los 11 Nodos -->
-                                <path id="path-gallery"       d="M 500,320 C 370,295 250,195 115,98"  fill="none"/>
-                                <path id="path-capsule"       d="M 500,320 C 445,230 375,165 305,82"  fill="none"/>
-                                <path id="path-library"       d="M 500,320 C 515,230 475,160 492,80"  fill="none"/>
-                                <path id="path-amigos"        d="M 500,320 C 565,230 635,165 715,95"  fill="none"/>
-                                <path id="path-dedicatoria"   d="M 500,320 C 640,290 755,255 885,205" fill="none"/>
-                                <path id="path-garden"        d="M 500,320 C 645,345 775,330 905,355" fill="none"/>
-                                <path id="path-entertainment" d="M 500,320 C 640,385 745,455 865,525" fill="none"/>
-                                <path id="path-games"         d="M 500,320 C 555,410 615,485 650,555" fill="none"/>
-                                <path id="path-dreams"        d="M 500,320 C 460,410 425,485 395,555" fill="none"/>
-                                <path id="path-blog"          d="M 500,320 C 365,385 255,455 135,525" fill="none"/>
-                                <path id="path-stories"       d="M 500,320 C 355,340 235,305 105,305" fill="none"/>
+                                <!-- Senderos Curvos Orgánicos Bézier desde el Corazón (500,390) a los 12 Nodos -->
+                                <path id="path-gallery"       d="M 500,390 C 370,300 240,210 120,120"  fill="none"/>
+                                <path id="path-capsule"       d="M 500,390 C 430,270 350,170 270,105"  fill="none"/>
+                                <path id="path-library"       d="M 500,390 C 496,280 504,180 500,85"   fill="none"/>
+                                <path id="path-amigos"        d="M 500,390 C 570,270 650,170 730,105"  fill="none"/>
+                                <path id="path-dedicatoria"   d="M 500,390 C 650,330 780,270 885,235"  fill="none"/>
+                                <path id="path-garden"        d="M 500,390 C 660,395 790,405 905,405"  fill="none"/>
+                                <path id="path-entertainment" d="M 500,390 C 640,470 770,530 885,575"  fill="none"/>
+                                <path id="path-games"         d="M 500,390 C 560,500 650,600 740,670"  fill="none"/>
+                                <path id="path-dreams"        d="M 500,390 C 440,500 350,600 260,670"  fill="none"/>
+                                <path id="path-blog"          d="M 500,390 C 360,470 230,530 115,575"  fill="none"/>
+                                <path id="path-stories"       d="M 500,390 C 350,335 220,290 100,250"  fill="none"/>
+                                <path id="path-family"        d="M 500,390 C 340,395 210,410 95,410"   fill="none"/>
 
                                 <!-- Órbita Floral Elíptica -->
-                                <path id="path-ring-orbit" d="M 500, 85 a 385,230 0 1,0 0.1,0 Z" fill="none"/>
+                                <path id="path-ring-orbit" d="M 500, 100 a 410,290 0 1,0 0.1,0 Z" fill="none"/>
                             </defs>
 
                             <!-- Halo y Anillos Orbitales de Seda Oro-Rosa -->
-                            <ellipse cx="500" cy="320" rx="385" ry="230" fill="none" stroke="rgba(212, 96, 122, 0.18)" stroke-width="1.3" stroke-dasharray="6,8" class="prism-orbit-ellipse"/>
-                            <ellipse cx="500" cy="320" rx="245" ry="150" fill="none" stroke="rgba(212, 175, 55, 0.24)" stroke-width="1.1" stroke-dasharray="3,6" class="prism-orbit-inner"/>
-                            <circle  cx="500" cy="320" r="88"  fill="none" stroke="rgba(201, 59, 97, 0.20)" stroke-width="1" stroke-dasharray="2,5"/>
+                            <ellipse cx="500" cy="390" rx="410" ry="290" fill="none" stroke="rgba(212, 96, 122, 0.18)" stroke-width="1.3" stroke-dasharray="6,8" class="prism-orbit-ellipse"/>
+                            <ellipse cx="500" cy="390" rx="260" ry="190" fill="none" stroke="rgba(212, 175, 55, 0.24)" stroke-width="1.1" stroke-dasharray="3,6" class="prism-orbit-inner"/>
+                            <circle  cx="500" cy="390" r="95"  fill="none" stroke="rgba(201, 59, 97, 0.20)" stroke-width="1" stroke-dasharray="2,5"/>
 
-                            <!-- Enredaderas Curvas de Luz Oro-Rosa y Seda Carmesí hacia los 11 Rincones -->
-                            <path d="M 500,320 C 370,295 250,195 115,98"  class="living-botanical-trail radial-branch prism-light-beam" data-branch="galeria"/>
-                            <path d="M 500,320 C 445,230 375,165 305,82"  class="living-botanical-trail radial-branch prism-light-beam" data-branch="capsula"/>
-                            <path d="M 500,320 C 515,230 475,160 492,80"  class="living-botanical-trail radial-branch prism-light-beam" data-branch="biblioteca"/>
-                            <path d="M 500,320 C 565,230 635,165 715,95"  class="living-botanical-trail radial-branch prism-light-beam" data-branch="amigos"/>
-                            <path d="M 500,320 C 640,290 755,255 885,205" class="living-botanical-trail radial-branch prism-light-beam" data-branch="dedicatoria"/>
-                            <path d="M 500,320 C 645,345 775,330 905,355" class="living-botanical-trail radial-branch prism-light-beam" data-branch="jardin"/>
-                            <path d="M 500,320 C 640,385 745,455 865,525" class="living-botanical-trail radial-branch prism-light-beam" data-branch="entretenimiento"/>
-                            <path d="M 500,320 C 555,410 615,485 650,555" class="living-botanical-trail radial-branch prism-light-beam" data-branch="juegos"/>
-                            <path d="M 500,320 C 460,410 425,485 395,555" class="living-botanical-trail radial-branch prism-light-beam" data-branch="destinos"/>
-                            <path d="M 500,320 C 365,385 255,455 135,525" class="living-botanical-trail radial-branch prism-light-beam" data-branch="blog"/>
-                            <path d="M 500,320 C 355,285 235,245 105,215" class="living-botanical-trail radial-branch prism-light-beam" data-branch="historias"/>
-                            <path d="M 500,320 C 355,360 235,395 105,405" class="living-botanical-trail radial-branch prism-light-beam" data-branch="familia"/>
+                            <!-- Enredaderas Curvas de Luz Oro-Rosa y Seda Carmesí hacia los 12 Rincones -->
+                            <path d="M 500,390 C 370,300 240,210 120,120"  class="living-botanical-trail radial-branch prism-light-beam" data-branch="galeria"/>
+                            <path d="M 500,390 C 430,270 350,170 270,105"  class="living-botanical-trail radial-branch prism-light-beam" data-branch="capsula"/>
+                            <path d="M 500,390 C 496,280 504,180 500,85"   class="living-botanical-trail radial-branch prism-light-beam" data-branch="biblioteca"/>
+                            <path d="M 500,390 C 570,270 650,170 730,105"  class="living-botanical-trail radial-branch prism-light-beam" data-branch="amigos"/>
+                            <path d="M 500,390 C 650,330 780,270 885,235"  class="living-botanical-trail radial-branch prism-light-beam" data-branch="dedicatoria"/>
+                            <path d="M 500,390 C 660,395 790,405 905,405"  class="living-botanical-trail radial-branch prism-light-beam" data-branch="jardin"/>
+                            <path d="M 500,390 C 640,470 770,530 885,575"  class="living-botanical-trail radial-branch prism-light-beam" data-branch="entretenimiento"/>
+                            <path d="M 500,390 C 560,500 650,600 740,670"  class="living-botanical-trail radial-branch prism-light-beam" data-branch="juegos"/>
+                            <path d="M 500,390 C 440,500 350,600 260,670"  class="living-botanical-trail radial-branch prism-light-beam" data-branch="destinos"/>
+                            <path d="M 500,390 C 360,470 230,530 115,575"  class="living-botanical-trail radial-branch prism-light-beam" data-branch="blog"/>
+                            <path d="M 500,390 C 350,335 220,290 100,250"  class="living-botanical-trail radial-branch prism-light-beam" data-branch="historias"/>
+                            <path d="M 500,390 C 340,395 210,410 95,410"   class="living-botanical-trail radial-branch prism-light-beam" data-branch="familia"/>
 
                             <!-- Capullos Luminosos Intermedios en las Enredaderas -->
-                            <use href="#vine-rosebud-node" x="305" y="218" class="branch-node-flower prism-vertex-dot"/>
-                            <use href="#vine-rosebud-node" x="405" y="198" class="branch-node-flower prism-vertex-dot"/>
-                            <use href="#vine-rosebud-node" x="496" y="195" class="branch-node-flower prism-vertex-dot"/>
-                            <use href="#vine-rosebud-node" x="605" y="198" class="branch-node-flower prism-vertex-dot"/>
-                            <use href="#vine-rosebud-node" x="705" y="265" class="branch-node-flower prism-vertex-dot"/>
-                            <use href="#vine-rosebud-node" x="715" y="338" class="branch-node-flower prism-vertex-dot"/>
-                            <use href="#vine-rosebud-node" x="695" y="425" class="branch-node-flower prism-vertex-dot"/>
-                            <use href="#vine-rosebud-node" x="582" y="445" class="branch-node-flower prism-vertex-dot"/>
-                            <use href="#vine-rosebud-node" x="442" y="445" class="branch-node-flower prism-vertex-dot"/>
-                            <use href="#vine-rosebud-node" x="310" y="425" class="branch-node-flower prism-vertex-dot"/>
-                            <use href="#vine-rosebud-node" x="295" y="275" class="branch-node-flower prism-vertex-dot"/>
-                            <use href="#vine-rosebud-node" x="295" y="365" class="branch-node-flower prism-vertex-dot"/>
+                            <use href="#vine-rosebud-node" x="310" y="250" class="branch-node-flower prism-vertex-dot"/>
+                            <use href="#vine-rosebud-node" x="410" y="230" class="branch-node-flower prism-vertex-dot"/>
+                            <use href="#vine-rosebud-node" x="500" y="235" class="branch-node-flower prism-vertex-dot"/>
+                            <use href="#vine-rosebud-node" x="590" y="230" class="branch-node-flower prism-vertex-dot"/>
+                            <use href="#vine-rosebud-node" x="690" y="250" class="branch-node-flower prism-vertex-dot"/>
+                            <use href="#vine-rosebud-node" x="720" y="320" class="branch-node-flower prism-vertex-dot"/>
+                            <use href="#vine-rosebud-node" x="710" y="480" class="branch-node-flower prism-vertex-dot"/>
+                            <use href="#vine-rosebud-node" x="620" y="535" class="branch-node-flower prism-vertex-dot"/>
+                            <use href="#vine-rosebud-node" x="380" y="535" class="branch-node-flower prism-vertex-dot"/>
+                            <use href="#vine-rosebud-node" x="290" y="480" class="branch-node-flower prism-vertex-dot"/>
+                            <use href="#vine-rosebud-node" x="280" y="320" class="branch-node-flower prism-vertex-dot"/>
 
                             <!-- Rocío de Luz Viajero en Movimiento Continuo -->
                             <g class="moving-nectar-pulse prism-photon-pulse">
@@ -172,6 +211,12 @@
                                 <use href="#diamond-spark-symbol"/>
                                 <animateMotion dur="9s" repeatCount="indefinite" rotate="auto" keyPoints="0;1;0" keyTimes="0;0.5;1" calcMode="spline" keySplines="0.4 0 0.6 1; 0.4 0 0.6 1">
                                     <mpath href="#path-gallery"/>
+                                </animateMotion>
+                            </g>
+                            <g class="moving-nectar-pulse prism-photon-pulse">
+                                <use href="#diamond-spark-symbol"/>
+                                <animateMotion dur="8s" begin="-2s" repeatCount="indefinite" rotate="auto" keyPoints="0;1;0" keyTimes="0;0.5;1" calcMode="spline" keySplines="0.4 0 0.6 1; 0.4 0 0.6 1">
+                                    <mpath href="#path-library"/>
                                 </animateMotion>
                             </g>
                             <g class="moving-nectar-pulse prism-photon-pulse">
@@ -195,6 +240,182 @@
                             <span class="prism-flare pf-3">❀</span>
                             <span class="prism-flare pf-4">🌸</span>
                             <span class="prism-flare pf-5">✨</span>
+                        </div>
+
+                        <!-- ═══════════════════════════════════════════════════════════ -->
+                        <!--  FAUNA ENCANTADA: MARIPOSAS & MARIQUITAS DEL JARDÍN SECRETO -->
+                        <!-- ═══════════════════════════════════════════════════════════ -->
+                        <div class="garden-fauna-layer" id="garden-fauna-layer" aria-label="Mariposas y mariquitas del jardín secreto">
+                            <!-- 1. Mariposa Monarca Rosa (Vuelo libre en cuadrante superior izquierdo) -->
+                            <div class="garden-creature butterfly-creature butterfly-monarch-rose" 
+                                 id="butterfly-monarch-rose" 
+                                 role="button" 
+                                 tabindex="0" 
+                                 data-creature="mariposa-rosa" 
+                                 data-message="🦋 Mariposa Monarca: «Mensajera de tus sueños más bellos, Carla»" 
+                                 title="Mariposa Monarca · Toca para verla volar" 
+                                 aria-label="Mariposa Monarca de Carla">
+                                <div class="butterfly-wing-wrap">
+                                    <svg class="butterfly-svg butterfly-wing-left" viewBox="0 0 24 32" aria-hidden="true">
+                                        <path d="M22,16 C20,5 12,0 2,1 C-1,9 5,20 22,16 Z" fill="url(#monarchForewingGrad)" stroke="#9f1239" stroke-width="0.8"/>
+                                        <path d="M22,16 C17,18 8,21 4,30 C11,32 18,26 22,16 Z" fill="url(#monarchHindwingGrad)" stroke="#9f1239" stroke-width="0.8"/>
+                                        <circle cx="8" cy="8" r="1.2" fill="#fff" opacity="0.9"/>
+                                        <circle cx="15" cy="6" r="1.1" fill="#fef08a" opacity="0.9"/>
+                                        <circle cx="9" cy="25" r="1" fill="#fff" opacity="0.9"/>
+                                    </svg>
+                                    <div class="butterfly-body-core"></div>
+                                    <svg class="butterfly-svg butterfly-wing-right" viewBox="0 0 24 32" aria-hidden="true">
+                                        <path d="M2,16 C4,5 12,0 22,1 C25,9 19,20 2,16 Z" fill="url(#monarchForewingGrad)" stroke="#9f1239" stroke-width="0.8"/>
+                                        <path d="M2,16 C7,18 16,21 20,30 C13,32 6,26 2,16 Z" fill="url(#monarchHindwingGrad)" stroke="#9f1239" stroke-width="0.8"/>
+                                        <circle cx="16" cy="8" r="1.2" fill="#fff" opacity="0.9"/>
+                                        <circle cx="9" cy="6" r="1.1" fill="#fef08a" opacity="0.9"/>
+                                        <circle cx="15" cy="25" r="1" fill="#fff" opacity="0.9"/>
+                                    </svg>
+                                </div>
+                            </div>
+
+                            <!-- 2. Mariposa Aguamarina de Ensueño (Vuelo en cuadrante inferior derecho) -->
+                            <div class="garden-creature butterfly-creature butterfly-azure-dream" 
+                                 id="butterfly-azure-dream" 
+                                 role="button" 
+                                 tabindex="0" 
+                                 data-creature="mariposa-celeste" 
+                                 data-message="🦋 Mariposa Aguamarina: «Guiando tus pasos hacia nuevos horizontes felices»" 
+                                 title="Mariposa Aguamarina · Toca para verla volar" 
+                                 aria-label="Mariposa Aguamarina de Ensueño">
+                                <div class="butterfly-wing-wrap">
+                                    <svg class="butterfly-svg butterfly-wing-left" viewBox="0 0 24 32" aria-hidden="true">
+                                        <path d="M22,16 C20,5 12,0 2,1 C-1,9 5,20 22,16 Z" fill="url(#azureForewingGrad)" stroke="#0369a1" stroke-width="0.8"/>
+                                        <path d="M22,16 C17,18 8,21 4,30 C11,32 18,26 22,16 Z" fill="url(#azureHindwingGrad)" stroke="#0369a1" stroke-width="0.8"/>
+                                        <circle cx="8" cy="8" r="1.2" fill="#e0f2fe" opacity="0.95"/>
+                                        <circle cx="15" cy="6" r="1.1" fill="#fff" opacity="0.95"/>
+                                        <circle cx="9" cy="25" r="1" fill="#e0f2fe" opacity="0.95"/>
+                                    </svg>
+                                    <div class="butterfly-body-core"></div>
+                                    <svg class="butterfly-svg butterfly-wing-right" viewBox="0 0 24 32" aria-hidden="true">
+                                        <path d="M2,16 C4,5 12,0 22,1 C25,9 19,20 2,16 Z" fill="url(#azureForewingGrad)" stroke="#0369a1" stroke-width="0.8"/>
+                                        <path d="M2,16 C7,18 16,21 20,30 C13,32 6,26 2,16 Z" fill="url(#azureHindwingGrad)" stroke="#0369a1" stroke-width="0.8"/>
+                                        <circle cx="16" cy="8" r="1.2" fill="#e0f2fe" opacity="0.95"/>
+                                        <circle cx="9" cy="6" r="1.1" fill="#fff" opacity="0.95"/>
+                                        <circle cx="15" cy="25" r="1" fill="#e0f2fe" opacity="0.95"/>
+                                    </svg>
+                                </div>
+                            </div>
+
+                            <!-- 3. Mariposa Oro y Cristal (Revoloteando en cuadrante superior derecho) -->
+                            <div class="garden-creature butterfly-creature butterfly-gold-spark" 
+                                 id="butterfly-gold-spark" 
+                                 role="button" 
+                                 tabindex="0" 
+                                 data-creature="mariposa-oro" 
+                                 data-message="🦋 Mariposa Dorada: «Brillo, alegría y luz eterna para ti»" 
+                                 title="Mariposa Dorada · Toca para verla volar" 
+                                 aria-label="Mariposa Dorada de la Fortuna">
+                                <div class="butterfly-wing-wrap">
+                                    <svg class="butterfly-svg butterfly-wing-left" viewBox="0 0 24 32" aria-hidden="true">
+                                        <path d="M22,16 C20,5 12,0 2,1 C-1,9 5,20 22,16 Z" fill="url(#goldForewingGrad)" stroke="#92400e" stroke-width="0.8"/>
+                                        <path d="M22,16 C17,18 8,21 4,30 C11,32 18,26 22,16 Z" fill="url(#goldHindwingGrad)" stroke="#92400e" stroke-width="0.8"/>
+                                        <circle cx="8" cy="8" r="1.2" fill="#fff" opacity="0.95"/>
+                                        <circle cx="15" cy="6" r="1.1" fill="#fff" opacity="0.95"/>
+                                        <circle cx="9" cy="25" r="1" fill="#fff" opacity="0.95"/>
+                                    </svg>
+                                    <div class="butterfly-body-core"></div>
+                                    <svg class="butterfly-svg butterfly-wing-right" viewBox="0 0 24 32" aria-hidden="true">
+                                        <path d="M2,16 C4,5 12,0 22,1 C25,9 19,20 2,16 Z" fill="url(#goldForewingGrad)" stroke="#92400e" stroke-width="0.8"/>
+                                        <path d="M2,16 C7,18 16,21 20,30 C13,32 6,26 2,16 Z" fill="url(#goldHindwingGrad)" stroke="#92400e" stroke-width="0.8"/>
+                                        <circle cx="16" cy="8" r="1.2" fill="#fff" opacity="0.95"/>
+                                        <circle cx="9" cy="6" r="1.1" fill="#fff" opacity="0.95"/>
+                                        <circle cx="15" cy="25" r="1" fill="#fff" opacity="0.95"/>
+                                    </svg>
+                                </div>
+                            </div>
+
+                            <!-- 4. Mariquita 2: Caminando por el sendero hacia Rincón de Paz -->
+                            <div class="garden-creature ladybug-creature ladybug-vine-climber" 
+                                 id="ladybug-vine-climber" 
+                                 role="button" 
+                                 tabindex="0" 
+                                 data-creature="mariquita-sendero" 
+                                 data-message="🐞 Mariquita Caminante: «Recorriendo con amor el sendero hacia tu Rincón de Paz»" 
+                                 title="Mariquita del Sendero 🐞 · Toca para verla explorar" 
+                                 aria-label="Mariquita Caminante hacia Rincón de Paz">
+                                <svg class="ladybug-svg" viewBox="0 0 32 36" aria-hidden="true">
+                                    <g stroke="#1e1b18" stroke-width="1.3" stroke-linecap="round" fill="none" class="ladybug-legs">
+                                        <path d="M12,12 Q6,9 4,7"/>
+                                        <path d="M11,18 Q4,18 2,20"/>
+                                        <path d="M12,24 Q5,27 3,31"/>
+                                        <path d="M20,12 Q26,9 28,7"/>
+                                        <path d="M21,18 Q28,18 30,20"/>
+                                        <path d="M20,24 Q27,27 29,31"/>
+                                    </g>
+                                    <g stroke="#1c1917" stroke-width="1.2" stroke-linecap="round" fill="none" class="ladybug-antennae">
+                                        <path d="M14,6 Q11,2 8,2"/>
+                                        <path d="M18,6 Q21,2 24,2"/>
+                                        <circle cx="8" cy="2" r="1" fill="#1c1917"/>
+                                        <circle cx="24" cy="2" r="1" fill="#1c1917"/>
+                                    </g>
+                                    <ellipse cx="16" cy="8" rx="5.5" ry="4" fill="#1c1917"/>
+                                    <circle cx="13" cy="7" r="1" fill="#fff"/>
+                                    <circle cx="19" cy="7" r="1" fill="#fff"/>
+                                    <circle cx="13.3" cy="7" r="0.5" fill="#000"/>
+                                    <circle cx="18.7" cy="7" r="0.5" fill="#000"/>
+                                    <ellipse cx="16" cy="20" rx="11" ry="12.5" fill="url(#ladybugShellGrad)" filter="drop-shadow(0 2px 5px rgba(0,0,0,0.25))"/>
+                                    <line x1="16" y1="8" x2="16" y2="32.5" stroke="#1c1917" stroke-width="1.2"/>
+                                    <circle cx="12" cy="14" r="2.1" fill="#1c1917"/>
+                                    <circle cx="20" cy="14" r="2.1" fill="#1c1917"/>
+                                    <circle cx="10" cy="21" r="2" fill="#1c1917"/>
+                                    <circle cx="22" cy="21" r="2" fill="#1c1917"/>
+                                    <circle cx="12.5" cy="27" r="1.8" fill="#1c1917"/>
+                                    <circle cx="19.5" cy="27" r="1.8" fill="#1c1917"/>
+                                    <circle cx="16" cy="17" r="1.6" fill="#1c1917"/>
+                                    <ellipse cx="12.5" cy="15" rx="5" ry="3.5" fill="url(#ladybugShine)"/>
+                                </svg>
+                            </div>
+
+                            <!-- 5. Mariquita 3: Descansando en el Santuario de Flores -->
+                            <div class="garden-creature ladybug-creature ladybug-blossom-rest" 
+                                 id="ladybug-blossom-rest" 
+                                 role="button" 
+                                 tabindex="0" 
+                                 data-creature="mariquita-santuario" 
+                                 data-message="🐞 Mariquita del Santuario: «Paz, serenidad y dicha para tu corazón»" 
+                                 title="Mariquita del Santuario 🐞 · Toca para recibir su calma" 
+                                 aria-label="Mariquita del Santuario de Flores">
+                                <svg class="ladybug-svg" viewBox="0 0 32 36" aria-hidden="true">
+                                    <g stroke="#1e1b18" stroke-width="1.3" stroke-linecap="round" fill="none" class="ladybug-legs">
+                                        <path d="M12,12 Q6,9 4,7"/>
+                                        <path d="M11,18 Q4,18 2,20"/>
+                                        <path d="M12,24 Q5,27 3,31"/>
+                                        <path d="M20,12 Q26,9 28,7"/>
+                                        <path d="M21,18 Q28,18 30,20"/>
+                                        <path d="M20,24 Q27,27 29,31"/>
+                                    </g>
+                                    <g stroke="#1c1917" stroke-width="1.2" stroke-linecap="round" fill="none" class="ladybug-antennae">
+                                        <path d="M14,6 Q11,2 8,2"/>
+                                        <path d="M18,6 Q21,2 24,2"/>
+                                        <circle cx="8" cy="2" r="1" fill="#1c1917"/>
+                                        <circle cx="24" cy="2" r="1" fill="#1c1917"/>
+                                    </g>
+                                    <ellipse cx="16" cy="8" rx="5.5" ry="4" fill="#1c1917"/>
+                                    <circle cx="13" cy="7" r="1" fill="#fff"/>
+                                    <circle cx="19" cy="7" r="1" fill="#fff"/>
+                                    <circle cx="13.3" cy="7" r="0.5" fill="#000"/>
+                                    <circle cx="18.7" cy="7" r="0.5" fill="#000"/>
+                                    <ellipse cx="16" cy="20" rx="11" ry="12.5" fill="url(#ladybugShellGrad)" filter="drop-shadow(0 2px 5px rgba(0,0,0,0.25))"/>
+                                    <line x1="16" y1="8" x2="16" y2="32.5" stroke="#1c1917" stroke-width="1.2"/>
+                                    <circle cx="12" cy="14" r="2.1" fill="#1c1917"/>
+                                    <circle cx="20" cy="14" r="2.1" fill="#1c1917"/>
+                                    <circle cx="10" cy="21" r="2" fill="#1c1917"/>
+                                    <circle cx="22" cy="21" r="2" fill="#1c1917"/>
+                                    <circle cx="12.5" cy="27" r="1.8" fill="#1c1917"/>
+                                    <circle cx="19.5" cy="27" r="1.8" fill="#1c1917"/>
+                                    <circle cx="16" cy="17" r="1.6" fill="#1c1917"/>
+                                    <ellipse cx="12.5" cy="15" rx="5" ry="3.5" fill="url(#ladybugShine)"/>
+                                </svg>
+                            </div>
+
+                            <!-- Toast / Mensaje poético flotante al interactuar con la fauna -->
+                            <div class="fauna-toast-bubble" id="fauna-toast-bubble" aria-live="polite"></div>
                         </div>
 
 
@@ -222,14 +443,14 @@
                             <span class="flower-accent-vine prism-bevel-edge"></span>
                         </a>
 
-                        <!-- 2. Cápsula: Tulipán del Tiempo -->
+                        <!-- 2. Cápsula: Tulipán Eterno -->
                         <a class="map-place place-capsule floral-island luxury-medallion living-flower-node prism-gem-node gem-amethyst" 
                            href="#capsula" 
                            data-go="capsula" 
                            data-biome="amethyst"
-                           data-flower="Tulipán del Tiempo"
+                           data-flower="Tulipán Eterno"
                            data-note="587.33"
-                           data-tooltip="Tulipán del Tiempo: Cartas selladas con amor para florecer en el futuro"
+                           data-tooltip="Tulipán Eterno: Cartas selladas con amor para florecer en el futuro"
                            aria-label="Abrir Cápsula del tiempo">
                             <span class="flower-petal-aura prism-caustic-aura"></span>
                             <div class="flower-icon-wrap prism-facet-wrap">
@@ -242,7 +463,7 @@
                             <span class="flower-accent-vine prism-bevel-edge"></span>
                         </a>
 
-                        <!-- 3. Rincón de Paz: Loto de Paz -->
+                        <!-- 3. Rincón de Paz: Loto de Cristal -->
                         <a class="map-place place-library floral-island luxury-medallion living-flower-node prism-gem-node gem-sapphire" 
                            href="#biblioteca" 
                            data-go="biblioteca" 
@@ -257,7 +478,7 @@
                                 <span class="flower-dew-drop prism-sheen-line"></span>
                             </div>
                             <strong class="flower-node-title">Rincón de Paz</strong>
-                            <span class="flower-biome-tag prism-tag">Loto de Paz</span>
+                            <span class="flower-biome-tag prism-tag">Loto de Cristal</span>
                             <small class="flower-essence-text">lectura & sabiduría</small>
                             <span class="flower-accent-vine prism-bevel-edge"></span>
                         </a>
@@ -439,7 +660,7 @@
                             </div>
                             <strong class="flower-node-title">Mi Familia</strong>
                             <span class="flower-biome-tag prism-tag">🔒 Zafiro Familiar</span>
-                            <small class="flower-essence-text">Carla · Adrián · Ody · Hijos</small>
+                            <small class="flower-essence-text">Familia & Hogar</small>
                             <span class="flower-accent-vine prism-bevel-edge"></span>
                         </a>
 
@@ -510,11 +731,53 @@
                                 </g>
                             </svg>
 
-                            <!-- Cartela Imperial Inferior -->
+                            <!-- Cartela Imperial Inferior con Mariquita de la Buena Suerte -->
                             <div class="imperial-rose-nameplate">
                                 <span class="imperial-spark">✦</span>
                                 <span class="imperial-name">CARLA</span>
                                 <span class="imperial-spark">✦</span>
+
+                                <!-- Mariquita 1: En la Gran Rosa (Broche de la Buena Suerte de Carla) -->
+                                <div class="ladybug-creature ladybug-on-rose" 
+                                     id="ladybug-carla-rose" 
+                                     role="button" 
+                                     tabindex="0" 
+                                     data-creature="mariquita-rosa" 
+                                     data-message="🐞 Mariquita de la Suerte: «7 bendiciones de dicha y amor infinito para Carla»" 
+                                     title="Mariquita de la Suerte 🐞 · Toca para recibir bendiciones" 
+                                     aria-label="Mariquita de la Suerte de Carla">
+                                    <svg class="ladybug-svg" viewBox="0 0 32 36" aria-hidden="true">
+                                        <g stroke="#1e1b18" stroke-width="1.3" stroke-linecap="round" fill="none" class="ladybug-legs">
+                                            <path d="M12,12 Q6,9 4,7"/>
+                                            <path d="M11,18 Q4,18 2,20"/>
+                                            <path d="M12,24 Q5,27 3,31"/>
+                                            <path d="M20,12 Q26,9 28,7"/>
+                                            <path d="M21,18 Q28,18 30,20"/>
+                                            <path d="M20,24 Q27,27 29,31"/>
+                                        </g>
+                                        <g stroke="#1c1917" stroke-width="1.2" stroke-linecap="round" fill="none" class="ladybug-antennae">
+                                            <path d="M14,6 Q11,2 8,2"/>
+                                            <path d="M18,6 Q21,2 24,2"/>
+                                            <circle cx="8" cy="2" r="1" fill="#1c1917"/>
+                                            <circle cx="24" cy="2" r="1" fill="#1c1917"/>
+                                        </g>
+                                        <ellipse cx="16" cy="8" rx="5.5" ry="4" fill="#1c1917"/>
+                                        <circle cx="13" cy="7" r="1" fill="#fff"/>
+                                        <circle cx="19" cy="7" r="1" fill="#fff"/>
+                                        <circle cx="13.3" cy="7" r="0.5" fill="#000"/>
+                                        <circle cx="18.7" cy="7" r="0.5" fill="#000"/>
+                                        <ellipse cx="16" cy="20" rx="11" ry="12.5" fill="url(#ladybugShellGrad)" filter="drop-shadow(0 2px 5px rgba(0,0,0,0.25))"/>
+                                        <line x1="16" y1="8" x2="16" y2="32.5" stroke="#1c1917" stroke-width="1.2"/>
+                                        <circle cx="12" cy="14" r="2.1" fill="#1c1917"/>
+                                        <circle cx="20" cy="14" r="2.1" fill="#1c1917"/>
+                                        <circle cx="10" cy="21" r="2" fill="#1c1917"/>
+                                        <circle cx="22" cy="21" r="2" fill="#1c1917"/>
+                                        <circle cx="12.5" cy="27" r="1.8" fill="#1c1917"/>
+                                        <circle cx="19.5" cy="27" r="1.8" fill="#1c1917"/>
+                                        <circle cx="16" cy="17" r="1.6" fill="#1c1917"/>
+                                        <ellipse cx="12.5" cy="15" rx="5" ry="3.5" fill="url(#ladybugShine)"/>
+                                    </svg>
+                                </div>
                             </div>
                         </div>
 
@@ -542,7 +805,7 @@
                 </div>
 
                 <div class="map-footer">
-                    <span class="footer-species-counter"><i></i> 11 flores y santuarios en armonía perfecta</span>
+                    <span class="footer-species-counter"><i></i> 12 rincones botánicos en armonía perfecta</span>
                     <span class="map-hint-text">Desliza el cursor sobre las flores para iluminar sus enredaderas · Toca cada rincón para abrirlo</span>
                     <a class="text-link" href="#dedicatoria" data-go="dedicatoria">Leer mi dedicatoria especial <span aria-hidden="true">💌 →</span></a>
                 </div>
@@ -607,8 +870,10 @@
                     </div>
 
                     <div class="wishing-tree-grid">
-                        <button class="wish-bud-card" type="button" data-wish="1" aria-label="Abrir deseo 1">
-                            <span class="bud-icon">🌸</span>
+                        <button class="wish-bud-card" type="button" data-wish="1" aria-label="Abrir deseo 1: Tu Alegría">
+                            <div class="bud-icon-wrap">
+                                <span class="bud-icon">🌸</span>
+                            </div>
                             <span class="bud-tag">Capullo de Luz</span>
                             <h4>Tu Alegría</h4>
                             <p class="bud-folded-hint">Toca para abrir ✦</p>
@@ -618,8 +883,10 @@
                             </div>
                         </button>
 
-                        <button class="wish-bud-card" type="button" data-wish="2" aria-label="Abrir deseo 2">
-                            <span class="bud-icon">🌹</span>
+                        <button class="wish-bud-card" type="button" data-wish="2" aria-label="Abrir deseo 2: Tu Fortaleza">
+                            <div class="bud-icon-wrap">
+                                <span class="bud-icon">🌹</span>
+                            </div>
                             <span class="bud-tag">Capullo de Rosa</span>
                             <h4>Tu Fortaleza</h4>
                             <p class="bud-folded-hint">Toca para abrir ✦</p>
@@ -629,8 +896,10 @@
                             </div>
                         </button>
 
-                        <button class="wish-bud-card" type="button" data-wish="3" aria-label="Abrir deseo 3">
-                            <span class="bud-icon">🌿</span>
+                        <button class="wish-bud-card" type="button" data-wish="3" aria-label="Abrir deseo 3: Momentos Bonitos">
+                            <div class="bud-icon-wrap">
+                                <span class="bud-icon">🌼</span>
+                            </div>
                             <span class="bud-tag">Capullo de Jazmín</span>
                             <h4>Momentos Bonitos</h4>
                             <p class="bud-folded-hint">Toca para abrir ✦</p>
@@ -640,8 +909,10 @@
                             </div>
                         </button>
 
-                        <button class="wish-bud-card" type="button" data-wish="4" aria-label="Abrir deseo 4">
-                            <span class="bud-icon">✨</span>
+                        <button class="wish-bud-card" type="button" data-wish="4" aria-label="Abrir deseo 4: Nuestros Horizontes">
+                            <div class="bud-icon-wrap">
+                                <span class="bud-icon">🌟</span>
+                            </div>
                             <span class="bud-tag">Capullo Dorado</span>
                             <h4>Nuestros Horizontes</h4>
                             <p class="bud-folded-hint">Toca para abrir ✦</p>
@@ -666,7 +937,11 @@
                     <div class="promenade-cards-grid">
                         <article class="promenade-card">
                             <div class="promenade-visual">
-                                <span class="promenade-silhouette">🌿 ☕ 🌸</span>
+                                <div class="promenade-icon-emblem-cluster">
+                                    <span class="promenade-icon-flank">🌿</span>
+                                    <span class="promenade-icon-center">☕</span>
+                                    <span class="promenade-icon-flank">🌸</span>
+                                </div>
                                 <span class="promenade-time">Tardes de calma</span>
                             </div>
                             <div class="promenade-body">
@@ -678,7 +953,11 @@
 
                         <article class="promenade-card">
                             <div class="promenade-visual">
-                                <span class="promenade-silhouette">✨ 🌙 🌹</span>
+                                <div class="promenade-icon-emblem-cluster">
+                                    <span class="promenade-icon-flank">✨</span>
+                                    <span class="promenade-icon-center">🌙</span>
+                                    <span class="promenade-icon-flank">🌹</span>
+                                </div>
                                 <span class="promenade-time">Noches bajo las estrellas</span>
                             </div>
                             <div class="promenade-body">
@@ -690,7 +969,11 @@
 
                         <article class="promenade-card">
                             <div class="promenade-visual">
-                                <span class="promenade-silhouette">🎶 🌺 🕊️</span>
+                                <div class="promenade-icon-emblem-cluster">
+                                    <span class="promenade-icon-flank">🎶</span>
+                                    <span class="promenade-icon-center">🌺</span>
+                                    <span class="promenade-icon-flank">🕊️</span>
+                                </div>
                                 <span class="promenade-time">Melodías compartidas</span>
                             </div>
                             <div class="promenade-body">
@@ -713,70 +996,108 @@
                     </div>
 
                     <div class="space-grid map-shortcuts botanical-shortcuts-grid">
+                        <!-- 1. Música & Entretenimiento -->
                         <a class="space-card space-card-entertainment luxury-card" href="#entretenimiento" data-go="entretenimiento">
                             <div class="card-top-bar">
-                                <span class="card-icon-emblem">♫ 🌺</span>
-                                <span class="card-number">PRIVADO · CARLA</span>
+                                <div class="card-icon-emblem">
+                                    <span class="emblem-glyph">🎵</span>
+                                    <span class="emblem-botanical">🌺</span>
+                                </div>
+                                <span class="card-number">MÚSICA · VIDEOS</span>
                             </div>
-                        <div class="space-card-body">
-                            <h3>Espacio de entretenimiento</h3>
-                            <p>Tus canciones más queridas y momentos multimedia guardados con ternura.</p>
-                            <span class="card-mini-quote">«Donde la música abraza el silencio»</span>
-                            <span class="card-arrow" aria-hidden="true">↗</span>
-                        </div>
-                    </a>
+                            <div class="space-card-body">
+                                <h3>Música & Entretenimiento</h3>
+                                <p>Tus melodías más queridas y momentos multimedia guardados con ternura.</p>
+                                <span class="card-mini-quote">«Donde la música abraza el silencio»</span>
+                                <span class="card-arrow" aria-hidden="true">↗</span>
+                            </div>
+                        </a>
 
-                    <a class="space-card space-card-treasure luxury-card" href="#tesoro" data-go="tesoro">
-                        <div class="card-top-bar">
-                            <span class="card-icon-emblem">⌕ 🗝️</span>
-                            <span class="card-number">MISTERIO · EXTRA</span>
-                        </div>
-                        <div class="space-card-body">
-                            <h3>Búsqueda del tesoro</h3>
-                            <p>Una pequeña pista entre las hojas puede llevar a un secreto dulce.</p>
-                            <span class="card-mini-quote">«Un hallazgo esperando por tu sonrisa»</span>
-                            <span class="card-arrow" aria-hidden="true">↗</span>
-                        </div>
-                    </a>
+                        <!-- 2. Búsqueda del tesoro -->
+                        <a class="space-card space-card-treasure luxury-card" href="#tesoro" data-go="tesoro">
+                            <div class="card-top-bar">
+                                <div class="card-icon-emblem">
+                                    <span class="emblem-glyph">🗝️</span>
+                                    <span class="emblem-botanical">✨</span>
+                                </div>
+                                <span class="card-number">PISTAS · MISTERIO</span>
+                            </div>
+                            <div class="space-card-body">
+                                <h3>Búsqueda del Tesoro</h3>
+                                <p>Una pequeña pista entre las hojas puede llevarte a un secreto dulce.</p>
+                                <span class="card-mini-quote">«Un hallazgo esperando por tu sonrisa»</span>
+                                <span class="card-arrow" aria-hidden="true">↗</span>
+                            </div>
+                        </a>
 
-                    <a class="space-card space-card-reading luxury-card" href="#diario" data-go="diario">
-                        <div class="card-top-bar">
-                            <span class="card-icon-emblem">⌑ 📖</span>
-                            <span class="card-number">ÍNTIMO · PRIVADO</span>
-                        </div>
-                        <div class="space-card-body">
-                            <h3>Mi diario</h3>
-                            <p>Un cuaderno de pensamientos personales, protegido y solo visible para ti.</p>
-                            <span class="card-mini-quote">«Páginas guardadas en el corazón»</span>
-                            <span class="card-arrow" aria-hidden="true">↗</span>
-                        </div>
-                    </a>
+                        <!-- 3. Mi diario íntimo -->
+                        <a class="space-card space-card-reading luxury-card" href="#diario" data-go="diario">
+                            <div class="card-top-bar">
+                                <div class="card-icon-emblem">
+                                    <span class="emblem-glyph">📖</span>
+                                    <span class="emblem-botanical">🌿</span>
+                                </div>
+                                <span class="card-number">ÍNTIMO · REFLEXIÓN</span>
+                            </div>
+                            <div class="space-card-body">
+                                <h3>Mi Diario Íntimo</h3>
+                                <p>Un cuaderno de pensamientos personales, protegido y solo para ti.</p>
+                                <span class="card-mini-quote">«Páginas guardadas en el corazón»</span>
+                                <span class="card-arrow" aria-hidden="true">↗</span>
+                            </div>
+                        </a>
 
-                    <a class="space-card space-card-personal luxury-card" href="#conociendo-carla" data-go="conociendo-carla">
-                        <div class="card-top-bar">
-                            <span class="card-icon-emblem">? 🌸</span>
-                            <span class="card-number">RETO · CARIÑO</span>
-                        </div>
-                        <div class="space-card-body">
-                            <h3>Conociendo a Carla Lorena</h3>
-                            <p>Diez preguntas para celebrar lo que te hace única y una foto de recompensa.</p>
-                            <span class="card-mini-quote">«Cada respuesta es una joya tuya»</span>
-                            <span class="card-arrow" aria-hidden="true">↗</span>
-                        </div>
-                    </a>
+                        <!-- 4. Conociendo a Carla -->
+                        <a class="space-card space-card-personal luxury-card" href="#conociendo-carla" data-go="conociendo-carla">
+                            <div class="card-top-bar">
+                                <div class="card-icon-emblem">
+                                    <span class="emblem-glyph">💎</span>
+                                    <span class="emblem-botanical">🌸</span>
+                                </div>
+                                <span class="card-number">TRIVIA · CARIÑO</span>
+                            </div>
+                            <div class="space-card-body">
+                                <h3>Conociendo a Carla</h3>
+                                <p>Diez preguntas para celebrar lo que te hace única, brillante y especial.</p>
+                                <span class="card-mini-quote">«Cada respuesta es una joya tuya»</span>
+                                <span class="card-arrow" aria-hidden="true">↗</span>
+                            </div>
+                        </a>
 
-                    <a class="space-card space-card-personal luxury-card" href="#albumes" data-go="albumes">
-                        <div class="card-top-bar">
-                            <span class="card-icon-emblem">＋ 📸</span>
-                            <span class="card-number">TU ESPACIO · FOTOS</span>
-                        </div>
-                        <div class="space-card-body">
-                            <h3>Mis álbumes</h3>
-                            <p>Tu propio rincón fotográfico para atesorar colecciones de recuerdos bonitos.</p>
-                            <span class="card-mini-quote">«Momentos que nunca se olvidan»</span>
-                            <span class="card-arrow" aria-hidden="true">↗</span>
-                        </div>
-                    </a>
+                        <!-- 5. Álbumes -->
+                        <a class="space-card space-card-personal luxury-card" href="#albumes" data-go="albumes">
+                            <div class="card-top-bar">
+                                <div class="card-icon-emblem">
+                                    <span class="emblem-glyph">📸</span>
+                                    <span class="emblem-botanical">🌷</span>
+                                </div>
+                                <span class="card-number">FOTOS · RECUERDOS</span>
+                            </div>
+                            <div class="space-card-body">
+                                <h3>Álbum de Recuerdos</h3>
+                                <p>Tu rincón fotográfico para atesorar colecciones de momentos bonitos.</p>
+                                <span class="card-mini-quote">«Instantes que perduran siempre»</span>
+                                <span class="card-arrow" aria-hidden="true">↗</span>
+                            </div>
+                        </a>
+
+                        <!-- 6. Juegos del jardín -->
+                        <a class="space-card space-card-dreams luxury-card" href="#juegos" data-go="juegos">
+                            <div class="card-top-bar">
+                                <div class="card-icon-emblem">
+                                    <span class="emblem-glyph">🌻</span>
+                                    <span class="emblem-botanical">🎮</span>
+                                </div>
+                                <span class="card-number">JUEGOS · ALEGRÍA</span>
+                            </div>
+                            <div class="space-card-body">
+                                <h3>Juegos del Jardín</h3>
+                                <p>Experiencias interactivas y dinámicas creadas para hacerte sonreír.</p>
+                                <span class="card-mini-quote">«Momentos de alegría y complicidad»</span>
+                                <span class="card-arrow" aria-hidden="true">↗</span>
+                            </div>
+                        </a>
+                    </div>
                 </div>
                 </div>
             </div>

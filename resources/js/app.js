@@ -2444,11 +2444,32 @@ function initRomanticFeatures() {
         const meiQuote = document.getElementById('mei-quote');
         const meiHint = document.getElementById('mei-action-hint');
 
+        let hidePodTimer = null;
         function hideInspectPod() {
             if (!inspectPod) return;
-            inspectPod.style.opacity = '0';
-            inspectPod.hidden = true;
-            inspectPod.classList.remove('is-below');
+            inspectPod.classList.remove('is-visible');
+            clearTimeout(hidePodTimer);
+            hidePodTimer = setTimeout(() => {
+                if (!inspectPod.classList.contains('is-visible')) {
+                    inspectPod.hidden = true;
+                }
+            }, 280);
+        }
+
+        if (inspectPod) {
+            inspectPod.addEventListener('click', () => {
+                const target = inspectPod.dataset.targetScreen;
+                if (target && typeof showScreen === 'function') {
+                    showScreen(target);
+                }
+            });
+            inspectPod.addEventListener('mouseenter', () => {
+                clearTimeout(hidePodTimer);
+                inspectPod.classList.add('is-visible');
+            });
+            inspectPod.addEventListener('mouseleave', () => {
+                hideInspectPod();
+            });
         }
 
         flowerNodes.forEach((node) => {
@@ -2482,35 +2503,21 @@ function initRomanticFeatures() {
                     if (meiHint) meiHint.textContent = `Entrar a ${title} →`;
                 }
 
-                // Posicionar Pod Flotante con sistema Anti-Colisión
+                // Posicionar Pod Flotante en Centro Seguro (Garantía Anti-Colisión)
                 if (inspectPod) {
+                    clearTimeout(hidePodTimer);
                     if (podEmblem) podEmblem.textContent = emblem;
                     if (podTitle) podTitle.textContent = title;
                     if (podBiome) podBiome.textContent = flowerName;
                     if (podQuote) podQuote.textContent = `«${cleanQuote}»`;
+                    inspectPod.dataset.targetScreen = screenTarget;
 
-                    const realmRect = gardenRealm.getBoundingClientRect();
-                    const nodeRect = node.getBoundingClientRect();
-
-                    const rawCenterX = (nodeRect.left + nodeRect.width / 2) - realmRect.left;
-                    const nodeCenterY = (nodeRect.top + nodeRect.height / 2) - realmRect.top;
-
-                    // Clamping horizontal para que nunca se corte en los bordes laterales
-                    const marginX = 148;
-                    const clampedX = Math.max(marginX, Math.min(realmRect.width - marginX, rawCenterX));
-
-                    // Si el nodo está en la mitad superior del mapa, el globo abre HACIA ABAJO; si está abajo, HACIA ARRIBA
-                    const openBelow = nodeCenterY < realmRect.height * 0.48;
-                    inspectPod.classList.toggle('is-below', openBelow);
-
-                    const posY = openBelow
-                        ? (nodeRect.bottom - realmRect.top) + 10
-                        : (nodeRect.top - realmRect.top) - 10;
-
-                    inspectPod.style.left = `${clampedX}px`;
-                    inspectPod.style.top = `${posY}px`;
+                    inspectPod.style.removeProperty('top');
+                    inspectPod.style.removeProperty('left');
                     inspectPod.hidden = false;
-                    inspectPod.style.opacity = '1';
+                    // Trigger reflow for smooth transition
+                    void inspectPod.offsetWidth;
+                    inspectPod.classList.add('is-visible');
                 }
             });
 
@@ -2529,8 +2536,59 @@ function initRomanticFeatures() {
                 if (meiTitle) meiTitle.textContent = 'El Corazón del Jardín de Carla';
                 if (meiBadge) meiBadge.textContent = 'GRAN ROSA IMPERIAL';
                 if (meiQuote) meiQuote.textContent = '«Pasa el cursor sobre cualquier flor del mapa para iluminar su sendero y descubrir lo que guarda para ti.»';
-                if (meiHint) meiHint.textContent = 'Explora los 11 rincones ✿';
+                if (meiHint) meiHint.textContent = 'Explora los 12 talismanes ✿';
             }
+        });
+
+        // 3.5 INTERACCIÓN CON FAUNA ENCANTADA (Mariposas & Mariquitas)
+        const faunaToast = document.getElementById('fauna-toast-bubble');
+        let faunaToastTimer = null;
+
+        function showFaunaMessage(creatureEl, message) {
+            if (!creatureEl || !message) return;
+            if (faunaToast) {
+                faunaToast.textContent = message;
+                const rect = creatureEl.getBoundingClientRect();
+                const realmRect = gardenRealm.getBoundingClientRect();
+                const x = (rect.left + rect.width / 2) - realmRect.left;
+                const y = rect.top - realmRect.top;
+                faunaToast.style.left = `${x}px`;
+                faunaToast.style.top = `${y}px`;
+                faunaToast.classList.add('is-active');
+
+                clearTimeout(faunaToastTimer);
+                faunaToastTimer = setTimeout(() => {
+                    faunaToast.classList.remove('is-active');
+                }, 3400);
+            }
+            if (soundEnabled && typeof playSoftChime === 'function') {
+                playSoftChime(1046.50);
+            }
+        }
+
+        document.querySelectorAll('.garden-creature').forEach(creature => {
+            creature.addEventListener('click', (e) => {
+                e.stopPropagation();
+                const msg = creature.dataset.message || creature.getAttribute('title') || '';
+                showFaunaMessage(creature, msg);
+
+                // Disparo de polen brillante en el canvas
+                if (canvas && typeof FloralParticle === 'function') {
+                    const rect = creature.getBoundingClientRect();
+                    const realmRect = gardenRealm.getBoundingClientRect();
+                    const cx = (rect.left + rect.width / 2) - realmRect.left;
+                    const cy = (rect.top + rect.height / 2) - realmRect.top;
+                    for (let i = 0; i < 10; i++) {
+                        const p = new FloralParticle();
+                        p.x = cx;
+                        p.y = cy;
+                        p.type = 'pollen';
+                        p.vx = (Math.random() - 0.5) * 5;
+                        p.vy = (Math.random() - 0.5) * 5;
+                        petals.push(p);
+                    }
+                }
+            });
         });
 
         // 4. CONTROLES DE LA BARRA DE DINAMISMO
@@ -5706,9 +5764,11 @@ if (document.readyState === 'loading') {
         initFamilySanctuary();
         initGardenUXInnovations();
         initGamesHub();
+        initDedicationExperience();
     });
 } else {
     initFamilySanctuary();
     initGardenUXInnovations();
     initGamesHub();
+    initDedicationExperience();
 }

@@ -1,5 +1,5 @@
+// garden-ux-innovations.js
 /**
- * garden-ux-innovations.js
  * Las 4 Experiencias de Usuario de Vanguardia para El Jardín de Carla Lorena:
  * 1. La Brújula del Jardín (Dock Flotante Ergonómico Inferior)
  * 2. Efecto Holográfico y Giros 3D (Tilt Card & Specular Sheen Interaction)
@@ -8,7 +8,10 @@
  */
 
 export function initGardenUXInnovations() {
-    initGardenBottomDock();
+    // Retirar dock horizontal inferior permanente (botones eliminados y buscar reubicado)
+    const oldDock = document.getElementById('garden-compass-dock');
+    if (oldDock) oldDock.remove();
+
     init3DTiltCards();
     initCandlelightReadingMode();
     initGardenSpotlightSearch();
@@ -23,72 +26,9 @@ export function initGardenUXInnovations() {
  * - 💌 Memorias & Notas: Abre el cajón lateral contextual #corner-crud-drawer
  */
 function initGardenBottomDock() {
-    let dock = document.getElementById('garden-compass-dock');
-    if (dock) return; // Ya existe
-
-    dock = document.createElement('nav');
-    dock.id = 'garden-compass-dock';
-    dock.className = 'garden-compass-dock';
-    dock.setAttribute('aria-label', 'Brújula de Navegación del Jardín');
-    dock.innerHTML = `
-        <div class="compass-dock-glow"></div>
-        <div class="compass-dock-items">
-            <a href="#inicio" data-go="inicio" class="compass-dock-btn" data-dock-target="inicio" title="Inicio, Clima y Estados 24h">
-                <span class="compass-dock-icon">🌸</span>
-                <span class="compass-dock-label">Inicio</span>
-            </a>
-            <a href="#mapa" data-go="mapa" class="compass-dock-btn" data-dock-target="mapa" title="Mapa del Jardín Secreto">
-                <span class="compass-dock-icon">🗺️</span>
-                <span class="compass-dock-label">Mapa</span>
-            </a>
-            <a href="#familia" data-go="familia" class="compass-dock-btn" data-dock-target="familia" title="Santuario Familiar Privado">
-                <span class="compass-dock-icon">👨‍👩‍👧‍👦</span>
-                <span class="compass-dock-label">Mi Familia</span>
-            </a>
-            <button type="button" class="compass-dock-btn btn-dock-notes" id="compass-btn-notes" title="Abrir Notas & Memorias">
-                <span class="compass-dock-icon">💌</span>
-                <span class="compass-dock-label">Memorias</span>
-            </button>
-            <button type="button" class="compass-dock-btn btn-dock-spotlight" id="compass-btn-spotlight" title="Buscador Universal Mágico (Ctrl+K)">
-                <span class="compass-dock-icon">✨</span>
-                <span class="compass-dock-label">Buscar</span>
-            </button>
-        </div>
-    `;
-
-    document.body.appendChild(dock);
-
-    // Eventos de botones
-    const btnNotes = document.getElementById('compass-btn-notes');
-    btnNotes?.addEventListener('click', (e) => {
-        e.preventDefault();
-        if (typeof window.openCornerNotesDrawer === 'function') {
-            window.openCornerNotesDrawer();
-        } else {
-            const drawer = document.getElementById('corner-crud-drawer');
-            if (drawer) drawer.hidden = false;
-        }
-    });
-
-    const btnSpotlight = document.getElementById('compass-btn-spotlight');
-    btnSpotlight?.addEventListener('click', (e) => {
-        e.preventDefault();
-        openGardenSpotlight();
-    });
-
-    // Actualizar clase activa del Dock según la pantalla en pantalla
-    function updateActiveDockBtn() {
-        const hash = window.location.hash.replace('#', '') || 'inicio';
-        const buttons = dock.querySelectorAll('.compass-dock-btn[data-dock-target]');
-        buttons.forEach(btn => {
-            const isMatch = btn.dataset.dockTarget === hash;
-            btn.classList.toggle('is-active', isMatch);
-        });
-    }
-
-    window.addEventListener('hashchange', updateActiveDockBtn);
-    window.addEventListener('popstate', updateActiveDockBtn);
-    updateActiveDockBtn();
+    // Retirado: 4 botones eliminados y 'Buscar' reubicado en la parte superior de Recuerdos del Rincón
+    const dock = document.getElementById('garden-compass-dock');
+    if (dock) dock.remove();
 }
 
 /**
@@ -104,7 +44,10 @@ function init3DTiltCards() {
         '.game-card',
         '.corner-note-card',
         '.promenade-card',
-        '.wax-letter-card'
+        '.wax-letter-card',
+        '.pillar-card',
+        '.dedication-letter-envelope',
+        '.timeline-card'
     ];
 
     function applyTiltToElement(el) {
@@ -123,15 +66,15 @@ function init3DTiltCards() {
             const rect = el.getBoundingClientRect();
             const x = e.clientX - rect.left;
             const y = e.clientY - rect.top;
-            
+
             const centerX = rect.width / 2;
             const centerY = rect.height / 2;
-            
+
             const rotateX = ((y - centerY) / centerY) * -10; // Max 10 deg
             const rotateY = ((x - centerX) / centerX) * 10;
-            
+
             el.style.transform = `perspective(1000px) rotateX(${rotateX.toFixed(2)}deg) rotateY(${rotateY.toFixed(2)}deg) translateY(-4px)`;
-            
+
             // Reflejo de luz dorada
             const sheenX = (x / rect.width) * 100;
             const sheenY = (y / rect.height) * 100;
@@ -200,7 +143,7 @@ function initCandlelightReadingMode() {
         candlelightOverlay.classList.add('is-active');
         generateFireflies(16);
         document.body.classList.add('in-candlelight-mode');
-        
+
         // Sonido armónico de campanas suaves
         if (typeof window.playSoftChime === 'function' && !window.__gardenMasterAudioMuted) {
             window.playSoftChime(440.00); // A4
@@ -311,8 +254,8 @@ function initGardenSpotlightSearch() {
         const cleanQ = query.trim().toLowerCase();
         const filtered = searchDatabase.filter(item => {
             const matchesFilter = currentFilter === 'all' || item.type === currentFilter;
-            const matchesQuery = !cleanQ || 
-                item.title.toLowerCase().includes(cleanQ) || 
+            const matchesQuery = !cleanQ ||
+                item.title.toLowerCase().includes(cleanQ) ||
                 item.subtitle.toLowerCase().includes(cleanQ) ||
                 item.type.toLowerCase().includes(cleanQ);
             return matchesFilter && matchesQuery;
@@ -377,6 +320,13 @@ function initGardenSpotlightSearch() {
         if (e.target === spotlightDialog) {
             closeGardenSpotlight();
         }
+    });
+
+    // Botón flotante derecho de búsqueda (en la parte superior de Recuerdos del Rincón)
+    const floatingSearchBtn = document.getElementById('garden-search-floating-btn');
+    floatingSearchBtn?.addEventListener('click', (e) => {
+        e.preventDefault();
+        openGardenSpotlight();
     });
 
     // Tecla Global Ctrl + K / Cmd + K

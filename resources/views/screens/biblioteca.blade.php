@@ -1,4 +1,4 @@
-        <section class="screen" data-screen="biblioteca" aria-labelledby="library-title" hidden>
+        <section class="screen library-screen" data-screen="biblioteca" id="screen-biblioteca" aria-labelledby="library-title" hidden>
             <div class="page-shell">
                 <!-- Barra de Navegación de la Pantalla -->
                 <div class="screen-nav-bar">
@@ -40,7 +40,7 @@
                             </span>
                         </div>
                         <p class="eyebrow">INSPIRACIÓN · FRASES CÉLEBRES, LECTURAS & REFLEXIONES VIVAS</p>
-                        <h1 id="library-title" class="library-crimson-title">Inspiración · <em>Palabras que iluminan el alma</em></h1>
+                        <h1 id="library-title" class="library-crimson-title shimmer-title">Inspiración · <em>Palabras que iluminan el alma</em></h1>
                         <p>Un santuario de letras escogidas donde cada amanecer florece una nueva selección literaria de frases célebres, pensamientos botánicos y poemas manuscritos dedicados a tu esencia, Carla Lorena. Disfruta de la lectura con calma o descubre nuevos tesoros al azar.</p>
                     </div>
                     <div class="library-heading-actions">
@@ -166,7 +166,7 @@
                     </article>
 
                     <!-- Tarjeta 2: Joya Literaria & Sabiduría Clásica del Día -->
-                    <article class="music-card wisdom-card luxury-card" id="daily-wisdom-card">
+                    <article class="reading-card wisdom-card luxury-card" id="daily-wisdom-card">
                         <div class="card-top-bar">
                             <div class="top-bar-left">
                                 <span class="card-icon-emblem" aria-hidden="true">
@@ -217,7 +217,7 @@
                             </div>
 
                             <!-- Barra de Acciones de la Joya Literaria -->
-                            <div class="quote-actions music-card-footer">
+                            <div class="quote-actions wisdom-card-footer">
                                 <div class="quote-action-buttons">
                                     <button class="button button-outline button-sm atelier-btn-subtle" type="button" id="next-wisdom-btn" title="Descubrir otra joya clásica">
                                         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
