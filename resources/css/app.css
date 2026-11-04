@@ -21387,11 +21387,80 @@ footer a:hover, .site-footer a:hover {
     .place-games         { bottom: 35px; right: 15%; }
 }
 
-/* 4. Teléfonos Móviles y Pantallas Táctiles (max-width: 768px) - Modo Ultra Eficiente */
+/* 4. Teléfonos Móviles y Pantallas Táctiles (max-width: 768px) - Modo Ultra Eficiente & Compacto */
 @media (max-width: 768px) {
-    /* 1. Eliminar capas pesadas de animación, partículas, fauna y destellos */
+    /* 1. Header Compacto de Pantalla Mapa */
+    #screen-mapa .page-shell {
+        padding-top: 4px !important;
+    }
+
+    #screen-mapa .page-heading {
+        margin-bottom: 6px !important;
+    }
+
+    #screen-mapa .atelier-badge-strip,
+    #screen-mapa .heading-mark,
+    #screen-mapa .page-heading p:not(.eyebrow) {
+        display: none !important;
+    }
+
+    #screen-mapa .eyebrow {
+        font-size: 10px !important;
+        margin-bottom: 2px !important;
+        letter-spacing: 0.05em !important;
+    }
+
+    #screen-mapa h1#map-title {
+        font-size: 20px !important;
+        margin: 0 0 2px !important;
+        line-height: 1.2 !important;
+    }
+
+    /* 2. Barra Editorial Fina y Elegante */
+    .map-editorial-inspect-bar {
+        padding: 5px 10px !important;
+        border-radius: 12px !important;
+        gap: 6px !important;
+        margin-bottom: 6px !important;
+        background: #ffffff !important;
+        border: 1px solid rgba(244, 114, 182, 0.3) !important;
+        box-shadow: 0 2px 6px rgba(181, 48, 79, 0.06) !important;
+        backdrop-filter: none !important;
+        -webkit-backdrop-filter: none !important;
+    }
+
+    .mei-emblem {
+        font-size: 16px !important;
+    }
+
+    .mei-title {
+        font-size: 11px !important;
+        font-weight: 700 !important;
+    }
+
+    .mei-badge {
+        font-size: 7.5px !important;
+        padding: 1px 5px !important;
+    }
+
+    .mei-quote {
+        font-size: 9.5px !important;
+        line-height: 1.25 !important;
+        display: -webkit-box !important;
+        -webkit-line-clamp: 1 !important;
+        -webkit-box-orient: vertical !important;
+        overflow: hidden !important;
+    }
+
+    .mei-action-hint {
+        font-size: 8.5px !important;
+    }
+
+    /* 3. Eliminar capas pesadas de animación, partículas, fauna, destellos y SVG distorsionado */
     #garden-motion-canvas,
     .garden-motion-canvas,
+    .garden-botanical-frame,
+    .map-paths,
     .moving-nectar-pulse,
     .prism-photon-pulse,
     .sun-glamour-layer,
@@ -21402,163 +21471,195 @@ footer a:hover, .site-footer a:hover {
     .floral-inspect-pod,
     .flower-dew-drop,
     .flower-petal-aura,
-    .flower-accent-vine {
+    .flower-accent-vine,
+    .flower-biome-tag,
+    .flower-essence-text,
+    .imperial-rose-nameplate,
+    .map-solar-sunburst,
+    .solar-corona-glow,
+    .solar-pulsing-aura,
+    .solar-rays-svg,
+    .map-sparkle {
         display: none !important;
         animation: none !important;
         visibility: hidden !important;
     }
 
-    /* 2. Detener animaciones infinitas de enredaderas y eliminar filtros GPU pesados */
-    .living-botanical-trail,
-    .living-botanical-trail.radial-branch,
-    .living-botanical-trail.perimeter-constellation-net,
-    .living-botanical-trail.inner-constellation-net,
-    .prism-orbit-ellipse,
-    .prism-orbit-inner,
-    .prism-orbit-center-ring,
-    .branch-node-flower,
-    .branch-node-flower.prism-vertex-dot,
-    .grand-rose-imperial-svg,
-    .romantic-spin,
-    .medallion-friends-pulse {
-        animation: none !important;
-        filter: none !important;
-        stroke-dasharray: none !important;
-        stroke-dashoffset: 0 !important;
-        transition: none !important;
-        will-change: auto !important;
-    }
-
-    /* 3. Barra Editorial Limpia y Ligera */
-    .map-editorial-inspect-bar {
-        padding: 8px 12px !important;
-        border-radius: 14px !important;
-        gap: 8px !important;
-        background: #ffffff !important;
-        border: 1px solid rgba(244, 114, 182, 0.3) !important;
-        box-shadow: 0 2px 8px rgba(181, 48, 79, 0.08) !important;
-        backdrop-filter: none !important;
-        -webkit-backdrop-filter: none !important;
-    }
-
-    .mei-title {
-        font-size: 13px !important;
-    }
-
-    .mei-quote {
-        font-size: 11px !important;
-    }
-
-    /* 4. Contenedor del Mapa en Móvil: Rendimiento 60 FPS Estable */
+    /* 4. Contenedor del Mapa en Móvil: Dimensiones Compactas que NO ocupan toda la pantalla */
+    .universe-map,
     .dynamic-garden-container {
-        min-height: 560px !important;
-        border-radius: 18px !important;
-        padding: 6px 2px !important;
-        background: #fff8fa !important;
-        box-shadow: 0 2px 12px rgba(181, 48, 79, 0.08) !important;
+        position: relative !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        height: 330px !important;
+        min-height: 330px !important;
+        max-height: 330px !important;
+        aspect-ratio: auto !important;
+        border-radius: 16px !important;
+        padding: 0 !important;
+        margin: 0 auto 10px !important;
+        background: radial-gradient(circle at 50% 50%, #ffffff 0%, #fff7fa 55%, #faedf2 100%) !important;
+        box-shadow: 0 2px 10px rgba(181, 48, 79, 0.08) !important;
         border: 1px solid rgba(244, 114, 182, 0.25) !important;
         overflow: hidden !important;
         will-change: auto !important;
     }
 
-    /* 5. Medallones Anticolisión Limpios y Táctiles (Sin desenfoque ni lag) */
+    /* Órbitas concéntricas sutiles y proporcionadas en CSS (sin distorsión de imagen) */
+    .universe-map::before,
+    .dynamic-garden-container::before {
+        content: '' !important;
+        position: absolute !important;
+        width: 180px !important;
+        height: 180px !important;
+        top: calc(50% - 90px) !important;
+        left: calc(50% - 90px) !important;
+        border: 1px dashed rgba(244, 114, 182, 0.35) !important;
+        border-radius: 50% !important;
+        pointer-events: none !important;
+        display: block !important;
+        z-index: 1 !important;
+    }
+
+    .universe-map::after,
+    .dynamic-garden-container::after {
+        content: '' !important;
+        position: absolute !important;
+        width: 260px !important;
+        height: 260px !important;
+        top: calc(50% - 130px) !important;
+        left: calc(50% - 130px) !important;
+        border: 1px solid rgba(244, 114, 182, 0.18) !important;
+        border-radius: 50% !important;
+        pointer-events: none !important;
+        display: block !important;
+        z-index: 1 !important;
+    }
+
+    .garden-3d-stage {
+        position: absolute !important;
+        inset: 0 !important;
+        width: 100% !important;
+        height: 100% !important;
+        z-index: 2 !important;
+    }
+
+    /* 5. Medallones de Talismanes Compactos en Modo Badge Horizontal */
     .map-place,
     .luxury-medallion {
-        width: clamp(74px, 22.5vw, 86px) !important;
-        min-height: 64px !important;
-        padding: 5px 3px !important;
-        border-radius: 14px !important;
+        position: absolute !important;
+        z-index: 5 !important;
+        width: 76px !important;
+        min-height: 36px !important;
+        max-height: 38px !important;
+        height: 38px !important;
+        padding: 2px 4px !important;
+        border-radius: 10px !important;
         background: #ffffff !important;
-        border: 1px solid rgba(244, 114, 182, 0.35) !important;
-        box-shadow: 0 2px 8px rgba(181, 48, 79, 0.12) !important;
+        border: 1px solid rgba(244, 114, 182, 0.38) !important;
+        box-shadow: 0 2px 6px rgba(181, 48, 79, 0.10) !important;
         backdrop-filter: none !important;
         -webkit-backdrop-filter: none !important;
+        display: flex !important;
+        flex-direction: row !important;
+        align-items: center !important;
+        justify-content: flex-start !important;
+        gap: 4px !important;
         animation: none !important;
         transition: transform 0.1s ease !important;
         will-change: auto !important;
+        box-sizing: border-box !important;
     }
 
     .map-place:active {
-        transform: scale(0.96) !important;
+        transform: scale(0.95) !important;
         background: #fff0f5 !important;
     }
 
-    .map-place.sunlit-active,
-    .map-place.is-rotating-active {
-        animation: none !important;
-        box-shadow: 0 2px 8px rgba(181, 48, 79, 0.12) !important;
+    .flower-icon-wrap {
+        margin-bottom: 0 !important;
+        flex-shrink: 0 !important;
+        display: flex !important;
+        align-items: center !important;
+    }
+
+    .place-symbol {
+        font-size: 14px !important;
+        line-height: 1 !important;
     }
 
     .map-place strong,
     .flower-node-title {
         font-size: 9px !important;
+        font-weight: 700 !important;
         line-height: 1.15 !important;
-        margin-top: 1px !important;
-        text-align: center !important;
-    }
-
-    .place-symbol {
-        font-size: 15px !important;
-    }
-
-    .flower-biome-tag {
-        font-size: 6px !important;
-        padding: 1px 3px !important;
-        margin: 1px 0 !important;
-        max-width: 100% !important;
+        color: #3b0a2a !important;
+        margin-top: 0 !important;
+        text-align: left !important;
+        white-space: nowrap !important;
         overflow: hidden !important;
         text-overflow: ellipsis !important;
-        white-space: nowrap !important;
+        flex: 1 !important;
     }
 
-    .flower-essence-text {
-        display: none !important;
-    }
-
-    /* 6. Gran Rosa Imperial de Carla en el Centro Seguro */
+    /* 6. Centro Seguro: Rosa Imperial Proporcionada (48px) */
     .map-center {
-        width: 68px !important;
-        height: 68px !important;
-        left: calc(50% - 34px) !important;
-        top: calc(50% - 34px) !important;
+        position: absolute !important;
+        width: 48px !important;
+        height: 48px !important;
+        left: calc(50% - 24px) !important;
+        top: calc(50% - 24px) !important;
         z-index: 10 !important;
+        border-radius: 50% !important;
+        border: 2px solid #ffffff !important;
+        background: #fff0f5 !important;
+        box-shadow: 0 4px 12px rgba(181, 48, 79, 0.22) !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
         animation: none !important;
         filter: none !important;
     }
 
     .grand-rose-imperial-svg {
-        width: 68px !important;
-        height: 68px !important;
+        width: 44px !important;
+        height: 44px !important;
         animation: none !important;
         filter: none !important;
     }
 
-    /* Coordenadas en Constelación Oval Anticolisión (12 Rincones) */
-    /* Nivel 0: Corona Superior */
-    .place-library       { top: 8px; left: calc(50% - 40px); right: auto; }
+    /* 7. Distribución Armoniosa de los 12 Talismanes (Dentro de los 330px) */
+    /* Corona Superior */
+    .place-library       { top: 6px;   left: calc(50% - 38px) !important; right: auto !important; }
 
-    /* Nivel 1: Flancos Superiores */
-    .place-capsule       { top: 62px; left: 4px; right: auto; }
-    .place-amigos        { top: 62px; right: 4px; left: auto; }
+    /* Flancos Izquierdos (5 nodos espaciados) */
+    .place-capsule       { top: 48px;  left: 6px !important; right: auto !important; }
+    .place-gallery       { top: 98px;  left: 6px !important; right: auto !important; }
+    .place-stories       { top: 148px; left: 6px !important; right: auto !important; }
+    .place-family        { top: 198px; left: 6px !important; right: auto !important; }
+    .place-blog          { top: 248px; left: 6px !important; right: auto !important; }
 
-    /* Nivel 2: Cuadrante Alto */
-    .place-gallery       { top: 142px; left: 3px; right: auto; }
-    .place-dedicatoria   { top: 142px; right: 3px; left: auto; }
+    /* Flancos Derechos (5 nodos espaciados) */
+    .place-amigos        { top: 48px;  right: 6px !important; left: auto !important; }
+    .place-dedicatoria   { top: 98px;  right: 6px !important; left: auto !important; }
+    .place-garden        { top: 148px; right: 6px !important; left: auto !important; }
+    .place-entertainment { top: 198px; right: 6px !important; left: auto !important; }
+    .place-games         { top: 248px; right: 6px !important; left: auto !important; }
 
-    /* Nivel 3: Flanqueando la Rosa Central (Espacio lateral despejado) */
-    .place-stories       { top: 224px; left: 3px; right: auto; }
-    .place-garden        { top: 224px; right: 3px; left: auto; }
+    /* Base Inferior */
+    .place-dreams        { top: 286px; left: calc(50% - 38px) !important; right: auto !important; }
 
-    /* Nivel 4: Cuadrante Bajo */
-    .place-family        { top: 308px; left: 3px; right: auto; }
-    .place-entertainment { top: 308px; right: 3px; left: auto; }
-
-    /* Nivel 5: Flancos Inferiores */
-    .place-blog          { top: 390px; left: 4px; right: auto; }
-    .place-games         { top: 390px; right: 4px; left: auto; }
-
-    /* Nivel 6: Base Inferior Centrada */
-    .place-dreams        { top: 472px; left: calc(50% - 40px); right: auto; }
+    /* 8. Footer del Mapa Compacto */
+    .map-footer {
+        padding: 8px 4px !important;
+        font-size: 10px !important;
+        flex-direction: column !important;
+        gap: 4px !important;
+        text-align: center !important;
+    }
+    .map-hint-text {
+        display: none !important;
+    }
 }
 
 /* 5. MÃ³viles Extra Compactos (max-width: 360px, ej. iPhone SE / Galaxy Mini) */
@@ -29486,8 +29587,8 @@ html { scrollbar-color: #ff8ac0 #fff5fa; scrollbar-width: thin; }
     opacity: 0.65 !important;
 }
 
-/* Responsividad Impecable del Centro y Sol en Pantallas Menores */
-@media (max-width: 991px) {
+/* Responsividad Impecable del Centro y Sol en Tablets medianas */
+@media (min-width: 769px) and (max-width: 991px) {
     .map-center {
         width: 105px !important;
         height: 105px !important;
@@ -29512,33 +29613,6 @@ html { scrollbar-color: #ff8ac0 #fff5fa; scrollbar-width: thin; }
         height: 240px;
     }
 }
-
-@media (max-width: 640px) {
-    .map-center {
-        width: 78px !important;
-        height: 78px !important;
-    }
-    .grand-rose-imperial-svg {
-        width: 78px !important;
-        height: 78px !important;
-    }
-    .map-solar-sunburst {
-        inset: -45px;
-    }
-    .solar-corona-glow {
-        width: 110px;
-        height: 110px;
-    }
-    .solar-pulsing-aura {
-        width: 150px;
-        height: 150px;
-    }
-    .solar-rays-svg {
-        width: 180px;
-        height: 180px;
-    }
-}
-
 
 /* ── Admin Curation Cards (Galería, Destinos, Poemas) ─────────────────────── */
 .admin-curation-card {
