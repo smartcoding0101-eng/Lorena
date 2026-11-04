@@ -218,7 +218,7 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
 
     // ── Auditoría & Monitoreo de Tráfico de Usuarios ──
     Route::get('traffic', [\App\Http\Controllers\GardenTrafficController::class, 'adminIndex'])->name('traffic.index');
-    Route::delete('traffic/purge', [\App\Http\Controllers\GardenTrafficController::class, 'purge'])->name('traffic.purge');
+    Route::match(['post', 'delete'], 'traffic/purge', [\App\Http\Controllers\GardenTrafficController::class, 'purge'])->name('traffic.purge');
 });
 
 // Endpoint público para beacon de tráfico en la SPA

@@ -1963,9 +1963,11 @@ export function initializeAdminSystem() {
         const params = new URLSearchParams({
             page: page,
             type: type,
+            filter: type,
             screen: screen,
             range: range,
-            search: search
+            search: search,
+            q: search
         });
 
         const tbody = document.querySelector('#admin-traffic-table tbody');
@@ -1981,32 +1983,49 @@ export function initializeAdminSystem() {
                 }
             });
 
-            if (!res.ok) throw new Error('HTTP ' + res.status);
-            const data = await res.json();
-
-            // Render stats
-            if (data.stats) {
-                const s = data.stats;
-                const elOnline = document.getElementById('traffic-stat-online');
-                const elVisits = document.getElementById('traffic-stat-visits');
-                const elUniques = document.getElementById('traffic-stat-uniques');
-                const elReg = document.getElementById('traffic-stat-registered');
-                const elTop = document.getElementById('traffic-stat-topscreen');
-
-                if (elOnline) elOnline.textContent = s.online_now ?? 0;
-                if (elVisits) elVisits.textContent = s.visits_today ?? 0;
-                if (elUniques) elUniques.textContent = s.unique_visitors_today ?? 0;
-                if (elReg) elReg.textContent = s.registered_users_today ?? 0;
-                if (elTop) elTop.textContent = s.top_screen_today || 'inicio';
+            if (!res.ok) {
+                throw new Error('HTTP ' + res.status + ' (' + res.statusText + ')');
             }
 
-            // Render table rows
-            renderTrafficTable(data.visits || []);
-            renderTrafficPagination(data.pagination || null);
+            const data = await res.json();
+
+            // Render stats / metrics
+            const stats = data.stats || data.metrics || {};
+            const elOnline = document.getElementById('traffic-stat-online');
+            const elVisits = document.getElementById('traffic-stat-visits');
+            const elUniques = document.getElementById('traffic-stat-uniques');
+            const elReg = document.getElementById('traffic-stat-registered');
+            const elTop = document.getElementById('traffic-stat-topscreen');
+
+            if (elOnline) elOnline.textContent = stats.online_now ?? 0;
+            if (elVisits) elVisits.textContent = stats.visits_today ?? 0;
+            if (elUniques) elUniques.textContent = stats.unique_visitors_today ?? 0;
+            if (elReg) elReg.textContent = stats.registered_users_today ?? stats.registered_today ?? 0;
+            if (elTop) elTop.textContent = stats.top_screen_today ?? stats.top_screen ?? 'inicio';
+
+            // Resolve list and pagination safely
+            let visitsList = [];
+            let paginator = null;
+
+            if (Array.isArray(data.visits)) {
+                visitsList = data.visits;
+            } else if (data.visits && typeof data.visits === 'object') {
+                paginator = data.visits;
+                if (Array.isArray(data.visits.data)) {
+                    visitsList = data.visits.data;
+                }
+            }
+
+            if (data.pagination) {
+                paginator = data.pagination;
+            }
+
+            renderTrafficTable(visitsList);
+            renderTrafficPagination(paginator);
         } catch (err) {
             console.error('Error loading traffic:', err);
             if (tbody) {
-                tbody.innerHTML = '<tr><td colspan="7" style="text-align:center; padding:24px; color:#ef4444;">Error al cargar registros de tráfico. Verifique la conexión con el servidor.</td></tr>';
+                tbody.innerHTML = '<tr><td colspan="7" style="text-align:center; padding:24px; color:#ef4444;">Error al cargar registros de tráfico (' + escapeHtml(err.message || 'Error de conexión') + ').</td></tr>';
             }
         }
     }
@@ -2015,40 +2034,47 @@ export function initializeAdminSystem() {
         const tbody = document.querySelector('#admin-traffic-table tbody');
         if (!tbody) return;
 
-        if (!visits || visits.length === 0) {
+        if (!Array.isArray(visits) || visits.length === 0) {
             tbody.innerHTML = '<tr><td colspan="7" style="text-align:center; padding:32px; color:#94a3b8;">No se encontraron visitas que coincidan con los filtros aplicados.</td></tr>';
             return;
         }
 
+        const fiveMinAgo = Date.now() - 5 * 60 * 1000;
+
         tbody.innerHTML = visits.map(v => {
-            const isOnline = Boolean(v.is_online);
+            const lastSeenTime = v.last_seen_at ? new Date(v.last_seen_at).getTime() : (v.created_at ? new Date(v.created_at).getTime() : 0);
+            const isOnline = Boolean(v.is_online) || (lastSeenTime > fiveMinAgo);
+
             const statusDot = isOnline
                 ? '<span class="live-pulse-dot" style="display:inline-block; width:9px; height:9px; background:#22c55e; margin-right:6px;" title="En línea ahora"></span>'
                 : '<span style="display:inline-block; width:9px; height:9px; border-radius:50%; background:#94a3b8; margin-right:6px;" title="Desconectado"></span>';
 
-            const userBadge = v.is_registered
+            const userName = v.user?.name || v.user_name || '';
+            const userEmail = v.user?.email || v.user_email || '';
+            const isRegistered = Boolean(v.user_id || v.is_registered || userName);
+
+            const userBadge = isRegistered
                 ? `<div style="display:flex; align-items:center; gap:6px;">
                      ${statusDot}
                      <div>
-                       <strong style="color:#0284c7; display:block;">${escapeHtml(v.user_name || 'Usuario')}</strong>
-                       <span style="font-size:0.75rem; color:#64748b;">${escapeHtml(v.user_email || '')}</span>
+                       <strong style="color:#0284c7; display:block;">${escapeHtml(userName || ('Usuario #' + v.user_id))}</strong>
+                       ${userEmail ? `<span style="font-size:0.75rem; color:#64748b;">${escapeHtml(userEmail)}</span>` : ''}
                      </div>
                    </div>`
                 : `<div style="display:flex; align-items:center; gap:6px;">
                      ${statusDot}
-                     <span style="color:#64748b; font-size:0.85rem;">🌐 Visitante Anónimo</span>
+                     <span style="color:#64748b; font-size:0.85rem;">🌐 Invitado ${escapeHtml((v.visitor_uuid || '').slice(0, 8))}</span>
                    </div>`;
 
-            const deviceIcon = (v.device_type === 'mobile') ? '📱' : (v.device_type === 'tablet' ? '💻' : '🖥️');
-            const deviceLabel = `<span style="font-size:0.85rem;">${deviceIcon} ${escapeHtml(v.device_type || 'desktop')} / <strong>${escapeHtml(v.browser || 'Navegador')}</strong></span>`;
+            const device = v.device || v.device_type || 'Escritorio';
+            const deviceIcon = /móvil|movil|mobile|phone/i.test(device) ? '📱' : (/tablet|ipad/i.test(device) ? '💻' : '🖥️');
+            const browser = v.browser || 'Navegador';
+            const os = v.os ? ` (${escapeHtml(v.os)})` : '';
+            const deviceLabel = `<span style="font-size:0.85rem;">${deviceIcon} ${escapeHtml(device)} / <strong>${escapeHtml(browser)}</strong>${os}</span>`;
 
-            const durationSec = Number(v.duration_seconds || 0);
-            let durationText = durationSec + 's';
-            if (durationSec >= 60) {
-                const mins = Math.floor(durationSec / 60);
-                const rem = durationSec % 60;
-                durationText = `${mins}m ${rem}s`;
-            }
+            const durationText = v.formatted_duration || (Number(v.duration_seconds || 0) + 's');
+            const screenName = v.screen || v.current_screen || 'inicio';
+            const lastSeenText = v.formatted_last_seen || v.last_seen_at || v.created_at || '—';
 
             return `
                 <tr>
@@ -2057,17 +2083,17 @@ export function initializeAdminSystem() {
                     <td>${deviceLabel}</td>
                     <td>
                         <span class="ap-badge" style="background:rgba(14, 165, 233, 0.1); color:#0284c7; font-weight:600; padding:3px 8px; border-radius:12px; font-size:0.8rem;">
-                            📍 ${escapeHtml(v.current_screen || 'inicio')}
+                            📍 ${escapeHtml(screenName)}
                         </span>
                     </td>
                     <td style="font-family:monospace; font-size:0.8rem; color:#475569;">
                         ${escapeHtml(v.ip_address || '—')}
                     </td>
                     <td style="font-size:0.85rem; color:#334155; font-weight:500;">
-                        ⏱️ ${durationText}
+                        ⏱️ ${escapeHtml(durationText)}
                     </td>
                     <td style="font-size:0.8rem; color:#64748b;" title="${escapeHtml(v.created_at || '')}">
-                        ${escapeHtml(v.last_active_at || v.created_at || '—')}
+                        ${escapeHtml(lastSeenText)}
                     </td>
                 </tr>
             `;
@@ -2078,7 +2104,7 @@ export function initializeAdminSystem() {
         const nav = document.getElementById('admin-traffic-pagination');
         if (!nav) return;
 
-        if (!p || p.last_page <= 1) {
+        if (!p || !p.last_page || p.last_page <= 1) {
             nav.innerHTML = '';
             return;
         }

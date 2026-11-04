@@ -91,10 +91,11 @@ class GardenTrafficController extends Controller
      */
     public function adminIndex(Request $request): JsonResponse
     {
-        $filter = $request->query('filter', 'all'); // all, registered, guests, online
-        $screen = $request->query('screen', 'all');
-        $dateRange = $request->query('range', 'all'); // today, 7days, 30days, all
-        $search = trim((string) $request->query('q', ''));
+        try {
+            $filter = $request->query('filter', $request->query('type', 'all'));
+            $screen = $request->query('screen', 'all');
+            $dateRange = $request->query('range', 'all');
+            $search = trim((string) $request->query('q', $request->query('search', '')));
 
         $query = GardenTrafficVisit::with('user')->latest('last_seen_at');
 
@@ -165,17 +166,54 @@ class GardenTrafficController extends Controller
             ];
         }
 
+        $statsPayload = [
+            'online_now' => $onlineNowCount,
+            'visits_today' => $visitsTodayCount,
+            'unique_visitors_today' => $uniqueVisitorsToday,
+            'registered_users_today' => $registeredToday,
+            'registered_today' => $registeredToday,
+            'top_screen_today' => $topScreen,
+            'top_screen' => $topScreen,
+        ];
+
         return response()->json([
+            'success' => true,
             'visits' => $visits,
-            'metrics' => [
-                'online_now' => $onlineNowCount,
-                'visits_today' => $visitsTodayCount,
-                'unique_visitors_today' => $uniqueVisitorsToday,
-                'registered_today' => $registeredToday,
-                'top_screen' => $topScreen,
-            ],
+            'metrics' => $statsPayload,
+            'stats' => $statsPayload,
             'chart' => $sevenDays,
         ]);
+        } catch (\Throwable $e) {
+            \Log::error('Garden traffic adminIndex error: ' . $e->getMessage());
+            return response()->json([
+                'success' => false,
+                'message' => $e->getMessage(),
+                'visits' => [
+                    'current_page' => 1,
+                    'data' => [],
+                    'last_page' => 1,
+                    'total' => 0,
+                ],
+                'metrics' => [
+                    'online_now' => 0,
+                    'visits_today' => 0,
+                    'unique_visitors_today' => 0,
+                    'registered_users_today' => 0,
+                    'registered_today' => 0,
+                    'top_screen_today' => 'inicio',
+                    'top_screen' => 'inicio',
+                ],
+                'stats' => [
+                    'online_now' => 0,
+                    'visits_today' => 0,
+                    'unique_visitors_today' => 0,
+                    'registered_users_today' => 0,
+                    'registered_today' => 0,
+                    'top_screen_today' => 'inicio',
+                    'top_screen' => 'inicio',
+                ],
+            ], 200);
+        }
     }
 
     /**
