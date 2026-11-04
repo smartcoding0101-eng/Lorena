@@ -668,6 +668,9 @@ function showScreen(screenName, updateHistory = true) {
         window.history.pushState({ screen: target }, '', `#${target}`);
     }
 
+    // Notificar al monitor de tráfico del cambio de pantalla en la SPA
+    window.dispatchEvent(new CustomEvent('garden:screen-change', { detail: { screen: target } }));
+
     const activeScreen = screens.find((screen) => screen.dataset.screen === target);
     const heading = activeScreen?.querySelector('h1');
     document.title = heading ? `${heading.innerText.trim().replace(/\s+/g, ' ')} · El Jardín de Carla` : 'El Jardín de Carla';

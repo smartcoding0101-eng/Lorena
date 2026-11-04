@@ -1088,6 +1088,7 @@ export function initializeAdminSystem() {
         else if (tabName === 'media') loadMedia();
         else if (tabName === 'season-audios') loadSeasonAudios();
         else if (tabName === 'settings') loadSettings();
+        else if (tabName === 'traffic') loadTraffic();
     }
 
     // ═══════════════════════════════════════════════════════════════════════
@@ -1944,5 +1945,249 @@ export function initializeAdminSystem() {
         }
     }
 
+
+
+    // ═══════════════════════════════════════════════════════════════════════
+    //  MÓDULO: AUDITORÍA Y MONITOREO DE TRÁFICO EN TIEMPO REAL
+    // ═══════════════════════════════════════════════════════════════════════
+    let trafficCurrentPage = 1;
+    let trafficRefreshInterval = null;
+
+    async function loadTraffic(page = 1) {
+        trafficCurrentPage = page;
+        const type = document.getElementById('traffic-filter-type')?.value || 'all';
+        const screen = document.getElementById('traffic-filter-screen')?.value || 'all';
+        const range = document.getElementById('traffic-filter-range')?.value || 'today';
+        const search = document.getElementById('traffic-search-input')?.value?.trim() || '';
+
+        const params = new URLSearchParams({
+            page: page,
+            type: type,
+            screen: screen,
+            range: range,
+            search: search
+        });
+
+        const tbody = document.querySelector('#admin-traffic-table tbody');
+        if (tbody && page === 1 && !trafficRefreshInterval) {
+            tbody.innerHTML = '<tr><td colspan="7" style="text-align:center; padding:24px; color:#94a3b8;">Cargando registros de tráfico... 🌸</td></tr>';
+        }
+
+        try {
+            const res = await fetch('/admin/traffic?' + params.toString(), {
+                headers: {
+                    'Accept': 'application/json',
+                    'X-Requested-With': 'XMLHttpRequest'
+                }
+            });
+
+            if (!res.ok) throw new Error('HTTP ' + res.status);
+            const data = await res.json();
+
+            // Render stats
+            if (data.stats) {
+                const s = data.stats;
+                const elOnline = document.getElementById('traffic-stat-online');
+                const elVisits = document.getElementById('traffic-stat-visits');
+                const elUniques = document.getElementById('traffic-stat-uniques');
+                const elReg = document.getElementById('traffic-stat-registered');
+                const elTop = document.getElementById('traffic-stat-topscreen');
+
+                if (elOnline) elOnline.textContent = s.online_now ?? 0;
+                if (elVisits) elVisits.textContent = s.visits_today ?? 0;
+                if (elUniques) elUniques.textContent = s.unique_visitors_today ?? 0;
+                if (elReg) elReg.textContent = s.registered_users_today ?? 0;
+                if (elTop) elTop.textContent = s.top_screen_today || 'inicio';
+            }
+
+            // Render table rows
+            renderTrafficTable(data.visits || []);
+            renderTrafficPagination(data.pagination || null);
+        } catch (err) {
+            console.error('Error loading traffic:', err);
+            if (tbody) {
+                tbody.innerHTML = '<tr><td colspan="7" style="text-align:center; padding:24px; color:#ef4444;">Error al cargar registros de tráfico. Verifique la conexión con el servidor.</td></tr>';
+            }
+        }
+    }
+
+    function renderTrafficTable(visits) {
+        const tbody = document.querySelector('#admin-traffic-table tbody');
+        if (!tbody) return;
+
+        if (!visits || visits.length === 0) {
+            tbody.innerHTML = '<tr><td colspan="7" style="text-align:center; padding:32px; color:#94a3b8;">No se encontraron visitas que coincidan con los filtros aplicados.</td></tr>';
+            return;
+        }
+
+        tbody.innerHTML = visits.map(v => {
+            const isOnline = Boolean(v.is_online);
+            const statusDot = isOnline
+                ? '<span class="live-pulse-dot" style="display:inline-block; width:9px; height:9px; background:#22c55e; margin-right:6px;" title="En línea ahora"></span>'
+                : '<span style="display:inline-block; width:9px; height:9px; border-radius:50%; background:#94a3b8; margin-right:6px;" title="Desconectado"></span>';
+
+            const userBadge = v.is_registered
+                ? `<div style="display:flex; align-items:center; gap:6px;">
+                     ${statusDot}
+                     <div>
+                       <strong style="color:#0284c7; display:block;">${escapeHtml(v.user_name || 'Usuario')}</strong>
+                       <span style="font-size:0.75rem; color:#64748b;">${escapeHtml(v.user_email || '')}</span>
+                     </div>
+                   </div>`
+                : `<div style="display:flex; align-items:center; gap:6px;">
+                     ${statusDot}
+                     <span style="color:#64748b; font-size:0.85rem;">🌐 Visitante Anónimo</span>
+                   </div>`;
+
+            const deviceIcon = (v.device_type === 'mobile') ? '📱' : (v.device_type === 'tablet' ? '💻' : '🖥️');
+            const deviceLabel = `<span style="font-size:0.85rem;">${deviceIcon} ${escapeHtml(v.device_type || 'desktop')} / <strong>${escapeHtml(v.browser || 'Navegador')}</strong></span>`;
+
+            const durationSec = Number(v.duration_seconds || 0);
+            let durationText = durationSec + 's';
+            if (durationSec >= 60) {
+                const mins = Math.floor(durationSec / 60);
+                const rem = durationSec % 60;
+                durationText = `${mins}m ${rem}s`;
+            }
+
+            return `
+                <tr>
+                    <td style="font-size:0.8rem; color:#94a3b8; font-family:monospace;">#${v.id}</td>
+                    <td>${userBadge}</td>
+                    <td>${deviceLabel}</td>
+                    <td>
+                        <span class="ap-badge" style="background:rgba(14, 165, 233, 0.1); color:#0284c7; font-weight:600; padding:3px 8px; border-radius:12px; font-size:0.8rem;">
+                            📍 ${escapeHtml(v.current_screen || 'inicio')}
+                        </span>
+                    </td>
+                    <td style="font-family:monospace; font-size:0.8rem; color:#475569;">
+                        ${escapeHtml(v.ip_address || '—')}
+                    </td>
+                    <td style="font-size:0.85rem; color:#334155; font-weight:500;">
+                        ⏱️ ${durationText}
+                    </td>
+                    <td style="font-size:0.8rem; color:#64748b;" title="${escapeHtml(v.created_at || '')}">
+                        ${escapeHtml(v.last_active_at || v.created_at || '—')}
+                    </td>
+                </tr>
+            `;
+        }).join('');
+    }
+
+    function renderTrafficPagination(p) {
+        const nav = document.getElementById('admin-traffic-pagination');
+        if (!nav) return;
+
+        if (!p || p.last_page <= 1) {
+            nav.innerHTML = '';
+            return;
+        }
+
+        let html = `<div style="display:flex; justify-content:space-between; align-items:center; width:100%; padding:12px 4px; font-size:0.85rem; color:#64748b;">`;
+        html += `<span>Página ${p.current_page} de ${p.last_page} (${p.total} registros)</span>`;
+        html += `<div style="display:flex; gap:8px;">`;
+
+        if (p.current_page > 1) {
+            html += `<button class="ap-btn-secondary btn-traffic-page" data-page="${p.current_page - 1}" type="button">« Anterior</button>`;
+        }
+        if (p.current_page < p.last_page) {
+            html += `<button class="ap-btn-secondary btn-traffic-page" data-page="${p.current_page + 1}" type="button">Siguiente »</button>`;
+        }
+
+        html += `</div></div>`;
+        nav.innerHTML = html;
+
+        nav.querySelectorAll('.btn-traffic-page').forEach(b => {
+            b.onclick = () => {
+                const targetPage = Number(b.dataset.page);
+                if (targetPage) loadTraffic(targetPage);
+            };
+        });
+    }
+
+    function initTrafficEvents() {
+        const btnRefresh = document.getElementById('btn-refresh-traffic');
+        if (btnRefresh) {
+            btnRefresh.onclick = () => {
+                notify('Actualizando métricas de tráfico... 🔄');
+                loadTraffic(trafficCurrentPage);
+            };
+        }
+
+        const filterType = document.getElementById('traffic-filter-type');
+        const filterScreen = document.getElementById('traffic-filter-screen');
+        const filterRange = document.getElementById('traffic-filter-range');
+        const searchInput = document.getElementById('traffic-search-input');
+
+        filterType?.addEventListener('change', () => loadTraffic(1));
+        filterScreen?.addEventListener('change', () => loadTraffic(1));
+        filterRange?.addEventListener('change', () => loadTraffic(1));
+
+        let searchDebounce = null;
+        searchInput?.addEventListener('input', () => {
+            clearTimeout(searchDebounce);
+            searchDebounce = setTimeout(() => loadTraffic(1), 350);
+        });
+
+        const btnPurge = document.getElementById('btn-purge-traffic');
+        if (btnPurge) {
+            btnPurge.onclick = async () => {
+                if (!await window.showConfirm({
+                    title: '¿Purgar registros antiguos?',
+                    message: '¿Deseas eliminar los registros de tráfico con más de 30 días de antigüedad para optimizar la base de datos?',
+                    confirmText: 'Sí, purgar',
+                    type: 'danger'
+                })) return;
+
+                try {
+                    const res = await fetch('/admin/traffic/purge', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') || '',
+                            'Accept': 'application/json',
+                            'X-Requested-With': 'XMLHttpRequest'
+                        },
+                        body: JSON.stringify({ days: 30 })
+                    });
+                    const d = await res.json();
+                    if (res.ok) {
+                        notify(d.message || 'Registros antiguos purgados');
+                        loadTraffic(1);
+                    } else {
+                        notify(d.message || 'Error al purgar', 'error');
+                    }
+                } catch (e) {
+                    notify('Error de conexión al purgar tráfico', 'error');
+                }
+            };
+        }
+
+        // Live polling every 15s when traffic tab is open
+        const trafficPanel = document.getElementById('admin-traffic');
+        if (trafficPanel) {
+            const observer = new MutationObserver(() => {
+                const isVisible = !trafficPanel.hasAttribute('hidden') && trafficPanel.classList.contains('is-active');
+                if (isVisible) {
+                    if (!trafficRefreshInterval) {
+                        loadTraffic(trafficCurrentPage);
+                        trafficRefreshInterval = setInterval(() => {
+                            if (!trafficPanel.hasAttribute('hidden')) {
+                                loadTraffic(trafficCurrentPage);
+                            }
+                        }, 15000);
+                    }
+                } else {
+                    if (trafficRefreshInterval) {
+                        clearInterval(trafficRefreshInterval);
+                        trafficRefreshInterval = null;
+                    }
+                }
+            });
+            observer.observe(trafficPanel, { attributes: true, attributeFilter: ['hidden', 'class'] });
+        }
+    }
+
+    initTrafficEvents();
 
 }

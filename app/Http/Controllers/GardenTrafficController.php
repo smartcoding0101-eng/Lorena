@@ -17,65 +17,73 @@ class GardenTrafficController extends Controller
      */
     public function ping(Request $request): JsonResponse
     {
-        $data = $request->validate([
-            'visitor_uuid' => ['nullable', 'string', 'max:64'],
-            'screen' => ['nullable', 'string', 'max:50'],
-            'device' => ['nullable', 'string', 'max:30'],
-            'browser' => ['nullable', 'string', 'max:50'],
-            'os' => ['nullable', 'string', 'max:50'],
-            'referer' => ['nullable', 'string', 'max:255'],
-            'duration_seconds' => ['nullable', 'integer', 'min:0', 'max:86400'],
-        ]);
-
-        $visitorUuid = $data['visitor_uuid'] ?? null;
-        if (!$visitorUuid || strlen($visitorUuid) < 8) {
-            $visitorUuid = Str::uuid()->toString();
-        }
-
-        $screen = trim((string) ($data['screen'] ?? 'inicio')) ?: 'inicio';
-        $ip = $request->ip();
-        $userAgent = $request->userAgent();
-        $userId = Auth::id();
-        $now = Carbon::now();
-
-        // Buscar si existe una sesión activa para este visitante en la misma pantalla en los últimos 15 min
-        $recentVisit = GardenTrafficVisit::where('visitor_uuid', $visitorUuid)
-            ->where('screen', $screen)
-            ->where('last_seen_at', '>=', Carbon::now()->subMinutes(15))
-            ->latest('last_seen_at')
-            ->first();
-
-        if ($recentVisit) {
-            $addSeconds = isset($data['duration_seconds']) ? (int) $data['duration_seconds'] : 15;
-            $recentVisit->duration_seconds = min(86400, $recentVisit->duration_seconds + max(5, $addSeconds));
-            $recentVisit->last_seen_at = $now;
-            if ($userId && !$recentVisit->user_id) {
-                $recentVisit->user_id = $userId;
-            }
-            $recentVisit->save();
-            $visit = $recentVisit;
-        } else {
-            $visit = GardenTrafficVisit::create([
-                'user_id' => $userId,
-                'visitor_uuid' => $visitorUuid,
-                'screen' => $screen,
-                'ip_address' => $ip,
-                'device' => $data['device'] ?? $this->detectDevice($userAgent),
-                'browser' => $data['browser'] ?? $this->detectBrowser($userAgent),
-                'os' => $data['os'] ?? $this->detectOs($userAgent),
-                'referer' => $data['referer'] ?? $request->header('referer'),
-                'user_agent' => $userAgent ? Str::limit($userAgent, 400) : null,
-                'duration_seconds' => isset($data['duration_seconds']) ? (int) $data['duration_seconds'] : 5,
-                'last_seen_at' => $now,
+        try {
+            $data = $request->validate([
+                'visitor_uuid' => ['nullable', 'string', 'max:64'],
+                'screen' => ['nullable', 'string', 'max:50'],
+                'device' => ['nullable', 'string', 'max:30'],
+                'browser' => ['nullable', 'string', 'max:50'],
+                'os' => ['nullable', 'string', 'max:50'],
+                'referer' => ['nullable', 'string', 'max:255'],
+                'duration_seconds' => ['nullable', 'integer', 'min:0', 'max:86400'],
             ]);
-        }
 
-        return response()->json([
-            'success' => true,
-            'visitor_uuid' => $visitorUuid,
-            'visit_id' => $visit->id,
-            'screen' => $visit->screen,
-        ]);
+            $visitorUuid = $data['visitor_uuid'] ?? null;
+            if (!$visitorUuid || strlen($visitorUuid) < 8) {
+                $visitorUuid = Str::uuid()->toString();
+            }
+
+            $screen = trim((string) ($data['screen'] ?? 'inicio')) ?: 'inicio';
+            $ip = $request->ip();
+            $userAgent = $request->userAgent();
+            $userId = Auth::id();
+            $now = Carbon::now();
+
+            // Buscar si existe una sesión activa para este visitante en la misma pantalla en los últimos 15 min
+            $recentVisit = GardenTrafficVisit::where('visitor_uuid', $visitorUuid)
+                ->where('screen', $screen)
+                ->where('last_seen_at', '>=', Carbon::now()->subMinutes(15))
+                ->latest('last_seen_at')
+                ->first();
+
+            if ($recentVisit) {
+                $addSeconds = isset($data['duration_seconds']) ? (int) $data['duration_seconds'] : 15;
+                $recentVisit->duration_seconds = min(86400, $recentVisit->duration_seconds + max(5, $addSeconds));
+                $recentVisit->last_seen_at = $now;
+                if ($userId && !$recentVisit->user_id) {
+                    $recentVisit->user_id = $userId;
+                }
+                $recentVisit->save();
+                $visit = $recentVisit;
+            } else {
+                $visit = GardenTrafficVisit::create([
+                    'user_id' => $userId,
+                    'visitor_uuid' => $visitorUuid,
+                    'screen' => $screen,
+                    'ip_address' => $ip,
+                    'device' => $data['device'] ?? $this->detectDevice($userAgent),
+                    'browser' => $data['browser'] ?? $this->detectBrowser($userAgent),
+                    'os' => $data['os'] ?? $this->detectOs($userAgent),
+                    'referer' => $data['referer'] ?? $request->header('referer'),
+                    'user_agent' => $userAgent ? Str::limit($userAgent, 400) : null,
+                    'duration_seconds' => isset($data['duration_seconds']) ? (int) $data['duration_seconds'] : 5,
+                    'last_seen_at' => $now,
+                ]);
+            }
+
+            return response()->json([
+                'success' => true,
+                'visitor_uuid' => $visitorUuid,
+                'visit_id' => $visit->id,
+                'screen' => $visit->screen,
+            ]);
+        } catch (\Throwable $e) {
+            \Log::warning('Traffic ping could not be recorded: ' . $e->getMessage());
+            return response()->json([
+                'success' => false,
+                'message' => 'Unable to record ping: ' . $e->getMessage(),
+            ], 200);
+        }
     }
 
     /**

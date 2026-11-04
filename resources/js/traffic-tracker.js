@@ -5,7 +5,7 @@
 
 (function () {
     const STORAGE_KEY = 'carla_visitor_uuid';
-    const PING_INTERVAL_MS = 45000; // Ping cada 45 segundos para presencia "En línea ahora"
+    const PING_INTERVAL_MS = 30000; // Ping cada 30 segundos para presencia activa "En línea ahora"
 
     function getOrCreateVisitorUuid() {
         try {
@@ -34,11 +34,12 @@
         return document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') || '';
     }
 
-    function sendTrafficPing(isLeaving = false) {
+    function sendTrafficPing(isLeaving = false, forceScreen = null) {
+        const activeScreen = forceScreen || currentScreen || getCurrentScreen();
         const durationSec = Math.max(1, Math.round((Date.now() - screenStartTime) / 1000));
         const payload = {
             visitor_uuid: visitorUuid,
-            screen: currentScreen,
+            screen: activeScreen,
             duration_seconds: durationSec,
             referer: document.referrer || window.location.href,
         };
@@ -56,42 +57,52 @@
         }
 
         // Petición fetch asíncrona no invasiva
+        const headers = {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json',
+        };
+        if (csrfToken) {
+            headers['X-CSRF-TOKEN'] = csrfToken;
+        }
+
         fetch(url, {
             method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'X-CSRF-TOKEN': csrfToken,
-                'Accept': 'application/json',
-            },
+            headers: headers,
             body: JSON.stringify(payload),
             keepalive: isLeaving,
         }).catch(() => {});
     }
 
-    function handleScreenChange() {
-        const newScreen = getCurrentScreen();
+    function handleScreenChange(forcedScreen = null) {
+        const newScreen = forcedScreen || getCurrentScreen();
         if (newScreen === currentScreen) return;
 
         // Enviar reporte de la pantalla anterior con su duración
-        sendTrafficPing(false);
+        sendTrafficPing(false, currentScreen);
 
         // Actualizar a la nueva pantalla
         currentScreen = newScreen;
         screenStartTime = Date.now();
 
-        // Enviar ping inicial de la nueva pantalla
-        setTimeout(() => sendTrafficPing(false), 800);
+        // Enviar ping inicial de la nueva pantalla tras pequeña transición
+        setTimeout(() => sendTrafficPing(false, currentScreen), 400);
     }
 
     // Inicializar monitoreo
     function initTrafficTracker() {
-        // Enviar primer ping a los 2 segundos de carga
-        setTimeout(() => sendTrafficPing(false), 2000);
+        // Enviar primer ping rápido tras carga inicial (500ms)
+        setTimeout(() => sendTrafficPing(false), 500);
 
-        // Detectar cambios de hash en la SPA
-        window.addEventListener('hashchange', handleScreenChange);
+        // Detectar cambios de pantalla vía eventos personalizados SPA y popstate / hashchange
+        window.addEventListener('garden:screen-change', (e) => {
+            if (e.detail?.screen) {
+                handleScreenChange(e.detail.screen);
+            }
+        });
+        window.addEventListener('hashchange', () => handleScreenChange());
+        window.addEventListener('popstate', () => handleScreenChange());
 
-        // Heartbeat periódico para estado "En línea ahora"
+        // Heartbeat periódico para estado "En línea ahora" (cada 30s)
         pingTimer = setInterval(() => {
             if (!document.hidden) {
                 sendTrafficPing(false);
@@ -117,4 +128,3 @@
         initTrafficTracker();
     }
 })();
-
