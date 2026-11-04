@@ -1,0 +1,56 @@
+{
+  "_vendor-axios-BCn5QfZZ.js": {
+    "file": "assets/vendor-axios-BCn5QfZZ.js",
+    "name": "vendor-axios"
+  },
+  "_vendor-gsap-xgxdCp6f.js": {
+    "file": "assets/vendor-gsap-xgxdCp6f.js",
+    "name": "vendor-gsap"
+  },
+  "_vendor-three-BPFCnDYd.js": {
+    "file": "assets/vendor-three-BPFCnDYd.js",
+    "name": "vendor-three"
+  },
+  "resources/css/app.css": {
+    "file": "assets/app-rYya0XZX.css",
+    "src": "resources/css/app.css",
+    "isEntry": true,
+    "name": "app",
+    "names": [
+      "app.css"
+    ]
+  },
+  "resources/images/floral-puzzle.svg": {
+    "file": "assets/floral-puzzle-BTXcn1G4.svg",
+    "src": "resources/images/floral-puzzle.svg"
+  },
+  "resources/js/app.js": {
+    "file": "assets/app-CZIHWPuN.js",
+    "name": "app",
+    "src": "resources/js/app.js",
+    "isEntry": true,
+    "imports": [
+      "_vendor-axios-BCn5QfZZ.js",
+      "_vendor-gsap-xgxdCp6f.js"
+    ],
+    "dynamicImports": [
+      "resources/js/sultana-garden.js",
+      "resources/js/sultana-platformer.js"
+    ]
+  },
+  "resources/js/sultana-garden.js": {
+    "file": "assets/sultana-garden-JSG-_obb.js",
+    "name": "sultana-garden",
+    "src": "resources/js/sultana-garden.js",
+    "isDynamicEntry": true,
+    "imports": [
+      "_vendor-three-BPFCnDYd.js"
+    ]
+  },
+  "resources/js/sultana-platformer.js": {
+    "file": "assets/sultana-platformer-BFhSWEEH.js",
+    "name": "sultana-platformer",
+    "src": "resources/js/sultana-platformer.js",
+    "isDynamicEntry": true
+  }
+}

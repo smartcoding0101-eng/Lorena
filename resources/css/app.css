@@ -21387,28 +21387,58 @@ footer a:hover, .site-footer a:hover {
     .place-games         { bottom: 35px; right: 15%; }
 }
 
-/* 4. TelÃ©fonos MÃ³viles y Phablets (max-width: 767px) */
-@media (max-width: 767px) {
-    .garden-motion-toolbar.prism-toolbar {
-        border-radius: 18px !important;
-        padding: 10px !important;
-        gap: 8px !important;
+/* 4. Teléfonos Móviles y Pantallas Táctiles (max-width: 768px) - Modo Ultra Eficiente */
+@media (max-width: 768px) {
+    /* 1. Eliminar capas pesadas de animación, partículas, fauna y destellos */
+    #garden-motion-canvas,
+    .garden-motion-canvas,
+    .moving-nectar-pulse,
+    .prism-photon-pulse,
+    .sun-glamour-layer,
+    .garden-fauna-layer,
+    .prism-light-flares,
+    .fauna-toast-bubble,
+    .garden-motion-toolbar,
+    .floral-inspect-pod,
+    .flower-dew-drop,
+    .flower-petal-aura,
+    .flower-accent-vine {
+        display: none !important;
+        animation: none !important;
+        visibility: hidden !important;
     }
 
-    .garden-status-pill {
-        font-size: 11px !important;
+    /* 2. Detener animaciones infinitas de enredaderas y eliminar filtros GPU pesados */
+    .living-botanical-trail,
+    .living-botanical-trail.radial-branch,
+    .living-botanical-trail.perimeter-constellation-net,
+    .living-botanical-trail.inner-constellation-net,
+    .prism-orbit-ellipse,
+    .prism-orbit-inner,
+    .prism-orbit-center-ring,
+    .branch-node-flower,
+    .branch-node-flower.prism-vertex-dot,
+    .grand-rose-imperial-svg,
+    .romantic-spin,
+    .medallion-friends-pulse {
+        animation: none !important;
+        filter: none !important;
+        stroke-dasharray: none !important;
+        stroke-dashoffset: 0 !important;
+        transition: none !important;
+        will-change: auto !important;
     }
 
-    .garden-motion-btn.prism-motion-btn {
-        flex: 1 1 calc(50% - 6px) !important;
-        font-size: 10.5px !important;
-        padding: 7px 8px !important;
-    }
-
+    /* 3. Barra Editorial Limpia y Ligera */
     .map-editorial-inspect-bar {
-        padding: 10px 14px !important;
-        border-radius: 16px !important;
+        padding: 8px 12px !important;
+        border-radius: 14px !important;
         gap: 8px !important;
+        background: #ffffff !important;
+        border: 1px solid rgba(244, 114, 182, 0.3) !important;
+        box-shadow: 0 2px 8px rgba(181, 48, 79, 0.08) !important;
+        backdrop-filter: none !important;
+        -webkit-backdrop-filter: none !important;
     }
 
     .mei-title {
@@ -21419,21 +21449,44 @@ footer a:hover, .site-footer a:hover {
         font-size: 11px !important;
     }
 
-    /* Contenedor del Mapa en MÃ³vil */
+    /* 4. Contenedor del Mapa en Móvil: Rendimiento 60 FPS Estable */
     .dynamic-garden-container {
-        min-height: 680px !important;
-        border-radius: 20px !important;
+        min-height: 560px !important;
+        border-radius: 18px !important;
         padding: 6px 2px !important;
+        background: #fff8fa !important;
+        box-shadow: 0 2px 12px rgba(181, 48, 79, 0.08) !important;
+        border: 1px solid rgba(244, 114, 182, 0.25) !important;
         overflow: hidden !important;
+        will-change: auto !important;
     }
 
-    /* Medallones AnticolisiÃ³n Proporcionales */
-    .map-place {
+    /* 5. Medallones Anticolisión Limpios y Táctiles (Sin desenfoque ni lag) */
+    .map-place,
+    .luxury-medallion {
         width: clamp(74px, 22.5vw, 86px) !important;
         min-height: 64px !important;
         padding: 5px 3px !important;
         border-radius: 14px !important;
-        box-shadow: 0 4px 14px rgba(0, 0, 0, 0.22) !important;
+        background: #ffffff !important;
+        border: 1px solid rgba(244, 114, 182, 0.35) !important;
+        box-shadow: 0 2px 8px rgba(181, 48, 79, 0.12) !important;
+        backdrop-filter: none !important;
+        -webkit-backdrop-filter: none !important;
+        animation: none !important;
+        transition: transform 0.1s ease !important;
+        will-change: auto !important;
+    }
+
+    .map-place:active {
+        transform: scale(0.96) !important;
+        background: #fff0f5 !important;
+    }
+
+    .map-place.sunlit-active,
+    .map-place.is-rotating-active {
+        animation: none !important;
+        box-shadow: 0 2px 8px rgba(181, 48, 79, 0.12) !important;
     }
 
     .map-place strong,
@@ -21462,21 +21515,25 @@ footer a:hover, .site-footer a:hover {
         display: none !important;
     }
 
-    /* Gran Rosa Imperial de Carla en el Centro Seguro */
+    /* 6. Gran Rosa Imperial de Carla en el Centro Seguro */
     .map-center {
         width: 68px !important;
         height: 68px !important;
         left: calc(50% - 34px) !important;
         top: calc(50% - 34px) !important;
         z-index: 10 !important;
+        animation: none !important;
+        filter: none !important;
     }
 
     .grand-rose-imperial-svg {
         width: 68px !important;
         height: 68px !important;
+        animation: none !important;
+        filter: none !important;
     }
 
-    /* Coordenadas en ConstelaciÃ³n Oval AnticolisiÃ³n (12 Rincones) */
+    /* Coordenadas en Constelación Oval Anticolisión (12 Rincones) */
     /* Nivel 0: Corona Superior */
     .place-library       { top: 8px; left: calc(50% - 40px); right: auto; }
 
@@ -21502,37 +21559,6 @@ footer a:hover, .site-footer a:hover {
 
     /* Nivel 6: Base Inferior Centrada */
     .place-dreams        { top: 472px; left: calc(50% - 40px); right: auto; }
-
-    /* Pod de InspecciÃ³n Flotante en la Base del Lienzo */
-    .floral-inspect-pod.prism-inspect-pod {
-        bottom: 8px !important;
-        left: 50% !important;
-        transform: translateX(-50%) translateY(0) !important;
-        width: calc(100% - 16px) !important;
-        max-width: 330px !important;
-    }
-
-    .pod-inner-glass {
-        padding: 7px 10px !important;
-        gap: 8px !important;
-    }
-
-    .pod-flower-emblem {
-        font-size: 18px !important;
-    }
-
-    .pod-title {
-        font-size: 11px !important;
-    }
-
-    .pod-quote {
-        font-size: 9.5px !important;
-        -webkit-line-clamp: 1 !important;
-    }
-
-    .butterfly-creature {
-        opacity: 0.85;
-    }
 }
 
 /* 5. MÃ³viles Extra Compactos (max-width: 360px, ej. iPhone SE / Galaxy Mini) */

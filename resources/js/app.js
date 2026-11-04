@@ -2429,6 +2429,18 @@ function initRomanticFeatures() {
     // ═══════════════════════════════════════════════════════════════════════
     (function initLivingFloralGarden() {
         const gardenRealm = document.getElementById('dynamic-floral-garden-realm');
+
+        function isGardenMobile() {
+            return window.innerWidth <= 768 || (window.matchMedia && window.matchMedia('(max-width: 768px)').matches);
+        }
+
+        // En pantallas móviles, eliminar animaciones nativas SVG para eliminar lag por completo
+        if (isGardenMobile()) {
+            document.querySelectorAll('#screen-mapa animateMotion, #screen-mapa animate').forEach(el => {
+                try { el.remove(); } catch (_) {}
+            });
+        }
+
         if (!gardenRealm) return;
 
         const stage3D = document.getElementById('garden-3d-stage');
@@ -2580,6 +2592,7 @@ function initRomanticFeatures() {
             }
         }
 
+        let gardenRafId = null;
         if (canvas) {
             ctx = canvas.getContext('2d');
             function resizeCanvas() {
@@ -2590,7 +2603,18 @@ function initRomanticFeatures() {
                 }
             }
             resizeCanvas();
-            window.addEventListener('resize', resizeCanvas);
+            window.addEventListener('resize', () => {
+                resizeCanvas();
+                if (isGardenMobile()) {
+                    if (gardenRafId) {
+                        cancelAnimationFrame(gardenRafId);
+                        gardenRafId = null;
+                    }
+                    if (ctx && canvasW > 0 && canvasH > 0) ctx.clearRect(0, 0, canvasW, canvasH);
+                } else if (!gardenRafId && !window.__gardenVisualEffectsOff) {
+                    gardenRafId = requestAnimationFrame(renderPetals);
+                }
+            });
 
             function initPetals(count = 36) {
                 petals = [];
@@ -2598,9 +2622,12 @@ function initRomanticFeatures() {
                     petals.push(new FloralParticle());
                 }
             }
-            initPetals(36);
+            if (!isGardenMobile()) {
+                initPetals(36);
+            }
 
             gardenRealm.addEventListener('mousemove', (e) => {
+                if (isGardenMobile()) return;
                 const rect = gardenRealm.getBoundingClientRect();
                 const curX = e.clientX - rect.left;
                 const curY = e.clientY - rect.top;
@@ -2611,9 +2638,14 @@ function initRomanticFeatures() {
             });
 
             function renderPetals() {
+                if (isGardenMobile()) {
+                    if (ctx && canvasW > 0 && canvasH > 0) ctx.clearRect(0, 0, canvasW, canvasH);
+                    gardenRafId = null;
+                    return; // Detener animación RAF en móvil por completo para máxima velocidad
+                }
                 if (window.__gardenVisualEffectsOff) {
                     if (ctx && canvasW > 0 && canvasH > 0) ctx.clearRect(0, 0, canvasW, canvasH);
-                    requestAnimationFrame(renderPetals);
+                    gardenRafId = requestAnimationFrame(renderPetals);
                     return;
                 }
                 const isScreenActive = !gardenRealm.closest('.screen')?.hidden;
@@ -2631,9 +2663,12 @@ function initRomanticFeatures() {
                         }
                     }
                 }
-                requestAnimationFrame(renderPetals);
+                gardenRafId = requestAnimationFrame(renderPetals);
             }
-            requestAnimationFrame(renderPetals);
+
+            if (!isGardenMobile()) {
+                gardenRafId = requestAnimationFrame(renderPetals);
+            }
         }
 
         // 3. ILUMINACIÓN DE RAMAS, CÁPSULA EDITORIAL & POD ANTI-COLISIÓN EN HOVER
@@ -2686,6 +2721,7 @@ function initRomanticFeatures() {
             const cleanQuote = tooltipText.includes(': ') ? tooltipText.split(': ').slice(1).join(': ') : tooltipText;
 
             node.addEventListener('mouseenter', () => {
+                if (isGardenMobile()) return;
                 // Iluminar enredadera conectada
                 radialBranches.forEach(b => {
                     const match = b.dataset.branch === screenTarget;
@@ -2906,6 +2942,7 @@ function initRomanticFeatures() {
         ].filter(Boolean);
 
         function triggerSequentialMedallionGleam() {
+            if (isGardenMobile()) return;
             // Si la usuaria está interactuando con el puntero en el mapa o la pantalla no está activa, pausar el ciclo automático
             const isMapActive = !gardenRealm.closest('.screen')?.hidden;
             if (!isMapActive || isUserHoveringMap || allMapMedallions.length === 0) {
