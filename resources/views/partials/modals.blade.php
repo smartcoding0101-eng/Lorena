@@ -783,7 +783,10 @@
                 <div class="fmp-tab-panel" id="fmp-panel-playlist" style="display: none;">
                     <div class="fmp-playlist-toolbar">
                         <span class="fmp-playlist-meta" id="fmp-playlist-meta">Pistas en la lista</span>
-                        <button type="button" class="fmp-btn-clear-list" id="fmp-btn-clear-playlist">Limpiar lista</button>
+                        <div style="display:flex; gap:8px; align-items:center;">
+                            <button type="button" class="fmp-btn-sync-library" id="fmp-btn-sync-library" title="Sincronizar canciones en cPanel (/public/audio/)">🔄 Buscar en servidor</button>
+                            <button type="button" class="fmp-btn-clear-list" id="fmp-btn-clear-playlist">Limpiar lista</button>
+                        </div>
                     </div>
                     <ul class="fmp-playlist-list" id="fmp-playlist-list">
                         <li class="fmp-playlist-empty">No hay pistas en la lista. Carga archivos locales o pega un enlace.</li>

@@ -246,3 +246,7 @@ Route::get('/storage/{path}', function (string $path) {
     abort(404);
 })->where('path', '.*')->name('storage.public.fallback');
 
+// Catálogo dinámico de canciones públicas en /public/audio/
+Route::get('/api/audio-library', [\App\Http\Controllers\GardenAudioLibraryController::class, 'index'])
+    ->name('api.audio-library');
+

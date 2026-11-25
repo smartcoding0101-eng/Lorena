@@ -363,11 +363,14 @@ export function initializeEntertainmentPlayer() {
                         <button type="button" class="ep-item-fav-btn" data-toggle-fav="${item.id}" title="${fav ? 'Quitar de favoritos' : 'Marcar favorito'}">
                             ${fav ? '❤️' : '🤍'}
                         </button>
-                        <form method="POST" action="/entertainment/${item.id}" data-confirm="¿Quitar de la playlist de reproducción?" class="ep-item-del-form">
-                            <input type="hidden" name="_token" value="${document.querySelector('meta[name=\"csrf-token\"]')?.getAttribute('content') || ''}">
-                            <input type="hidden" name="_method" value="DELETE">
-                            <button type="submit" class="ep-item-del-btn" title="Quitar de mi playlist">🗑️</button>
-                        </form>
+                        ${Boolean(item.is_public_library || (typeof item.id === 'string' && item.id.startsWith('pub_')))
+                            ? '<span class="ep-badge-public" style="font-size:0.75rem; color:#f43f5e; background:rgba(244,63,94,0.1); padding:4px 8px; border-radius:10px; font-weight:600;" title="Canción disponible en el servidor (public/audio)">🌸 Servidor</span>'
+                            : `<form method="POST" action="/entertainment/${item.id}" data-confirm="¿Quitar de la playlist de reproducción?" class="ep-item-del-form">
+                                <input type="hidden" name="_token" value="${document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') || ''}">
+                                <input type="hidden" name="_method" value="DELETE">
+                                <button type="submit" class="ep-item-del-btn" title="Quitar de mi playlist">🗑️</button>
+                            </form>`
+                        }
                     </div>
                 </div>
             `;
@@ -473,6 +476,35 @@ export function initializeEntertainmentPlayer() {
     if (playlist.length > 0) {
         loadTrack(0, false);
     }
+
+    // Sincronizar canciones de la biblioteca pública (/public/audio/)
+    async function syncPublicAudioLibrary() {
+        try {
+            const res = await fetch('/api/audio-library', { headers: { 'Accept': 'application/json' } });
+            if (!res.ok) return;
+            const data = await res.json();
+            if (data.success && Array.isArray(data.tracks) && data.tracks.length > 0) {
+                let updated = false;
+                const existingUrls = new Set(playlist.map(p => p.source_url || p.stream_url || p.url));
+                data.tracks.forEach(t => {
+                    if (!existingUrls.has(t.url)) {
+                        playlist.unshift(t);
+                        existingUrls.add(t.url);
+                        updated = true;
+                    }
+                });
+                if (updated) {
+                    renderPlaylist();
+                    const countEl = document.querySelector('.ep-playlist-count');
+                    if (countEl) countEl.textContent = `(${playlist.length})`;
+                    if (playlist.length > 0 && !isPlaying && (!nativeAudio.src || nativeAudio.src === window.location.href)) {
+                        loadTrack(0, false);
+                    }
+                }
+            }
+        } catch (_) {}
+    }
+    syncPublicAudioLibrary();
 
     // Helpers
     function formatTime(seconds) {

@@ -134,6 +134,7 @@ export class FloatingMediaPlayer {
         this.setupDragAndDrop();
         this.setupDraggableWindow();
         this.updatePlaylistUI();
+        this.loadPublicAudioLibrary();
 
         // Si el volumen inicial es 0
         if (this.volume === 0) {
@@ -236,6 +237,14 @@ export class FloatingMediaPlayer {
         this.btnAddQueue?.addEventListener('click', () => {
             this.handleUrlSubmit(false);
         });
+
+        // Sincronizar canciones desde el servidor (/public/audio/)
+        const btnSync = document.getElementById('fmp-btn-sync-library');
+        if (btnSync) {
+            btnSync.addEventListener('click', () => {
+                this.loadPublicAudioLibrary(true);
+            });
+        }
 
         // Limpiar Playlist
         this.btnClearPlaylist?.addEventListener('click', async () => {
@@ -960,6 +969,74 @@ export class FloatingMediaPlayer {
                 }
             }
         } catch (_) {}
+    }
+
+    async loadPublicAudioLibrary(notifyUser = false) {
+        try {
+            const res = await fetch('/api/audio-library', {
+                headers: {
+                    'Accept': 'application/json',
+                    'X-Requested-With': 'XMLHttpRequest'
+                }
+            });
+            if (!res.ok) return;
+            const data = await res.json();
+            if (data.success && Array.isArray(data.tracks)) {
+                const addedCount = this.mergePublicAudioTracks(data.tracks);
+                if (notifyUser) {
+                    if (typeof window.notify === 'function') {
+                        window.notify(addedCount > 0
+                            ? `Se sincronizaron ${addedCount} canciones de cPanel 🌸`
+                            : 'La lista ya contiene todas las canciones del servidor'
+                        );
+                    } else if (typeof window.showAlert === 'function') {
+                        window.showAlert({
+                            title: 'Biblioteca del Jardín',
+                            message: addedCount > 0
+                                ? `Se añadieron ${addedCount} canciones disponibles en el servidor.`
+                                : 'Todas las canciones del servidor ya están en tu lista.',
+                            type: 'info'
+                        });
+                    }
+                }
+            }
+        } catch (err) {
+            console.warn('Error al conectar con la biblioteca de audio:', err);
+        }
+    }
+
+    mergePublicAudioTracks(publicTracks) {
+        if (!Array.isArray(publicTracks) || publicTracks.length === 0) return 0;
+        let added = 0;
+        const existingUrls = new Set(this.playlist.map(t => t.url));
+        const existingNames = new Set(this.playlist.map(t => (t.fileName || t.title || '').toLowerCase().trim()));
+
+        publicTracks.forEach(pt => {
+            const normalizedTitle = (pt.title || '').toLowerCase().trim();
+            const normalizedFileName = (pt.file_name || '').toLowerCase().trim();
+            if (!existingUrls.has(pt.url) && !existingNames.has(normalizedTitle) && !existingNames.has(normalizedFileName)) {
+                this.playlist.push({
+                    id: pt.id || ('pub_' + Date.now() + '_' + Math.random().toString(36).substr(2, 5)),
+                    title: pt.title,
+                    type: 'audio',
+                    url: pt.url,
+                    isBlob: false,
+                    isPublicLibrary: true,
+                    fileName: pt.file_name,
+                    sourceBadge: pt.sourceBadge || 'Música del Jardín'
+                });
+                existingUrls.add(pt.url);
+                existingNames.add(normalizedTitle);
+                existingNames.add(normalizedFileName);
+                added++;
+            }
+        });
+
+        if (added > 0 || this.playlist.length > 0) {
+            this.saveOnlinePlaylist();
+            this.updatePlaylistUI();
+        }
+        return added;
     }
 
     // ── CONTROL DE VENTANA (MINIMIZAR / EXPANDIR / ARRASTRAR) ─────────────────

@@ -18,7 +18,8 @@
                     @endif
 
                     @php
-                        $mediaJsonList = $gardenMedia->map(function ($m) {
+                        $publicAudioTracks = \App\Services\GardenAudioLibraryService::getPublicAudioTracks();
+                        $dbMediaTracks = ($gardenMedia ?? collect())->map(function ($m) {
                             return [
                                 'id' => $m->id,
                                 'title' => $m->title,
@@ -28,8 +29,11 @@
                                 'source_url' => $m->source_url,
                                 'youtube_embed_url' => $m->youtube_embed_url,
                                 'stream_url' => $m->path ? route('garden-media.stream', $m) : null,
+                                'is_public_library' => false,
+                                'sourceBadge' => 'Mi Colección Privada',
                             ];
-                        })->values();
+                        });
+                        $mediaJsonList = $publicAudioTracks->concat($dbMediaTracks)->values();
                     @endphp
 
                     <!-- ═══════════════════════════════════════════════════════════════════════ -->
@@ -168,7 +172,7 @@
                                 <div class="ep-playlist-header">
                                     <div>
                                         <span class="ep-playlist-eyebrow">COLA DE REPRODUCCIÓN</span>
-                                        <h3 class="ep-playlist-title">Mi Playlist <span class="ep-playlist-count">({{ $gardenMedia->count() }})</span></h3>
+                                        <h3 class="ep-playlist-title">Mi Playlist <span class="ep-playlist-count">({{ $mediaJsonList->count() }})</span></h3>
                                     </div>
                                 </div>
 
@@ -183,37 +187,48 @@
 
                                 <!-- Lista Scrolleable de Canciones/Videos -->
                                 <div id="ep-playlist-items" class="ep-playlist-items">
-                                    @forelse ($gardenMedia as $media)
-                                        <article class="ep-playlist-track-row" data-id="{{ $media->id }}" data-type="{{ $media->media_type }}" data-source="{{ $media->source_type }}">
+                                    @forelse ($mediaJsonList as $item)
+                                        @php
+                                            $isPublic = !empty($item['is_public_library']);
+                                        @endphp
+                                        <article class="ep-playlist-track-row {{ $isPublic ? 'is-public-track' : '' }}" data-id="{{ $item['id'] }}" data-type="{{ $item['media_type'] }}" data-source="{{ $item['source_type'] }}">
                                             <div class="ep-track-main-info">
-                                                <h4 class="ep-track-name">{{ $media->title }}</h4>
-                                                @if ($media->description)
-                                                    <p class="ep-track-desc">{{ $media->description }}</p>
+                                                <h4 class="ep-track-name">{{ $item['title'] }}</h4>
+                                                @if (!empty($item['description']))
+                                                    <p class="ep-track-desc">{{ $item['description'] }}</p>
                                                 @endif
-                                                @if ($media->source_type === 'youtube')
-                                                    <div class="ep-track-badge-tag ep-badge-yt" data-youtube-load="true" data-embed="{{ $media->youtube_embed_url }}" referrerpolicy="no-referrer">
-                                                        <span>▶️ YouTube ({{ $media->youtube_embed_url }})</span>
-                                                    </div>
-                                                @elseif ($media->source_type === 'external_audio')
+                                                @if ($isPublic)
                                                     <div class="ep-track-badge-tag ep-badge-audio">
-                                                        <span>🎧 Enlace externo: {{ $media->source_url }}</span>
+                                                        <span>🌸 Biblioteca Pública: {{ $item['file_name'] ?? '' }} ({{ $item['file_size_formatted'] ?? '' }})</span>
                                                     </div>
-                                                @elseif ($media->media_type === 'video')
+                                                @elseif ($item['source_type'] === 'youtube')
+                                                    <div class="ep-track-badge-tag ep-badge-yt" data-youtube-load="true" data-embed="{{ $item['youtube_embed_url'] }}" referrerpolicy="no-referrer">
+                                                        <span>▶️ YouTube ({{ $item['youtube_embed_url'] }})</span>
+                                                    </div>
+                                                @elseif ($item['source_type'] === 'external_audio')
+                                                    <div class="ep-track-badge-tag ep-badge-audio">
+                                                        <span>🎧 Enlace externo: {{ $item['source_url'] }}</span>
+                                                    </div>
+                                                @elseif ($item['media_type'] === 'video')
                                                     <div class="ep-track-preview-video">
-                                                        <video controls preload="none" src="{{ route('garden-media.stream', $media) }}"></video>
+                                                        <video controls preload="none" src="{{ $item['stream_url'] }}"></video>
                                                     </div>
                                                 @else
                                                     <div class="ep-track-preview-audio">
-                                                        <audio controls preload="none" src="{{ route('garden-media.stream', $media) }}"></audio>
+                                                        <audio controls preload="none" src="{{ $item['stream_url'] }}"></audio>
                                                     </div>
                                                 @endif
                                             </div>
                                             <div class="ep-track-row-actions">
-                                                <form method="POST" action="{{ route('garden-media.destroy', $media) }}" data-confirm="¿Quitar este archivo de tu colección de entretenimiento?">
-                                                    @csrf
-                                                    @method('DELETE')
-                                                    <button type="submit" class="ep-delete-track-btn" title="Eliminar">🗑️</button>
-                                                </form>
+                                                @if ($isPublic)
+                                                    <span class="ep-badge-public" style="font-size:0.75rem; color:#f43f5e; background:rgba(244,63,94,0.1); padding:4px 8px; border-radius:12px; font-weight:600;">🌸 Servidor</span>
+                                                @else
+                                                    <form method="POST" action="/entertainment/{{ $item['id'] }}" data-confirm="¿Quitar este archivo de tu colección de entretenimiento?">
+                                                        @csrf
+                                                        @method('DELETE')
+                                                        <button type="submit" class="ep-delete-track-btn" title="Eliminar">🗑️</button>
+                                                    </form>
+                                                @endif
                                             </div>
                                         </article>
                                     @empty
